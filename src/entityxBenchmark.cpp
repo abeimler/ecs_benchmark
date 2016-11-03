@@ -37,7 +37,7 @@ inline void runEntitiesSystemsBenchmark(benchpress::context* ctx, size_t nentiti
 
 
 
-BENCHMARK("entityx create destroy entity with components", [](benchpress::context* ctx) {
+BENCHMARK("entityx2 create destroy entity with components", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
     ctx->reset_timer();
@@ -55,34 +55,34 @@ BENCHMARK("entityx create destroy entity with components", [](benchpress::contex
 
 
 
-BENCHMARK("entityx    25 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2    25 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 25);
 })
 
-BENCHMARK("entityx    50 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2    50 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 50);
 })
 
-BENCHMARK("entityx   100 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2   100 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 100);
 })
 
-BENCHMARK("entityx   200 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2   200 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 200);
 })
 
 
-BENCHMARK("entityx   400 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2   400 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 400);
 })
 
 
-BENCHMARK("entityx   800 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2   800 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 800);
 })
 
 
-BENCHMARK("entityx  1600 entities component systems update", [](benchpress::context* ctx) {
+BENCHMARK("entityx2  1600 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsBenchmark(ctx, 1600);
 })
 
