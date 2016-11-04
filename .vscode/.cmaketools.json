@@ -1,0 +1,9 @@
+{
+  "variant": {
+    "label": "Release",
+    "keywordSettings": {
+      "buildType": "release"
+    },
+    "description": "Enable optimizations, omit debug info"
+  }
+}
