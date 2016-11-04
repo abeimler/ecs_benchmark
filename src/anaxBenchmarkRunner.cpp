@@ -98,11 +98,23 @@ BENCHMARK("anax  5000 entities component systems update", [](benchpress::context
 
 
 BENCHMARK("anax 10000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 10000);
+    runEntitiesSystemsBenchmark(ctx, 10'000);
 })
 
-BENCHMARK("anax 20000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 20000);
+BENCHMARK("anax 30000 entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 30'000);
 })
 
+BENCHMARK("anax 100000 entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 100'000L);
+})
+
+
+BENCHMARK("anax 500000 entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 500'000L);
+})
+
+BENCHMARK("anax 1M entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 1'000'000L);
+})
 

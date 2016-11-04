@@ -122,6 +122,7 @@ add_subdirectory(${LIB_PATH}/entityx1)
 add_subdirectory(${LIB_PATH}/entityx2)
 
 add_subdirectory(${LIB_PATH}/anax)
+add_subdirectory(${LIB_PATH}/Artemis-Cpp)
 
 add_subdirectory(${LIB_PATH}/benchpress)
 
@@ -149,9 +150,11 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_constexpr
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/entityx1)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/entityx2)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/anax/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/Artemis-Cpp/include)
 
 target_link_libraries (${PROJECT_NAME} PRIVATE entityx)
 target_link_libraries (${PROJECT_NAME} PRIVATE anax)
+target_link_libraries (${PROJECT_NAME} PRIVATE ArtemisCpp)
 
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${LIB_PATH}/benchpress/src)

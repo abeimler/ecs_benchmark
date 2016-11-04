@@ -33,7 +33,7 @@ class EntityX2Benchmark {
         PositionComponent, DirectionComponent, ComflabulationComponent
     >;
 
-    static constexpr size_t INITIAL_CAPACITY = 32768; // bignumber to avoid alloc error, benchmark a lot of enteties
+    static constexpr size_t INITIAL_CAPACITY = 16777216L; // bignumber to avoid alloc error, benchmark a lot of enteties
     using EntityManager = entityx::EntityX<GameComponents, entityx::ColumnStorage<GameComponents, INITIAL_CAPACITY>>;
 
     template <typename C>

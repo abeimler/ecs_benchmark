@@ -99,11 +99,23 @@ BENCHMARK("entityx2  5000 entities component systems update", [](benchpress::con
 
 
 BENCHMARK("entityx2 10000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 10000);
+    runEntitiesSystemsBenchmark(ctx, 10'000);
 })
 
-BENCHMARK("entityx2 20000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 20000);
+BENCHMARK("entityx2 30000 entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 30'000);
 })
 
 
+BENCHMARK("entityx2 100000 entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 100'000L);
+})
+
+
+BENCHMARK("entityx2 500000 entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 500'000L);
+})
+
+BENCHMARK("entityx2 1M entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsBenchmark(ctx, 1'000'000L);
+})
