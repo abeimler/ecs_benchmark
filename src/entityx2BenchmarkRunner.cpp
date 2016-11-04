@@ -119,3 +119,7 @@ BENCHMARK("entityx2 500000 entities component systems update", [](benchpress::co
 BENCHMARK("entityx2 1M entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsEntityX2Benchmark(ctx, 1'000'000L);
 })
+
+BENCHMARK("entityx2 2M entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsEntityX2Benchmark(ctx, 2'000'000L);
+})

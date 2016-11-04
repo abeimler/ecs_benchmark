@@ -19,6 +19,8 @@ inline void init_entities(anax::World& entities, size_t nentities){
 		if (i % 2) {
 			entity.addComponent<AnaxBenchmark::ComflabulationComponent>();
 		}
+
+        entity.activate();
 	}
 }
 
@@ -36,7 +38,12 @@ inline void runEntitiesSystemsAnaxBenchmark(benchpress::context* ctx, size_t nen
 
 
 
-BENCHMARK("entityx2 create destroy entity with components", [](benchpress::context* ctx) {
+
+
+
+
+
+BENCHMARK("anax create destroy entity with components", [](benchpress::context* ctx) {
     anax::World entities;
 
     ctx->reset_timer();
@@ -116,5 +123,10 @@ BENCHMARK("anax 500000 entities component systems update", [](benchpress::contex
 
 BENCHMARK("anax 1M entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsAnaxBenchmark(ctx, 1'000'000L);
+})
+
+
+BENCHMARK("anax 2M entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsAnaxBenchmark(ctx, 2'000'000L);
 })
 

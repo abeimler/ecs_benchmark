@@ -159,7 +159,6 @@ BENCHMARK("artemis 100000 entities component systems update", [](benchpress::con
 })
 
 
-/*
 BENCHMARK("artemis 500000 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsArtemisBenchmark(ctx, 500'000L);
 })
@@ -168,6 +167,11 @@ BENCHMARK("artemis 500000 entities component systems update", [](benchpress::con
 BENCHMARK("artemis 1M entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsArtemisBenchmark(ctx, 1'000'000L);
 })
-*/
+
+
+BENCHMARK("artemis 2M entities component systems update", [](benchpress::context* ctx) {
+    runEntitiesSystemsArtemisBenchmark(ctx, 2'000'000L);
+})
+
 
 
