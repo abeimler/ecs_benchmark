@@ -243,6 +243,9 @@ INSTALL_HEADERS:BOOL=OFF
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
+//use the 4. MoreComplex-System
+USE_MORECOMPLEX_SYSTEM:BOOL=ON
+
 //Debug libraries for ICU
 _ICU_LIB_DEBUG_uc:FILEPATH=_ICU_LIB_DEBUG_uc-NOTFOUND
 

@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <random>
+#include <numeric>
+#include <functional>
 
 #include "entityx/entityx.hh"
 
@@ -90,11 +93,64 @@ class EntityX2Benchmark {
         }
     };
 
+    #ifdef USE_MORECOMPLEX_SYSTEM
+    class MoreComplexSystem : public System {
+        private:
+        int random(int min, int max){
+            // Seed with a real random value, if available
+            static std::random_device r;
+        
+            // Choose a random mean between min and max
+            static std::default_random_engine e1 (r());
+
+            std::uniform_int_distribution<int> uniform_dist(min, max);
+
+            return uniform_dist(e1);
+        }
+
+        public:
+        MoreComplexSystem() = default;
+
+        void update(EntityManager& es, TimeDelta dt) override {
+            Component<PositionComponent> position;
+            Component<DirectionComponent> direction;
+            Component<ComflabulationComponent> comflab;
+
+            for (auto entity : es.entities_with_components(comflab, direction, comflab)) {
+                if(comflab) {
+                    std::vector<double> vec;
+                    for(size_t i = 0;i < comflab->dingy && i < 100;i++){
+                        vec.push_back(i * comflab->thingy);
+                    }
+
+                    int sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
+                    int product = std::accumulate(std::begin(vec), std::end(vec), 1, std::multiplies<double>());
+
+                    comflab->stringy = std::to_string(comflab->dingy);
+
+                    if(position && direction && comflab->dingy % 10000 == 0) {
+                        if(position->x > position->y) {
+                            direction->x = random(0, 5);
+                            direction->y = random(0, 10);
+                        } else {
+                            direction->x = random(0, 10);
+                            direction->y = random(0, 5);
+                        }
+                    }
+                }
+            }
+        }
+    };
+    #endif
+
     class Application {
         public:
         Application() {
             this->systems_.emplace_back(std::make_unique<MovementSystem>());
             this->systems_.emplace_back(std::make_unique<ComflabSystem>());
+            #ifdef USE_MORECOMPLEX_SYSTEM
+            this->systems_.emplace_back(std::make_unique<MoreComplexSystem>());
+            #endif
         }
 
         void update(TimeDelta dt) {

@@ -109,9 +109,6 @@ file(GLOB_RECURSE HEADERS ${INCLUDE_PATH}/*.h ${INCLUDE_PATH}/*.hpp ${INCLUDE_PA
 
 
 
-
-
-
 ###
 ## 3rd libs
 ###
@@ -146,18 +143,17 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_constexpr
                                                 cxx_nullptr
 						                        cxx_lambdas)
 
+# use SYSTEM to get rid of warnings in 3rd librarys
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entityx1)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entityx2)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/anax/include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/Artemis-Cpp/include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/benchpress/src)
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/entityx1)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/entityx2)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/anax/include)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIB_PATH}/Artemis-Cpp/include)
 
 target_link_libraries (${PROJECT_NAME} PRIVATE entityx)
 target_link_libraries (${PROJECT_NAME} PRIVATE anax)
 target_link_libraries (${PROJECT_NAME} PRIVATE ArtemisCpp)
-
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${LIB_PATH}/benchpress/src)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_PATH})
 target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_PATH})
@@ -167,3 +163,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_PATH})
 
 target_link_libraries (${PROJECT_NAME} PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 target_compile_options(${PROJECT_NAME} PRIVATE -pthread)
+
+
+###
+## More Settings
+###
+
+SET(USE_MORECOMPLEX_SYSTEM OFF CACHE BOOL "use the 4. MoreComplex-System")
+if(USE_MORECOMPLEX_SYSTEM)
+target_compile_options(${PROJECT_NAME} PRIVATE -DUSE_MORECOMPLEX_SYSTEM)
+endif()

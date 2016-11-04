@@ -1,4 +1,6 @@
 
+build/
+
 # Created by https://www.gitignore.io/api/linux,windows,osx,cmake,c++,netbeans,visualstudio,visualstudiocode
 
 ### Linux ###

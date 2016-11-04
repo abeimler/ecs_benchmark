@@ -4,6 +4,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <random>
+#include <numeric>
+#include <functional>
 
 #include "entityx/entityx.h"
 
@@ -75,17 +78,74 @@ class EntityXBenchmark {
         }
     };
 
+    #ifdef USE_MORECOMPLEX_SYSTEM
+    class MoreComplexSystem : public System<MoreComplexSystem> {
+        private:
+        int random(int min, int max){
+            // Seed with a real random value, if available
+            static std::random_device r;
+        
+            // Choose a random mean between min and max
+            static std::default_random_engine e1(r());
+
+            std::uniform_int_distribution<int> uniform_dist(min, max);
+
+            return uniform_dist(e1);
+        }
+
+        public:
+        MoreComplexSystem() = default;
+
+        void update(entityx::EntityManager &es, entityx::EventManager &events, entityx::TimeDelta dt) override {
+            Component<PositionComponent> position;
+            Component<DirectionComponent> direction;
+            Component<ComflabulationComponent> comflab;
+
+            for (auto entity : es.entities_with_components(comflab, direction, comflab)) {
+                if(comflab) {
+                    std::vector<double> vec;
+                    for(size_t i = 0;i < comflab->dingy && i < 100;i++){
+                        vec.push_back(i * comflab->thingy);
+                    }
+
+                    int sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
+                    int product = std::accumulate(std::begin(vec), std::end(vec), 1, std::multiplies<double>());
+
+                    comflab->stringy = std::to_string(comflab->dingy);
+
+                    if(position && direction && comflab->dingy % 10000 == 0) {
+                        if(position->x > position->y) {
+                            direction->x = random(0, 5);
+                            direction->y = random(0, 10);
+                        } else {
+                            direction->x = random(0, 10);
+                            direction->y = random(0, 5);
+                        }
+                    }
+                }
+            }
+        }
+    };
+    #endif
+
     class Application : public entityx::EntityX {
         public:
         Application() {
             this->systems.add<MovementSystem>();
             this->systems.add<ComflabSystem>();
+            #ifdef USE_MORECOMPLEX_SYSTEM
+            this->systems.add<MoreComplexSystem>();
+            #endif
+
             this->systems.configure();
         }
 
         void update(TimeDelta dt) {
             this->systems.update<MovementSystem>(dt);
             this->systems.update<ComflabSystem>(dt);
+            #ifdef USE_MORECOMPLEX_SYSTEM
+            this->systems.update<MoreComplexSystem>(dt);
+            #endif
         }
     };
 

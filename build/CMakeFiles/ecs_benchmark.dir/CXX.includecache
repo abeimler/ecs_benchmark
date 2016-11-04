@@ -13,6 +13,12 @@ vector
 -
 memory
 -
+random
+-
+numeric
+-
+functional
+-
 anax/anax.hpp
 -
 anax/Component.hpp
@@ -27,6 +33,12 @@ vector
 -
 memory
 -
+random
+-
+numeric
+-
+functional
+-
 Artemis/Artemis.h
 -
 
@@ -37,6 +49,12 @@ vector
 -
 memory
 -
+random
+-
+numeric
+-
+functional
+-
 entityx/entityx.hh
 ../include/entityx/entityx.hh
 
@@ -46,6 +64,12 @@ string
 vector
 -
 memory
+-
+random
+-
+numeric
+-
+functional
 -
 entityx/entityx.h
 ../include/entityx/entityx.h
