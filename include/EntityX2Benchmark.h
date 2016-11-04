@@ -33,7 +33,7 @@ class EntityX2Benchmark {
         PositionComponent, DirectionComponent, ComflabulationComponent
     >;
 
-    static constexpr size_t INITIAL_CAPACITY = 16384; // bignumber to avoid alloc error, benchmark a lot of enteties
+    static constexpr size_t INITIAL_CAPACITY = 32768; // bignumber to avoid alloc error, benchmark a lot of enteties
     using EntityManager = entityx::EntityX<GameComponents, entityx::ColumnStorage<GameComponents, INITIAL_CAPACITY>>;
 
     template <typename C>
@@ -41,6 +41,7 @@ class EntityX2Benchmark {
 
     using Entity = EntityManager::Entity;
 
+    typedef double TimeDelta;
 
 
 
@@ -54,7 +55,7 @@ class EntityX2Benchmark {
         System(System&&) = default;
         System& operator=(System&&) = default;
 
-        virtual void update(EntityManager& es, double dt) = 0;
+        virtual void update(EntityManager& es, TimeDelta dt) = 0;
     };
 
 
@@ -62,11 +63,11 @@ class EntityX2Benchmark {
         public:
         MovementSystem() = default;
 
-        void update(EntityManager& es, double dt) override {
+        void update(EntityManager& es, TimeDelta dt) override {
             Component<PositionComponent> position;
             Component<DirectionComponent> direction;
 
-            for (Entity entity : es.entities_with_components<PositionComponent, DirectionComponent>(position, direction)) {
+            for (auto entity : es.entities_with_components<PositionComponent, DirectionComponent>(position, direction)) {
                 position->x += direction->x * dt;
                 position->y += direction->y * dt;
             }
@@ -77,10 +78,10 @@ class EntityX2Benchmark {
         public:
         ComflabSystem() = default;
 
-        void update(EntityManager& es, double dt) override {
+        void update(EntityManager& es, TimeDelta dt) override {
             Component<ComflabulationComponent> comflab;
 
-            for (Entity entity : es.entities_with_components<ComflabulationComponent>(comflab)) {
+            for (auto entity : es.entities_with_components<ComflabulationComponent>(comflab)) {
                 comflab->thingy *= 1.000001f;
                 comflab->mingy = !comflab->mingy;
                 comflab->dingy++;
@@ -91,12 +92,12 @@ class EntityX2Benchmark {
 
     class Application {
         public:
-        explicit Application() {
+        Application() {
             this->systems_.emplace_back(std::make_unique<MovementSystem>());
             this->systems_.emplace_back(std::make_unique<ComflabSystem>());
         }
 
-        void update(double dt) {
+        void update(TimeDelta dt) {
             for (auto& system : this->systems_) {
                 system->update(this->entities_, dt);
             }
@@ -110,7 +111,7 @@ class EntityX2Benchmark {
         std::vector<std::unique_ptr<System>> systems_;
     };
 
-    static constexpr double fakeDeltaTime = 1.0 / 60;
+    static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 
 #endif // ENTITYX2BENCHMARK_H_
