@@ -88,15 +88,15 @@ benchpress and entityx (compile-time) are header-only.
 
 #### CMake Configure
 
-| Variable                        | Value  |
-|---------------------------------|--------|
-| ANAX_32_BIT_ENTITY_IDS          | OFF    |
-| ANAX_DEFAULT_ENTITY_POOL_SIZE   | 1000   |
-| ANAX_MAX_AMOUNT_OF_COMPONENTS   | 64     |
-| ANAX_USE_VARIADIC_TEMPLATES     | ON     |
-| ANAX_VIRTUAL_DTORS_IN_COMPONENT | ON     |
-| ENTITYX_DT_TYPE                 | double |
-| ENTITYX_MAX_COMPONENTS          | 64     |
+| Variable                        | Value   |
+|---------------------------------|---------|
+| ANAX_32_BIT_ENTITY_IDS          | OFF     |
+| ANAX_DEFAULT_ENTITY_POOL_SIZE   | 2097152 |
+| ANAX_MAX_AMOUNT_OF_COMPONENTS   | 64      |
+| ANAX_USE_VARIADIC_TEMPLATES     | ON      |
+| ANAX_VIRTUAL_DTORS_IN_COMPONENT | ON      |
+| ENTITYX_DT_TYPE                 | double  |
+| ENTITYX_MAX_COMPONENTS          | 64      |
 
  - Test and Examples are not build
  - Linked Libraries are static builds
@@ -127,21 +127,21 @@ Benchmarks:
 		- `std::string stringy`
 
  * 2 Systems
-	 - MovementSystem
-```cpp
-	void update(){
-		position.x += direction.x * dt;
-		position.y += direction.y * dt;
-	}
-```
-	 - ComflabSystem
-```cpp
-	void update(){
-		comflab.thingy *= 1.000001f;
-		comflab.mingy = !comflab.mingy;
-		comflab.dingy++;
-	}
-```
+ 	- MovementSystem
+		```cpp
+		void update(){
+			position.x += direction.x * dt;
+			position.y += direction.y * dt;
+		}
+		```
+ 	- ComflabSystem
+		```cpp
+		void update(){
+			comflab.thingy *= 1.000001f;
+			comflab.mingy = !comflab.mingy;
+			comflab.dingy++;
+		}
+		```
 
 
 
@@ -204,7 +204,7 @@ I run the benchmarks with `/usr/bin/time` for more measurement.
 
 
 
-#### Run Benchmark
+### Run Benchmark
 
 ```bash
 $ /usr/bin/time ./build/ecs_benchmark --bench entityx.*
@@ -212,15 +212,15 @@ $ /usr/bin/time ./build/ecs_benchmark --bench anax.*
 $ /usr/bin/time ./build/ecs_benchmark --bench artemis.*
 ```
 
-##### Result
+#### Result
 
 See [BenchmarkResultDetails]() for detail Details. 
 
 
-###### Summery
+##### Summery
 
 
-####### create Entity
+###### create Entity
 
 |                            | EntityX2  | EntityX | Anax | Artemis |
 |----------------------------|----------:|--------:|-----:|--------:|
@@ -228,7 +228,7 @@ See [BenchmarkResultDetails]() for detail Details.
 
 
 
-####### update Systems
+###### update Systems
 
 ```bash
 ## ECS Benchmark
