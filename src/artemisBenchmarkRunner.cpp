@@ -85,9 +85,38 @@ BENCHMARK("artemis create destroy entity with components", [](benchpress::contex
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 BENCHMARK("artemis    25 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsArtemisBenchmark(ctx, 25);
 })
+
+
+
 
 
 BENCHMARK("artemis    50 entities component systems update", [](benchpress::context* ctx) {
@@ -115,6 +144,7 @@ BENCHMARK("artemis   200 entities component systems update", [](benchpress::cont
 
 
 
+
 BENCHMARK("artemis   400 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsArtemisBenchmark(ctx, 400);
 })
@@ -122,9 +152,11 @@ BENCHMARK("artemis   400 entities component systems update", [](benchpress::cont
 
 
 
+
 BENCHMARK("artemis   800 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsArtemisBenchmark(ctx, 800);
 })
+
 
 
 BENCHMARK("artemis  1600 entities component systems update", [](benchpress::context* ctx) {

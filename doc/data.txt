@@ -2,7 +2,7 @@
 # xlabel 'Entities'
 # ylabel 'Time per Operation (ns/op)'
                  
-# Entities    EntityX2    EntityX              Anax       Artemis    
+#  Entities   EntityX2    EntityX             Anax        Artemis    
          25        253       1355              407           1850
          50        512       2709              719           3739
         100       1013       5354             1351           7171
@@ -18,4 +18,3 @@
      500000    6822237   28519338         41724988    43347850038
     1000000   13581160   59526020        114361612   178245581448
     2000000   27446855  126546487        304180312   751284287440
-

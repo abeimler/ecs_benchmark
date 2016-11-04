@@ -43,7 +43,7 @@
 namespace anax
 {
     /// The default size of a pool within a world  
-    constexpr const std::size_t DEFAULT_ENTITY_POOL_SIZE = 1000L;  
+    constexpr const std::size_t DEFAULT_ENTITY_POOL_SIZE = 2097152L;  
 
     /// The maximum amount of components an entity can
     /// contain. Try to make this number even, or preferably
