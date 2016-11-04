@@ -1,2 +1,0 @@
-/usr/bin/ar qc libentityx.a  CMakeFiles/entityx.dir/entityx/System.cc.o CMakeFiles/entityx.dir/entityx/Event.cc.o CMakeFiles/entityx.dir/entityx/Entity.cc.o CMakeFiles/entityx.dir/entityx/help/Timer.cc.o CMakeFiles/entityx.dir/entityx/help/Pool.cc.o
-/usr/bin/ranlib libentityx.a
