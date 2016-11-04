@@ -22,7 +22,7 @@ inline void init_entities(EntityX2Benchmark::EntityManager& entities, size_t nen
 	}
 }
 
-inline void runEntitiesSystemsBenchmark(benchpress::context* ctx, size_t nentities) {
+inline void runEntitiesSystemsEntityX2Benchmark(benchpress::context* ctx, size_t nentities) {
     EntityX2Benchmark::Application app;
     auto& entities = app.getEntityManager();
 
@@ -56,66 +56,66 @@ BENCHMARK("entityx2 create destroy entity with components", [](benchpress::conte
 
 
 BENCHMARK("entityx2    25 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 25);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 25);
 })
 
 BENCHMARK("entityx2    50 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 50);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 50);
 })
 
 BENCHMARK("entityx2   100 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 100);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 100);
 })
 
 BENCHMARK("entityx2   200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 200);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 200);
 })
 
 
 BENCHMARK("entityx2   400 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 400);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 400);
 })
 
 
 BENCHMARK("entityx2   800 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 800);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 800);
 })
 
 
 BENCHMARK("entityx2  1600 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 1600);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 1600);
 })
 
 
 
 BENCHMARK("entityx2  3200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 3200);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 3200);
 })
 
 
 BENCHMARK("entityx2  5000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 5000);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 5000);
 })
 
 
 BENCHMARK("entityx2 10000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 10'000);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 10'000);
 })
 
 BENCHMARK("entityx2 30000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 30'000);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 30'000);
 })
 
 
 BENCHMARK("entityx2 100000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 100'000L);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 100'000L);
 })
 
 
 BENCHMARK("entityx2 500000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 500'000L);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 500'000L);
 })
 
 BENCHMARK("entityx2 1M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsBenchmark(ctx, 1'000'000L);
+    runEntitiesSystemsEntityX2Benchmark(ctx, 1'000'000L);
 })
