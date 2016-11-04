@@ -1,0 +1,2 @@
+/usr/bin/ar qc libanax_s.a  CMakeFiles/anax.dir/src/anax/Entity.cpp.o CMakeFiles/anax.dir/src/anax/World.cpp.o CMakeFiles/anax.dir/src/anax/detail/EntityComponentStorage.cpp.o CMakeFiles/anax.dir/src/anax/detail/Filter.cpp.o CMakeFiles/anax.dir/src/anax/detail/EntityIdPool.cpp.o CMakeFiles/anax.dir/src/anax/detail/BaseSystem.cpp.o
+/usr/bin/ranlib libanax_s.a
