@@ -1,6 +1,6 @@
 # Entity-Component-Systems Benchmark
 
-Simple Benchmark for three common ECS.
+Simple Benchmark of common Entity-Component-Systems: 
 [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp)
 
 ## Candidates
@@ -104,45 +104,41 @@ benchpress and entityx (compile-time) are header-only.
 
 ## Benchmark
 
+Benchmarks:
+
+ - creating Entities
+ - Systems update
+
+
 ### Setup
 
-It's an simple Component and System Test.
+ * 3 Components
+	 - PositionComponent
+		- `float x,y` 
+	 - DirectionComponent
+		- `float x,y` 
+	 - ComflabulationComponent
+		- `float thingy`
+		- `int dingy`
+		- `bool mingy`
+		- `std::string stringy`
 
- - benchmark creating Entities
- - benchmark Systems update
-
-**3 Components**
-
- - PositionComponent
-    - float x,y 
- - DirectionComponent
-    - float x,y 
- - ComflabulationComponent
-    - float thingy
-    - int dingy
-    - bool mingy
-    - std::string stringy
-
-**2 Systems**
-
- - MovementSystem
-
- ```cpp
- void update(){
-    position.x += direction.x * dt;
-    position.y += direction.y * dt;
- }
- ```
-
- - ComflabSystem
-
- ```cpp
- void update(){
-    comflab.thingy *= 1.000001f;
-    comflab.mingy = !comflab.mingy;
-    comflab.dingy++;
- }
- ```
+ * 2 Systems
+	 - MovementSystem
+```cpp
+	void update(){
+		position.x += direction.x * dt;
+		position.y += direction.y * dt;
+	}
+```
+	 - ComflabSystem
+```cpp
+	void update(){
+		comflab.thingy *= 1.000001f;
+		comflab.mingy = !comflab.mingy;
+		comflab.dingy++;
+	}
+```
 
 
 
@@ -166,7 +162,7 @@ Run the "update system"-benchmark with different number of entities.
  - 25, 50, 100, 200, 400, 800
  - 1600, 3200, 5000
  - 10000, 30000, 100000, 500000
- - 1000000 (1M)
+ - 1000000 (1M), 2000000 (2M)
 
 
 Setup Benchmark:
@@ -192,7 +188,7 @@ Benchmark Code (1 iteration):
 ```
 
 
-## Benchmark Result
+## Benchmark
 
 I run the benchmark with `/usr/bin/time` for more measurement.
 
@@ -318,13 +314,18 @@ artemis 2M entities component systems update                           1    7512
 Beware of the "2M entities"-benchmark, it can throw an bad_alloc exception.
 
 
+## Result
+
+### Update Systems Benchmark
+
+![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/result_summery.png)
 
 ## Links
 
  - https://github.com/blockchaindev/benchpress/blob/master/docs/getting_started.md
  - https://github.com/miguelmartin75/anax/wiki/Using-the-Library
 
-
 Reference:
+
 http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/
 https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest
