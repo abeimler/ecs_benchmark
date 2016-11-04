@@ -1,1 +1,0 @@
-/usr/bin/g++-6    -Wall -Wextra -Wnon-virtual-dtor -Wcast-align -Woverloaded-virtual -pedantic -std=c++14 -pthread -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   CMakeFiles/example_04.dir/example_04.cpp.o  -o example_04 -rdynamic -licuuc -lpthread 
