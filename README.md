@@ -115,33 +115,34 @@ Benchmarks:
 
 ### Setup
 
- * 3 Components
-	 - PositionComponent
-		- `float x,y` 
-	 - DirectionComponent
-		- `float x,y` 
-	 - ComflabulationComponent
-		- `float thingy`
-		- `int dingy`
-		- `bool mingy`
-		- `std::string stringy`
+#### 3 Components
+ - PositionComponent
+	- `float x,y` 
+ - DirectionComponent
+	- `float x,y` 
+ - ComflabulationComponent
+	- `float thingy`
+	- `int dingy`
+	- `bool mingy`
+	- `std::string stringy`
 
- * 2 Systems
- 	- MovementSystem
-		```cpp
+#### 2 Systems
+ - MovementSystem
+```cpp
 		void update(){
 			position.x += direction.x * dt;
 			position.y += direction.y * dt;
 		}
-		```
- 	- ComflabSystem
-		```cpp
+```
+
+ - ComflabSystem
+```cpp
 		void update(){
 			comflab.thingy *= 1.000001f;
 			comflab.mingy = !comflab.mingy;
 			comflab.dingy++;
 		}
-		```
+```
 
 
 
