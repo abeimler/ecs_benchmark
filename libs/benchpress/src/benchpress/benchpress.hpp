@@ -33,6 +33,9 @@
 #include <string>      // string
 #include <thread>      // thread
 #include <vector>      // vector
+#include <memory>      // unique_ptr, make_unique
+#include <map>         
+#include <unordered_map>
 
 namespace benchpress {
 
@@ -50,16 +53,18 @@ namespace benchpress {
  *     .cpu(4);
  */
 class options {
-    std::string d_bench;
+    std::vector<std::string> d_bench;
     size_t      d_benchtime;
     size_t      d_cpu;
+    bool        d_plotdata;
 public:
     options()
-        : d_bench(".*")
+        : d_bench( { ".*" } )
         , d_benchtime(1)
         , d_cpu(std::thread::hardware_concurrency())
+        , d_plotdata(false)
     {}
-    options& bench(const std::string& bench) {
+    options& bench(const std::vector<std::string>& bench) {
         d_bench = bench;
         return *this;
     }
@@ -71,7 +76,11 @@ public:
         d_cpu = cpu;
         return *this;
     }
-    std::string get_bench() const {
+    options& plotdata(bool plotdata) {
+        d_plotdata = plotdata;
+        return *this;
+    }
+    std::vector<std::string> get_bench() const {
         return d_bench;
     }
     size_t get_benchtime() const {
@@ -79,6 +88,9 @@ public:
     }
     size_t get_cpu() const {
         return d_cpu;
+    }
+    bool get_plotdata() const {
+        return d_plotdata;
     }
 };
 
@@ -92,8 +104,8 @@ class context;
  * });
  */
 class benchmark_info {
-    std::string                   d_name;
-    std::function<void(context*)> d_func;
+    std::string                         d_name;
+    const std::function<void(context*)> d_func;
 
 public:
     benchmark_info(std::string name, std::function<void(context*)> func)
@@ -112,15 +124,12 @@ public:
  * registration::get_ptr()->register_benchmark(info);
  */
 class registration {
-    static registration*        d_this;
     std::vector<benchmark_info> d_benchmarks;
 
 public:
     static registration* get_ptr() {
-        if (nullptr == d_this) {
-            d_this = new registration();
-        }
-        return d_this;
+        static std::unique_ptr<registration> d_this = std::make_unique<registration>();
+        return d_this.get();
     }
 
     void register_benchmark(benchmark_info& info) {
@@ -233,11 +242,15 @@ inline void clobber()
  */
 class result {
     using fsec_t = std::chrono::duration<double>;
-    //using duration_t = std::chrono::nanoseconds;
+    using duration_t = std::chrono::nanoseconds;
 
     size_t                   d_num_iterations;
     std::chrono::nanoseconds d_duration;
     size_t                   d_num_bytes;
+
+    std::string             d_name; 
+    std::string             d_xlabel;
+    std::string             d_ylabel;
 
 public:
     result(size_t num_iterations, std::chrono::nanoseconds duration, size_t num_bytes)
@@ -245,6 +258,21 @@ public:
         , d_duration(duration)
         , d_num_bytes(num_bytes)
     {}
+
+    void set_name(std::string name) {
+        d_name = name;
+    }
+    std::string get_name() const { return d_name; }
+
+    void set_xlabel(std::string xlabel) {
+        d_xlabel = xlabel;
+    }
+    std::string get_xlabel() const { return d_xlabel; }
+
+    void set_ylabel(std::string ylabel) {
+        d_ylabel = ylabel;
+    }
+    std::string get_ylabel() const { return d_ylabel; }
 
     size_t get_ns_per_op() const {
         if (d_num_iterations <= 0) {
@@ -443,18 +471,94 @@ private:
 };
 
 #ifdef BENCHPRESS_CONFIG_MAIN
+
 /*
  * The run_benchmarks function will run the registered benchmarks.
  */
 void run_benchmarks(const options& opts) {
-    std::regex match_r(opts.get_bench());
-    auto benchmarks = registration::get_ptr()->get_benchmarks();
-    for (auto& info : benchmarks) {
-        if (std::regex_match(info.get_name(), match_r)) {
-            context c(info, opts);
-            auto r = c.run();
-            std::cout << std::setw(60) << std::left << info.get_name() << r.to_string() << std::endl;
+    auto std_replace = [](std::string& str,
+                const std::string& oldStr,
+                const std::string& newStr) {
+        std::string::size_type pos = 0u;
+        while((pos = str.find(oldStr, pos)) != std::string::npos){
+            str.replace(pos, oldStr.length(), newStr);
+            pos += newStr.length();
         }
+    };
+    std::vector<result> results;
+
+    for(std::string bench : opts.get_bench()){
+        std::regex match_r(bench);
+
+        auto benchmarks = registration::get_ptr()->get_benchmarks();
+
+        for (auto& info : benchmarks) {
+            std::string name = info.get_name();
+            if (std::regex_match(name, match_r)) {
+                context c (info, opts);
+                auto r = c.run();
+                std::string rstr = r.to_string();
+                std::cout << std::setw(60) << std::left << name << rstr << '\n';
+
+                r.set_name(name);
+
+                std::string ylabel = bench;
+                std_replace(ylabel, ".*", "");
+                std_replace(ylabel, "\\s+", "");
+                std_replace(ylabel, " ", "");
+                r.set_ylabel(ylabel);
+                results.push_back(r);
+            }
+        }
+    }
+
+    if(opts.get_plotdata()) {
+        std::cout << '\n';
+        std::cout << "# plot data" << '\n';
+        std::unordered_map<std::string, std::unordered_map<std::string, std::string>> results_map;
+        for(auto& result : results) {
+            std::string name = result.get_name();
+
+            std::string tag;
+            std::regex tag_regex (".*\\[(.*)\\].*");
+            std::smatch tag_match;
+            if (std::regex_match(name, tag_match, tag_regex)) {
+                if(tag_match.size() > 1){
+                    tag = tag_match[1].str();
+                }
+            }
+            std::string xlabel = tag;
+            result.set_xlabel(xlabel);
+
+            std::string ylabel = result.get_ylabel();
+            if(!xlabel.empty() && !ylabel.empty()){
+                results_map[xlabel][ylabel] = std::to_string(result.get_ns_per_op());
+            } else {
+                results_map[xlabel][ylabel] = "";
+            }
+        }
+
+        if(!results_map.empty()){
+            std::cout << "# " <<std::setw(35) << std::left << ' ';
+            const auto& x_result = *results_map.begin();
+            for(const auto& y_result : x_result.second) {
+                std::cout << std::setw(20) << std::right << y_result.first;
+            }
+            std::cout << '\n';
+
+            for(const auto& x_result : results_map) {
+                if(!x_result.first.empty()){
+                    std::cout << std::setw(35) << std::left << x_result.first;
+
+                    for(const auto& y_result : x_result.second) {
+                        std::cout << std::setw(20) << std::right << y_result.second;
+                    }
+
+                    std::cout << '\n';
+                }
+            }
+        }
+        std::cout << '\n';
     }
 }
 #endif
@@ -467,29 +571,29 @@ void run_benchmarks(const options& opts) {
  */
 #ifdef BENCHPRESS_CONFIG_MAIN
 #include "cxxopts.hpp"
-benchpress::registration* benchpress::registration::d_this;
 int main(int argc, char** argv) {
     std::chrono::high_resolution_clock::time_point bp_start = std::chrono::high_resolution_clock::now();
     benchpress::options bench_opts;
     try {
         cxxopts::Options cmd_opts(argv[0], " - command line options");
         cmd_opts.add_options()
-            ("bench", "run benchmarks matching the regular expression", cxxopts::value<std::string>()
-                ->default_value(".*"))
+            ("bench", "run benchmarks matching the regular expression", cxxopts::value<std::vector<std::string>>()
+                ->default_value( { ".*" } ))
             ("benchtime", "run enough iterations of each benchmark to take t seconds", cxxopts::value<size_t>()
                 ->default_value("1"))
             ("cpu", "specify the number of threads to use for parallel benchmarks", cxxopts::value<size_t>()
                 ->default_value(std::to_string(std::thread::hardware_concurrency())))
             ("list", "list all available benchmarks")
+            ("plotdata", "print plot data for gnuplot (use [tags] to tag the xlabel)")
             ("help", "print help")
         ;
         cmd_opts.parse(argc, argv);
         if (cmd_opts.count("help")) {
-            std::cout << cmd_opts.help({""}) << std::endl;
+            std::cout << cmd_opts.help({""}) << '\n';
             exit(0);
         }
         if (cmd_opts.count("bench")) {
-            bench_opts.bench(cmd_opts["bench"].as<std::string>());
+            bench_opts.bench(cmd_opts["bench"].as<std::vector<std::string>>());
         }
         if (cmd_opts.count("benchtime")) {
             bench_opts.benchtime(cmd_opts["benchtime"].as<size_t>());
@@ -497,22 +601,26 @@ int main(int argc, char** argv) {
         if (cmd_opts.count("cpu")) {
             bench_opts.cpu(cmd_opts["cpu"].as<size_t>());
         }
+        if (cmd_opts.count("plotdata")) {
+            bench_opts.plotdata(true);
+        }
         if (cmd_opts.count("list")) {
             auto benchmarks = benchpress::registration::get_ptr()->get_benchmarks();
             for (auto& info : benchmarks) {
-                std::cout << info.get_name() << std::endl;
+                std::cout << info.get_name() << '\n';
             }
             exit(EXIT_SUCCESS);
         }
     } catch (const cxxopts::OptionException& e) {
-        std::cout << "error parsing options: " << e.what() << std::endl;
+        std::cout << "error parsing options: " << e.what() << '\n';
         exit(1);
     }
+
     benchpress::run_benchmarks(bench_opts);
     float duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::high_resolution_clock::now() - bp_start
     ).count() / 1000.f;
-    std::cout << argv[0] << " " << duration << "s" << std::endl;
+    std::cout << argv[0] << " " << duration << "s" << '\n';
     return 0;
 }
 #endif

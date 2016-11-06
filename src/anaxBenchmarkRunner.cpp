@@ -61,6 +61,54 @@ BENCHMARK("anax create destroy entity with components", [](benchpress::context* 
 
 
 
+
+class AnaxBenchmarks {
+    public:
+    static const std::vector<int> ENTITIES;
+
+    static inline void makeBenchmarks(std::string name) {
+        makeBenchmarks(name, ENTITIES);
+    }
+    
+    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+        for(int nentities : entities) {
+            std::string tag = "[" + std::to_string(nentities) + "]";
+
+            std::stringstream ss;
+            ss << std::right << std::setw(10) << tag << ' ';
+            ss << name << ' ';
+            ss << std::right << std::setw(8) << nentities;
+            ss << " entities component systems update";
+
+            std::string benchmark_name = ss.str();
+            BENCHMARK(benchmark_name, [nentities](benchpress::context* ctx) {
+                runEntitiesSystemsAnaxBenchmark(ctx, nentities);
+            })
+        }
+    }
+
+    AnaxBenchmarks(std::string name){
+        makeBenchmarks(name);
+    }
+};
+const std::vector<int> AnaxBenchmarks::ENTITIES = {
+    25, 50, 
+    100, 200, 400, 800, 
+    1600, 3200, 5000, 
+    10'000, 30'000, 
+    100'000, 500'000, 
+    1'000'000, 2'000'000
+};
+
+AnaxBenchmarks anaxbenchmarks ("anax");
+
+
+
+
+
+
+
+/*
 BENCHMARK("anax    25 entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsAnaxBenchmark(ctx, 25);
 })
@@ -169,4 +217,4 @@ BENCHMARK("anax 1M entities component systems update", [](benchpress::context* c
 BENCHMARK("anax 2M entities component systems update", [](benchpress::context* ctx) {
     runEntitiesSystemsAnaxBenchmark(ctx, 2'000'000L);
 })
-
+*/
