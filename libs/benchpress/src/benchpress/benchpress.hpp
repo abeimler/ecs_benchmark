@@ -515,7 +515,7 @@ void run_benchmarks(const options& opts) {
     if(opts.get_plotdata()) {
         std::cout << '\n';
         std::cout << "# plot data" << '\n';
-        std::unordered_map<std::string, std::unordered_map<std::string, std::string>> results_map;
+        std::map<std::string, std::map<std::string, std::string>> results_map;
         for(auto& result : results) {
             std::string name = result.get_name();
 
@@ -528,30 +528,38 @@ void run_benchmarks(const options& opts) {
                 }
             }
             std::string xlabel = tag;
-            result.set_xlabel(xlabel);
 
             std::string ylabel = result.get_ylabel();
-            if(!xlabel.empty() && !ylabel.empty()){
-                results_map[xlabel][ylabel] = std::to_string(result.get_ns_per_op());
+            if(!xlabel.empty() && !ylabel.empty()) {
+                std::stringstream sort_xlabel_ss;
+                sort_xlabel_ss << std::setw(13) << std::setfill(' ') << std::right << xlabel;
+                std::string sort_xlabel = sort_xlabel_ss.str();
+                result.set_xlabel(sort_xlabel);
+                
+                std::stringstream sort_ylabel_ss;
+                sort_ylabel_ss << std::setw(20) << std::setfill(' ') << std::right << ylabel;
+                std::string sort_ylabel = sort_ylabel_ss.str();
+
+                results_map[sort_xlabel][sort_ylabel] = std::to_string(result.get_ns_per_op());
             } else {
                 results_map[xlabel][ylabel] = "";
             }
         }
 
-        if(!results_map.empty()){
-            std::cout << "# " <<std::setw(35) << std::left << ' ';
+        if(!results_map.empty()) {
+            std::cout << "# " << std::setw(11) << std::right << ' ';
             const auto& x_result = *results_map.begin();
             for(const auto& y_result : x_result.second) {
-                std::cout << std::setw(20) << std::right << y_result.first;
+                std::cout << std::setw(20) << std::setfill(' ') << std::right << y_result.first;
             }
             std::cout << '\n';
 
             for(const auto& x_result : results_map) {
-                if(!x_result.first.empty()){
-                    std::cout << std::setw(35) << std::left << x_result.first;
+                if(!x_result.first.empty()) {
+                    std::cout << x_result.first;
 
                     for(const auto& y_result : x_result.second) {
-                        std::cout << std::setw(20) << std::right << y_result.second;
+                        std::cout << std::setw(20) << std::setfill(' ') << y_result.second;
                     }
 
                     std::cout << '\n';
