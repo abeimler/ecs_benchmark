@@ -63,7 +63,7 @@ I used CMake 3.2 for the build.
  2. `mkdir ./build`
  3. ``cmake -H. -B./build -C./build/CMakeTools/InitializeCache.cmake -DCMAKE_BUILD_TYPE=Release``
  4. `cd ./build`
- 5. `make esc_benchmark`
+ 5. `make ecs_benchmark`
 
 
 ### C++ Compiler
