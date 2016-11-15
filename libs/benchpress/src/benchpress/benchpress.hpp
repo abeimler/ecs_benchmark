@@ -498,13 +498,13 @@ void run_benchmarks(const options& opts) {
                 context c (info, opts);
                 auto r = c.run();
                 std::string rstr = r.to_string();
-                std::cout << std::setw(60) << std::left << name << rstr << '\n';
+                std::cout << std::setw(100) << std::left << name << rstr << '\n';
 
                 r.set_name(name);
 
                 std::string ylabel = bench;
                 std_replace(ylabel, ".*", "");
-                std_replace(ylabel, "\\s+", "");
+                std_replace(ylabel, "\\s+", "_");
                 std_replace(ylabel, " ", "");
                 r.set_ylabel(ylabel);
                 results.push_back(r);

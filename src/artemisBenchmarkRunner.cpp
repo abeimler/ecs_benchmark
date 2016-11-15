@@ -41,6 +41,8 @@ inline void runEntitiesSystemsArtemisBenchmark(benchpress::context* ctx, size_t 
 
 
 
+
+
 BENCHMARK("artemis create destroy entity with components", [](benchpress::context* ctx) {
     artemis::World world;
     artemis::EntityManager* em = world.getEntityManager();
@@ -56,6 +58,8 @@ BENCHMARK("artemis create destroy entity with components", [](benchpress::contex
         entity.remove();
     }
 })
+
+
 
 
 
@@ -104,103 +108,3 @@ const std::vector<int> BenchmarksArtemis::ENTITIES = {
 BenchmarksArtemis artemisbenchmarks ("artemis");
 
 
-
-/*
-
-BENCHMARK("artemis    25 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 25);
-})
-
-
-
-
-
-BENCHMARK("artemis    50 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 50);
-})
-
-
-
-BENCHMARK("artemis   100 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 100);
-})
-
-
-
-
-
-
-
-BENCHMARK("artemis   200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 200);
-})
-
-
-
-
-
-
-
-BENCHMARK("artemis   400 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 400);
-})
-
-
-
-
-
-BENCHMARK("artemis   800 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 800);
-})
-
-
-
-BENCHMARK("artemis  1600 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 1600);
-})
-
-
-
-BENCHMARK("artemis  3200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 3200);
-})
-
-
-BENCHMARK("artemis  5000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 5000);
-})
-
-
-
-BENCHMARK("artemis 10000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 10'000);
-})
-
-BENCHMARK("artemis 30000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 30'000);
-})
-
-
-
-BENCHMARK("artemis 100000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 100'000L);
-})
-
-
-BENCHMARK("artemis 500000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 500'000L);
-})
-
-
-BENCHMARK("artemis 1M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 1'000'000L);
-})
-
-
-BENCHMARK("artemis 2M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsArtemisBenchmark(ctx, 2'000'000L);
-})
-
-
-
-*/
