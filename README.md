@@ -61,9 +61,8 @@ I used CMake 3.2 for the build.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. ``cmake -H. -B./build -C./build/CMakeTools/InitializeCache.cmake -DCMAKE_BUILD_TYPE=Release``
- 4. `cd ./build`
- 5. `make esc_benchmark`
+ 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DENTITYX_BUILD_TESTING:BOOL="0" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_TESTING:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`
+ 4. `cmake --build ./build --target ecs_benchmark`
 
 
 ### C++ Compiler
@@ -98,8 +97,8 @@ benchpress and entityx (compile-time) are header-only.
 | ENTITYX_DT_TYPE                 | double  |
 | ENTITYX_MAX_COMPONENTS          | 64      |
 
- - Test and Examples are not build
- - Linked Libraries are static builds
+ - Test and Examples are not build (`-DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0"`)
+ - Linked Libraries are static builds (`-DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`)
 
 
 
@@ -129,7 +128,7 @@ Benchmarks:
 #### 2 Systems
  - MovementSystem
 ```cpp
-		void update(){
+		void update() {
 			position.x += direction.x * dt;
 			position.y += direction.y * dt;
 		}
@@ -137,7 +136,7 @@ Benchmarks:
 
  - ComflabSystem
 ```cpp
-		void update(){
+		void update() {
 			comflab.thingy *= 1.000001f;
 			comflab.mingy = !comflab.mingy;
 			comflab.dingy++;
