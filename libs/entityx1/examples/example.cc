@@ -41,19 +41,15 @@ float r(int a, float b = 0) {
 
 struct Body {
   Body(const sf::Vector2f &position, const sf::Vector2f &direction, float rotationd = 0.0)
-    : position(position), direction(direction), rotationd(rotationd) {}
+    : position(position), direction(direction), rotationd(rotationd), alpha(0.0) {}
 
   sf::Vector2f position;
   sf::Vector2f direction;
-  float rotation = 0.0, rotationd;
+  float rotation = 0.0, rotationd, alpha;
 };
 
 
-struct Renderable {
-  explicit Renderable(std::unique_ptr<sf::Shape> shape) : shape(std::move(shape)) {}
-
-  std::unique_ptr<sf::Shape> shape;
-};
+using Renderable = std::shared_ptr<sf::Shape>;
 
 
 struct Particle {
@@ -101,10 +97,10 @@ public:
         sf::Vector2f(r(100, -50), r(100, -50)));
 
       // Shape to apply to entity.
-      std::unique_ptr<sf::Shape> shape(new sf::CircleShape(collideable->radius));
-      shape->setFillColor(sf::Color(r(128, 127), r(128, 127), r(128, 127)));
+      Renderable shape(new sf::CircleShape(collideable->radius));
+      shape->setFillColor(sf::Color(r(128, 127), r(128, 127), r(128, 127), 0));
       shape->setOrigin(collideable->radius, collideable->radius);
-      entity.assign<Renderable>(std::move(shape));
+      entity.assign<Renderable>(shape);
     }
   }
 
@@ -117,9 +113,11 @@ private:
 // Updates a body's position and rotation.
 struct BodySystem : public ex::System<BodySystem> {
   void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override {
-    es.each<Body>([dt](ex::Entity entity, Body &body) {
-      body.position += body.direction * static_cast<float>(dt);
-      body.rotation += body.rotationd * dt;
+    const float fdt = static_cast<float>(dt);
+    es.each<Body>([fdt](ex::Entity entity, Body &body) {
+      body.position += body.direction * fdt;
+      body.rotation += body.rotationd * fdt;
+      body.alpha = std::min(1.0f, body.alpha + fdt);
     });
   };
 };
@@ -225,6 +223,7 @@ private:
 };
 
 
+// Fade out and then remove particles.
 class ParticleSystem : public ex::System<ParticleSystem> {
 public:
   void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override {
@@ -240,6 +239,7 @@ public:
 };
 
 
+// Renders all explosion particles efficiently as a quad vertex array.
 class ParticleRenderSystem : public ex::System<ParticleRenderSystem> {
 public:
   explicit ParticleRenderSystem(sf::RenderTarget &target) : target(target) {}
@@ -248,10 +248,13 @@ public:
     sf::VertexArray vertices(sf::Quads);
     es.each<Particle, Body>([&vertices](ex::Entity entity, Particle &particle, Body &body) {
       const float r = particle.radius;
-      vertices.append(sf::Vertex(body.position + sf::Vector2f(-r, -r), particle.colour));
-      vertices.append(sf::Vertex(body.position + sf::Vector2f(r, -r), particle.colour));
-      vertices.append(sf::Vertex(body.position + sf::Vector2f(r, r), particle.colour));
-      vertices.append(sf::Vertex(body.position + sf::Vector2f(-r, r), particle.colour));
+      // Spin the particles.
+      sf::Transform transform;
+      transform.rotate(body.rotation);
+      vertices.append(sf::Vertex(body.position + transform.transformPoint(sf::Vector2f(-r, -r)), particle.colour));
+      vertices.append(sf::Vertex(body.position + transform.transformPoint(sf::Vector2f(r, -r)), particle.colour));
+      vertices.append(sf::Vertex(body.position + transform.transformPoint(sf::Vector2f(r, r)), particle.colour));
+      vertices.append(sf::Vertex(body.position + transform.transformPoint(sf::Vector2f(-r, r)), particle.colour));
     });
     target.draw(vertices);
   }
@@ -279,7 +282,7 @@ public:
     ex::ComponentHandle<Body> body = entity.component<Body>();
     ex::ComponentHandle<Renderable> renderable = entity.component<Renderable>();
     ex::ComponentHandle<Collideable> collideable = entity.component<Collideable>();
-    sf::Color colour = renderable->shape->getFillColor();
+    sf::Color colour = (*renderable)->getFillColor();
     colour.a = 200;
 
     float area = (M_PI * collideable->radius * collideable->radius) / 3.0;
@@ -325,9 +328,12 @@ public:
 
   void update(ex::EntityManager &es, ex::EventManager &events, ex::TimeDelta dt) override {
     es.each<Body, Renderable>([this](ex::Entity entity, Body &body, Renderable &renderable) {
-      renderable.shape->setPosition(body.position);
-      renderable.shape->setRotation(body.rotation);
-      target.draw(*renderable.shape.get());
+      sf::Color fillColor = renderable->getFillColor();
+      fillColor.a = sf::Uint8(body.alpha * 255);
+      renderable->setFillColor(fillColor);
+      renderable->setPosition(body.position);
+      renderable->setRotation(body.rotation);
+      target.draw(*renderable.get());
     });
     last_update += dt;
     frame_count++;

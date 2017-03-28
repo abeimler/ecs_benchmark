@@ -249,6 +249,7 @@ struct Components {
 private:
   template <class C>
   static void init_sizes(std::vector<std::size_t> &sizes, std::size_t index = 0) {
+    (void)index;
     sizes.push_back(sizeof(C));
   }
 
@@ -566,7 +567,9 @@ public:
         ViewIterator<Iterator, All>::next();
       }
 
-      void next_entity(Entity &entity) {}
+      void next_entity(Entity &entity) {
+        (void)entity;
+      }
     };
 
 
@@ -587,7 +590,7 @@ public:
   };
 
   typedef BaseView<false> View;
-  typedef BaseView<true> DebugView;
+  typedef BaseView<true> AllView;
 
   template <typename ... ComponentsToUnpack>
   class UnpackingView {
@@ -655,8 +658,7 @@ public:
   EntityX() : owned_storage_(new Storage()), storage_(*owned_storage_.get()) {}
   explicit EntityX(Storage &storage) : storage_(storage) {}
   ~EntityX() {
-    for (std::size_t i = 0; i < entity_component_mask_.size(); i++)
-      if (entity_component_mask_[i].any()) destroy(Id(i, entity_version_[i]));
+    for (Entity entity : all_entities()) entity.destroy();
   }
 
   EntityX(const EntityX &) = delete;
@@ -842,15 +844,15 @@ public:
 
   /**
    * Iterate over all *valid* entities (ie. not in the free list). Not fast,
-   * so should only be used for debugging.
+   * so should generally only be used for debugging.
    *
    * @code
-   * for (Entity entity : entity_manager.entities_for_debugging()) {}
+   * for (Entity entity : entity_manager.all_entities()) {}
    *
    * @return An iterator view over all valid entities.
    */
-  DebugView entities_for_debugging() {
-    return DebugView(this);
+  AllView all_entities() {
+    return AllView(this);
   }
 
   template <typename C>
@@ -1069,7 +1071,7 @@ inline void EntityX<Components, Storage, Features>::destroy(Id entity) {
 
 template <class Components, class Storage, std::size_t Features>
 void EntityX<Components, Storage, Features>::reset() {
-  for (Entity entity : entities_for_debugging()) entity.destroy();
+  for (Entity entity : all_entities()) entity.destroy();
   storage_.reset();
   entity_component_mask_.clear();
   entity_version_.clear();
