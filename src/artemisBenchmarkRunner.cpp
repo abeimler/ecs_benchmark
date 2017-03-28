@@ -80,9 +80,9 @@ class BenchmarksArtemis {
             std::string tag = "[" + std::to_string(nentities) + "]";
 
             std::stringstream ss;
-            ss << std::right << std::setw(10) << tag << ' ';
-            ss << name << ' ';
-            ss << std::right << std::setw(8) << nentities;
+            ss << std::right << std::setw(12) << tag << ' ';
+            ss << std::left << std::setw(8) << name << ' ';
+            ss << std::right << std::setw(12) << nentities;
             ss << " entities component systems update";
 
             std::string benchmark_name = ss.str();

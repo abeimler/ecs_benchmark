@@ -41,7 +41,7 @@ inline void runEntitiesSystemsEntityXBenchmark(benchpress::context* ctx, size_t 
 
 
 
-BENCHMARK("entityx create destroy entity with components", [](benchpress::context* ctx) {
+BENCHMARK("entityx1 create destroy entity with components", [](benchpress::context* ctx) {
     entityx::EntityX app;
     auto& entities = app.entities;
 
@@ -74,9 +74,9 @@ class BenchmarksEntityX {
             std::string tag = "[" + std::to_string(nentities) + "]";
 
             std::stringstream ss;
-            ss << std::right << std::setw(10) << tag << ' ';
-            ss << name << ' ';
-            ss << std::right << std::setw(8) << nentities;
+            ss << std::right << std::setw(12) << tag << ' ';
+            ss << std::left << std::setw(8) << name << ' ';
+            ss << std::right << std::setw(12) << nentities;
             ss << " entities component systems update";
 
             std::string benchmark_name = ss.str();
@@ -99,5 +99,5 @@ const std::vector<int> BenchmarksEntityX::ENTITIES = {
     1'000'000, 2'000'000
 };
 
-BenchmarksEntityX entityxbenchmarks ("entityx");
+BenchmarksEntityX entityxbenchmarks ("entityx1");
 

@@ -53,7 +53,7 @@ Version: 1.x (2014)
 
 
 
-## Compiling
+## <a name="build"></a> Build
 
 ### CMake
 
@@ -61,7 +61,7 @@ I used CMake 3.2 for the build.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DENTITYX_BUILD_TESTING:BOOL="0" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_TESTING:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`
+ 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="2097152" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0"`
  4. `cmake --build ./build --target ecs_benchmark`
 
 
@@ -256,14 +256,35 @@ See [BenchmarkResultDetails]() for detail Details.
 
 
 
-
-
-
 ### Update Systems Benchmark 
 
-![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/result_summery.png)
+![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/old/result_summery.png)
 
 
+
+
+### Make your own Results
+
+ 1. Build this Project, see [Build](#build)
+ 2. Goto the `scripts/`-folder
+	2.5 run `./run_benchmark.sh` to print kind of stuff _Note: artemis is disabled, it takes to long, but you can uncomment it_
+ 3. OR just run the direct benchmark with plotdata,
+    `../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*update.*" --plotdata > data.txt`
+	Now you got the `data.txt`
+ 4. use `data.txt` and with the `gnuplot`-plot-script to plot the graph with `gnuplot`, _or use this site http://gnuplot.respawned.com/_
+
+
+#### gnuplot
+
+```gnuplot
+plot  "data.txt" using 1:2 title 'EntityX2' with lines,  \
+	"data.txt" using 1:3 title 'EntityX' with lines, \
+	"data.txt" using 1:4 title 'Anax' with lines, \
+	"data.txt" using 1:5 title 'Artemis' with lines, \
+	"data.txt" using 1:6 title 'NewFramework' with lines
+```
+
+You can edit the `gnuplot`-script to add new cols.
 
 
 ## Links

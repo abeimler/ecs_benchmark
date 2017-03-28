@@ -476,6 +476,8 @@ private:
  * The run_benchmarks function will run the registered benchmarks.
  */
 void run_benchmarks(const options& opts) {
+    using namespace std::string_literals;
+
     auto std_replace = [](std::string& str,
                 const std::string& oldStr,
                 const std::string& newStr) {
@@ -492,13 +494,15 @@ void run_benchmarks(const options& opts) {
 
         auto benchmarks = registration::get_ptr()->get_benchmarks();
 
+        std::string prefix = (opts.get_plotdata())? "## "s : ""s;
+
         for (auto& info : benchmarks) {
             std::string name = info.get_name();
             if (std::regex_match(name, match_r)) {
                 context c (info, opts);
                 auto r = c.run();
                 std::string rstr = r.to_string();
-                std::cout << std::setw(60) << std::left << name << rstr << '\n';
+                std::cout << prefix << std::setw(64) << std::left << name << rstr << '\n';
 
                 r.set_name(name);
 
@@ -530,27 +534,36 @@ void run_benchmarks(const options& opts) {
             std::string xlabel = tag;
 
             std::string ylabel = result.get_ylabel();
+            std::string result_str = std::to_string(result.get_ns_per_op());
+
             if(!xlabel.empty() && !ylabel.empty()) {
                 std::stringstream sort_xlabel_ss;
-                sort_xlabel_ss << std::setw(13) << std::setfill(' ') << std::right << xlabel;
+                sort_xlabel_ss << std::setw(14) << std::setfill(' ') << std::right << xlabel;
                 std::string sort_xlabel = sort_xlabel_ss.str();
                 result.set_xlabel(sort_xlabel);
                 
                 std::stringstream sort_ylabel_ss;
-                sort_ylabel_ss << std::setw(20) << std::setfill(' ') << std::right << ylabel;
+                sort_ylabel_ss << std::setw(24) << std::setfill(' ') << std::right << ylabel;
                 std::string sort_ylabel = sort_ylabel_ss.str();
 
-                results_map[sort_xlabel][sort_ylabel] = std::to_string(result.get_ns_per_op());
+                results_map[sort_xlabel][sort_ylabel] = result_str;
             } else {
                 results_map[xlabel][ylabel] = "";
             }
         }
 
+        //std::cout << "#### " << "[Debug] results_map result" << '\n';
+        //for(const auto& r1 : results_map) {
+        //    for(const auto& r2 : r1.second) {
+        //        std::cout << "### " << r1.first << " " << r2.first << " " << r2.second << '\n'; 
+        //    }
+        //}
+
         if(!results_map.empty()) {
             std::cout << "# " << std::setw(11) << std::right << ' ';
             const auto& x_result = *results_map.begin();
             for(const auto& y_result : x_result.second) {
-                std::cout << std::setw(20) << std::setfill(' ') << std::right << y_result.first;
+                std::cout << std::setw(24) << std::setfill(' ') << std::right << y_result.first;
             }
             std::cout << '\n';
 
@@ -559,7 +572,7 @@ void run_benchmarks(const options& opts) {
                     std::cout << x_result.first;
 
                     for(const auto& y_result : x_result.second) {
-                        std::cout << std::setw(20) << std::setfill(' ') << y_result.second;
+                        std::cout << std::setw(24) << std::setfill(' ') << y_result.second;
                     }
 
                     std::cout << '\n';
@@ -580,6 +593,8 @@ void run_benchmarks(const options& opts) {
 #ifdef BENCHPRESS_CONFIG_MAIN
 #include "cxxopts.hpp"
 int main(int argc, char** argv) {
+    using namespace std::string_literals;
+    
     std::chrono::high_resolution_clock::time_point bp_start = std::chrono::high_resolution_clock::now();
     benchpress::options bench_opts;
     try {
@@ -620,15 +635,18 @@ int main(int argc, char** argv) {
             exit(EXIT_SUCCESS);
         }
     } catch (const cxxopts::OptionException& e) {
-        std::cout << "error parsing options: " << e.what() << '\n';
+        std::string prefix = (bench_opts.get_plotdata())? "## "s : ""s;
+
+        std::cout << prefix << "error parsing options: " << e.what() << '\n';
         exit(1);
     }
+    std::string prefix = (bench_opts.get_plotdata())? "## "s : ""s;
 
     benchpress::run_benchmarks(bench_opts);
     float duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::high_resolution_clock::now() - bp_start
     ).count() / 1000.f;
-    std::cout << argv[0] << " " << duration << "s" << '\n';
+    std::cout << prefix << argv[0] << " " << duration << "s" << '\n';
     return 0;
 }
 #endif
