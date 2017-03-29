@@ -279,7 +279,7 @@ See [BenchmarkResultDetails]() for detail Details.
 
  1. Build this Project, see [Build](#build)
  2. Goto the `scripts/`-folder
-	2.5 run `./run_benchmark.sh` to print kind of stuff _Note: artemis is disabled, it takes to long, but you can uncomment it_
+ 	1. run `./run_benchmark.sh` to print kind of stuff- _Note: artemis is disabled, it takes to long, but you can uncomment it_
  3. OR just run the direct benchmark with plotdata,
     `../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*update.*" --plotdata > data.txt`
 	Now you got the `data.txt`
