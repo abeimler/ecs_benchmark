@@ -35,14 +35,14 @@ printf "\n"
 
 
 ### disable artemis, it takes to long
-#printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*artemis.* \n"
+#printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*artemis.*update.* \n"
 #/usr/bin/time -f "$format" ../build/ecs_benchmark --bench ".*artemis.*update.*"
 #printf "\n"
 #printf "\n"
 
 ## with artemis.
 #printf "$ ../build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*anax.*update.* --bench .*artemis.*update.* --plotdata > data.txt \n"
-#../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*" --bench ".*artemis.*" --plotdata > data.txt
+#../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*" --bench ".*artemis.*update.*" --plotdata > data.txt
 #printf "\n"
 
 

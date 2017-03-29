@@ -226,7 +226,7 @@ class EntityXEventBusTest {
 
 
 
-BENCHMARK("        eventpp      eventbus listen to EventA publish EventA", [](benchpress::context* ctx) {
+BENCHMARK("        eventpp eventbus listen to EventA publish EventA", [](benchpress::context* ctx) {
     auto eventa_listener = std::make_shared<EventppTest::TestListenerEventA>();
     EventppTest::Bus bus;
 
@@ -238,7 +238,7 @@ BENCHMARK("        eventpp      eventbus listen to EventA publish EventA", [](be
     }
 })
 
-BENCHMARK("        eventpp      eventbus listen to EventA publish EventA and EventB", [](benchpress::context* ctx) {
+BENCHMARK("        eventpp eventbus listen to EventA publish EventA and EventB                  ", [](benchpress::context* ctx) {
     entityx::EntityX app;
     auto& entities = app.entities;
     auto entity = entities.create();
@@ -256,7 +256,7 @@ BENCHMARK("        eventpp      eventbus listen to EventA publish EventA and Eve
     }
 })
 
-BENCHMARK("        eventpp      eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+BENCHMARK("        eventpp eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
     entityx::EntityX app;
     auto& entities = app.entities;
     auto entity = entities.create();
@@ -283,7 +283,7 @@ BENCHMARK("        eventpp      eventbus listen to EventA EventB and EventC publ
 
 
 
-BENCHMARK("[   10] eventpp      eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+BENCHMARK("[   10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
     entityx::EntityX app;
     auto& entities = app.entities;
     auto entity = entities.create();
@@ -436,7 +436,7 @@ BENCHMARK("[10000] eventpp-eventbus listen to EventA EventB and EventC publish E
 
 
 
-BENCHMARK("        entityx-eventbus listen to EventA publish EventA", [](benchpress::context* ctx) {
+BENCHMARK("        entityx eventbus listen to EventA publish EventA                             ", [](benchpress::context* ctx) {
     EntityXEventBusTest::ApplicationEventA app;
     auto& entities = app.entities;
     auto& events = app.events;
@@ -448,7 +448,7 @@ BENCHMARK("        entityx-eventbus listen to EventA publish EventA", [](benchpr
     }
 })
 
-BENCHMARK("        entityx-eventbus listen to EventA publish EventA and EventB", [](benchpress::context* ctx) {
+BENCHMARK("        entityx eventbus listen to EventA publish EventA and EventB                  ", [](benchpress::context* ctx) {
     EntityXEventBusTest::ApplicationEventA app;
     auto& entities = app.entities;
     auto& events = app.events;
@@ -461,7 +461,7 @@ BENCHMARK("        entityx-eventbus listen to EventA publish EventA and EventB",
     }
 })
 
-BENCHMARK("        entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+BENCHMARK("        entityx eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
     EntityXEventBusTest::Application app;
     auto& entities = app.entities;
     auto& events = app.events;
