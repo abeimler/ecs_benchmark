@@ -160,7 +160,7 @@ public:
 
 // The BENCHMARK macro is a helper for creating benchmark functions and automatically registering them with the
 // registration class.
-#define BENCHMARK(x, f) benchpress::auto_register CONCAT2(register_, __LINE__)((x), (f));
+#define BENCHMARK(x, f) benchpress::auto_register CONCAT2(register_, REGISTER_NAME)((x), (f));
 
 /*
  * This function can be used to keep variables on the stack that would normally be optimised away
@@ -524,7 +524,7 @@ void run_benchmarks(const options& opts) {
             std::string name = result.get_name();
 
             std::string tag;
-            std::regex tag_regex (".*\\[(.*)\\].*");
+            std::regex tag_regex (".*\\[(\\d+)\\].*");
             std::smatch tag_match;
             if (std::regex_match(name, tag_match, tag_regex)) {
                 if(tag_match.size() > 1){

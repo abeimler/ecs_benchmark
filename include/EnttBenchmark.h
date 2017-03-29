@@ -127,7 +127,9 @@ class EnttBenchmark {
 
     class Application {
         public:
-        Application() {
+        Application()
+            : entities_() 
+        {
             this->systems_.emplace_back(std::make_unique<MovementSystem>());
             this->systems_.emplace_back(std::make_unique<ComflabSystem>());
             #ifdef USE_MORECOMPLEX_SYSTEM

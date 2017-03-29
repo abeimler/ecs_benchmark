@@ -22,8 +22,13 @@ printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*entityx2.
 printf "\n"
 printf "\n"
 
-printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*entityx1.*create.* --bench .*entityx2.*create.* \n"
-/usr/bin/time -f "$format" ../build/ecs_benchmark --bench ".*entityx1.*create.*" --bench ".*entityx2.*create.*"
+printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*entt.*update.* \n"
+/usr/bin/time -f "$format" ../build/ecs_benchmark --bench ".*entt.*update.*"
+printf "\n"
+printf "\n"
+
+printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*entityx1.*create.* --bench .*entityx2.*create.* --bench .*entt.*create.* \n"
+/usr/bin/time -f "$format" ../build/ecs_benchmark --bench ".*entityx1.*create.*" --bench ".*entityx2.*create.*" --bench ".*entt.*create.*"
 printf "\n"
 printf "\n"
 
@@ -46,10 +51,13 @@ printf "\n"
 #printf "\n"
 
 
-printf "$ ../build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*anax.*update.* --plotdata > data-systems-update.txt \n"
-../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*update.*" --plotdata > data-systems-update.txt
+printf "$ ../build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*anax.*update.* --bench .*entt.*update.* --plotdata > data-systems-update.txt \n"
+../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*update.*" --bench ".*entt.*update.*" --plotdata > data-systems-update.dat
 printf "\n"
 
 printf "$ ../build/ecs_benchmark --bench .*entityx-eventbus.* --bench .*eventpp-eventbus.* --plotdata > data-eventbus.txt \n"
-../build/ecs_benchmark --bench ".*entityx-eventbus.*" --bench ".*eventpp-eventbus.*" --plotdata > data-eventbus.txt
+../build/ecs_benchmark --bench ".*entityx-eventbus.*" --bench ".*eventpp-eventbus.*" --plotdata > data-eventbus.dat
 printf "\n"
+
+gnuplot ./data-systems-update.plt
+gnuplot ./data-eventbus.plt

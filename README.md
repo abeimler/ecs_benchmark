@@ -191,75 +191,9 @@ Benchmark Code (1 iteration):
 ```
 
 
-## Benchmark #1 (Old)
-
-I run the benchmarks with `/usr/bin/time` for more measurement.
 
 
-### Environment
-
- - OS: Linux Ubuntu 16.04 LTS 64-Bit Version
- - CPU: Intel® Core™ i7-3770K CPU @ 3.50GHz × 4 
- - RAM: 8 GB
-
-
-
-### Run Benchmark
-
-```bash
-$ /usr/bin/time ./build/ecs_benchmark --bench entityx.*
-$ /usr/bin/time ./build/ecs_benchmark --bench anax.*
-$ /usr/bin/time ./build/ecs_benchmark --bench artemis.*
-```
-
-### Details
-
-See [BenchmarkResultDetails]() for detail Details. 
-
-##### Summery
-
-##### create Entity
-
-|                            | EntityX2  | EntityX | Anax | Artemis |
-|----------------------------|----------:|--------:|-----:|--------:|
-| Time per Operation (ns/op) | **11**    | 158     | 581  | 27560   |
-
-
-
-##### update Systems
-
-```bash
-## ECS Benchmark
-# xlabel 'Entities'
-# ylabel 'Time per Operation (ns/op)'
-                 
-#  Entities   EntityX2    EntityX             Anax        Artemis    
-         25        253       1355              407           1850
-         50        512       2709              719           3739
-        100       1013       5354             1351           7171
-        200       2028      10705             2772          15105
-        400       4032      21538             5515          30838
-        800       8045      42644            12663          57808
-       1600      16295      85357            28900         118610
-       3200      32925     176464            65675         238977
-       5000      52012     267848            98019         370044
-      10000     103898     549676           207962         766931
-      30000     312005    1716154          1404356        2637299
-     100000    1138549    5555625          7378245     1771098554
-     500000    6822237   28519338         41724988    43347850038
-    1000000   13581160   59526020        114361612   178245581448
-    2000000   27446855  126546487        304180312   751284287440
-```
-
-
-### Result
-
-![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/old/result_summery.png)
-
-
-
-
-## Benchmark #2
+## Benchmark
 
 ### Environment
 
@@ -269,8 +203,7 @@ See [BenchmarkResultDetails]() for detail Details.
 
 ### Results
 
-![Eventbus Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/eventbus-result.png)
-![ECS Systems Update Benchmark #1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result.png)
+TODO
 
 
 

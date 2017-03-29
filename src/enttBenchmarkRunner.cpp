@@ -12,15 +12,15 @@
 
 inline void init_entities(EnttBenchmark::EntityManager& registry, size_t nentities){
     for (size_t i = 0; i < nentities; i++) {
-	auto entity = registry.create();
+        auto entity = registry.create();
 
-	registry.assign<EnttBenchmark::PositionComponent>(entity);
-	registry.assign<EnttBenchmark::DirectionComponent>(entity);
+        registry.assign<EnttBenchmark::PositionComponent>(entity);
+        registry.assign<EnttBenchmark::DirectionComponent>(entity);
 
 
-	if (i % 2) {
-		registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
-	}
+        if (i % 2) {
+            registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
+        }
     }
 }
 
@@ -43,13 +43,15 @@ BENCHMARK("entt create destroy entity with components", [](benchpress::context* 
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
         auto entity = registry.create();
 
-	registry.assign<EnttBenchmark::PositionComponent>(entity);
-	registry.assign<EnttBenchmark::DirectionComponent>(entity);
-	registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
+        registry.assign<EnttBenchmark::PositionComponent>(entity);
+        registry.assign<EnttBenchmark::DirectionComponent>(entity);
+        registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
 
         registry.destroy(entity);
     }
 })
+
+
 
 class BenchmarksEntt {
     public:

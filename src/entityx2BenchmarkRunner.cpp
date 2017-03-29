@@ -36,7 +36,6 @@ inline void runEntitiesSystemsEntityX2Benchmark(benchpress::context* ctx, size_t
 }
 
 
-
 BENCHMARK("entityx2 create destroy entity with components", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
