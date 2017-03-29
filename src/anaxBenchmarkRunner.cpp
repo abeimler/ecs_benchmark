@@ -75,9 +75,9 @@ class AnaxBenchmarks {
             std::string tag = "[" + std::to_string(nentities) + "]";
 
             std::stringstream ss;
-            ss << std::right << std::setw(10) << tag << ' ';
-            ss << name << ' ';
-            ss << std::right << std::setw(8) << nentities;
+            ss << std::right << std::setw(12) << tag << ' ';
+            ss << std::left << std::setw(8) << name << ' ';
+            ss << std::right << std::setw(12) << nentities;
             ss << " entities component systems update";
 
             std::string benchmark_name = ss.str();
@@ -106,115 +106,3 @@ AnaxBenchmarks anaxbenchmarks ("anax");
 
 
 
-
-
-/*
-BENCHMARK("anax    25 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 25);
-})
-
-BENCHMARK("anax    50 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 50);
-})
-
-BENCHMARK("anax   100 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 100);
-})
-
-
-
-
-
-
-
-
-
-BENCHMARK("anax   200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 200);
-})
-
-
-
-BENCHMARK("anax   400 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 400);
-})
-
-
-BENCHMARK("anax   800 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 800);
-})
-
-
-
-
-
-
-
-
-
-
-BENCHMARK("anax  1600 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 1600);
-})
-
-
-
-
-
-
-BENCHMARK("anax  3200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 3200);
-})
-
-
-
-
-
-
-
-
-
-
-BENCHMARK("anax  5000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 5000);
-})
-
-
-
-
-
-
-
-
-
-
-BENCHMARK("anax 10000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 10'000);
-})
-
-BENCHMARK("anax 30000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 30'000);
-})
-
-
-BENCHMARK("anax 100000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 100'000L);
-})
-
-
-
-
-BENCHMARK("anax 500000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 500'000L);
-})
-
-BENCHMARK("anax 1M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 1'000'000L);
-})
-
-
-
-BENCHMARK("anax 2M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsAnaxBenchmark(ctx, 2'000'000L);
-})
-*/

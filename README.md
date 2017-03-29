@@ -53,7 +53,7 @@ Version: 1.x (2014)
 
 
 
-## Compiling
+## <a name="build"></a> Build
 
 ### CMake
 
@@ -61,9 +61,8 @@ I used CMake 3.2 for the build.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. ``cmake -H. -B./build -C./build/CMakeTools/InitializeCache.cmake -DCMAKE_BUILD_TYPE=Release``
- 4. `cd ./build`
- 5. `make ecs_benchmark`
+ 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="2097152" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0"`
+ 4. `cmake --build ./build --target ecs_benchmark`
 
 
 ### C++ Compiler
@@ -98,8 +97,8 @@ benchpress and entityx (compile-time) are header-only.
 | ENTITYX_DT_TYPE                 | double  |
 | ENTITYX_MAX_COMPONENTS          | 64      |
 
- - Test and Examples are not build
- - Linked Libraries are static builds
+ - Test and Examples are not build (`-DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0"`)
+ - Linked Libraries are static builds (`-DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`)
 
 
 
@@ -129,7 +128,7 @@ Benchmarks:
 #### 2 Systems
  - MovementSystem
 ```cpp
-		void update(){
+		void update() {
 			position.x += direction.x * dt;
 			position.y += direction.y * dt;
 		}
@@ -137,7 +136,7 @@ Benchmarks:
 
  - ComflabSystem
 ```cpp
-		void update(){
+		void update() {
 			comflab.thingy *= 1.000001f;
 			comflab.mingy = !comflab.mingy;
 			comflab.dingy++;
@@ -192,7 +191,7 @@ Benchmark Code (1 iteration):
 ```
 
 
-## Benchmark
+## Benchmark #1 (Old)
 
 I run the benchmarks with `/usr/bin/time` for more measurement.
 
@@ -213,15 +212,13 @@ $ /usr/bin/time ./build/ecs_benchmark --bench anax.*
 $ /usr/bin/time ./build/ecs_benchmark --bench artemis.*
 ```
 
-#### Result
+### Details
 
 See [BenchmarkResultDetails]() for detail Details. 
 
-
 ##### Summery
 
-
-###### create Entity
+##### create Entity
 
 |                            | EntityX2  | EntityX | Anax | Artemis |
 |----------------------------|----------:|--------:|-----:|--------:|
@@ -229,7 +226,7 @@ See [BenchmarkResultDetails]() for detail Details.
 
 
 
-###### update Systems
+##### update Systems
 
 ```bash
 ## ECS Benchmark
@@ -255,14 +252,54 @@ See [BenchmarkResultDetails]() for detail Details.
 ```
 
 
+### Result
+
+![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/old/result_summery.png)
 
 
 
 
+## Benchmark #2
 
-### Update Systems Benchmark 
+### Environment
 
-![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/result_summery.png)
+ - OS: Antergos Linux (4.10.4-1-ARCH) 64-Bit
+ - CPU: 4x Intel® Core™ i5 CPU 760 @ 2.80GHz
+ - RAM: 8 GB
+
+### Results
+
+![Eventbus Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/eventbus-result.png)
+![ECS Systems Update Benchmark #1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result.png)
+
+
+
+
+## Make your own Results
+
+ 1. Build this Project, see [Build](#build)
+ 2. Goto the `scripts/`-folder
+	2.5 run `./run_benchmark.sh` to print kind of stuff _Note: artemis is disabled, it takes to long, but you can uncomment it_
+ 3. OR just run the direct benchmark with plotdata,
+    `../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*update.*" --plotdata > data.txt`
+	Now you got the `data.txt`
+ 4. use `data.txt` and with the `gnuplot`-plot-script to plot the graph with `gnuplot`, _or use this site http://gnuplot.respawned.com/_
+
+
+### edit gnuplot
+
+```gnuplot
+## 1:1 are Headers
+plot  "data.txt" using 1:2 title 'EntityX2' with lines,  \  # 1. Col of Results
+	"data.txt" using 1:3 title 'EntityX' with lines, \		# 2. Col of Results
+	"data.txt" using 1:4 title 'Anax' with lines, \			# 3. Col of Results
+	"data.txt" using 1:5 title 'Artemis' with lines, \		# 4. Col of Results
+	"data.txt" using 1:6 title 'NewFramework' with lines	# 5. Col of Results
+```
+
+You can edit the `gnuplot`-script to add new cols.
+
+
 
 
 

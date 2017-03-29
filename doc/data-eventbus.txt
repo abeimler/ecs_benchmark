@@ -1,0 +1,26 @@
+## [   10] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000              6697 ns/op
+## [   50] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000             33538 ns/op
+## [  100] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000             66457 ns/op
+## [  300] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       10000            199079 ns/op
+## [ 1000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            662501 ns/op
+## [ 5000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3322704 ns/op             3 ms/op
+## [10000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           6644909 ns/op             6 ms/op
+## [   10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000              7509 ns/op
+## [   50] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000             37314 ns/op
+## [  100] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000             74680 ns/op
+## [  300] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            224943 ns/op
+## [ 1000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            753003 ns/op
+## [ 5000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3741233 ns/op             3 ms/op
+## [10000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           7550953 ns/op             7 ms/op
+
+# plot data
+#                    entityx-eventbus        eventpp-eventbus
+            10                    6697                    7509
+            50                   33538                   37314
+           100                   66457                   74680
+           300                  199079                  224943
+          1000                  662501                  753003
+          5000                 3322704                 3741233
+         10000                 6644909                 7550953
+
+## ../build/ecs_benchmark 40.358s

@@ -14,17 +14,17 @@ class EntityXBenchmark {
     public:
 
     struct PositionComponent {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct DirectionComponent {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct ComflabulationComponent {
-        float thingy = 0.0;
+        double thingy = 0.0;
         int dingy = 0;
         bool mingy = false;
         std::string stringy;

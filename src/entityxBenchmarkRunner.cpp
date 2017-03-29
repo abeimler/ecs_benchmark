@@ -37,7 +37,11 @@ inline void runEntitiesSystemsEntityXBenchmark(benchpress::context* ctx, size_t 
 
 
 
-BENCHMARK("entityx create destroy entity with components", [](benchpress::context* ctx) {
+
+
+
+
+BENCHMARK("entityx1 create destroy entity with components", [](benchpress::context* ctx) {
     entityx::EntityX app;
     auto& entities = app.entities;
 
@@ -70,9 +74,9 @@ class BenchmarksEntityX {
             std::string tag = "[" + std::to_string(nentities) + "]";
 
             std::stringstream ss;
-            ss << std::right << std::setw(10) << tag << ' ';
-            ss << name << ' ';
-            ss << std::right << std::setw(8) << nentities;
+            ss << std::right << std::setw(12) << tag << ' ';
+            ss << std::left << std::setw(8) << name << ' ';
+            ss << std::right << std::setw(12) << nentities;
             ss << " entities component systems update";
 
             std::string benchmark_name = ss.str();
@@ -95,79 +99,5 @@ const std::vector<int> BenchmarksEntityX::ENTITIES = {
     1'000'000, 2'000'000
 };
 
-BenchmarksEntityX entityxbenchmarks ("entityx");
+BenchmarksEntityX entityxbenchmarks ("entityx1");
 
-
-
-
-
-/*
-BENCHMARK("[25]     entityx      25 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 25);
-})
-
-BENCHMARK("[50]     entityx      50 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 50);
-})
-
-BENCHMARK("[100]    entityx     100 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 100);
-})
-
-BENCHMARK("[200]    entityx     200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 200);
-})
-
-
-BENCHMARK("[400]    entityx     400 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 400);
-})
-
-
-BENCHMARK("[800]    entityx     800 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 800);
-})
-
-
-BENCHMARK("[1600]    entityx   1600 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 1600);
-})
-
-
-
-BENCHMARK("[3200]    entityx   3200 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 3200);
-})
-
-
-BENCHMARK("[5000]    entityx   5000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 5000);
-})
-
-
-BENCHMARK("[10000]   entityx  10000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 10'000);
-})
-
-BENCHMARK("[30000]   entityx  30000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 30'000);
-})
-
-
-BENCHMARK("[100000]  entityx 100000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 100'000L);
-})
-
-
-BENCHMARK("[500000]  entityx 500000 entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 500'000L);
-})
-
-BENCHMARK("[1000000] entityx     1M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 1'000'000L);
-})
-
-BENCHMARK("[2000000] entityx     2M entities component systems update", [](benchpress::context* ctx) {
-    runEntitiesSystemsEntityXBenchmark(ctx, 2'000'000L);
-})
-*/
