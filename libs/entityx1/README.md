@@ -1,4 +1,5 @@
-# EntityX - A fast, type-safe C++ Entity Component System [![Build Status](https://travis-ci.org/alecthomas/entityx.png)](https://travis-ci.org/alecthomas/entityx) [![Build status](https://ci.appveyor.com/api/projects/status/qc8s0pqb5ci092iv/branch/master)](https://ci.appveyor.com/project/alecthomas/entityx/branch/master)
+# EntityX - A fast, type-safe C++ Entity Component System
+[![Build Status](https://travis-ci.org/alecthomas/entityx.png)](https://travis-ci.org/alecthomas/entityx) [![Build status](https://ci.appveyor.com/api/projects/status/qc8s0pqb5ci092iv/branch/master)](https://ci.appveyor.com/project/alecthomas/entityx/branch/master) [![Gitter chat](https://badges.gitter.im/alecthomas.png)](https://gitter.im/alecthomas/Lobby)
 
 
 ***NOTE: The current stable release 1.0.0 breaks backwards compataibility with < 1.0.0. See the [change log](CHANGES.md) for details.***
@@ -21,9 +22,13 @@ See [below](#installation) for installation instructions.
 
 ## Contact
 
-EntityX now has a mailing list! Send a mail to [entityx@librelist.com](mailto:entityx@librelist.com) to subscribe. Instructions will follow.
+Feel free to jump on my [Gitter channel](https://gitter.im/alecthomas/Lobby) if you have any questions/comments. This is a single channel for all of my projects, so please mention you're asking about EntityX to avoid (my) confusion.
 
 You can also contact me directly via [email](mailto:alec@swapoff.org) or [Twitter](https://twitter.com/alecthomas).
+
+## Benchmarks / Comparisons
+
+EntityX includes its own benchmarks, but @abeimler has created [a benchmark suite](https://github.com/abeimler/ecs_benchmark/blob/master/doc/BenchmarkResultDetails2.md) testing up to 2M entities in EntityX, the EntityX compile-time branch, Anax, and Artemis C++.
 
 ## Recent Notable Changes
 
