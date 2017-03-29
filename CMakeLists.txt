@@ -2,8 +2,6 @@ cmake_minimum_required (VERSION 3.2 FATAL_ERROR)
 project (ecs_benchmark VERSION 1.2.1 LANGUAGES CXX)
 
 
-
-
 ###
 ## Setup Compiler
 ###
@@ -180,6 +178,7 @@ add_subdirectory(${LIB_PATH}/Artemis-Cpp)
 add_subdirectory(${LIB_PATH}/benchpress)
 
 add_subdirectory(${LIB_PATH}/eventpp)
+add_subdirectory(${LIB_PATH}/entt)
 
 
 ###
@@ -204,6 +203,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/anax/inclu
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/Artemis-Cpp/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/benchpress/src)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/eventpp/src)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entt/src)
 
 
 target_link_libraries (${PROJECT_NAME} PRIVATE entityx)
