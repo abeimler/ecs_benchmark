@@ -11,17 +11,18 @@ printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entityx2.*
 /usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*entityx2.*"
 printf "\n"
 
-
 printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*anax.* \n"
 /usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*anax.*"
 printf "\n"
-
 
 printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*artemis.* \n"
 /usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*artemis.*"
 printf "\n"
 
+printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entt.* \n"
+/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*entt.*"
+printf "\n"
 
-printf "$ ./build/ecs_benchmark --bench .*entityx\\s+.* --bench .*entityx2.* --bench .*anax.* --bench .*artemis.* --plotdata \n"
-./build/ecs_benchmark --bench ".*entityx\\s+.*" --bench ".*entityx2.*" --bench ".*anax.*" --bench ".*artemis.*" --plotdata
+printf "$ ./build/ecs_benchmark --bench .*en2t.* --bench .*entityx\\s+.* --bench .*entityx2.* --bench .*anax.* --bench .*artemis.* --plotdata \n"
+./build/ecs_benchmark --bench ".*en2t.*" --bench ".*entityx\\s+.*" --bench ".*entityx2.*" --bench ".*anax.*" --bench ".*artemis.*" --plotdata
 printf "\n"
