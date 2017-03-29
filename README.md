@@ -267,9 +267,8 @@ See [BenchmarkResultDetails]() for detail Details.
 
 ### Results
 
-![Eventbus Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus-result.svg)
-![ECS Systems Update Benchmark #1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result.svg)
-![ECS Systems Update Benchmark #2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/artemis-systems-update-result.svg)
+![Eventbus Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus-result.png)
+![ECS Systems Update Benchmark #1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result.png)
 
 
 
