@@ -194,7 +194,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_constexpr
                                                 cxx_range_for 
                                                 cxx_decltype_auto 
                                                 cxx_nullptr
-						                        cxx_lambdas)
+						                                    cxx_lambdas)
 
 # use SYSTEM to get rid of warnings in 3rd librarys
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entityx1)
