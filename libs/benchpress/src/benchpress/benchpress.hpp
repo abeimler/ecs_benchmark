@@ -162,6 +162,10 @@ public:
 // registration class.
 #define BENCHMARK(x, f) benchpress::auto_register CONCAT2(register_, REGISTER_NAME)((x), (f));
 
+
+// This macro will prevent the compiler from removing a redundant code path which has no side-effects.
+#define DISABLE_REDUNDANT_CODE_OPT() { asm(""); }
+
 /*
  * This function can be used to keep variables on the stack that would normally be optimised away
  * by the compiler, without introducing any additional instructions or changing the behaviour of
@@ -524,7 +528,7 @@ void run_benchmarks(const options& opts) {
             std::string name = result.get_name();
 
             std::string tag;
-            std::regex tag_regex (".*\\[(\\d+)\\].*");
+            std::regex tag_regex (".*\\[\\s*(\\d+)\\s*\\].*");
             std::smatch tag_match;
             if (std::regex_match(name, tag_match, tag_regex)) {
                 if(tag_match.size() > 1){

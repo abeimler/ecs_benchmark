@@ -36,7 +36,7 @@ class EntityX2Benchmark {
         PositionComponent, DirectionComponent, ComflabulationComponent
     >;
 
-    static constexpr size_t INITIAL_CAPACITY = 2097152L; // bignumber to avoid alloc error, benchmark a lot of enteties
+    static constexpr size_t INITIAL_CAPACITY = 2097152L; // bignumber to avoid alloc error, benchmark a lot of entities
     using EntityManager = entityx::EntityX<GameComponents, entityx::ColumnStorage<GameComponents, INITIAL_CAPACITY>>;
 
     template <typename C>
@@ -96,7 +96,7 @@ class EntityX2Benchmark {
     #ifdef USE_MORECOMPLEX_SYSTEM
     class MoreComplexSystem : public System {
         private:
-        int random(int min, int max){
+        static int random(int min, int max){
             // Seed with a real random value, if available
             static std::random_device r;
         

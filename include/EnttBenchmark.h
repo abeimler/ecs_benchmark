@@ -32,6 +32,11 @@ class EnttBenchmark {
 
     using EntityManager = entt::DefaultRegistry<PositionComponent, DirectionComponent, ComflabulationComponent>;
 
+    //template <typename C>
+    //using Component = C;
+
+    using Entity = EntityManager::entity_type;
+
     typedef double TimeDelta;
 
     class System {
@@ -80,7 +85,7 @@ class EnttBenchmark {
     #ifdef USE_MORECOMPLEX_SYSTEM
     class MoreComplexSystem : public System {
         private:
-        int random(int min, int max){
+        static int random(int min, int max){
             // Seed with a real random value, if available
             static std::random_device r;
 
@@ -127,9 +132,7 @@ class EnttBenchmark {
 
     class Application {
         public:
-        Application()
-            : entities_() 
-        {
+        Application() {
             this->systems_.emplace_back(std::make_unique<MovementSystem>());
             this->systems_.emplace_back(std::make_unique<ComflabSystem>());
             #ifdef USE_MORECOMPLEX_SYSTEM

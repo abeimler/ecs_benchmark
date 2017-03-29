@@ -33,7 +33,7 @@ class EntityXBenchmark {
 
     // Convenience types for our entity system.
     using Entity = entityx::Entity;
-    using EntityManager = entityx::EventManager;
+    using EntityManager = entityx::EntityManager;
     using EventManager = entityx::EventManager;
 
     template <typename C>
@@ -81,7 +81,7 @@ class EntityXBenchmark {
     #ifdef USE_MORECOMPLEX_SYSTEM
     class MoreComplexSystem : public System<MoreComplexSystem> {
         private:
-        int random(int min, int max){
+        static int random(int min, int max){
             // Seed with a real random value, if available
             static std::random_device r;
         
