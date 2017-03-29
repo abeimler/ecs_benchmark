@@ -252,7 +252,7 @@ See [BenchmarkResultDetails]() for detail Details.
 
 ### Result
 
-![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/old/result_summery.png)
+![ECS Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/old/result_summery.png)
 
 
 
@@ -267,8 +267,8 @@ See [BenchmarkResultDetails]() for detail Details.
 
 ### Results
 
-![Eventbus Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus-result.png)
-![ECS Systems Update Benchmark #1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result.png)
+![Eventbus Benchmark](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/eventbus-result.png)
+![ECS Systems Update Benchmark #1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result.png)
 
 
 
