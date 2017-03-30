@@ -67,16 +67,18 @@ printf "$ /usr/bin/time -f '$pformat' ../build/ecs_benchmark --bench .*entityx1.
 printf "\n"
 printf "\n"
 
-### disable artemis, it takes to long
-printf "$ ../build/ecs_benchmark --bench .*anax.*update.* --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --bench .*artemis.*update.* --plotdata > data-systems-update.txt \n"
-../build/ecs_benchmark --bench ".*anax.*update.*" --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --bench ".*artemis.*update.*" --plotdata > data-systems-update.dat
-printf "\n"
 
 
 
 ## run EntityX1, EntityX2 and EnTT systems update benchmarks, write gnuplot data
 printf "$ ../build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --plotdata > data-systems-update.dat \n"
 ../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --plotdata > data-systems-update.dat
+printf "\n"
+
+### disable artemis, it takes to long
+## run EntityX1, EntityX2 and EnTT systems update benchmarks, write gnuplot data
+printf "$ ../build/ecs_benchmark --bench .*anax.*update.* --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --bench .*artemis.*update.* --plotdata > data-systems-update-2.dat \n"
+../build/ecs_benchmark --bench ".*anax.*update.*" --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --bench ".*artemis.*update.*" --plotdata > data-systems-update-2.dat
 printf "\n"
 
 ## run EntityX1 and Eventpp eventbus benchmarks, write gnuplot data
@@ -86,4 +88,5 @@ printf "\n"
 
 ## plot benchmark data
 gnuplot ./data-systems-update.plt
+gnuplot ./data-systems-update-2.plt
 gnuplot ./data-eventbus.plt
