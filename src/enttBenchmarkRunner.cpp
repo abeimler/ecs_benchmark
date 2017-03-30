@@ -185,12 +185,13 @@ class BenchmarksEntt {
     }
 };
 const std::vector<int> BenchmarksEntt::ENTITIES = {
-    25, 50,
+    10, 25, 50,
     100, 200, 400, 800,
     1600, 3200, 5000,
     10'000, 30'000,
     100'000, 500'000,
-    1'000'000, 2'000'000
+    1'000'000, 2'000'000, 5'000'000,
+    10'000'000
 };
 
 BenchmarksEntt enttbenchmarks("entt");

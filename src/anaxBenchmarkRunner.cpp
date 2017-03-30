@@ -88,7 +88,7 @@ class AnaxBenchmarks {
     }
 };
 const std::vector<int> AnaxBenchmarks::ENTITIES = {
-    25, 50, 
+    10, 25, 50, 
     100, 200, 400, 800, 
     1600, 3200, 5000, 
     10'000, 30'000, 

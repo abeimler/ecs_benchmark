@@ -1,9 +1,21 @@
 # Entity-Component-Systems Benchmark
 
 Simple Benchmark of common Entity-Component-Systems: 
-[entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp)
+[EnTT](https://github.com/skypjack/entt) vs. [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp)
 
 ## Candidates
+
+### EnTT by @skypjack
+
+> EnTT is a header-only, tiny and easy to use entity-component system in modern C++.
+> ECS is an architectural pattern used mostly in game development.
+> I started using another well known Entity Component System named entityx.
+> 
+> While I was playing with it, I found that I didn't like that much the way it manages its memory. Moreover, I was pretty sure that one > could achieve better performance with a slightly modified pool under the hood.
+> That's also the reason for which the interface is quite similar to the one of entityx, so that EnTT can be used as a drop-in > replacement for it with a minimal effort.
+
+Version: 1.0.0
+
 
 ### EntityX by @alecthomas
 
@@ -36,7 +48,7 @@ Version: 1.x (2012)
 
 
 
-## Benchmark-Framework: [benchpress](https://github.com/blockchaindev/benchpress)
+## Benchmark-Framework: [benchpress](https://github.com/sbs-ableton/benchpress)
 
 > Why benchpress?
 > 
@@ -49,7 +61,8 @@ It's simple, light and header-only.
 Version: 1.x (2014)
 
 
-
+I fork this project (add some utils and helper) to plot data for gnuplot.
+[https://github.com/abeimler/benchpress]()
 
 
 
@@ -82,7 +95,7 @@ I used g++ 6.4.0, clang++ 3.8 should work, too.
  - anax
  - ArtemisCpp
 
-benchpress and entityx (compile-time) are header-only.
+benchpress, entityx (compile-time) and entt are header-only.
 
 
 #### CMake Configure
@@ -128,19 +141,19 @@ Benchmarks:
 #### 2 Systems
  - MovementSystem
 ```cpp
-		void update() {
-			position.x += direction.x * dt;
-			position.y += direction.y * dt;
-		}
+void update() {
+	position.x += direction.x * dt;
+	position.y += direction.y * dt;
+}
 ```
 
  - ComflabSystem
 ```cpp
-		void update() {
-			comflab.thingy *= 1.000001f;
-			comflab.mingy = !comflab.mingy;
-			comflab.dingy++;
-		}
+void update() {
+	comflab.thingy *= 1.000001f;
+	comflab.mingy = !comflab.mingy;
+	comflab.dingy++;
+}
 ```
 
 
@@ -165,29 +178,30 @@ Run the "update system"-benchmark with different number of entities.
  - 25, 50, 100, 200, 400, 800
  - 1600, 3200, 5000
  - 10000, 30000, 100000, 500000
- - 1000000 (1M), 2000000 (2M)
+ - 1000000 (1M), 2000000 (2M), 5000000 (5M)
+ - 10000000 (10M) _in some cases, if possible_
 
 
 Setup Benchmark:
 ```cpp
-    // create application/world with systems
+// create application/world with systems
 
-    // create entities
-    for (size_t i = 0; i < nentities; i++) {
-		auto entity = entitymanager.create();
+// create entities
+for (size_t i = 0; i < nentities; i++) {
+	auto entity = entitymanager.create();
 
-		entity.addComponent<PositionComponent>();
-		entity.addComponent<DirectionComponent>();
+	entity.addComponent<PositionComponent>();
+	entity.addComponent<DirectionComponent>();
 
-		if (i % 2) {
-			entity.addComponent<ComflabulationComponent>();
-		}
+	if (i % 2) {
+		entity.addComponent<ComflabulationComponent>();
 	}
+}
 ```
 
 Benchmark Code (1 iteration):
 ```cpp
-    world.update(fakeDeltaTime);
+world.update(fakeDeltaTime);
 ```
 
 
@@ -203,6 +217,17 @@ Benchmark Code (1 iteration):
 
 ### Results
 
+#### Create, Destroying and Iterating over 10M entities
+
+| Benchmark | EntityX (master) | EntityX (experimental/compile_time) | EnTT |
+|-----------|-------------|-------------|-------------|
+| Creating 10M entities | 0.22s | 0.13s | **0.04s** |
+| Destroying 10M entities | 0.43s | 0.16s | **0.09s** |
+| Iterating over 10M entities, unpacking one component | 0.22s | 0.06s | **0.01s** |
+| Iterating over 10M entities, unpacking two components | 0.35s | 0.08s | **0.07s** |
+
+#### Systems update
+
 TODO
 
 
@@ -212,22 +237,20 @@ TODO
 
  1. Build this Project, see [Build](#build)
  2. Goto the `scripts/`-folder
- 	1. run `./run_benchmark.sh` to print kind of stuff- _Note: artemis is disabled, it takes to long, but you can uncomment it_
+ 	1. run `./run_benchmark.sh` to print all kind of stuff- _Note: artemis is disabled, it takes to long, but you can uncomment it_
  3. OR just run the direct benchmark with plotdata,
-    `../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*anax.*update.*" --plotdata > data.txt`
-	Now you got the `data.txt`
- 4. use `data.txt` and with the `gnuplot`-plot-script to plot the graph with `gnuplot`, _or use this site http://gnuplot.respawned.com/_
+    `../build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*entt.*update.*" --plotdata > data.dat`
+	Now you got the `data.dat`
+ 4. `gnuplot` and the [gnuplot-script](scripts/data-systems-update.plt) to print plot, _or use this site [http://gnuplot.respawned.com/]()_
 
 
-### edit gnuplot
+### edit gnuplot (data-systems-update.plt)
 
 ```gnuplot
 ## 1:1 are Headers
-plot  "data.txt" using 1:2 title 'EntityX2' with lines,  \  # 1. Col of Results
-	"data.txt" using 1:3 title 'EntityX' with lines, \		# 2. Col of Results
-	"data.txt" using 1:4 title 'Anax' with lines, \			# 3. Col of Results
-	"data.txt" using 1:5 title 'Artemis' with lines, \		# 4. Col of Results
-	"data.txt" using 1:6 title 'NewFramework' with lines	# 5. Col of Results
+plot  "data.dat" using 1:2 title 'EntityX1' with lines, \  # 1. Col
+	"data.dat" using 1:3 title 'EntityX2' with lines, \    # 2. Col
+	"data.dat" using 1:4 title 'EnTT' with lines           # 3. Col
 ```
 
 You can edit the `gnuplot`-script to add new cols.
@@ -239,10 +262,11 @@ You can edit the `gnuplot`-script to add new cols.
 
 ## Links
 
- - https://github.com/blockchaindev/benchpress/blob/master/docs/getting_started.md
- - https://github.com/miguelmartin75/anax/wiki/Using-the-Library
+ - [https://github.com/blockchaindev/benchpress/blob/master/docs/getting_started.md]()
+ - [https://github.com/miguelmartin75/anax/wiki/Using-the-Library]()
 
-Reference:
 
-http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/
-https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest
+#### Reference:
+
+ -  [http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/]()
+ - [https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest]()

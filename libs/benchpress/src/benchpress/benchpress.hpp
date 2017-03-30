@@ -550,9 +550,9 @@ void run_benchmarks(const options& opts) {
                 sort_ylabel_ss << std::setw(24) << std::setfill(' ') << std::right << ylabel;
                 std::string sort_ylabel = sort_ylabel_ss.str();
 
-                results_map[sort_xlabel][sort_ylabel] = result_str;
+                results_map[sort_xlabel][sort_ylabel] = (!result_str.empty())? result_str : "?"s;
             } else {
-                results_map[xlabel][ylabel] = "";
+                results_map[xlabel][ylabel] = "?";
             }
         }
 
