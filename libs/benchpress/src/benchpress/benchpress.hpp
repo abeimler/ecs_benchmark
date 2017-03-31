@@ -36,6 +36,7 @@
 #include <memory>      // unique_ptr, make_unique
 #include <map>         
 #include <unordered_map>
+#include <set>
 
 namespace benchpress {
 
@@ -160,7 +161,11 @@ public:
 
 // The BENCHMARK macro is a helper for creating benchmark functions and automatically registering them with the
 // registration class.
-#define BENCHMARK(x, f) benchpress::auto_register CONCAT2(register_, __LINE__)((x), (f));
+#define BENCHMARK(x, f) benchpress::auto_register CONCAT2(register_, REGISTER_NAME)((x), (f));
+
+
+// This macro will prevent the compiler from removing a redundant code path which has no side-effects.
+#define DISABLE_REDUNDANT_CODE_OPT() { asm(""); }
 
 /*
  * This function can be used to keep variables on the stack that would normally be optimised away
@@ -249,8 +254,8 @@ class result {
     size_t                   d_num_bytes;
 
     std::string             d_name; 
-    std::string             d_xlabel;
-    std::string             d_ylabel;
+    std::string             d_col;
+    std::string             d_row;
 
 public:
     result(size_t num_iterations, std::chrono::nanoseconds duration, size_t num_bytes)
@@ -264,15 +269,16 @@ public:
     }
     std::string get_name() const { return d_name; }
 
-    void set_xlabel(std::string xlabel) {
-        d_xlabel = xlabel;
+    void set_col(std::string col) {
+        d_col = col;
     }
-    std::string get_xlabel() const { return d_xlabel; }
+    std::string get_col() const { return d_col; }
 
-    void set_ylabel(std::string ylabel) {
-        d_ylabel = ylabel;
+    void set_row(std::string row) {
+        d_row = row;
     }
-    std::string get_ylabel() const { return d_ylabel; }
+    std::string get_row() const { return d_row; }
+
 
     size_t get_ns_per_op() const {
         if (d_num_iterations <= 0) {
@@ -494,7 +500,7 @@ void run_benchmarks(const options& opts) {
 
         auto benchmarks = registration::get_ptr()->get_benchmarks();
 
-        std::string prefix = (opts.get_plotdata())? "## "s : ""s;
+        std::string prefix = (opts.get_plotdata())? "## " : "";
 
         for (auto& info : benchmarks) {
             std::string name = info.get_name();
@@ -506,11 +512,23 @@ void run_benchmarks(const options& opts) {
 
                 r.set_name(name);
 
-                std::string ylabel = bench;
-                std_replace(ylabel, ".*", "");
-                std_replace(ylabel, "\\s+", "");
-                std_replace(ylabel, " ", "");
-                r.set_ylabel(ylabel);
+                std::string col = bench;
+                std_replace(col, ".*", "");
+                std_replace(col, "\\s+", "");
+                std_replace(col, " ", "");
+                r.set_col(col);
+
+                std::string tag;
+                std::regex tag_regex (".*\\[\\s*(\\d+)\\s*\\].*");
+                std::smatch tag_match;
+                if (std::regex_match(name, tag_match, tag_regex)) {
+                    if(tag_match.size() > 1){
+                        tag = tag_match[1].str();
+                    }
+                }
+                std::string row = tag;
+                r.set_row(row);
+
                 results.push_back(r);
             }
         }
@@ -519,37 +537,36 @@ void run_benchmarks(const options& opts) {
     if(opts.get_plotdata()) {
         std::cout << '\n';
         std::cout << "# plot data" << '\n';
+
+        const int COL_WIDTH = 16;
+
+        std::set<std::string> headers;
         std::map<std::string, std::map<std::string, std::string>> results_map;
         for(auto& result : results) {
             std::string name = result.get_name();
 
-            std::string tag;
-            std::regex tag_regex (".*\\[(.*)\\].*");
-            std::smatch tag_match;
-            if (std::regex_match(name, tag_match, tag_regex)) {
-                if(tag_match.size() > 1){
-                    tag = tag_match[1].str();
-                }
-            }
-            std::string xlabel = tag;
-
-            std::string ylabel = result.get_ylabel();
+            std::string col = result.get_col();
+            std::string row = result.get_row();
             std::string result_str = std::to_string(result.get_ns_per_op());
+            result_str = (!result_str.empty())? result_str : "?"s;
+            result_str = (!col.empty() && !row.empty())? result_str : "?"s;
 
-            if(!xlabel.empty() && !ylabel.empty()) {
-                std::stringstream sort_xlabel_ss;
-                sort_xlabel_ss << std::setw(14) << std::setfill(' ') << std::right << xlabel;
-                std::string sort_xlabel = sort_xlabel_ss.str();
-                result.set_xlabel(sort_xlabel);
-                
-                std::stringstream sort_ylabel_ss;
-                sort_ylabel_ss << std::setw(24) << std::setfill(' ') << std::right << ylabel;
-                std::string sort_ylabel = sort_ylabel_ss.str();
 
-                results_map[sort_xlabel][sort_ylabel] = result_str;
-            } else {
-                results_map[xlabel][ylabel] = "";
-            }
+            std::stringstream sort_col_ss;
+            sort_col_ss << std::setw(COL_WIDTH) << std::setfill(' ') << std::right << col;
+            std::string sort_col = sort_col_ss.str();
+            
+            std::stringstream sort_row_ss;
+            sort_row_ss << std::setw(COL_WIDTH) << std::setfill(' ') << std::right << row;
+            std::string sort_row = sort_row_ss.str();
+
+            std::stringstream sort_result_ss;
+            sort_result_ss << std::setw(COL_WIDTH) << std::setfill(' ') << std::right << result_str;
+            std::string sort_result = sort_result_ss.str();
+
+
+            headers.insert(sort_col);
+            results_map[sort_row][sort_col] = sort_result;
         }
 
         //std::cout << "#### " << "[Debug] results_map result" << '\n';
@@ -560,19 +577,26 @@ void run_benchmarks(const options& opts) {
         //}
 
         if(!results_map.empty()) {
-            std::cout << "# " << std::setw(11) << std::right << ' ';
-            const auto& x_result = *results_map.begin();
-            for(const auto& y_result : x_result.second) {
-                std::cout << std::setw(24) << std::setfill(' ') << std::right << y_result.first;
+            std::cout << "# " << std::setw(COL_WIDTH) << std::right << std::setfill(' ') << ' ';
+            for(const auto& header : headers) {
+                std::cout << header;
             }
             std::cout << '\n';
 
-            for(const auto& x_result : results_map) {
-                if(!x_result.first.empty()) {
-                    std::cout << x_result.first;
+            for(const auto& row_result : results_map) {
+                const auto& row_left_header = row_result.first;
+                const auto& row = row_result.second;
 
-                    for(const auto& y_result : x_result.second) {
-                        std::cout << std::setw(24) << std::setfill(' ') << y_result.second;
+                if(!row_left_header.empty()) {
+                    std::cout << "  " << row_left_header;
+
+                    for(const auto& header : headers) {
+                        const auto find_row_value = row.find(header);
+                        if(find_row_value != std::end(row)) {
+                            std::cout << find_row_value->second;
+                        } else {
+                            std::cout << std::setw(COL_WIDTH) << std::right << std::setfill(' ') << "?";
+                        }
                     }
 
                     std::cout << '\n';
@@ -593,8 +617,6 @@ void run_benchmarks(const options& opts) {
 #ifdef BENCHPRESS_CONFIG_MAIN
 #include "cxxopts.hpp"
 int main(int argc, char** argv) {
-    using namespace std::string_literals;
-    
     std::chrono::high_resolution_clock::time_point bp_start = std::chrono::high_resolution_clock::now();
     benchpress::options bench_opts;
     try {
@@ -635,12 +657,12 @@ int main(int argc, char** argv) {
             exit(EXIT_SUCCESS);
         }
     } catch (const cxxopts::OptionException& e) {
-        std::string prefix = (bench_opts.get_plotdata())? "## "s : ""s;
+        std::string prefix = (bench_opts.get_plotdata())? "## " : "";
 
         std::cout << prefix << "error parsing options: " << e.what() << '\n';
         exit(1);
     }
-    std::string prefix = (bench_opts.get_plotdata())? "## "s : ""s;
+    std::string prefix = (bench_opts.get_plotdata())? "## " : "";
 
     benchpress::run_benchmarks(bench_opts);
     float duration = std::chrono::duration_cast<std::chrono::milliseconds>(

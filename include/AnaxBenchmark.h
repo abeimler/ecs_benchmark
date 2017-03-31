@@ -106,7 +106,7 @@ class AnaxBenchmark {
     #ifdef USE_MORECOMPLEX_SYSTEM
     class MoreComplexSystem : public anax::System<anax::Requires<PositionComponent, DirectionComponent, ComflabulationComponent>> {
         private:
-        int random(int min, int max){
+        static int random(int min, int max){
             // Seed with a real random value, if available
             static std::random_device r;
         
