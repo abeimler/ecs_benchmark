@@ -2,6 +2,9 @@
 
 date
 uname -a
+printf "\n"
+printf "\n"
+printf "\n"
 
 ## use /usr/bin/time for more measurement
 format="real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"
