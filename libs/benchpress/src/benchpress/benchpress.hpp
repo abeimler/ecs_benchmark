@@ -500,7 +500,7 @@ void run_benchmarks(const options& opts) {
 
         auto benchmarks = registration::get_ptr()->get_benchmarks();
 
-        std::string prefix = (opts.get_plotdata())? "## "s : ""s;
+        std::string prefix = (opts.get_plotdata())? "## " : "";
 
         for (auto& info : benchmarks) {
             std::string name = info.get_name();
@@ -657,12 +657,12 @@ int main(int argc, char** argv) {
             exit(EXIT_SUCCESS);
         }
     } catch (const cxxopts::OptionException& e) {
-        std::string prefix = (bench_opts.get_plotdata())? "## "s : ""s;
+        std::string prefix = (bench_opts.get_plotdata())? "## " : "";
 
         std::cout << prefix << "error parsing options: " << e.what() << '\n';
         exit(1);
     }
-    std::string prefix = (bench_opts.get_plotdata())? "## "s : ""s;
+    std::string prefix = (bench_opts.get_plotdata())? "## " : "";
 
     benchpress::run_benchmarks(bench_opts);
     float duration = std::chrono::duration_cast<std::chrono::milliseconds>(

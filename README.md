@@ -74,7 +74,7 @@ I used CMake 3.2 for the build.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="2097152" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0"`
+ 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="16777216" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0"`
  4. `cmake --build ./build --target ecs_benchmark`
 
 
@@ -100,15 +100,15 @@ benchpress, entityx (compile-time) and entt are header-only.
 
 #### CMake Configure
 
-| Variable                        | Value   |
-|---------------------------------|---------|
-| ANAX_32_BIT_ENTITY_IDS          | OFF     |
-| ANAX_DEFAULT_ENTITY_POOL_SIZE   | 2097152 |
-| ANAX_MAX_AMOUNT_OF_COMPONENTS   | 64      |
-| ANAX_USE_VARIADIC_TEMPLATES     | ON      |
-| ANAX_VIRTUAL_DTORS_IN_COMPONENT | ON      |
-| ENTITYX_DT_TYPE                 | double  |
-| ENTITYX_MAX_COMPONENTS          | 64      |
+| Variable                        | Value    |
+|---------------------------------|----------|
+| ANAX_32_BIT_ENTITY_IDS          | OFF      |
+| ANAX_DEFAULT_ENTITY_POOL_SIZE   | 16777216 |
+| ANAX_MAX_AMOUNT_OF_COMPONENTS   | 64       |
+| ANAX_USE_VARIADIC_TEMPLATES     | ON       |
+| ANAX_VIRTUAL_DTORS_IN_COMPONENT | ON       |
+| ENTITYX_DT_TYPE                 | double   |
+| ENTITYX_MAX_COMPONENTS          | 64       |
 
  - Test and Examples are not build (`-DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0"`)
  - Linked Libraries are static builds (`-DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`)
@@ -121,7 +121,7 @@ benchpress, entityx (compile-time) and entt are header-only.
 
 Benchmarks:
 
- - creating Entities
+ - creating, destroy and unpacking Entities
  - Systems update
 
 
@@ -237,6 +237,7 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 ![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result-2.png "Benchmark Results: Systems update #2")
 
+_(lower is better :)_
 
 | Benchmark                          | Artemis |  Anax | EntityX (master) | EntityX (experimental/compile_time) | EnTT (master) |
 |:-----------------------------------|--------:|------:|-----------------:|------------------------------------:|--------------:|
@@ -299,5 +300,5 @@ You can edit the `gnuplot`-script to add new cols.
 
 #### Reference:
 
- -  [http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/]()
+ - [http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/]()
  - [https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest]()
