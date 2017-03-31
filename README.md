@@ -14,7 +14,7 @@ Simple Benchmark of common Entity-Component-Systems:
 > While I was playing with it, I found that I didn't like that much the way it manages its memory. Moreover, I was pretty sure that one > could achieve better performance with a slightly modified pool under the hood.
 > That's also the reason for which the interface is quite similar to the one of entityx, so that EnTT can be used as a drop-in > replacement for it with a minimal effort.
 
-Version: 1.0.0
+Version: 1.0.0 (2017)
 
 
 ### EntityX by @alecthomas
@@ -25,7 +25,7 @@ Version: 1.0.0
 > EntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. 
 > It was built during the creation of a 2D space shooter.
 
-Version: 1.x and the [`compiler-time`](https://github.com/alecthomas/entityx/tree/experimental/compile_time) Version (2.0 ?)
+Version: 1.x (2017) and the [`compiler-time`](https://github.com/alecthomas/entityx/tree/experimental/compile_time) Version 2.0 (?) (2017)
 
 
 ### anax by @miguelmartin75
@@ -33,7 +33,7 @@ Version: 1.x and the [`compiler-time`](https://github.com/alecthomas/entityx/tre
 > anax is an open source C++ entity system designed to be portable, lightweight and easy to use. 
 > It is aimed toward Game Development, however it would be possible to use it for other projects.
 
-Version: 1.x
+Version: 1.x (2017)
 
 
 ### Artemis C++ by @vinova
@@ -42,7 +42,7 @@ Version: 1.x
 > 
 > The port was orignially written by Sidar Talei, in which he used several C++11 features such as deleted function, variadic templates, nullptr, etc… We wanted the framework to be portable, so we removed all C++11 feature usages.
 
-Version: 1.x (2012)
+Version: 1.x (2013)
 
 
 
@@ -129,9 +129,11 @@ Benchmarks:
 
 #### 3 Components
  - PositionComponent
-	- `float x,y` 
+	- `float x` 
+	- `float y` 
  - DirectionComponent
-	- `float x,y` 
+	- `float x` 
+	- `float y` 
  - ComflabulationComponent
 	- `float thingy`
 	- `int dingy`
@@ -219,17 +221,46 @@ world.update(fakeDeltaTime);
 
 #### Create, Destroying and Iterating over 10M entities
 
-| Benchmark | EntityX (master) | EntityX (experimental/compile_time) | EnTT |
-|-----------|-------------|-------------|-------------|
-| Creating 10M entities | 0.22s | 0.13s | **0.04s** |
-| Destroying 10M entities | 0.43s | 0.16s | **0.09s** |
-| Iterating over 10M entities, unpacking one component | 0.22s | 0.06s | **0.01s** |
-| Iterating over 10M entities, unpacking two components | 0.35s | 0.08s | **0.07s** |
+| Benchmark                                             | EntityX (master) | EntityX (experimental/compile_time) | EnTT (master) |
+|:------------------------------------------------------|-----------------:|------------------------------------:|--------------:|
+| Creating 10M entities                                 |            0.21s |                               0.12s |     **0.04s** |
+| Destroying 10M entities                               |            0.42s |                               0.16s |     **0.09s** |
+| Iterating over 10M entities, unpacking one component  |            0.22s |                               0.06s |     **0.01s** |
+| Iterating over 10M entities, unpacking two components |            0.35s |                               0.08s |     **0.06s** |
+
+_I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
+
 
 #### Systems update
 
-TODO
+![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result.png "Benchmark Results: Systems update #1")
 
+![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result-2.png "Benchmark Results: Systems update #2")
+
+
+| Benchmark                          | Artemis |  Anax | EntityX (master) | EntityX (experimental/compile_time) | EnTT (master) |
+|:-----------------------------------|--------:|------:|-----------------:|------------------------------------:|--------------:|
+| Update  1M entities with 2 Systems | 195.88s | 0.21s |            0.09s |                               0.02s |     **0.01s** |
+| Update  2M entities with 2 Systems |     N/A | 1.06s |            0.21s |                               0.04s |     **0.03s** |
+| Update 10M entities with 2 Systems |     N/A |   N/A |            0.52s |                               0.11s |     **0.07s** |
+| Update 20M entities with 2 Systems |     N/A |   N/A |            1.70s |                               0.23s |     **0.13s** |
+
+
+#### Eventbus
+
+![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus-result.png "Benchmark Results: Eventbus")
+
+Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp).
+
+| Benchmark                                             | EntityX (master) |   Eventpp |
+|:------------------------------------------------------|-----------------:|----------:|
+| publish EventA and EventB  20k times                  |              1ms |       1ms |
+| publish EventA and EventB  50k times                  |              3ms |       3ms |
+| publish EventA and EventB 100k times                  |          **6ms** |       7ms |
+| publish EventA and EventB 200k times                  |         **12ms** |      15ms |
+| publish EventA and EventB 500k times                  |         **30ms** |      37ms |
+
+_Listen to EventA EventB and EventC_
 
 
 

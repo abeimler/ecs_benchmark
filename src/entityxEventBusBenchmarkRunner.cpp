@@ -491,6 +491,48 @@ BENCHMARK("[100000] eventpp-eventbus listen to EventA EventB and EventC publish 
 
 
 
+BENCHMARK("[200000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+    entityx::EntityX app;
+    auto& entities = app.entities;
+    auto entity = entities.create();
+
+    auto eventa_listener = std::make_shared<EventppTest::TestListenerEventA>();
+    auto eventb_listener = std::make_shared<EventppTest::TestListenerEventB>();
+    auto eventc_listener = std::make_shared<EventppTest::TestListenerEventC>();
+    EventppTest::Bus bus;
+
+    bus.reg(eventa_listener);
+    bus.reg(eventb_listener);
+    bus.reg(eventc_listener);
+
+    ctx->reset_timer();
+    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+        EventppTest::runPublishEventsBenchmark(bus, entity, 200000);
+    }
+})
+
+
+
+BENCHMARK("[500000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+    entityx::EntityX app;
+    auto& entities = app.entities;
+    auto entity = entities.create();
+
+    auto eventa_listener = std::make_shared<EventppTest::TestListenerEventA>();
+    auto eventb_listener = std::make_shared<EventppTest::TestListenerEventB>();
+    auto eventc_listener = std::make_shared<EventppTest::TestListenerEventC>();
+    EventppTest::Bus bus;
+
+    bus.reg(eventa_listener);
+    bus.reg(eventb_listener);
+    bus.reg(eventc_listener);
+
+    ctx->reset_timer();
+    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+        EventppTest::runPublishEventsBenchmark(bus, entity, 500000);
+    }
+})
+
 
 
 
@@ -668,6 +710,36 @@ BENCHMARK("[100000] entityx-eventbus listen to EventA EventB and EventC publish 
         EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 100000);
     }
 })
+
+
+
+BENCHMARK("[200000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+    EntityXEventBusTest::Application app;
+    auto& entities = app.entities;
+    auto& events = app.events;
+    auto entity = entities.create();
+
+    ctx->reset_timer();
+    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 200000);
+    }
+})
+
+
+
+BENCHMARK("[500000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB", [](benchpress::context* ctx) {
+    EntityXEventBusTest::Application app;
+    auto& entities = app.entities;
+    auto& events = app.events;
+    auto entity = entities.create();
+
+    ctx->reset_timer();
+    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 500000);
+    }
+})
+
+
 
 
 

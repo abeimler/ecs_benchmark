@@ -1,156 +1,163 @@
-Fr 31. Mär 19:24:12 CEST 2017
+Fr 31. Mär 21:50:39 CEST 2017
 Linux 4.10.4-1-ARCH Sat Mar 18 19:39:18 CET 2017 x86_64 GNU/Linux
 
+
+
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*entityx1.*update.* 
-        [10] entityx1           10 entities component systems update     2000000               891 ns/op
-        [25] entityx1           25 entities component systems update      500000              2193 ns/op
-        [50] entityx1           50 entities component systems update      500000              4345 ns/op
-       [100] entityx1          100 entities component systems update      200000              8276 ns/op
-       [200] entityx1          200 entities component systems update      100000             17145 ns/op
-       [400] entityx1          400 entities component systems update       50000             34908 ns/op
-       [800] entityx1          800 entities component systems update       20000             66039 ns/op
-      [1600] entityx1         1600 entities component systems update       10000            135295 ns/op
-      [3200] entityx1         3200 entities component systems update        5000            277466 ns/op
-      [5000] entityx1         5000 entities component systems update        5000            420563 ns/op
-     [10000] entityx1        10000 entities component systems update        2000            854173 ns/op
-     [30000] entityx1        30000 entities component systems update         500           2576178 ns/op             2 ms/op
-    [100000] entityx1       100000 entities component systems update         200           8640358 ns/op             8 ms/op
-    [500000] entityx1       500000 entities component systems update          50          43970666 ns/op            43 ms/op          0.04 s/op
-   [1000000] entityx1      1000000 entities component systems update          20          88758895 ns/op            88 ms/op          0.09 s/op
-   [2000000] entityx1      2000000 entities component systems update           5         203679999 ns/op           203 ms/op          0.20 s/op
-   [5000000] entityx1      5000000 entities component systems update           5         499345735 ns/op           499 ms/op          0.50 s/op
-  [10000000] entityx1     10000000 entities component systems update           1        1663366289 ns/op          1663 ms/op          1.66 s/op
-../build/ecs_benchmark 57.492s
-real 57.51 user 56.62 sys 0.85   0:57.51 elapsed    CPU: 99%  Max.Memory: 1003108k
+        [10] entityx1           10 entities component systems update     2000000               898 ns/op
+        [25] entityx1           25 entities component systems update      500000              2169 ns/op
+        [50] entityx1           50 entities component systems update      500000              4366 ns/op
+       [100] entityx1          100 entities component systems update      200000              8650 ns/op
+       [200] entityx1          200 entities component systems update      100000             17219 ns/op
+       [400] entityx1          400 entities component systems update       50000             35153 ns/op
+       [800] entityx1          800 entities component systems update       20000             68363 ns/op
+      [1600] entityx1         1600 entities component systems update       10000            135904 ns/op
+      [3200] entityx1         3200 entities component systems update        5000            273795 ns/op
+      [5000] entityx1         5000 entities component systems update        5000            426072 ns/op
+     [10000] entityx1        10000 entities component systems update        2000            851931 ns/op
+     [30000] entityx1        30000 entities component systems update         500           2551991 ns/op             2 ms/op
+    [100000] entityx1       100000 entities component systems update         200           8685485 ns/op             8 ms/op
+    [500000] entityx1       500000 entities component systems update          50          44444270 ns/op            44 ms/op          0.04 s/op
+   [1000000] entityx1      1000000 entities component systems update          20          91410036 ns/op            91 ms/op          0.09 s/op
+   [2000000] entityx1      2000000 entities component systems update           5         208127804 ns/op           208 ms/op          0.21 s/op
+   [5000000] entityx1      5000000 entities component systems update           5         519583647 ns/op           519 ms/op          0.52 s/op
+  [10000000] entityx1     10000000 entities component systems update           1        1696352153 ns/op          1696 ms/op          1.70 s/op
+../build/ecs_benchmark 58.326s
+real 58.32 user 57.44 sys 0.86   0:58.32 elapsed    CPU: 99%  Max.Memory: 1003468k
 
 
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*entityx-eventbus.* --bench .*eventpp-eventbus.* 
-    [10] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     2000000               613 ns/op
-    [50] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000              3145 ns/op
-   [100] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000              6387 ns/op
-   [300] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      100000             19507 ns/op
-  [1000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000             63514 ns/op
-  [5000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            296346 ns/op
- [10000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            637393 ns/op
- [20000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000           1271692 ns/op             1 ms/op
- [50000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3048670 ns/op             3 ms/op
-[100000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           6802535 ns/op             6 ms/op
-    [10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB     2000000               765 ns/op
-    [50] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000              3706 ns/op
-   [100] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000              7395 ns/op
-   [300] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000             22120 ns/op
-  [1000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000             74078 ns/op
-  [5000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            369592 ns/op
- [10000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            735681 ns/op
- [20000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000           1473131 ns/op             1 ms/op
- [50000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3681118 ns/op             3 ms/op
-[100000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           7356225 ns/op             7 ms/op
-../build/ecs_benchmark 55.693s
-real 55.69 user 55.68 sys 0.00   0:55.69 elapsed    CPU: 99%  Max.Memory: 4028k
+    [10] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     2000000               596 ns/op
+    [50] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000              2935 ns/op
+   [100] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000              6250 ns/op
+   [300] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      100000             18744 ns/op
+  [1000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000             61655 ns/op
+  [5000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            305992 ns/op
+ [10000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            607812 ns/op
+ [20000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000           1170186 ns/op             1 ms/op
+ [50000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           2950261 ns/op             2 ms/op
+[100000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           6102482 ns/op             6 ms/op
+[200000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         100          12400971 ns/op            12 ms/op          0.01 s/op
+[500000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB          50          30383011 ns/op            30 ms/op          0.03 s/op
+    [10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB     2000000               755 ns/op
+    [50] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000              3768 ns/op
+   [100] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000              7535 ns/op
+   [300] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000             22515 ns/op
+  [1000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000             74919 ns/op
+  [5000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            374770 ns/op
+ [10000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            757587 ns/op
+ [20000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000           1531454 ns/op             1 ms/op
+ [50000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3865366 ns/op             3 ms/op
+[100000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           7740112 ns/op             7 ms/op
+[200000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         100          15028698 ns/op            15 ms/op          0.02 s/op
+[500000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB          50          37736252 ns/op            37 ms/op          0.04 s/op
+../build/ecs_benchmark 66.529s
+real 66.53 user 66.49 sys 0.01   1:06.53 elapsed    CPU: 99%  Max.Memory: 3892k
+
 
 
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*entityx2.*update.* 
         [10] entityx2           10 entities component systems update    10000000               173 ns/op
-        [25] entityx2           25 entities component systems update     5000000               439 ns/op
-        [50] entityx2           50 entities component systems update     2000000               865 ns/op
-       [100] entityx2          100 entities component systems update     1000000              1733 ns/op
-       [200] entityx2          200 entities component systems update      500000              3531 ns/op
-       [400] entityx2          400 entities component systems update      200000              7155 ns/op
-       [800] entityx2          800 entities component systems update      100000             14263 ns/op
-      [1600] entityx2         1600 entities component systems update       50000             28038 ns/op
-      [3200] entityx2         3200 entities component systems update       20000             56623 ns/op
-      [5000] entityx2         5000 entities component systems update       20000             89129 ns/op
-     [10000] entityx2        10000 entities component systems update       10000            182576 ns/op
-     [30000] entityx2        30000 entities component systems update        2000            547382 ns/op
-    [100000] entityx2       100000 entities component systems update        1000           1915102 ns/op             1 ms/op
-    [500000] entityx2       500000 entities component systems update         100          10781906 ns/op            10 ms/op          0.01 s/op
-   [1000000] entityx2      1000000 entities component systems update          50          21659613 ns/op            21 ms/op          0.02 s/op
-   [2000000] entityx2      2000000 entities component systems update          50          41034855 ns/op            41 ms/op          0.04 s/op
-   [5000000] entityx2      5000000 entities component systems update          10         113938281 ns/op           113 ms/op          0.11 s/op
-  [10000000] entityx2     10000000 entities component systems update           5         239977318 ns/op           239 ms/op          0.24 s/op
-../build/ecs_benchmark 53.051s
-real 53.05 user 52.36 sys 0.67   0:53.05 elapsed    CPU: 99%  Max.Memory: 820968k
+        [25] entityx2           25 entities component systems update     5000000               434 ns/op
+        [50] entityx2           50 entities component systems update     2000000               858 ns/op
+       [100] entityx2          100 entities component systems update     1000000              1707 ns/op
+       [200] entityx2          200 entities component systems update      500000              3425 ns/op
+       [400] entityx2          400 entities component systems update      200000              6918 ns/op
+       [800] entityx2          800 entities component systems update      100000             14018 ns/op
+      [1600] entityx2         1600 entities component systems update       50000             27736 ns/op
+      [3200] entityx2         3200 entities component systems update       20000             55408 ns/op
+      [5000] entityx2         5000 entities component systems update       20000             95101 ns/op
+     [10000] entityx2        10000 entities component systems update       10000            176919 ns/op
+     [30000] entityx2        30000 entities component systems update        2000            566935 ns/op
+    [100000] entityx2       100000 entities component systems update         500           2092093 ns/op             2 ms/op
+    [500000] entityx2       500000 entities component systems update         100          10952570 ns/op            10 ms/op          0.01 s/op
+   [1000000] entityx2      1000000 entities component systems update          50          20478725 ns/op            20 ms/op          0.02 s/op
+   [2000000] entityx2      2000000 entities component systems update          50          42110775 ns/op            42 ms/op          0.04 s/op
+   [5000000] entityx2      5000000 entities component systems update          10         113723249 ns/op           113 ms/op          0.11 s/op
+  [10000000] entityx2     10000000 entities component systems update           5         229801980 ns/op           229 ms/op          0.23 s/op
+../build/ecs_benchmark 50.877s
+real 50.88 user 49.80 sys 0.67   0:50.88 elapsed    CPU: 99%  Max.Memory: 815440k
 
 
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*entt.*update.* 
-        [10] entt               10 entities component systems update    10000000               108 ns/op
-        [25] entt               25 entities component systems update     5000000               259 ns/op
-        [50] entt               50 entities component systems update     2000000               513 ns/op
-       [100] entt              100 entities component systems update     1000000              1028 ns/op
-       [200] entt              200 entities component systems update      500000              2035 ns/op
-       [400] entt              400 entities component systems update      500000              4047 ns/op
-       [800] entt              800 entities component systems update      200000              8152 ns/op
-      [1600] entt             1600 entities component systems update      100000             16360 ns/op
-      [3200] entt             3200 entities component systems update       50000             34906 ns/op
-      [5000] entt             5000 entities component systems update       20000             54330 ns/op
-     [10000] entt            10000 entities component systems update       10000            108038 ns/op
-     [30000] entt            30000 entities component systems update        5000            331699 ns/op
-    [100000] entt           100000 entities component systems update        1000           1106472 ns/op             1 ms/op
-    [500000] entt           500000 entities component systems update         200           6388397 ns/op             6 ms/op
-   [1000000] entt          1000000 entities component systems update         100          13593665 ns/op            13 ms/op          0.01 s/op
-   [2000000] entt          2000000 entities component systems update          50          25631546 ns/op            25 ms/op          0.03 s/op
-   [5000000] entt          5000000 entities component systems update          20          64356912 ns/op            64 ms/op          0.06 s/op
-  [10000000] entt         10000000 entities component systems update          10         133093991 ns/op           133 ms/op          0.13 s/op
-../build/ecs_benchmark 49.495s
-real 49.50 user 48.08 sys 1.38   0:49.50 elapsed    CPU: 99%  Max.Memory: 727412k
+        [10] entt               10 entities component systems update    10000000               104 ns/op
+        [25] entt               25 entities component systems update     5000000               255 ns/op
+        [50] entt               50 entities component systems update     2000000               515 ns/op
+       [100] entt              100 entities component systems update     1000000              1039 ns/op
+       [200] entt              200 entities component systems update      500000              2058 ns/op
+       [400] entt              400 entities component systems update      500000              4220 ns/op
+       [800] entt              800 entities component systems update      200000              8460 ns/op
+      [1600] entt             1600 entities component systems update      100000             16647 ns/op
+      [3200] entt             3200 entities component systems update       50000             33305 ns/op
+      [5000] entt             5000 entities component systems update       20000             53035 ns/op
+     [10000] entt            10000 entities component systems update       10000            103146 ns/op
+     [30000] entt            30000 entities component systems update        5000            311395 ns/op
+    [100000] entt           100000 entities component systems update        1000           1062545 ns/op             1 ms/op
+    [500000] entt           500000 entities component systems update         200           6251544 ns/op             6 ms/op
+   [1000000] entt          1000000 entities component systems update         100          12835657 ns/op            12 ms/op          0.01 s/op
+   [2000000] entt          2000000 entities component systems update          50          25072552 ns/op            25 ms/op          0.03 s/op
+   [5000000] entt          5000000 entities component systems update          20          65696335 ns/op            65 ms/op          0.07 s/op
+  [10000000] entt         10000000 entities component systems update          10         134308697 ns/op           134 ms/op          0.13 s/op
+../build/ecs_benchmark 49.135s
+real 49.13 user 47.90 sys 1.22   0:49.13 elapsed    CPU: 99%  Max.Memory: 775908k
 
 
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*anax.*update.* 
-        [10] anax               10 entities component systems update     5000000               386 ns/op
-        [25] anax               25 entities component systems update     2000000               636 ns/op
+        [10] anax               10 entities component systems update     5000000               378 ns/op
+        [25] anax               25 entities component systems update     2000000               623 ns/op
         [50] anax               50 entities component systems update     1000000              1195 ns/op
-       [100] anax              100 entities component systems update      500000              2303 ns/op
-       [200] anax              200 entities component systems update      500000              4281 ns/op
-       [400] anax              400 entities component systems update      100000             10475 ns/op
-       [800] anax              800 entities component systems update       50000             23074 ns/op
-      [1600] anax             1600 entities component systems update       20000             67870 ns/op
-      [3200] anax             3200 entities component systems update       10000            137616 ns/op
-      [5000] anax             5000 entities component systems update        5000            223601 ns/op
-     [10000] anax            10000 entities component systems update        5000            391396 ns/op
-     [30000] anax            30000 entities component systems update         500           2379776 ns/op             2 ms/op
-    [100000] anax           100000 entities component systems update         100          13351677 ns/op            13 ms/op          0.01 s/op
-    [500000] anax           500000 entities component systems update          20          73434943 ns/op            73 ms/op          0.07 s/op
-   [1000000] anax          1000000 entities component systems update           5         217773082 ns/op           217 ms/op          0.22 s/op
-   [2000000] anax          2000000 entities component systems update           1        1060650205 ns/op          1060 ms/op          1.06 s/op
-../build/ecs_benchmark 116.662s
-real 116.66 user 88.93 sys 27.72   1:56.66 elapsed    CPU: 99%  Max.Memory: 1575724k
+       [100] anax              100 entities component systems update      500000              2288 ns/op
+       [200] anax              200 entities component systems update      500000              4218 ns/op
+       [400] anax              400 entities component systems update      100000             10074 ns/op
+       [800] anax              800 entities component systems update       50000             23799 ns/op
+      [1600] anax             1600 entities component systems update       20000             64692 ns/op
+      [3200] anax             3200 entities component systems update       10000            133773 ns/op
+      [5000] anax             5000 entities component systems update        5000            213273 ns/op
+     [10000] anax            10000 entities component systems update        5000            384225 ns/op
+     [30000] anax            30000 entities component systems update         500           2538404 ns/op             2 ms/op
+    [100000] anax           100000 entities component systems update         100          12533375 ns/op            12 ms/op          0.01 s/op
+    [500000] anax           500000 entities component systems update          20          69741054 ns/op            69 ms/op          0.07 s/op
+   [1000000] anax          1000000 entities component systems update           5         208905119 ns/op           208 ms/op          0.21 s/op
+   [2000000] anax          2000000 entities component systems update           1        1057871681 ns/op          1057 ms/op          1.06 s/op
+../build/ecs_benchmark 110.679s
+real 110.68 user 82.75 sys 27.91   1:50.68 elapsed    CPU: 99%  Max.Memory: 1575824k
 
 
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*artemis.*update.* 
-        [10] artemis            10 entities component systems update      500000              2212 ns/op
-        [25] artemis            25 entities component systems update      200000              5069 ns/op
-        [50] artemis            50 entities component systems update      100000             10610 ns/op
-       [100] artemis           100 entities component systems update       50000             20362 ns/op
-       [200] artemis           200 entities component systems update       50000             38569 ns/op
-       [400] artemis           400 entities component systems update       20000             81371 ns/op
-       [800] artemis           800 entities component systems update       10000            160590 ns/op
-      [1600] artemis          1600 entities component systems update        5000            324396 ns/op
-      [3200] artemis          3200 entities component systems update        2000            635685 ns/op
-      [5000] artemis          5000 entities component systems update        1000           1004749 ns/op             1 ms/op
-     [10000] artemis         10000 entities component systems update         500           2035766 ns/op             2 ms/op
-     [30000] artemis         30000 entities component systems update         200           7399813 ns/op             7 ms/op
-    [100000] artemis        100000 entities component systems update           1        2038854872 ns/op          2038 ms/op          2.04 s/op
-    [500000] artemis        500000 entities component systems update           1       49260954961 ns/op         49260 ms/op         49.26 s/op
-   [1000000] artemis       1000000 entities component systems update           1      194968109260 ns/op        194968 ms/op        194.97 s/op
-../build/ecs_benchmark 277.613s
-real 277.61 user 276.66 sys 0.42   4:37.61 elapsed    CPU: 99%  Max.Memory: 259472k
+        [10] artemis            10 entities component systems update     1000000              1027 ns/op
+        [25] artemis            25 entities component systems update      500000              2493 ns/op
+        [50] artemis            50 entities component systems update      500000              4834 ns/op
+       [100] artemis           100 entities component systems update      200000              9868 ns/op
+       [200] artemis           200 entities component systems update       50000             20943 ns/op
+       [400] artemis           400 entities component systems update       50000             40752 ns/op
+       [800] artemis           800 entities component systems update       20000             79787 ns/op
+      [1600] artemis          1600 entities component systems update       10000            159102 ns/op
+      [3200] artemis          3200 entities component systems update        5000            316224 ns/op
+      [5000] artemis          5000 entities component systems update        2000            507013 ns/op
+     [10000] artemis         10000 entities component systems update        1000           1016621 ns/op             1 ms/op
+     [30000] artemis         30000 entities component systems update         500           3454828 ns/op             3 ms/op
+    [100000] artemis        100000 entities component systems update           1        2011998161 ns/op          2011 ms/op          2.01 s/op
+    [500000] artemis        500000 entities component systems update           1       48902551359 ns/op         48902 ms/op         48.90 s/op
+   [1000000] artemis       1000000 entities component systems update           1      195883391118 ns/op        195883 ms/op        195.88 s/op
+../build/ecs_benchmark 282.489s
+real 282.49 user 282.36 sys 0.12   4:42.49 elapsed    CPU: 100%  Max.Memory: 259332k
 
 
 $ /usr/bin/time -f 'real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk' ../build/ecs_benchmark --bench .*entityx1.*10M\s+entities.* --bench .*entityx2.*10M\s+entities.* --bench .*entt.*10M\s+entities.* 
-entityx1 Creating 10M entities                                             5         219410001 ns/op           219 ms/op          0.22 s/op
-entityx1 Destroying 10M entities                                           5         408405669 ns/op           408 ms/op          0.41 s/op
-entityx1 Iterating over 10M entities, unpacking one component              5         219441044 ns/op           219 ms/op          0.22 s/op
-entityx1 Iterating over 10M entities, unpacking two components             5         348675957 ns/op           348 ms/op          0.35 s/op
-entityx2 Creating 10M entities                                            10         127663724 ns/op           127 ms/op          0.13 s/op
-entityx2 Destroying 10M entities                                          10         163569572 ns/op           163 ms/op          0.16 s/op
-entityx2 Iterating over 10M entities, unpacking one component             20          63343614 ns/op            63 ms/op          0.06 s/op
-entityx2 Iterating over 10M entities, unpacking two components            20          85938807 ns/op            85 ms/op          0.09 s/op
-entt     Creating 10M entities                                            50          42666552 ns/op            42 ms/op          0.04 s/op
-entt     Destroying 10M entities                                          20          90038185 ns/op            90 ms/op          0.09 s/op
-entt     Iterating over 10M entities, unpacking one component            100          14304658 ns/op            14 ms/op          0.01 s/op
-entt     Iterating over 10M entities, unpacking two components            20          63925819 ns/op            63 ms/op          0.06 s/op
-../build/ecs_benchmark 83.404s
-real 83.40 user 75.24 sys 8.14   1:23.40 elapsed    CPU: 99%  Max.Memory: 2180252k
+entityx1 Creating 10M entities                                             5         214650027 ns/op           214 ms/op          0.21 s/op
+entityx1 Destroying 10M entities                                           5         418358973 ns/op           418 ms/op          0.42 s/op
+entityx1 Iterating over 10M entities, unpacking one component              5         215832176 ns/op           215 ms/op          0.22 s/op
+entityx1 Iterating over 10M entities, unpacking two components             5         346559577 ns/op           346 ms/op          0.35 s/op
+entityx2 Creating 10M entities                                            10         121911622 ns/op           121 ms/op          0.12 s/op
+entityx2 Destroying 10M entities                                          10         156143985 ns/op           156 ms/op          0.16 s/op
+entityx2 Iterating over 10M entities, unpacking one component             20          59890712 ns/op            59 ms/op          0.06 s/op
+entityx2 Iterating over 10M entities, unpacking two components            20          82582551 ns/op            82 ms/op          0.08 s/op
+entt     Creating 10M entities                                            50          42206802 ns/op            42 ms/op          0.04 s/op
+entt     Destroying 10M entities                                          20          90211024 ns/op            90 ms/op          0.09 s/op
+entt     Iterating over 10M entities, unpacking one component            100          14236838 ns/op            14 ms/op          0.01 s/op
+entt     Iterating over 10M entities, unpacking two components            20          64587429 ns/op            64 ms/op          0.06 s/op
+../build/ecs_benchmark 82.01s
+real 82.01 user 73.97 sys 8.02   1:22.01 elapsed    CPU: 99%  Max.Memory: 2179276k
 
 
 $ ../build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --plotdata > data-systems-update.dat 
