@@ -73,7 +73,7 @@ I used CMake 3.2 for the build.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="16777216" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0"`
+ 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="2097152" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0"`
  4. `cmake --build ./build --target ecs_benchmark`
 
 
@@ -232,9 +232,9 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 #### Systems update
 
-![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result.png "Benchmark Results: Systems update #1")
+![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result.png "Benchmark Results: Systems update #1")
 
-![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/systems-update-result-2.png "Benchmark Results: Systems update #2")
+![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result-2.png "Benchmark Results: Systems update #2")
 
 _(lower is better :)_
 
@@ -248,7 +248,7 @@ _(lower is better :)_
 
 #### Eventbus
 
-![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus-result.png "Benchmark Results: Eventbus")
+![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/eventbus-result.png "Benchmark Results: Eventbus")
 
 Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp).
 
