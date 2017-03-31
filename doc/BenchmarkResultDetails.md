@@ -1,5 +1,5 @@
 
-# Old but meaningful Benchmarks, see [../README.md](README) or [data-systems-update-2.dat](data-systems-update-2.dat) for more Benchmarks
+# Old but still meaningful Benchmarks, see [README](../README.md) or [data-systems-update-2.dat](data-systems-update-2.dat) for more Benchmarks
 
 ## Benchmark
 

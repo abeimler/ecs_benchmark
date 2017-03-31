@@ -61,8 +61,7 @@ It's simple, light and header-only.
 Version: 1.x (2014)
 
 
-I fork this project (add some utils and helper) to plot data for gnuplot.
-[https://github.com/abeimler/benchpress]()
+I fork [benchpress](https://github.com/abeimler/benchpress) (add some utils and helper) to plot data for gnuplot.
 
 
 
@@ -103,7 +102,7 @@ benchpress, entityx (compile-time) and entt are header-only.
 | Variable                        | Value    |
 |---------------------------------|----------|
 | ANAX_32_BIT_ENTITY_IDS          | OFF      |
-| ANAX_DEFAULT_ENTITY_POOL_SIZE   | 16777216 |
+| ANAX_DEFAULT_ENTITY_POOL_SIZE   | 2097152  |
 | ANAX_MAX_AMOUNT_OF_COMPONENTS   | 64       |
 | ANAX_USE_VARIADIC_TEMPLATES     | ON       |
 | ANAX_VIRTUAL_DTORS_IN_COMPONENT | ON       |
@@ -113,7 +112,7 @@ benchpress, entityx (compile-time) and entt are header-only.
  - Test and Examples are not build (`-DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0"`)
  - Linked Libraries are static builds (`-DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`)
 
-
+_EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPACITY>`) of `16777216`, to avoid `bad_alloc`-Errors_
 
 
 
@@ -161,7 +160,7 @@ void update() {
 
 
 
-### benchmark create Entities
+### Benchmark: create Entities
 
 Benchmark Code (1 iteration):
 ```cpp
@@ -174,7 +173,7 @@ entity.addComponent<ComflabulationComponent>();
 entity.destroy();
 ```
 
-### benchmark update system
+### Benchmark: update system
 
 Run the "update system"-benchmark with different number of entities.
  - 25, 50, 100, 200, 400, 800
