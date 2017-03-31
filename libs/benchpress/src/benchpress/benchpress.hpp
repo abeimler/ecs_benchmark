@@ -617,8 +617,6 @@ void run_benchmarks(const options& opts) {
 #ifdef BENCHPRESS_CONFIG_MAIN
 #include "cxxopts.hpp"
 int main(int argc, char** argv) {
-    using namespace std::string_literals;
-    
     std::chrono::high_resolution_clock::time_point bp_start = std::chrono::high_resolution_clock::now();
     benchpress::options bench_opts;
     try {
