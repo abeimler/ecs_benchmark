@@ -78,6 +78,21 @@ TEST(DefaultRegistry, Functionalities) {
     ASSERT_EQ(registry.size(), registry_type::size_type{0});
     ASSERT_EQ(registry.capacity(), registry_type::size_type{0});
     ASSERT_TRUE(registry.empty());
+
+    registry.create<int, char>();
+
+    ASSERT_FALSE(registry.empty<int>());
+    ASSERT_FALSE(registry.empty<char>());
+
+    ASSERT_NO_THROW(registry.reset<int>());
+
+    ASSERT_TRUE(registry.empty<int>());
+    ASSERT_FALSE(registry.empty<char>());
+
+    ASSERT_NO_THROW(registry.reset());
+
+    ASSERT_TRUE(registry.empty<int>());
+    ASSERT_TRUE(registry.empty<char>());
 }
 
 TEST(DefaultRegistry, ViewSingleComponent) {
@@ -128,4 +143,37 @@ TEST(DefaultRegistry, ViewMultipleComponent) {
 
     ASSERT_NO_THROW((registry.view<int, char>().begin()++));
     ASSERT_NO_THROW((++registry.view<int, char>().begin()));
+}
+
+TEST(DefaultRegistry, EmptyViewSingleComponent) {
+    using registry_type = entt::DefaultRegistry<char, int, double>;
+
+    registry_type registry;
+
+    registry.create<char, double>();
+    registry.create<char>();
+
+    auto view = registry.view<int>();
+
+    ASSERT_EQ(view.size(), registry_type::size_type{0});
+
+    registry.reset();
+}
+
+TEST(DefaultRegistry, EmptyViewMultipleComponent) {
+    using registry_type = entt::DefaultRegistry<char, int, float, double>;
+
+    registry_type registry;
+
+    registry.create<double, int, float>();
+    registry.create<char, float>();
+
+    auto view = registry.view<char, int, float>();
+
+    for(auto entity: view) {
+        (void)entity;
+        FAIL();
+    }
+
+    registry.reset();
 }

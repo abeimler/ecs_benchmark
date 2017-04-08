@@ -1,8 +1,10 @@
 # EnTT - Entity-Component System in modern C++
 
+[![Build Status](https://travis-ci.org/skypjack/entt.svg?branch=master)](https://travis-ci.org/skypjack/uvw)
+
 # Introduction
 
-`EnTT` is a header-only, tiny and easy to use entity-component system in modern C++.<br/>
+`EnTT` is a header-only, tiny and easy to use Entity-Component System in modern C++.<br/>
 ECS is an architectural pattern used mostly in game development. For further details:
 
 * [Entity Systems Wiki](http://entity-systems.wikidot.com/)
@@ -76,10 +78,10 @@ int main() {
 
 ## Motivation
 
-I started using another well known Entity Component System named [entityx](https://github.com/alecthomas/entityx).<br/>
+I started using another well known Entity-Component System named [`EntityX`](https://github.com/alecthomas/entityx).<br/>
 While I was playing with it, I found that I didn't like that much the way it manages its memory.
 Moreover, I was pretty sure that one could achieve better performance with a slightly modified pool under the hood.<br/>
-That's also the reason for which the interface is quite similar to the one of _entityx_, so that `EnTT` can be used as a
+That's also the reason for which the interface is quite similar to the one of `EntityX`, so that `EnTT` can be used as a
 drop-in replacement for it with a minimal effort.
 
 ### Performance
@@ -89,14 +91,19 @@ amazingly fast):
 
 | Benchmark | EntityX (master) | EntityX (experimental/compile_time) | EnTT |
 |-----------|-------------|-------------|-------------|
-| Creating 10M entities | 0.281481s | 0.213988s | 0.00542235s |
-| Destroying 10M entities | 0.166156s | 0.0673857s | 0.0582367s |
-| Iterating over 10M entities, unpacking one component | 0.047039s | 0.0297941s | 9.3e-08s |
-| Iterating over 10M entities, unpacking two components | 0.0701693s | 0.0412988s | 0.0206747s |
+| Creating 10M entities | 0.281481s | 0.213988s | **0.00542235s** |
+| Destroying 10M entities | 0.166156s | 0.0673857s | **0.0582367s** |
+| Iterating over 10M entities, unpacking one component | 0.047039s | 0.0297941s | **9.3e-08s** |
+| Iterating over 10M entities, unpacking two components | 0.0701693s | 0.0412988s | **0.0206747s** |
 
 See [benchmark.cpp](https://github.com/skypjack/entt/blob/master/test/benchmark.cpp) for further details.<br/>
 Of course, I'll try to get out of it more features and better performance anyway in the future, mainly for fun.
 If you want to contribute and have any suggestion, feel free to make a PR or open an issue to discuss them.
+
+### Benchmarks / Comparisons
+
+`EnTT` includes its own benchmarks, mostly similar to the ones of `EntityX` so as to compare them.<br/>
+On Github you can find also a [benchmark suite](https://github.com/abeimler/ecs_benchmark) testing `EntityX` (both the official version and the compile-time one), `Anax` and `Artemis C++` with up to 10M entities.
 
 # Build Instructions
 
@@ -150,9 +157,10 @@ Once you have created a registry, the followings are the exposed member function
 
 * `size`: returns the number of entities still alive.
 * `capacity`: returns the maximum number of entities created till now.
+* `empty<Component>`: returns `true` if at least an instance of `Component` exists, `false` otherwise.
 * `empty`: returns `true` if all the entities have been destroyed, `false` otherwise.
-* `create`: creates a new entity and returns it, no components assigned.
 * `create<Components...>`: creates a new entity and assigns it the given components, then returns the entity.
+* `create`: creates a new entity and returns it, no components assigned.
 * `destroy`: destroys the entity and all its components.
 * `assign<Component>(entity, args...)`: assigns the given component to the entity and uses `args...` to initialize it.
 * `remove<Component>(entity)`: removes the given component from the entity.
@@ -162,6 +170,7 @@ Once you have created a registry, the followings are the exposed member function
 * `clone(entity)`: clones an entity and all its components, then returns the new entity identifier.
 * `copy<Component>(from, to)`: copies a component from an entity to another one (both the entities must already have been assigned the component, undefined behaviour otherwise).
 * `copy(from, to)`: copies all the components and their contents from an entity to another one (comoonents are created or destroyed if needed).
+* `reset<Component>()`: destroys all the instances of `Component`.
 * `reset()`: resets the pool and destroys all the entities and their components.
 * `view<Components...>()`: gets a view of the entities that have the given components (see below for further details).
 
@@ -191,7 +200,7 @@ Exposed member functions are:
 * `operator++(int)`
 * `operator==()`
 * `operator!=()`
-* `operator*()`.
+* `operator*()`
 
 The single component view has an additional member function:
 
@@ -238,7 +247,7 @@ A custom pool should expose at least the following member functions:
 * `bool has(entity_type entity) const noexcept;`
 * `const component_type & get(entity_type entity) const noexcept;`
 * `component_type & get(entity_type entity) noexcept;`
-* template<typename... Args> component_type & construct(entity_type entity, Args&&... args);`
+* `template<typename... Args> component_type & construct(entity_type entity, Args... args);`
 * `void destroy(entity_type entity);`
 * `void reset();`
 
@@ -260,15 +269,16 @@ Even thoug the underlying pool doesn't store the components separately, the regi
 specific actions (like `destroy` or `copy`). That's why they must be explicitly specified.<br/>
 A generic pool should expose at least the following memeber functions:
 
-* `template<typename Comp> bool empty() const noexcept;`
-* `template<typename Comp> size_type capacity() const noexcept;`
-* `template<typename Comp> size_type size() const noexcept;`
-* `template<typename Comp> const entity_type * entities() const noexcept;`
-* `template<typename Comp> bool has(entity_type entity) const noexcept;`
-* `template<typename Comp> const Comp & get(entity_type entity) const noexcept;`
-* `template<typename Comp> Comp & get(entity_type entity) noexcept;`
-* `template<typename Comp, typename... Args> Comp & construct(entity_type entity, Args&&... args);`
-* `template<typename Comp> void destroy(entity_type entity);`
+* `template<typename Component> bool empty() const noexcept;`
+* `template<typename Component> size_type capacity() const noexcept;`
+* `template<typename Component> size_type size() const noexcept;`
+* `template<typename Component> const entity_type * entities() const noexcept;`
+* `template<typename Component> bool has(entity_type entity) const noexcept;`
+* `template<typename Component> const Comp & get(entity_type entity) const noexcept;`
+* `template<typename Component> Comp & get(entity_type entity) noexcept;`
+* `template<typename Component, typename... Args> Comp & construct(entity_type entity, Args... args);`
+* `template<typename Component> void destroy(entity_type entity);`
+* `template<typename Component> void reset();`
 * `void reset();`
 
 Good luck. If you come out with a more performant components pool, do not forget to make a PR so that I can add it to
