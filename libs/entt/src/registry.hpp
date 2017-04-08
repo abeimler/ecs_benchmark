@@ -43,7 +43,7 @@ class View<Pool<Components...>, Type, Types...> final {
         ViewIterator(pool_type &pool, const entity_type *entities, typename pool_type::size_type pos) noexcept
             : pool{pool}, entities{entities}, pos{pos}
         {
-            if(pos) { while(!valid() && --pos); }
+            if(this->pos) { while(!valid() && --this->pos); }
         }
 
         ViewIterator & operator++() noexcept {
@@ -252,13 +252,22 @@ public:
         return count;
     }
 
+    template<typename Comp>
+    bool empty() const noexcept {
+        return pool.template empty<Comp>();
+    }
+
     bool empty() const noexcept {
         return available.size() == count;
     }
 
-    template<typename Comp>
-    bool empty() const noexcept {
-        return pool.template empty<Comp>();
+    template<typename... Comp>
+    entity_type create() noexcept {
+        using accumulator_type = int[];
+        auto entity = create();
+        accumulator_type accumulator = { 0, (assign<Comp>(entity), 0)... };
+        (void)accumulator;
+        return entity;
     }
 
     entity_type create() noexcept {
@@ -274,15 +283,6 @@ public:
         return entity;
     }
 
-    template<typename... Comp>
-    entity_type create() noexcept {
-        using accumulator_type = int[];
-        auto entity = create();
-        accumulator_type accumulator = { 0, (assign<Comp>(entity), 0)... };
-        (void)accumulator;
-        return entity;
-    }
-
     void destroy(entity_type entity) {
         using accumulator_type = int[];
         accumulator_type accumulator = { 0, (destroy<Components>(entity), 0)... };
@@ -291,8 +291,8 @@ public:
     }
 
     template<typename Comp, typename... Args>
-    Comp & assign(entity_type entity, Args&&... args) {
-        return pool.template construct<Comp>(entity, std::forward<Args>(args)...);
+    Comp & assign(entity_type entity, Args... args) {
+        return pool.template construct<Comp>(entity, args...);
     }
 
     template<typename Comp>
@@ -316,8 +316,8 @@ public:
     }
 
     template<typename Comp, typename... Args>
-    void replace(entity_type entity, Args&&... args) {
-        pool.template get<Comp>(entity) = Comp{std::forward<Args>(args)...};
+    void replace(entity_type entity, Args... args) {
+        pool.template get<Comp>(entity) = Comp{args...};
     }
 
     entity_type clone(entity_type from) {
@@ -337,6 +337,11 @@ public:
         using accumulator_type = int[];
         accumulator_type accumulator = { 0, (sync<Components>(from, to), 0)... };
         (void)accumulator;
+    }
+
+    template<typename Comp>
+    void reset() {
+        pool.template reset<Comp>();
     }
 
     void reset() {
