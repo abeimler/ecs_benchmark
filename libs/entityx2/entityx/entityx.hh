@@ -78,125 +78,76 @@ struct get_component_size_sum<T, Ts...> :
 }  // namespace details
 
 
-
-
-
 /**
- * ContiguousStorage is a storage engine for EntityX that uses a single contiguous
- * block of memory for holding all components for all entities.
+ * Storage interface.
  */
-template <class Components, std::size_t INITIAL_CAPACITY = 1024>
-class ContiguousStorage {
-public:
-  ContiguousStorage() {
-    components_.reserve(INITIAL_CAPACITY);
-  }
-  ContiguousStorage(const ContiguousStorage &) = delete;
-  ContiguousStorage(ContiguousStorage &&other) = delete;
-  ContiguousStorage &operator = (const ContiguousStorage &) const = delete;
+struct Storage {
+  // A hint that the backend should be capable of storing this number of entities.
+  void resize(std::size_t entities);
 
-  void resize(std::size_t entities) {
-    std::size_t size = components_.size();
-    if (entities < size)
-      return;
-    components_.resize(entities);
-  }
+  // Retrieve component C from entity or return nullptr.
+  template <typename C> C *get(std::uint32_t entity);
 
-  template <typename C>
-  C *get(std::uint32_t entity) {
-    return static_cast<C*>(static_cast<void*>(components_[entity].block + Components::template component_offset<C>::value));
-  }
+  // Create component C on entity with the given constructor arguments.
+  template <typename C, typename ... Args> C *create(std::uint32_t entity, Args && ... args);
 
-  template <typename C, typename ... Args>
-  C *create(std::uint32_t entity, Args && ... args) {
-    return new(get<C>(entity)) C(std::forward<Args>(args) ...);
-  }
+  // Call the destructor for the component C of entity.
+  template <typename C> void destroy(std::uint32_t entity);
 
-  template <typename C>
-  void destroy(std::uint32_t entity) {
-    get<C>(entity)->~C();
-  }
-
-  void reset() {
-    components_.resize(0);
-  }
-
-private:
-  struct ComponentBlock { std::uint8_t block[Components::component_size_sum]; };
-  std::vector<ComponentBlock> components_;
+  // Free all underlying storage.
+  void reset();
 };
 
 
 
-
-
 /**
- * An EntityX storage class where each component is stored in its own
- * contiguous block of memory.
- *
- * Memory is managed by malloc/free/realloc.
+ * ContiguousStorage is a storage engine for EntityX that uses semi-contiguous
+ * blocks of memory for holding all components for all entities.
  */
-template <class Components, std::size_t INITIAL_CAPACITY = 1024>
-class ColumnStorage {
+template <class Components, int CHUNK_SIZE = 8192, int INITIAL_CHUNKS = 8>
+class ContiguousStorage {
 public:
-  ColumnStorage() : sizes_(Components::component_sizes()), size_(0), capacity_(0) {
-    for (std::size_t i = 0; i < sizes_.size(); i++)
-      columns_[i] = nullptr;
-    reserve(INITIAL_CAPACITY);
+  ContiguousStorage() {
+    resize(CHUNK_SIZE * INITIAL_CHUNKS);
   }
-  ~ColumnStorage() {
-    for (std::size_t i = 0; i < sizes_.size(); i++)
-      std::free(columns_[i]);
-  }
-  ColumnStorage(const ColumnStorage &) = delete;
-  ColumnStorage(ColumnStorage &&other) = delete;
-  ColumnStorage &operator = (const ColumnStorage &) const = delete;
+  ContiguousStorage(const ContiguousStorage &) = delete;
 
-  void resize(std::size_t entities) {
-    if (entities < size_)
-      return;
-    reserve(entities);
-    size_ = entities;
+  void resize(std::size_t n) {
+    while (n > blocks_.size() * CHUNK_SIZE) {
+      char *block = new char[CHUNK_SIZE * Components::component_size_sum];
+      blocks_.push_back(block);
+    }
   }
 
   template <typename C>
   C *get(std::uint32_t entity) {
+    assert(entity < blocks_.size() * CHUNK_SIZE);
     return static_cast<C*>(static_cast<void*>(
-      columns_[Components::template component_index<C>::value] +
-      entity * Components::template component_size<C>::value));
+      blocks_[entity / CHUNK_SIZE]
+      + (entity % CHUNK_SIZE) * Components::component_size_sum
+      + Components::template component_offset<C>::value
+    ));
   }
 
   template <typename C, typename ... Args>
   C *create(std::uint32_t entity, Args && ... args) {
+    assert(entity < blocks_.size() * CHUNK_SIZE);
     return new(get<C>(entity)) C(std::forward<Args>(args) ...);
   }
 
   template <typename C>
   void destroy(std::uint32_t entity) {
+    assert(entity < blocks_.size() * CHUNK_SIZE);
     get<C>(entity)->~C();
   }
 
   void reset() {
-    size_ = 0;
+    for (char *block : blocks_) delete [] block;
+    blocks_.resize(0);
   }
 
 private:
-  void reserve(std::size_t capacity) {
-    if (capacity < capacity_)
-      return;
-    if (capacity_ == 0)
-      capacity_ = capacity;
-    else
-      while (capacity_ < capacity)
-        capacity_ *= 2;
-    for (std::size_t i = 0; i < sizes_.size(); i++) {
-      columns_[i] = static_cast<std::uint8_t*>(std::realloc(columns_[i], capacity_ * sizes_[i]));
-    }
-  }
-
-  std::vector<std::size_t> sizes_;
-  std::size_t size_, capacity_;
-  std::uint8_t *columns_[Components::component_count];
+  std::vector<char*> blocks_;
 };
 
 
@@ -220,7 +171,9 @@ struct Components {
   template <typename C>
   struct component_offset : details::get_component_offset<C, Cs...> {};
 
+  // Number of components in the set.
   static const std::size_t component_count = sizeof...(Cs);
+  // sizeof() sum of all components.
   static const std::size_t component_size_sum = details::get_component_size_sum<Cs...>::value;
 
   static std::vector<std::size_t> component_sizes() {
@@ -230,37 +183,55 @@ struct Components {
   }
 
   template <class Storage>
-  static void destroy(Storage &storage, const std::bitset<component_count> &mask, std::size_t index) {
+  static void destroy(Storage &storage, const std::bitset<component_count> &mask, std::uint32_t index) {
     Components::destroy<Storage, Cs...>(storage, mask, index);
   }
 
   template <class Storage, class C>
-  static void destroy(Storage &storage, const std::bitset<component_count> &mask, std::size_t index) {
+  static void destroy(Storage &storage, const std::bitset<component_count> &mask, std::uint32_t index) {
     if (mask.test(component_index<C>::value)) {
       storage.template destroy<C>(index);
     }
   }
 
   template <class Storage, template <typename> class Component, typename ... Components>
-  static std::tuple<Component<Cs> & ...> unpack(Storage &storage, std::size_t index, Component<Components> & ... components) {
+  static std::tuple<Component<Cs> & ...> unpack(Storage &storage, std::uint32_t index, Component<Components> & ... components) {
     return std::forward_as_tuple(storage.template get<Components>(index)...);
   }
 
+  template <typename Storage, typename Fn>
+  static void apply(Storage &storage, const std::bitset<component_count> &mask, std::uint32_t index, Fn fn) {
+    apply_inner<Storage, Fn, Cs...>(storage, mask, index, fn);
+  }
+
 private:
+  template <typename Storage, typename Fn>
+  static void apply_inner(Storage &storage, const std::bitset<component_count> &mask, std::uint32_t index, Fn fn) {
+  }
+
+  template <typename Storage, typename Fn, typename C0, typename ... Cn>
+  static void apply_inner(Storage &storage, const std::bitset<component_count> &mask, std::uint32_t index, Fn fn) {
+    if (mask.test(component_index<C0>::value)) {
+      fn(*storage.template get<C0>(index));
+    }
+    apply_inner<Storage, Fn, Cn...>(storage, mask, index, fn);
+  }
+
+
   template <class C>
-  static void init_sizes(std::vector<std::size_t> &sizes, std::size_t index = 0) {
+  static void init_sizes(std::vector<std::size_t> &sizes, std::uint32_t index = 0) {
     (void)index;
     sizes.push_back(sizeof(C));
   }
 
   template <class C0, class C1, class ... Cn>
-  static void init_sizes(std::vector<std::size_t> &sizes, std::size_t index = 0) {
+  static void init_sizes(std::vector<std::size_t> &sizes, std::uint32_t index = 0) {
     sizes.push_back(sizeof(C0));
     Components::init_sizes<C1, Cn...>(sizes, index + 1);
   }
 
   template <class Storage, class C, class C1, class ... Cn>
-  static void destroy(Storage &storage, const std::bitset<component_count> &mask, std::size_t index) {
+  static void destroy(Storage &storage, const std::bitset<component_count> &mask, std::uint32_t index) {
     Components::destroy<Storage, C>(storage, mask, index);
     Components::destroy<Storage, C1, Cn...>(storage, mask, index);
   }
@@ -270,7 +241,14 @@ private:
 
 
 
+/**
+ * A bitmask of features togglable at compile time.
+ */
 enum FeatureFlags {
+  /**
+   * If provided, various observer methods will be available:
+   * on_component_added/removed, on_entity_created/destroyed.
+   */
   OBSERVABLE = 1
 };
 
@@ -306,8 +284,9 @@ private:
  * @tparam Components The Components template parameter must be a realised
  *                    type instance of Components<C...>.
  * @tparam Storage A type that implements the storage interface.
+ * @tparam Features A bitmask of features to enable. See FeatureFlags.
  */
-template <class Components, class Storage = ColumnStorage<Components>, std::size_t Features = 0>
+template <class Components, class Storage = ContiguousStorage<Components>, std::size_t Features = 0>
 class EntityX {
 private:
   template <typename T>
@@ -327,7 +306,7 @@ private:
 public:
   typedef std::bitset<Components::component_count> ComponentMask;
 
-
+  class Entity;
   /**
    * A Component<C> is a wrapper around an instance of a component.
    *
@@ -350,14 +329,31 @@ public:
     C *operator -> () { return get(); }
     const C *operator -> () const { return get(); }
 
-    C *get() { return manager_->template component_ptr_<C>(id_); }
-    const C *get() const { return manager_->template component_ptr_<C>(id_); }
+    C *get() {
+      assert(manager_ && "manager is null");
+      return manager_->template component_ptr_<C>(id_);
+    }
+    const C *get() const {
+      assert(manager_ && "manager is null");
+      return manager_->template component_ptr_<C>(id_);
+    }
+
+    C &operator * () { return *get(); }
+    const C &operator * () const { return *get(); }
 
     /** Remove the component from its entity and destroy it. */
-    void remove() { manager_->template remove<C>(id_); }
+    void remove() {
+      assert(manager_ && "manager is null");
+      manager_->template remove<C>(id_);
+    }
 
     bool operator == (const Component<C> &other) const { return manager_ == other.manager_ && id_ == other.id_; }
     bool operator != (const Component<C> &other) const { return !(*this == other); }
+    bool operator < (const Component<C> &other) const { return (id_ < other.id_); }
+
+    Entity entity() {
+      return {manager_, id_};
+    }
 
   private:
     friend class EntityX;
@@ -595,28 +591,28 @@ public:
   template <typename ... ComponentsToUnpack>
   class UnpackingView {
    public:
-  struct Unpacker {
-    explicit Unpacker(Component<ComponentsToUnpack> & ... handles) :
-        handles(std::tuple<Component<ComponentsToUnpack> & ...>(handles...)) {}
+    struct Unpacker {
+      explicit Unpacker(Component<ComponentsToUnpack> & ... handles) :
+          handles(std::tuple<Component<ComponentsToUnpack> & ...>(handles...)) {}
 
-    void unpack(Entity &entity) const {
-      unpack_<0, ComponentsToUnpack...>(entity);
-    }
+      void unpack(Entity &entity) const {
+        unpack_<0, ComponentsToUnpack...>(entity);
+      }
 
-  private:
-    template <int N, typename C>
-    void unpack_(Entity &entity) const {
-      std::get<N>(handles) = entity.template component<C>();
-    }
+    private:
+      template <int N, typename C>
+      void unpack_(Entity &entity) const {
+        std::get<N>(handles) = entity.template component<C>();
+      }
 
-    template <int N, typename C0, typename C1, typename ... Cn>
-    void unpack_(Entity &entity) const {
-      std::get<N>(handles) = entity.template component<C0>();
-      unpack_<N + 1, C1, Cn...>(entity);
-    }
+      template <int N, typename C0, typename C1, typename ... Cn>
+      void unpack_(Entity &entity) const {
+        std::get<N>(handles) = entity.template component<C0>();
+        unpack_<N + 1, C1, Cn...>(entity);
+      }
 
-    std::tuple<Component<ComponentsToUnpack> & ...> handles;
-  };
+      std::tuple<Component<ComponentsToUnpack> & ...> handles;
+    };
 
 
     class Iterator : public ViewIterator<Iterator> {
@@ -779,28 +775,28 @@ public:
   }
 
   // Called whenever an entity is created.
-  template <bool IS_OBSERVABLE = Features & OBSERVABLE>
-  typename std::enable_if<IS_OBSERVABLE>::type on_entity_created(std::function<void(Entity)> callback) {
+  template <typename = std::enable_if<Features & OBSERVABLE>>
+  void on_entity_created(std::function<void(Entity)> callback) {
     on_entity_created_ = callback;
   }
 
   // Called whenever an entity is destroyed.
-  template <bool IS_OBSERVABLE = Features & OBSERVABLE>
-  typename std::enable_if<IS_OBSERVABLE>::type on_entity_destroyed(std::function<void(Entity)> callback) {
+  template <typename = std::enable_if<Features & OBSERVABLE>>
+  void on_entity_destroyed(std::function<void(Entity)> callback) {
     on_entity_destroyed_ = callback;
   }
 
   // Called whenever a component of type Component is added to an entity.
-  template <typename C, bool IS_OBSERVABLE = Features & OBSERVABLE>
-  typename std::enable_if<IS_OBSERVABLE && is_component<C>::value>::type on_component_added(std::function<void(Entity, Component<C>)> callback) {
+  template <typename C, typename = std::enable_if<Features & OBSERVABLE && is_component<C>::value>>
+  void on_component_added(std::function<void(Entity, Component<C>)> callback) {
     on_component_added_[component_index<C>::value] = [callback](Entity entity, void *ptr) {
       callback(entity, *reinterpret_cast<Component<C>*>(ptr));
     };
   }
 
   // Called whenever a component of type Component is removed from an entity.
-  template <typename C, bool IS_OBSERVABLE = Features & OBSERVABLE>
-  typename std::enable_if<IS_OBSERVABLE && is_component<C>::value>::type on_component_removed(std::function<void(Entity, Component<C>)> callback) {
+  template <typename C, typename = std::enable_if<Features & OBSERVABLE && is_component<C>::value>>
+  void on_component_removed(std::function<void(Entity, Component<C>)> callback) {
     on_component_removed_[component_index<C>::value] = [callback](Entity entity, void *ptr) {
       callback(entity, *reinterpret_cast<Component<C>*>(ptr));
     };
@@ -841,6 +837,23 @@ public:
     ComponentMask mask = component_mask<ComponentsToFilter...>();
     return UnpackingView<ComponentsToFilter...>(this, mask, components...);
   }
+
+  /**
+   * Call function with (Entity, ComponentsToFilter&...).
+   *
+   * @code
+   * entity_manager.for_each([&](Entity entity, Body &body, Position &position) {
+   *    // ...
+   * })
+   * @endcode
+   */
+  template <typename ... ComponentsToFilter, typename F>
+  void for_each(F f) {
+    for (auto entity : entities_with_components<ComponentsToFilter...>())
+      f(entity, *(entity.template component<ComponentsToFilter>().get())...);
+  }
+
+
 
   /**
    * Iterate over all *valid* entities (ie. not in the free list). Not fast,
@@ -888,33 +901,54 @@ public:
   void reset();
 
 private:
+  struct on_component_removed_proxy {
+    on_component_removed_proxy(EntityX *em, Entity entity) : em(em), entity(entity) {}
+
+    template <typename C>
+    void operator () (C &component) {
+      em->component_removed_(entity, Component<C>(em, entity.id()));
+    }
+
+  private:
+    EntityX *em;
+    Entity entity;
+  };
+
   // These proxy functions are nooped at compile time .
 
-  template <bool FeatureMask = Features> typename std::enable_if<FeatureMask & OBSERVABLE>::type
+  template <bool FeatureMask = Features>
+  typename std::enable_if<FeatureMask & OBSERVABLE>::type
   entity_created_(Entity entity) { if (on_entity_created_) on_entity_created_(entity); }
-  template <bool FeatureMask = Features> typename std::enable_if<!FeatureMask>::type
-  entity_created_(Entity entity) {}
+  template <bool FeatureMask = Features>
+  typename std::enable_if<!(FeatureMask & OBSERVABLE)>::type
+  entity_created_(Entity) {}
 
-  template <bool FeatureMask = Features> typename std::enable_if<FeatureMask & OBSERVABLE>::type
+  template <bool FeatureMask = Features>
+  typename std::enable_if<FeatureMask & OBSERVABLE>::type
   entity_destroyed_(Entity entity) { if (on_entity_destroyed_) on_entity_destroyed_(entity); }
-  template <bool FeatureMask = Features> typename std::enable_if<!FeatureMask>::type
-  entity_destroyed_(Entity entity) {}
+  template <bool FeatureMask = Features>
+  typename std::enable_if<!(FeatureMask & OBSERVABLE)>::type
+  entity_destroyed_(Entity) {}
 
-  template <class C, bool FeatureMask = Features> typename std::enable_if<FeatureMask & OBSERVABLE>::type
+  template <class C, bool FeatureMask = Features>
+  typename std::enable_if<FeatureMask & OBSERVABLE>::type
   component_added_(Entity entity, Component<C> component) {
     if (on_component_added_[component_index<C>::value])
       on_component_added_[component_index<C>::value](entity, reinterpret_cast<void*>(&component));
   }
-  template <class C, bool FeatureMask = Features> typename std::enable_if<!FeatureMask>::type
-  component_added_(Entity entity, Component<C> component) {}
+  template <class C, bool FeatureMask = Features>
+  typename std::enable_if<!(FeatureMask & OBSERVABLE)>::type
+  component_added_(Entity, Component<C>) {}
 
-  template <class C, bool FeatureMask = Features> typename std::enable_if<FeatureMask & OBSERVABLE>::type
+  template <class C, bool FeatureMask = Features>
+  typename std::enable_if<FeatureMask & OBSERVABLE>::type
   component_removed_(Entity entity, Component<C> component) {
     if (on_component_removed_[component_index<C>::value])
       on_component_removed_[component_index<C>::value](entity, reinterpret_cast<void*>(&component));
   }
-  template <class C, bool FeatureMask = Features> typename std::enable_if<!FeatureMask>::type
-  component_removed_(Entity entity, Component<C> component) {}
+  template <class C, bool FeatureMask = Features>
+  typename std::enable_if<!(FeatureMask & OBSERVABLE)>::type
+  component_removed_(Entity, Component<C>) {}
 
   template <typename C>
   ComponentMask component_mask() {
@@ -1055,11 +1089,15 @@ EntityX<Components, Storage, Features>::create_many(std::size_t count) {
 
 
 template <class Components, class Storage, std::size_t Features>
-inline void EntityX<Components, Storage, Features>::destroy(Id entity) {
-  assert_valid(entity);
-  entity_destroyed_(Entity(this, entity));
-  const std::uint32_t index = entity.index();
+inline void EntityX<Components, Storage, Features>::destroy(Id id) {
+  assert_valid(id);
+  Entity entity(this, id);
+  const std::uint32_t index = id.index();
   ComponentMask mask = entity_component_mask_[index];
+  // Notify on_component_removed() callback.
+  Components::apply(storage_, mask, index, on_component_removed_proxy(this, entity));
+  // Notify on_entity_destroyed() callback.
+  entity_destroyed_(entity);
   Components::template destroy<Storage>(storage_, mask, index);
   entity_component_mask_[index].reset();
   entity_version_[index]++;

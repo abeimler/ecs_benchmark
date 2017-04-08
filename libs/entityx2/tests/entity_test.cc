@@ -110,8 +110,8 @@ struct Test {
 };
 
 
-typedef Components<Position, Direction, Tag, CopyVerifier, Test> GameComponents;
-typedef EntityX<GameComponents, ContiguousStorage<GameComponents, 10000000L>, OBSERVABLE> EntityManager;
+using GameComponents = Components<Position, Direction, Tag, CopyVerifier, Test>;
+using EntityManager = EntityX<GameComponents, ContiguousStorage<GameComponents>, OBSERVABLE>;
 template <typename C> using Component = EntityManager::Component<C>;
 using Entity = EntityManager::Entity;
 
@@ -178,6 +178,12 @@ TEST_CASE_METHOD(EntityManagerFixture, "TestComponentConstruction") {
   REQUIRE(p ==  cp);
   REQUIRE(1.0 == Approx(cp->x));
   REQUIRE(2.0 == Approx(cp->y));
+}
+
+TEST_CASE_METHOD(EntityManagerFixture, "TestEntityFromComponent") {
+  auto e = em.create();
+  auto p = e.assign<Position>(1, 2);
+  REQUIRE(p.entity() ==  e);
 }
 
 TEST_CASE_METHOD(EntityManagerFixture, "TestDestroyEntity") {
@@ -562,4 +568,37 @@ TEST_CASE("TestEntityManagerDestructorCallsDestroyedEvent") {
     e.create().destroy();
   }
   REQUIRE(destroyed == 2);
+}
+
+TEST_CASE("TestContiguousStorage") {
+  using Components = entityx::Components<Position>;
+  using Storage = ContiguousStorage<Components, 10, 10>;
+
+  Storage storage;
+  storage.resize(200);
+  for (int i = 0; i < 200; i++)
+    storage.create<Position>(i, i, -i);
+  for (int i = 0; i < 200; i++) {
+    Position *position = storage.get<Position>(i);
+    REQUIRE(position->x == i);
+    REQUIRE(position->y == -i);
+  }
+}
+
+TEST_CASE("TestOnRemoveComponentCalledWhenEntityIsDestroyed") {
+  int on_removed = 0;
+
+  EntityManager em;
+  em.on_component_removed<Position>([&](Entity e, Component<Position> c) {
+    on_removed++;
+  });
+  em.on_component_removed<Direction>([&](Entity e, Component<Direction> c) {
+    on_removed++;
+  });
+  Entity entity = em.create();
+  entity.assign<Position>();
+  entity.assign<Direction>();
+  entity.destroy();
+
+  REQUIRE(on_removed == 2);
 }
