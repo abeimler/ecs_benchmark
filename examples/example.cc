@@ -81,9 +81,9 @@ struct Collideable {
 };
 
 
-using Components = entityx::Components<Body, Renderable, Particle, Collideable, Indestructible>;
-using EntityManager = entityx::EntityX<Components>;
-template <typename C> using Component = EntityManager::Component<C>;
+using EntityManager = entityx::EntityX<
+  entityx::DefaultStorage, 0,
+  Body, Renderable, Particle, Collideable, Indestructible>;
 using Entity = EntityManager::Entity;
 
 
@@ -190,7 +190,7 @@ public:
       Entity entity = es.create();
 
       // Mark as collideable (explosion particles will not be collideable).
-      Component<Collideable> collideable = entity.assign<Collideable>(r(10, 5));
+      Collideable *collideable = entity.assign<Collideable>(r(10, 5));
 
       // "Physical" attributes.
       entity.assign<Body>(
