@@ -15,23 +15,20 @@ class ArtemisBenchmark {
     public:
 
     struct PositionComponent : artemis::Component {
-        float x = 0.0f;
-        float y = 0.0f;
-        
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct DirectionComponent : artemis::Component {
-        float x = 0.0f;
-        float y = 0.0f;
-        
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct ComflabulationComponent : artemis::Component {
-        float thingy = 0.0;
+        double thingy = 0.0;
         int dingy = 0;
         bool mingy = false;
         std::string stringy;
-        
     };
 
     using System = artemis::EntityProcessingSystem;

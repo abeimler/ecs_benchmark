@@ -17,8 +17,8 @@ class AnaxBenchmark {
     public:
 
     struct PositionComponent : anax::Component {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
 
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
@@ -33,8 +33,8 @@ class AnaxBenchmark {
     };
 
     struct DirectionComponent : anax::Component {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
 
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
@@ -49,7 +49,7 @@ class AnaxBenchmark {
     };
 
     struct ComflabulationComponent : anax::Component {
-        float thingy = 0.0;
+        double thingy = 0.0;
         int dingy = 0;
         bool mingy = false;
         std::string stringy;

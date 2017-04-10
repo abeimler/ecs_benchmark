@@ -63,17 +63,22 @@ BENCHMARK("entityx2 Iterating over 10M entities, unpacking one component", [](be
         entity.assign<EntityX2Benchmark::PositionComponent>();
     }
 
+    auto update_func = [&](EntityX2Benchmark::Entity entity, EntityX2Benchmark::PositionComponent& position) {
+        DISABLE_REDUNDANT_CODE_OPT();
+    };
+
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityX2Benchmark::Component<EntityX2Benchmark::PositionComponent> position;
-
-        for (auto entity : entities.entities_with_components(position)) {
-            DISABLE_REDUNDANT_CODE_OPT();
-            benchpress::escape(position.get());
-        }
+        entities.for_each<EntityX2Benchmark::PositionComponent>(update_func);
     }
 })
 
+
+
+
+
+// TODO compiler error, why ?
+/*
 BENCHMARK("entityx2 Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
@@ -83,18 +88,16 @@ BENCHMARK("entityx2 Iterating over 10M entities, unpacking two components", [](b
         entity.assign<EntityX2Benchmark::DirectionComponent>();
     }
 
+    auto update_func = [&](EntityX2Benchmark::Entity entity, EntityX2Benchmark::PositionComponent& position, EntityX2Benchmark::DirectionComponent& velocity) {
+        DISABLE_REDUNDANT_CODE_OPT();
+    };
+
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityX2Benchmark::Component<EntityX2Benchmark::PositionComponent> position;
-        EntityX2Benchmark::Component<EntityX2Benchmark::DirectionComponent> velocity;
-
-        for (auto entity : entities.entities_with_components(position, velocity)) {
-            DISABLE_REDUNDANT_CODE_OPT();
-            benchpress::escape(position.get());
-            benchpress::escape(velocity.get());
-        }
+        entities.for_each<EntityX2Benchmark::PositionComponent, EntityX2Benchmark::DirectionComponent>(update_func);
     }
 })
+*/
 
 
 
