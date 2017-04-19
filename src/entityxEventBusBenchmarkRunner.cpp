@@ -123,7 +123,7 @@ class EntityXEventBusTest {
             events.subscribe<EventA>(*this);
         }
 
-        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) {}
+        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {}
 
         void receive(const EventA &) { a_++; }
 
@@ -141,7 +141,7 @@ class EntityXEventBusTest {
             events.subscribe<EventB>(*this);
         }
 
-        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) {}
+        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {}
 
         void receive(const EventB &) { b_++; }
         
@@ -158,7 +158,7 @@ class EntityXEventBusTest {
             events.subscribe<EventC>(*this);
         }
 
-        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) {}
+        void update(entityx::EntityManager &entities, entityx::EventManager &events, entityx::TimeDelta dt) override {}
 
         void receive(const EventC &) { c_++; }
         

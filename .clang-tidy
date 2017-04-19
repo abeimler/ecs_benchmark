@@ -2,7 +2,7 @@
 Checks:          'clang-diagnostic-*,clang-analyzer-*,-clang-analyzer-alpha*,*,-clang-analyzer-alpha.*,-llvm-include-order'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
-User:            hirc
+User:            abeimler
 CheckOptions:    
   - key:             cert-err61-cpp.CheckThrowTemporaries
     value:           '1'

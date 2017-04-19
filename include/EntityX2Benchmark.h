@@ -43,7 +43,7 @@ class EntityX2Benchmark {
 
     using Entity = EntityManager::Entity;
 
-    typedef double TimeDelta;
+    using TimeDelta = double;
 
 
 

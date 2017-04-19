@@ -23,7 +23,7 @@ class AnaxBenchmark {
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
             PositionComponent() = default;
-            virtual ~PositionComponent() = default;
+            ~PositionComponent() override = default;
             PositionComponent(const PositionComponent&) = default;
             PositionComponent& operator=(const PositionComponent&) = default;
             PositionComponent(PositionComponent&&) = default;
@@ -39,7 +39,7 @@ class AnaxBenchmark {
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
             DirectionComponent() = default;
-            virtual ~DirectionComponent() = default;
+            ~DirectionComponent() override = default;
             DirectionComponent(const DirectionComponent&) = default;
             DirectionComponent& operator=(const DirectionComponent&) = default;
             DirectionComponent(DirectionComponent&&) = default;
@@ -57,7 +57,7 @@ class AnaxBenchmark {
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
             ComflabulationComponent() = default;
-            virtual ~ComflabulationComponent() = default;
+            ~ComflabulationComponent() override = default;
             ComflabulationComponent(const ComflabulationComponent&) = default;
             ComflabulationComponent& operator=(const ComflabulationComponent&) = default;
             ComflabulationComponent(ComflabulationComponent&&) = default;
@@ -67,7 +67,7 @@ class AnaxBenchmark {
     };
 
 
-    typedef double TimeDelta;
+    using TimeDelta = double;
 
     class MovementSystem : public anax::System<anax::Requires<PositionComponent, DirectionComponent>> {
         public:
