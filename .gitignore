@@ -449,3 +449,4 @@ __pycache__/
 *.xsd.cs
 
 # End of https://www.gitignore.io/api/linux,windows,osx,cmake,c++,netbeans,visualstudio,visualstudiocode,kdevelop4,qtcreator
+.vscode/.cmaketools.json
