@@ -6,7 +6,7 @@
 # Building in-tree is not allowed (we take care of your craziness).
 #
 
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR "Prevented in-tree built. Please create a build directory outside of the source code and call cmake from there. Thank you.")
 endif()
 
@@ -112,25 +112,10 @@ set(CPACK_PACKAGE_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "event++")
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION})
 set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CPACK_PACKAGE_FILE_NAME}-src)
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
-set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
+set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_SOURCE_DIR}/README.md)
 set(CPACK_GENERATOR TGZ)
 set(CPACK_SOURCE_GENERATOR TGZ)
 set(CPACK_PACKAGING_INSTALL_DIRECTORY "event++-${CMake_VERSION_MAJOR}.${CMake_VERSION_MINOR}")
 
 include(CPack)
-
-#
-# I use QtCreator and I need the lines below, so do not ask. :-)
-#
-
-file(
-    GLOB_RECURSE PROJECT_FILES FOLLOW_SYMLINKS
-    *.txt *.c *.cpp *.hpp *.h *.in *.cmake *.sh Makefile *.md
-)
-
-add_custom_target(
-    QTCREATOR_FALLBACK ALL
-    COMMENT "Feel free to ignore this target, but please do not remove it."
-    SOURCES ${PROJECT_FILES}
-)
