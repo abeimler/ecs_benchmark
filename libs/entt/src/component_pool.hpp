@@ -2,31 +2,30 @@
 #define ENTT_COMPONENT_POOL_HPP
 
 
-#include <type_traits>
 #include <utility>
 #include <vector>
-#include <tuple>
-#include <memory>
-#include <cstddef>
 #include <cassert>
-#include <algorithm>
 
 
 namespace entt {
 
 
-template<typename, typename...>
-struct ComponentPool;
+template<typename, typename, typename...>
+class ComponentPool;
 
 
-template<typename Component>
-struct ComponentPool<Component> final {
+template<typename Entity, typename Component>
+class ComponentPool<Entity, Component> {
+public:
     using component_type = Component;
-    using size_type = std::uint32_t;
-    using entity_type = std::uint32_t;
+    using entity_type = Entity;
+    using pos_type = entity_type;
+    using size_type = typename std::vector<component_type>::size_type;
+    using iterator_type = typename std::vector<entity_type>::iterator;
+    using const_iterator_type = typename std::vector<entity_type>::const_iterator;
 
 private:
-    bool valid(entity_type entity) const noexcept {
+    inline bool valid(entity_type entity) const noexcept {
         return entity < reverse.size() && reverse[entity] < direct.size() && direct[reverse[entity]] == entity;
     }
 
@@ -56,8 +55,20 @@ public:
         return data.size();
     }
 
-    const entity_type * entities() const noexcept {
-        return direct.data();
+    iterator_type begin() noexcept {
+        return direct.begin();
+    }
+
+    const_iterator_type cbegin() const noexcept {
+        return direct.cbegin();
+    }
+
+    iterator_type end() noexcept {
+        return direct.end();
+    }
+
+    const_iterator_type cend() const noexcept {
+        return direct.cend();
     }
 
     bool has(entity_type entity) const noexcept {
@@ -81,7 +92,7 @@ public:
             reverse.resize(entity+1);
         }
 
-        reverse[entity] = direct.size();
+        reverse[entity] = pos_type(direct.size());
         direct.emplace_back(entity);
         data.push_back({ args... });
 
@@ -109,18 +120,31 @@ public:
 
 private:
     std::vector<component_type> data;
-    std::vector<size_type> reverse;
+    std::vector<pos_type> reverse;
     std::vector<entity_type> direct;
 };
 
 
-template<typename Component, typename... Components>
-struct  ComponentPool final {
-    using size_type = typename ComponentPool<Component>::size_type;
-    using entity_type = typename ComponentPool<Component>::entity_type;
+template<typename Entity, typename Component, typename... Components>
+class ComponentPool
+        : ComponentPool<Entity, Component>, ComponentPool<Entity, Components>...
+{
+    template<typename Comp>
+    using Pool = ComponentPool<Entity, Comp>;
+
+public:
+    using entity_type = typename Pool<Component>::entity_type;
+    using pos_type = typename Pool<Component>::pos_type;
+    using size_type = typename Pool<Component>::size_type;
+    using iterator_type = typename Pool<Component>::iterator_type;
+    using const_iterator_type = typename Pool<Component>::const_iterator_type;
 
     explicit ComponentPool(size_type dim = 4098) noexcept
-        : pools{ComponentPool<Component>{dim}, ComponentPool<Components>{dim}...}
+#ifdef _MSC_VER
+        : ComponentPool<Entity, Component>{dim}, ComponentPool<Entity, Components>{dim}...
+#else
+        : Pool<Component>{dim}, Pool<Components>{dim}...
+#endif
     {
         assert(!(dim < 0));
     }
@@ -133,32 +157,47 @@ struct  ComponentPool final {
 
     template<typename Comp>
     bool empty() const noexcept {
-        return std::get<ComponentPool<Comp>>(pools).empty();
+        return Pool<Comp>::empty();
     }
 
     template<typename Comp>
     size_type capacity() const noexcept {
-        return std::get<ComponentPool<Comp>>(pools).capacity();
+        return Pool<Comp>::capacity();
     }
 
     template<typename Comp>
     size_type size() const noexcept {
-        return std::get<ComponentPool<Comp>>(pools).size();
+        return Pool<Comp>::size();
     }
 
     template<typename Comp>
-    const entity_type * entities() const noexcept {
-        return std::get<ComponentPool<Comp>>(pools).entities();
+    iterator_type begin() noexcept {
+        return Pool<Comp>::begin();
+    }
+
+    template<typename Comp>
+    const_iterator_type cbegin() const noexcept {
+        return Pool<Comp>::cbegin();
+    }
+
+    template<typename Comp>
+    iterator_type end() noexcept {
+        return Pool<Comp>::end();
+    }
+
+    template<typename Comp>
+    const_iterator_type cend() const noexcept {
+        return Pool<Comp>::cend();
     }
 
     template<typename Comp>
     bool has(entity_type entity) const noexcept {
-        return std::get<ComponentPool<Comp>>(pools).has(entity);
+        return Pool<Comp>::has(entity);
     }
 
     template<typename Comp>
     const Comp & get(entity_type entity) const noexcept {
-        return std::get<ComponentPool<Comp>>(pools).get(entity);
+        return Pool<Comp>::get(entity);
     }
 
     template<typename Comp>
@@ -168,28 +207,25 @@ struct  ComponentPool final {
 
     template<typename Comp, typename... Args>
     Comp & construct(entity_type entity, Args... args) {
-        return std::get<ComponentPool<Comp>>(pools).construct(entity, args...);
+        return Pool<Comp>::construct(entity, args...);
     }
 
     template<typename Comp>
     void destroy(entity_type entity) {
-        std::get<ComponentPool<Comp>>(pools).destroy(entity);
+        Pool<Comp>::destroy(entity);
     }
 
     template<typename Comp>
     void reset() {
-        std::get<ComponentPool<Comp>>(pools).reset();
+        Pool<Comp>::reset();
     }
 
     void reset() {
         using accumulator_type = int[];
-        std::get<ComponentPool<Component>>(pools).reset();
-        accumulator_type accumulator = { (std::get<ComponentPool<Components>>(pools).reset(), 0)... };
+        Pool<Component>::reset();
+        accumulator_type accumulator = { (Pool<Components>::reset(), 0)... };
         (void)accumulator;
     }
-
-private:
-    std::tuple<ComponentPool<Component>, ComponentPool<Components>...> pools;
 };
 
 
