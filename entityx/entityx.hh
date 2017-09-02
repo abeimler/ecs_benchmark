@@ -204,6 +204,9 @@ public:
     resize(CHUNK_SIZE * INITIAL_CHUNKS);
   }
   ContiguousStorage(const ContiguousStorage &) = delete;
+  ~ContiguousStorage() {
+    reset();
+  }
 
   void resize(std::size_t n) {
     while (n > blocks_.size() * CHUNK_SIZE) {
@@ -400,7 +403,7 @@ public:
 
     template <typename ... Cn>
     std::tuple<const Cn*...> components() const {
-      return manager_->components<Cn...>();
+      return manager_->components<Cn...>(id_);
     }
 
     template <typename C, typename ... Args>
