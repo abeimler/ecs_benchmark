@@ -38,6 +38,7 @@ TEST(DefaultRegistry, Construct) {
     std::cout << "Constructing 10000000 entities" << std::endl;
 
     Timer timer;
+
     for (uint64_t i = 0; i < 10000000L; i++) {
         registry.create();
     }
@@ -406,4 +407,53 @@ TEST(DefaultRegistry, IterateTenComponents10MOne) {
 
     timer.elapsed();
     registry.reset();
+}
+
+TEST(DefaultRegistry, SortSingle) {
+    using registry_type = entt::DefaultRegistry<Position>;
+
+    registry_type registry;
+    std::vector<registry_type::entity_type> entities{};
+
+    std::cout << "Sort 10000000 entities" << std::endl;
+
+    for (uint64_t i = 0; i < 10000000L; i++) {
+        auto entity = registry.create();
+        entities.push_back(entity);
+        registry.assign<Position>(entity, i, i);
+    }
+
+    Timer timer;
+
+    registry.sort<Position>([](const auto &lhs, const auto &rhs) {
+        return lhs.x < rhs.x && lhs.y < rhs.y;
+    });
+
+    timer.elapsed();
+}
+
+TEST(DefaultRegistry, SortMulti) {
+    using registry_type = entt::DefaultRegistry<Position, Velocity>;
+
+    registry_type registry;
+    std::vector<registry_type::entity_type> entities{};
+
+    std::cout << "Sort 10000000 entities" << std::endl;
+
+    for (uint64_t i = 0; i < 10000000L; i++) {
+        auto entity = registry.create();
+        entities.push_back(entity);
+        registry.assign<Position>(entity, i, i);
+        registry.assign<Velocity>(entity, i, i);
+    }
+
+    registry.sort<Position>([](const auto &lhs, const auto &rhs) {
+        return lhs.x < rhs.x && lhs.y < rhs.y;
+    });
+
+    Timer timer;
+
+    registry.sort<Velocity, Position>();
+
+    timer.elapsed();
 }
