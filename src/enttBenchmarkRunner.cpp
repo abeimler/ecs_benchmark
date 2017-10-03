@@ -191,7 +191,7 @@ const std::vector<int> BenchmarksEntt::ENTITIES = {
     10'000, 30'000,
     100'000, 500'000,
     1'000'000, 2'000'000, 5'000'000,
-    10'000'000
+    10'000'000, 20'000'000
 };
 
 BenchmarksEntt enttbenchmarks("entt");

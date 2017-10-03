@@ -75,11 +75,9 @@ BENCHMARK("entityx2 Iterating over 10M entities, unpacking one component", [](be
 
 
 
-
-
-// TODO compiler error, why ?
+// @FIXME: compiler error, why ?
 /*
-BENCHMARK("entityx2 Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
+BENCHMARK("entityx2 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -98,7 +96,6 @@ BENCHMARK("entityx2 Iterating over 10M entities, unpacking two components", [](b
     }
 })
 */
-
 
 
 
@@ -182,7 +179,7 @@ const std::vector<int> BenchmarksEntityX2::ENTITIES = {
     10'000, 30'000, 
     100'000, 500'000, 
     1'000'000, 2'000'000, 5'000'000,
-    10'000'000
+    10'000'000, 20'000'000,
 };
 
 BenchmarksEntityX2 entityx2benchmarks ("entityx2");

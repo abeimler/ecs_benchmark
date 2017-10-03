@@ -6,5 +6,578 @@
     },
     "description": "Enable optimizations, omit debug info"
   },
-  "codeModel": null
+  "codeModel": {
+    "configurations": [
+      {
+        "name": "Release",
+        "projects": [
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/anax",
+            "name": "ANAX",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/anax",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/anax/libanax_s.a"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/anax",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "defines": [
+                      "STATIC_LIB"
+                    ],
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/anax/include"
+                      },
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/build/libs/anax/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/anax/Entity.cpp",
+                      "src/anax/World.cpp",
+                      "src/anax/detail/BaseSystem.cpp",
+                      "src/anax/detail/EntityComponentStorage.cpp",
+                      "src/anax/detail/EntityIdPool.cpp",
+                      "src/anax/detail/Filter.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libanax_s.a",
+                "linkerLanguage": "CXX",
+                "name": "anax",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/anax",
+                "type": "STATIC_LIBRARY"
+              }
+            ]
+          },
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/Artemis-Cpp",
+            "name": "ArtemisCpp",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/Artemis-Cpp",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/lib/libArtemisCpp.a"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/Artemis-Cpp",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/Artemis-Cpp/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/Component.cpp",
+                      "src/ComponentType.cpp",
+                      "src/ComponentTypeManager.cpp",
+                      "src/DelayedEntityProcessingSystem.cpp",
+                      "src/DelayedEntitySystem.cpp",
+                      "src/Entity.cpp",
+                      "src/EntityManager.cpp",
+                      "src/EntityProcessingSystem.cpp",
+                      "src/EntitySystem.cpp",
+                      "src/GroupManager.cpp",
+                      "src/SystemBitManager.cpp",
+                      "src/SystemManager.cpp",
+                      "src/TagManager.cpp",
+                      "src/World.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libArtemisCpp.a",
+                "linkerLanguage": "CXX",
+                "name": "ArtemisCpp",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/Artemis-Cpp",
+                "type": "STATIC_LIBRARY"
+              }
+            ]
+          },
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/entityx1",
+            "name": "EntityX",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/entityx1",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/entityx1/libentityx.a"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/entityx1",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -pedantic -Werror -Wall -Wextra -Wno-unused-parameter -Wno-error=unused-variable -Wno-error=sign-compare -g -O2 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread -std=c++11",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/entityx1"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "entityx/System.cc",
+                      "entityx/Event.cc",
+                      "entityx/Entity.cc",
+                      "entityx/help/Timer.cc",
+                      "entityx/help/Pool.cc"
+                    ]
+                  }
+                ],
+                "fullName": "libentityx.a",
+                "linkerLanguage": "CXX",
+                "name": "entityx",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/entityx1",
+                "type": "STATIC_LIBRARY"
+              }
+            ]
+          },
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress",
+            "name": "benchpress",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_02"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_02.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_02",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_02",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_03"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_03.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_03",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_03",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_04"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_04.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_04",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_04",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_01"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_01.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_01",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_01",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              }
+            ]
+          },
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build",
+            "name": "ecs_benchmark",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark",
+            "targets": [
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_02"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_02.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_02",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_02",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_03"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_03.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_03",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_03",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_04"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_04.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_04",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_04",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples/example_01"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/benchpress/src/examples",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "example_01.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "example_01",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-std=c++11 -fno-omit-frame-pointer -O3 -DNDEBUG",
+                "linkLibraries": "-licuuc -pthread",
+                "linkerLanguage": "CXX",
+                "name": "example_01",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src/examples",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/anax/libanax_s.a"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/anax",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -std=c++11 -O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "defines": [
+                      "STATIC_LIB"
+                    ],
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/anax/include"
+                      },
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/build/libs/anax/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/anax/Entity.cpp",
+                      "src/anax/World.cpp",
+                      "src/anax/detail/BaseSystem.cpp",
+                      "src/anax/detail/EntityComponentStorage.cpp",
+                      "src/anax/detail/EntityIdPool.cpp",
+                      "src/anax/detail/Filter.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libanax_s.a",
+                "linkerLanguage": "CXX",
+                "name": "anax",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/anax",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/ecs_benchmark"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread -std=gnu++14",
+                    "includePath": [
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/entityx1"
+                      },
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/entityx2"
+                      },
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/anax/include"
+                      },
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/Artemis-Cpp/include"
+                      },
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/benchpress/src"
+                      },
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/eventpp/src"
+                      },
+                      {
+                        "isSystem": true,
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/entt/src"
+                      },
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/include"
+                      },
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/src"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/AnaxBenchmark.cpp",
+                      "src/ArtemisBenchmark.cpp",
+                      "src/EntityX2Benchmark.cpp",
+                      "src/EntityXBenchmark.cpp",
+                      "src/EnttBenchmark.cpp",
+                      "src/anaxBenchmarkRunner.cpp",
+                      "src/artemisBenchmarkRunner.cpp",
+                      "src/entityx2BenchmarkRunner.cpp",
+                      "src/entityxBenchmarkRunner.cpp",
+                      "src/entityxEventBusBenchmarkRunner.cpp",
+                      "src/enttBenchmarkRunner.cpp",
+                      "src/main.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "ecs_benchmark",
+                "linkFlags": "-rdynamic",
+                "linkLanguageFlags": "-O3 -DNDEBUG",
+                "linkLibraries": "libs/entityx1/libentityx.a libs/anax/libanax_s.a lib/libArtemisCpp.a",
+                "linkerLanguage": "CXX",
+                "name": "ecs_benchmark",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark",
+                "type": "EXECUTABLE"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/libs/entityx1/libentityx.a"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/entityx1",
+                "fileGroups": [
+                  {
+                    "compileFlags": " -pedantic -Werror -Wall -Wextra -Wno-unused-parameter -Wno-error=unused-variable -Wno-error=sign-compare -g -O2 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread -std=c++11",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/entityx1"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "entityx/System.cc",
+                      "entityx/Event.cc",
+                      "entityx/Entity.cc",
+                      "entityx/help/Timer.cc",
+                      "entityx/help/Pool.cc"
+                    ]
+                  }
+                ],
+                "fullName": "libentityx.a",
+                "linkerLanguage": "CXX",
+                "name": "entityx",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/entityx1",
+                "type": "STATIC_LIBRARY"
+              },
+              {
+                "artifacts": [
+                  "/home/abeimler/workspace/ecs_benchmark/build/lib/libArtemisCpp.a"
+                ],
+                "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/Artemis-Cpp",
+                "fileGroups": [
+                  {
+                    "compileFlags": "-O3 -DNDEBUG   -Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast -pedantic -std=c++14 -Wnoexcept -pthread",
+                    "includePath": [
+                      {
+                        "path": "/home/abeimler/workspace/ecs_benchmark/libs/Artemis-Cpp/include"
+                      }
+                    ],
+                    "isGenerated": false,
+                    "language": "CXX",
+                    "sources": [
+                      "src/Component.cpp",
+                      "src/ComponentType.cpp",
+                      "src/ComponentTypeManager.cpp",
+                      "src/DelayedEntityProcessingSystem.cpp",
+                      "src/DelayedEntitySystem.cpp",
+                      "src/Entity.cpp",
+                      "src/EntityManager.cpp",
+                      "src/EntityProcessingSystem.cpp",
+                      "src/EntitySystem.cpp",
+                      "src/GroupManager.cpp",
+                      "src/SystemBitManager.cpp",
+                      "src/SystemManager.cpp",
+                      "src/TagManager.cpp",
+                      "src/World.cpp"
+                    ]
+                  }
+                ],
+                "fullName": "libArtemisCpp.a",
+                "linkerLanguage": "CXX",
+                "name": "ArtemisCpp",
+                "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/Artemis-Cpp",
+                "type": "STATIC_LIBRARY"
+              }
+            ]
+          },
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/entt",
+            "name": "entt",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/entt",
+            "targets": []
+          },
+          {
+            "buildDirectory": "/home/abeimler/workspace/ecs_benchmark/build/libs/eventpp",
+            "name": "event++",
+            "sourceDirectory": "/home/abeimler/workspace/ecs_benchmark/libs/eventpp",
+            "targets": []
+          }
+        ]
+      }
+    ],
+    "cookie": "0.8171255917274984",
+    "inReplyTo": "codemodel",
+    "type": "reply"
+  }
 }
