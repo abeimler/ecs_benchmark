@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.2 FATAL_ERROR)
-project (ecs_benchmark VERSION 1.2.1 LANGUAGES CXX)
+project (ecs_benchmark VERSION 2.4.2 LANGUAGES CXX)
 
 
 ###

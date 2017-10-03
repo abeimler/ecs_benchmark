@@ -14,7 +14,7 @@ Simple Benchmark of common Entity-Component-Systems:
 > While I was playing with it, I found that I didn't like that much the way it manages its memory. Moreover, I was pretty sure that one > could achieve better performance with a slightly modified pool under the hood.
 > That's also the reason for which the interface is quite similar to the one of entityx, so that EnTT can be used as a drop-in > replacement for it with a minimal effort.
 
-Version: 1.0.0 (2017)
+Version: 1.1.0 (September 2017)
 
 
 ### EntityX by @alecthomas
@@ -25,7 +25,7 @@ Version: 1.0.0 (2017)
 > EntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. 
 > It was built during the creation of a 2D space shooter.
 
-Version: 1.x (2017) and the [`compiler-time`](https://github.com/alecthomas/entityx/tree/experimental/compile_time) Version 2.0 (?) (2017)
+Version: 1.1.2 (Juli 2017) and the [`compiler-time`](https://github.com/alecthomas/entityx/tree/experimental/compile_time) Version 2.0.0 (?) (August 2017)
 
 
 ### anax by @miguelmartin75
@@ -33,7 +33,7 @@ Version: 1.x (2017) and the [`compiler-time`](https://github.com/alecthomas/enti
 > anax is an open source C++ entity system designed to be portable, lightweight and easy to use. 
 > It is aimed toward Game Development, however it would be possible to use it for other projects.
 
-Version: 1.x (2017)
+Version: 2.1.0 (Januar 2017)
 
 
 ### Artemis C++ by @vinova
@@ -42,7 +42,7 @@ Version: 1.x (2017)
 > 
 > The port was orignially written by Sidar Talei, in which he used several C++11 features such as deleted function, variadic templates, nullptr, etc… We wanted the framework to be portable, so we removed all C++11 feature usages.
 
-Version: 1.x (2013)
+Version: 1.x (October 2013)
 
 
 
@@ -58,7 +58,7 @@ Version: 1.x (2013)
 
 It's simple, light and header-only.
 
-Version: 1.x (2014)
+Version: 1.x (Juni 2015)
 
 
 I fork [benchpress](https://github.com/abeimler/benchpress) (add some utils and helper) to plot data for gnuplot.
@@ -69,7 +69,8 @@ I fork [benchpress](https://github.com/abeimler/benchpress) (add some utils and 
 
 ### CMake
 
-I used CMake 3.2 for the build.
+I used CMake 3.9.3 for the build.
+Minimum is 3.2.
 
  1. change directory to this Folder
  2. `mkdir ./build`
