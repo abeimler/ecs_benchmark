@@ -15,30 +15,27 @@ class ArtemisBenchmark {
     public:
 
     struct PositionComponent : artemis::Component {
-        float x = 0.0f;
-        float y = 0.0f;
-        
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct DirectionComponent : artemis::Component {
-        float x = 0.0f;
-        float y = 0.0f;
-        
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct ComflabulationComponent : artemis::Component {
-        float thingy = 0.0;
+        double thingy = 0.0;
         int dingy = 0;
         bool mingy = false;
         std::string stringy;
-        
     };
 
     using System = artemis::EntityProcessingSystem;
     using Entity = artemis::Entity;
     using EntityManager = artemis::EntityManager;
 
-    typedef double TimeDelta;
+    using TimeDelta = double;
 
     class MovementSystem : public artemis::EntityProcessingSystem {
         private:
@@ -46,7 +43,7 @@ class ArtemisBenchmark {
         artemis::ComponentMapper<DirectionComponent> directionMapper_;
         
         public:
-        virtual ~MovementSystem() = default;
+        ~MovementSystem() override = default;
         MovementSystem(const MovementSystem&) = default;
         MovementSystem& operator=(const MovementSystem&) = default;
         MovementSystem(MovementSystem&&) = default;
@@ -57,12 +54,12 @@ class ArtemisBenchmark {
             addComponentType<DirectionComponent>();
         };
 
-        virtual void initialize() {
+        void initialize() override {
             positionMapper_.init(*world);
             directionMapper_.init(*world);
         };
 
-        virtual void processEntity(artemis::Entity &e) {
+        void processEntity(artemis::Entity &e) override {
             auto dt = world->getDelta();
 
             auto position = positionMapper_.get(e);
@@ -78,7 +75,7 @@ class ArtemisBenchmark {
         artemis::ComponentMapper<ComflabulationComponent> comflabulationMapper_;
         
         public:
-        virtual ~ComflabSystem() = default;
+        ~ComflabSystem() override = default;
         ComflabSystem(const ComflabSystem&) = default;
         ComflabSystem& operator=(const ComflabSystem&) = default;
         ComflabSystem(ComflabSystem&&) = default;
@@ -88,11 +85,11 @@ class ArtemisBenchmark {
             addComponentType<ComflabulationComponent>();
         };
 
-        virtual void initialize() {
+        void initialize() override {
             comflabulationMapper_.init(*world);
         };
 
-        virtual void processEntity(artemis::Entity &e) {
+        void processEntity(artemis::Entity &e) override {
             auto dt = world->getDelta();
 
             auto comflab = comflabulationMapper_.get(e);

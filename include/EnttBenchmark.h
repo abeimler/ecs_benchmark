@@ -37,7 +37,7 @@ class EnttBenchmark {
 
     using Entity = EntityManager::entity_type;
 
-    typedef double TimeDelta;
+    using TimeDelta = double;
 
     class System {
         public:

@@ -14,39 +14,36 @@ class EntityX2Benchmark {
     public:
 
     struct PositionComponent {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct DirectionComponent {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
     };
 
     struct ComflabulationComponent {
-        float thingy = 0.0;
+        double thingy = 0.0;
         int dingy = 0;
         bool mingy = false;
         std::string stringy;
     };
 
 
-    // Convenience types for our entity system.
-    using GameComponents = entityx::Components<
+
+    using EntityManager = entityx::EntityX<entityx::DefaultStorage, 0, 
         PositionComponent, 
         DirectionComponent, 
         ComflabulationComponent
     >;
 
-    static constexpr size_t INITIAL_CAPACITY = 16777216L; // bignumber to avoid alloc error, benchmark a lot of entities (10M)
-    using EntityManager = entityx::EntityX<GameComponents, entityx::ColumnStorage<GameComponents, INITIAL_CAPACITY>>;
-
     template <typename C>
-    using Component = EntityManager::Component<C>;
+    using Component = C*;
 
     using Entity = EntityManager::Entity;
 
-    typedef double TimeDelta;
+    using TimeDelta = double;
 
 
 
@@ -69,13 +66,12 @@ class EntityX2Benchmark {
         MovementSystem() = default;
 
         void update(EntityManager& es, TimeDelta dt) override {
-            Component<PositionComponent> position;
-            Component<DirectionComponent> direction;
-
-            for (auto entity : es.entities_with_components<PositionComponent, DirectionComponent>(position, direction)) {
-                position->x += direction->x * dt;
-                position->y += direction->y * dt;
-            }
+            es.for_each<PositionComponent, DirectionComponent>(
+                [&](Entity entity, PositionComponent& position, DirectionComponent& direction) {
+                    position.x += direction.x * dt;
+                    position.y += direction.y * dt;
+                }
+            );
         }
     };
 
@@ -84,14 +80,14 @@ class EntityX2Benchmark {
         ComflabSystem() = default;
 
         void update(EntityManager& es, TimeDelta dt) override {
-            Component<ComflabulationComponent> comflab;
-
-            for (auto entity : es.entities_with_components<ComflabulationComponent>(comflab)) {
-                comflab->thingy *= 1.000001f;
-                comflab->mingy = !comflab->mingy;
-                comflab->dingy++;
-                //comflab.stringy = std::to_string(comflab.dingy);
-            }
+            es.for_each<ComflabulationComponent>(
+                [&](Entity entity, ComflabulationComponent& comflab) {
+                    comflab.thingy *= 1.000001f;
+                    comflab.mingy = !comflab.mingy;
+                    comflab.dingy++;
+                    //comflab.stringy = std::to_string(comflab.dingy);
+                }
+            );
         }
     };
 
@@ -114,33 +110,29 @@ class EntityX2Benchmark {
         MoreComplexSystem() = default;
 
         void update(EntityManager& es, TimeDelta dt) override {
-            Component<PositionComponent> position;
-            Component<DirectionComponent> direction;
-            Component<ComflabulationComponent> comflab;
-
-            for (auto entity : es.entities_with_components(comflab, direction, comflab)) {
-                if(comflab) {
+            entities.for_each<PositionComponent, DirectionComponent, ComflabulationComponent>(
+                [&](Entity entity, PositionComponent& position, DirectionComponent& direction, ComflabulationComponent& comflab) {
                     std::vector<double> vec;
-                    for(size_t i = 0;i < comflab->dingy && i < 100;i++){
-                        vec.push_back(i * comflab->thingy);
+                    for(size_t i = 0;i < comflab.dingy && i < 100;i++){
+                        vec.push_back(i * comflab.thingy);
                     }
 
                     int sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
                     int product = std::accumulate(std::begin(vec), std::end(vec), 1, std::multiplies<double>());
 
-                    comflab->stringy = std::to_string(comflab->dingy);
+                    comflab.stringy = std::to_string(comflab.dingy);
 
-                    if(position && direction && comflab->dingy % 10000 == 0) {
-                        if(position->x > position->y) {
-                            direction->x = random(0, 5);
-                            direction->y = random(0, 10);
+                    if(position && direction && comflab.dingy % 10000 == 0) {
+                        if(position.x > position.y) {
+                            direction.x = random(0, 5);
+                            direction.y = random(0, 10);
                         } else {
-                            direction->x = random(0, 10);
-                            direction->y = random(0, 5);
+                            direction.x = random(0, 10);
+                            direction.y = random(0, 5);
                         }
                     }
                 }
-            }
+            );
         }
     };
     #endif

@@ -17,13 +17,13 @@ class AnaxBenchmark {
     public:
 
     struct PositionComponent : anax::Component {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
 
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
             PositionComponent() = default;
-            virtual ~PositionComponent() = default;
+            ~PositionComponent() override = default;
             PositionComponent(const PositionComponent&) = default;
             PositionComponent& operator=(const PositionComponent&) = default;
             PositionComponent(PositionComponent&&) = default;
@@ -33,13 +33,13 @@ class AnaxBenchmark {
     };
 
     struct DirectionComponent : anax::Component {
-        float x = 0.0f;
-        float y = 0.0f;
+        double x = 0.0f;
+        double y = 0.0f;
 
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
             DirectionComponent() = default;
-            virtual ~DirectionComponent() = default;
+            ~DirectionComponent() override = default;
             DirectionComponent(const DirectionComponent&) = default;
             DirectionComponent& operator=(const DirectionComponent&) = default;
             DirectionComponent(DirectionComponent&&) = default;
@@ -49,7 +49,7 @@ class AnaxBenchmark {
     };
 
     struct ComflabulationComponent : anax::Component {
-        float thingy = 0.0;
+        double thingy = 0.0;
         int dingy = 0;
         bool mingy = false;
         std::string stringy;
@@ -57,7 +57,7 @@ class AnaxBenchmark {
         
         #ifdef ANAX_VIRTUAL_DTORS_IN_COMPONENT
             ComflabulationComponent() = default;
-            virtual ~ComflabulationComponent() = default;
+            ~ComflabulationComponent() override = default;
             ComflabulationComponent(const ComflabulationComponent&) = default;
             ComflabulationComponent& operator=(const ComflabulationComponent&) = default;
             ComflabulationComponent(ComflabulationComponent&&) = default;
@@ -67,7 +67,7 @@ class AnaxBenchmark {
     };
 
 
-    typedef double TimeDelta;
+    using TimeDelta = double;
 
     class MovementSystem : public anax::System<anax::Requires<PositionComponent, DirectionComponent>> {
         public:
