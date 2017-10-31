@@ -17,6 +17,7 @@ set format y "10^{%L}"
 plot  "data-systems-update-2.dat" using 1:2 title 'Anax' with lines lw 3, \
     "data-systems-update-2.dat" using 1:3 title 'EnTT' with lines lw 3, \
     "data-systems-update-2.dat" using 1:4 title 'Artemis' with lines lw 3, \
-	"data-systems-update-2.dat" using 1:5 title 'EntityX1' with lines lw 3, \
-	"data-systems-update-2.dat" using 1:6 title 'EntityX2' with lines lw 3
+    "data-systems-update-2.dat" using 1:5 title 'Ginseng' with lines lw 3, \
+	"data-systems-update-2.dat" using 1:6 title 'EntityX1' with lines lw 3, \
+	"data-systems-update-2.dat" using 1:7 title 'EntityX2' with lines lw 3
 

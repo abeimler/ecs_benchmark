@@ -15,6 +15,7 @@ set format y "10^{%L}"
 
 ## the labels must be in the right order, look at your .dat file
 plot  "data-systems-update.dat" using 1:2 title 'EnTT' with lines lw 3, \
-	"data-systems-update.dat" using 1:3 title 'EntityX1' with lines lw 3, \
-	"data-systems-update.dat" using 1:4 title 'EntityX2' with lines lw 3
+	"data-systems-update.dat" using 1:3 title 'Ginseng' with lines lw 3, \
+	"data-systems-update.dat" using 1:4 title 'EntityX1' with lines lw 3, \
+	"data-systems-update.dat" using 1:5 title 'EntityX2' with lines lw 3
 

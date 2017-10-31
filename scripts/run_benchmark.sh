@@ -38,6 +38,11 @@ printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entt.*upda
 printf "\n"
 printf "\n"
 
+## run Ginseng systems update benchmark
+printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*ginseng.*update.* \n"
+/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*ginseng.*update.*"
+printf "\n"
+printf "\n"
 
 
 ## run Anax systems update benchmark
@@ -64,26 +69,26 @@ printf "\n"
 
 
 
-## run EntityX1, EntityX2 and EnTT 10M entities benchmarks (exclude Anax, it causes bad_alloc)
-printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entityx1.*10M\\s+entities.* --bench .*entityx2.*10M\\s+entities.* --bench .*entt.*10M\\s+entities.* \n"
-/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*entityx1.*10M\\s+entities.*" --bench ".*entityx2.*10M\\s+entities.*" --bench ".*entt.*10M\\s+entities.*"
+## run EntityX1, EntityX2, EnTT, and Ginseng 10M entities benchmarks (exclude Anax, it causes bad_alloc)
+printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entityx1.*10M\\s+entities.* --bench .*entityx2.*10M\\s+entities.* --bench .*entt.*10M\\s+entities.* --bench .*ginseng.*10M\\s+entities.* \n"
+/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*entityx1.*10M\\s+entities.*" --bench ".*entityx2.*10M\\s+entities.*" --bench ".*entt.*10M\\s+entities.*" --bench ".*ginseng.*10M\\s+entities.*"
 printf "\n"
 printf "\n"
 
 
 
 
-## run EntityX1, EntityX2 and EnTT systems update benchmarks, write gnuplot data
-printf "$ ./build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --plotdata > ./doc/data-systems-update.dat \n"
-./build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --plotdata > ./doc/data-systems-update.dat
+## run EntityX1, EntityX2, EnTT, and Ginseng systems update benchmarks, write gnuplot data
+printf "$ ./build/ecs_benchmark --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --bench .*ginseng.*update.* --plotdata > ./doc/data-systems-update.dat \n"
+./build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --bench ".*ginseng.*update.*" --plotdata > ./doc/data-systems-update.dat
 printf "\n"
 
 ### skip artemis, if it takes to long
-## run EntityX1, EntityX2 and EnTT systems update benchmarks, write gnuplot data
-printf "$ ./build/ecs_benchmark --bench .*anax.*update.* --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --bench .*artemis.*update.* --plotdata > ./doc/data-systems-update-2.dat \n"
-./build/ecs_benchmark --bench ".*anax.*update.*" --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --bench ".*artemis.*update.*" --plotdata > ./doc/data-systems-update-2.dat
-#printf "$ ./build/ecs_benchmark --bench .*anax.*update.* --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --plotdata > ./doc/data-systems-update-2.dat \n"
-#./build/ecs_benchmark --bench ".*anax.*update.*" --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --plotdata > ./doc/data-systems-update-2.dat
+## run EntityX1, EntityX2, EnTT, and Ginseng systems update benchmarks, write gnuplot data
+printf "$ ./build/ecs_benchmark --bench .*anax.*update.* --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --bench .*ginseng.*update.* --bench .*artemis.*update.* --plotdata > ./doc/data-systems-update-2.dat \n"
+./build/ecs_benchmark --bench ".*anax.*update.*" --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --bench ".*ginseng.*update.*" --bench ".*artemis.*update.*" --plotdata > ./doc/data-systems-update-2.dat
+#printf "$ ./build/ecs_benchmark --bench .*anax.*update.* --bench .*entityx1.*update.* --bench .*entityx2.*update.* --bench .*entt.*update.* --bench .*ginseng.*update.* --plotdata > ./doc/data-systems-update-2.dat \n"
+#./build/ecs_benchmark --bench ".*anax.*update.*" --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*" --bench ".*ginseng.*update.*" --plotdata > ./doc/data-systems-update-2.dat
 printf "\n"
 
 ## run EntityX1 and Eventpp eventbus benchmarks, write gnuplot data
