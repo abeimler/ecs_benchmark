@@ -103,24 +103,24 @@ namespace _detail {
         }
 
         bool get(size_type i) const {
-            if (__builtin_expect(numbits==N_BITS,1)) return sdo[i];
+            if (numbits==N_BITS) return sdo[i];
             else return dyna[i/64][i%64];
         }
 
         void set(size_type i) {
             resize(i+1);
-            if (__builtin_expect(numbits==N_BITS,1)) sdo[i] = true;
+            if (numbits==N_BITS) sdo[i] = true;
             else dyna[i/64][i%64] = true;
         }
 
         void unset(size_type i) {
             resize(i+1);
-            if (__builtin_expect(numbits==N_BITS,1)) sdo[i] = false;
+            if (numbits==N_BITS) sdo[i] = false;
             else dyna[i/64][i%64] = false;
         }
 
         void zero() {
-            if (__builtin_expect(numbits==N_BITS,1)) {
+            if (numbits==N_BITS) {
                 sdo = 0;
             } else {
                 fill(dyna.get(), dyna.get()+numbits/N_BITS, 0);
