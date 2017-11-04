@@ -9,768 +9,650 @@
 
 #include <cstddef>
 
-namespace Ginseng {
+namespace ginseng {
 
 namespace _detail {
 
-    using namespace std;
+// Forward Declarations
 
-// TypeGuid
+template <typename DB>
+struct database_traits;
 
-    using TypeGuid = size_t;
+// Type Guid
 
-    inline TypeGuid nextTypeGuid() noexcept {
-        static TypeGuid x = 0;
-        return ++x;
-    }
+using type_guid = std::size_t;
 
-    template <typename T>
-    struct TypeGuidHolder {
-        static const TypeGuid value;
-    };
+inline type_guid get_next_type_guid() noexcept {
+    static type_guid x = 0;
+    return ++x;
+}
 
-    template <typename T>
-    const TypeGuid TypeGuidHolder<T>::value = nextTypeGuid();
+template <typename T>
+struct type_guid_trait {
+    static const type_guid value;
+};
 
-    template <typename T>
-    TypeGuid getTypeGuid() {
-        return TypeGuidHolder<T>::value;
-    }
+template <typename T>
+const type_guid type_guid_trait<T>::value = get_next_type_guid();
 
-// DynamicBitset
+template <typename T>
+type_guid get_type_guid() {
+    return type_guid_trait<T>::value;
+}
 
-    class DynamicBitset {
-    public:
-        using size_type = size_t;
+// Dynamic Bitset
 
-        static constexpr size_type N_BITS = 64;
+class dynamic_bitset {
+public:
+    using size_type = std::size_t;
 
-        DynamicBitset() : sdo(0), numbits(N_BITS) {}
-        
-        DynamicBitset(const DynamicBitset&) = delete;
-        DynamicBitset& operator=(const DynamicBitset&) = delete;
+    static constexpr size_type word_size = 64;
 
-        DynamicBitset(DynamicBitset&& other) : sdo(0), numbits(N_BITS) {
-            if (other.numbits == N_BITS) {
-                sdo = other.sdo;
-            } else {
-                new (&dyna) unique_ptr<bitset<N_BITS>[]>(move(other.dyna));
-                other.dyna.~unique_ptr<bitset<N_BITS>[]>();
-                numbits = other.numbits;
-                other.numbits = N_BITS;
-                other.sdo = 0;
-            }
-        }
+    using bitset = std::bitset<word_size>;
+    using bitset_array = std::unique_ptr<bitset[]>;
 
-        DynamicBitset& operator=(DynamicBitset&& other) {
-            if (numbits != N_BITS) {
-                dyna.~unique_ptr<bitset<N_BITS>[]>();
-            }
-            if (other.numbits == N_BITS) {
-                sdo = other.sdo;
-            } else {
-                new (&dyna) unique_ptr<bitset<N_BITS>[]>(move(other.dyna));
-                other.dyna.~unique_ptr<bitset<N_BITS>[]>();
-            }
+    dynamic_bitset()
+        : sdo(0), numbits(word_size) {}
+
+    dynamic_bitset(const dynamic_bitset&) = delete;
+    dynamic_bitset& operator=(const dynamic_bitset&) = delete;
+
+    dynamic_bitset(dynamic_bitset&& other)
+        : sdo(0), numbits(word_size) {
+        if (other.numbits == word_size) {
+            sdo = other.sdo;
+        } else {
+            sdo.~bitset();
+            new (&dyna) bitset_array(std::move(other.dyna));
+            other.dyna.~unique_ptr();
             numbits = other.numbits;
+            other.numbits = word_size;
             other.sdo = 0;
-            other.numbits = N_BITS;
-            return *this;
         }
+    }
 
-        ~DynamicBitset() {
-            if (numbits != N_BITS) {
-                dyna.~unique_ptr<bitset<N_BITS>[]>();
-            }
+    dynamic_bitset& operator=(dynamic_bitset&& other) {
+        if (numbits == word_size) {
+            sdo.~bitset<word_size>();
+        } else {
+            dyna.~unique_ptr();
         }
-
-        size_type size() const { return numbits; }
-
-        void resize(size_type ns) {
-            if (ns > numbits) {
-                auto count = (ns+N_BITS-1u)/N_BITS;
-                auto newlen = count * N_BITS;
-                auto newptr = make_unique<bitset<N_BITS>[]>(count);
-                if (numbits == N_BITS) {
-                    newptr[0] = sdo;
-                } else {
-                    copy(dyna.get(), dyna.get()+(numbits/N_BITS), newptr.get());
-                    fill(newptr.get()+(numbits/N_BITS), newptr.get()+(newlen/N_BITS), 0);
-                }
-                dyna = move(newptr);
-                numbits = newlen;
-            }
+        if (other.numbits == word_size) {
+            sdo = other.sdo;
+        } else {
+            new (&dyna) bitset_array(std::move(other.dyna));
+            other.dyna.~unique_ptr();
         }
+        numbits = other.numbits;
+        other.sdo = 0;
+        other.numbits = word_size;
+        return *this;
+    }
 
-        bool get(size_type i) const {
-            if (numbits==N_BITS) return sdo[i];
-            else return dyna[i/64][i%64];
+    ~dynamic_bitset() {
+        if (numbits == word_size) {
+            sdo.~bitset();
+        } else {
+            dyna.~unique_ptr();
         }
+    }
 
-        void set(size_type i) {
-            resize(i+1);
-            if (numbits==N_BITS) sdo[i] = true;
-            else dyna[i/64][i%64] = true;
-        }
+    size_type size() const {
+        return numbits;
+    }
 
-        void unset(size_type i) {
-            resize(i+1);
-            if (numbits==N_BITS) sdo[i] = false;
-            else dyna[i/64][i%64] = false;
-        }
-
-        void zero() {
-            if (numbits==N_BITS) {
-                sdo = 0;
+    void resize(size_type ns) {
+        if (ns > numbits) {
+            auto count = (ns + word_size - 1u) / word_size;
+            auto newlen = count * word_size;
+            auto newptr = std::make_unique<bitset[]>(count);
+            if (numbits == word_size) {
+                newptr[0] = sdo;
+                sdo.~bitset();
+                new (&dyna) bitset_array(std::move(newptr));
             } else {
-                fill(dyna.get(), dyna.get()+numbits/N_BITS, 0);
+                copy(dyna.get(), dyna.get() + (numbits / word_size), newptr.get());
+                std::fill(newptr.get() + (numbits / word_size), newptr.get() + (newlen / word_size), 0);
+                dyna = std::move(newptr);
             }
+            numbits = newlen;
         }
+    }
 
-    private:
-        union {
-            bitset<N_BITS> sdo;
-            unique_ptr<bitset<N_BITS>[]> dyna;
-        };
-        size_type numbits;
+    bool get(size_type i) const {
+        if (numbits == word_size) {
+            return sdo[i];
+        } else {
+            return dyna[i / 64][i % 64];
+        }
+    }
+
+    void set(size_type i) {
+        resize(i + 1);
+        if (numbits == word_size) {
+            sdo[i] = true;
+        } else {
+            dyna[i / 64][i % 64] = true;
+        }
+    }
+
+    void unset(size_type i) {
+        resize(i + 1);
+        if (numbits == word_size) {
+            sdo[i] = false;
+        } else {
+            dyna[i / 64][i % 64] = false;
+        }
+    }
+
+    void zero() {
+        if (numbits == word_size) {
+            sdo = 0;
+        } else {
+            std::fill(dyna.get(), dyna.get() + numbits / word_size, 0);
+        }
+    }
+
+private:
+    union {
+        bitset sdo;
+        bitset_array dyna;
     };
+    size_type numbits;
+};
 
 // Entity
 
-    struct Entity
-    {
-        DynamicBitset components = {};
-    };
+struct entity {
+    dynamic_bitset components = {};
+};
 
 // Queries
 
-    /*! Has component
-     *
-     * When used as a visitor parameter, applies the matching logic for the parameter, but does not load the component.
-     */
-    template <typename T>
-    struct Has
-    {};
+/*! Has component
+ *
+ * When used as a visitor parameter, applies the matching logic for the parameter, but does not load the component.
+ */
+template <typename T>
+struct require {};
 
-    /*! Visitor parameter inverter
-     *
-     * When used as a visitor parameter, inverts the matching logic for that parameter.
-     */
-    template <typename T>
-    struct Not
-    {};
+/*! Visitor parameter inverter
+ *
+ * When used as a visitor parameter, inverts the matching logic for that parameter.
+ */
+template <typename T>
+struct deny {};
 
-    /*! Tag component
-     *
-     * When a tag component is stored in an entity, only the fact that it exists is recorded, no data is stored.
-     */
-    template <typename T>
-    struct Tag
-    {};
+/*! Tag component
+ *
+ * When a tag component is stored in an entity, only the fact that it exists is recorded, no data is stored.
+ */
+template <typename T>
+struct tag {};
 
-    /*! Optional component
-     *
-     * When used as a visitor parameter, applies the matching logic for the parameter, but does not cause the visit to fail.
-     * 
-     * Provides pointer-like access to the parameter.
-     */
-    template <typename T>
-    class Maybe
-    {
-    public:
-        Maybe() : com(nullptr) {}
-        Maybe(const Maybe&) = default;
-        Maybe(Maybe&&) = default;
-        Maybe& operator=(const Maybe&) = default;
-        Maybe& operator=(Maybe&&) = default;
-        T* operator->() const { return com; }
-        T& operator*() const { return *com; }
-        explicit operator bool() const { return com; }
-        T& get() const { return *com; }
-    private:
-        template <typename DB, typename EntID, typename... Components>
-        friend struct Applier;
-        Maybe(T* c) : com(c) {}
-        T* com;
+/*! Optional component
+ *
+ * When used as a visitor parameter, applies the matching logic for the parameter, but does not cause the visit to fail.
+ *
+ * Provides pointer-like access to the parameter.
+ */
+template <typename T>
+class optional {
+public:
+    optional()
+        : com(nullptr) {}
+    optional(const optional&) = default;
+    optional(optional&&) = default;
+    optional& operator=(const optional&) = default;
+    optional& operator=(optional&&) = default;
+    T* operator->() const {
+        return com;
+    }
+    T& operator*() const {
+        return *com;
+    }
+    explicit operator bool() const {
+        return com;
+    }
+    T& get() const {
+        return *com;
+    }
+
+private:
+    template <typename DB>
+    template <typename Traits>
+    friend struct database_traits<DB>::applier_helper;
+
+    optional(T* c)
+        : com(c) {}
+    T* com;
+};
+
+/*! Optional Tag component
+ *
+ * When used as a visitor parameter, applies the matching logic for the parameter, but does not cause the visit to fail.
+ */
+template <typename T>
+class optional<tag<T>> {
+public:
+    optional()
+        : tag(false) {}
+    optional(const optional&) = default;
+    optional(optional&&) = default;
+    optional& operator=(const optional&) = default;
+    optional& operator=(optional&&) = default;
+    explicit operator bool() const {
+        return tag;
+    }
+
+private:
+    template <typename DB>
+    template <typename Traits>
+    friend struct database_traits<DB>::applier_helper;
+
+    optional(bool t)
+        : tag(t) {}
+    bool tag;
+};
+
+// Component Tags
+
+namespace component_tags {
+
+struct positive {};
+struct normal : positive {};
+struct noload : positive {};
+struct tagged : positive {};
+struct meta {};
+struct nofail : meta {};
+struct inverted : meta {};
+struct eid : meta {};
+
+} // namespace component_tags
+
+// Component Traits
+
+template <typename DB, typename Component>
+struct component_traits {
+    using category = component_tags::normal;
+    using component = Component;
+};
+
+template <typename DB, typename Component>
+struct component_traits<DB, require<Component>> {
+    using category = component_tags::noload;
+    using component = Component;
+};
+
+template <typename DB, typename Component>
+struct component_traits<DB, tag<Component>> {
+    using category = component_tags::tagged;
+    using component = tag<Component>;
+};
+
+template <typename DB, typename Component>
+struct component_traits<DB, optional<Component>> {
+    using category = component_tags::nofail;
+    using component = Component;
+};
+
+template <typename DB, typename Component>
+struct component_traits<DB, deny<Component>> {
+    using category = component_tags::inverted;
+    using component = Component;
+};
+
+template <typename DB>
+struct component_traits<DB, typename DB::ent_id> {
+    using category = component_tags::eid;
+    using component = void;
+};
+
+// First
+
+template <typename T, typename... Ts>
+struct first {
+    using type = T;
+};
+
+template <typename... Ts>
+using first_t = typename first<Ts...>::type;
+
+// Primary
+
+template <typename T>
+struct primary {
+    using type = T;
+};
+
+// Database Traits
+
+template <typename DB>
+struct database_traits {
+
+    using ent_id = typename DB::ent_id;
+    using com_id = typename DB::com_id;
+
+    template <typename C>
+    using component_traits = component_traits<DB, C>;
+
+    // GetPrimary
+
+    template <typename HeadTag, typename... Components>
+    struct get_primary;
+
+    template <typename... Components>
+    using get_primary_t = typename get_primary<typename component_traits<first_t<Components...>>::category, Components...>::type;
+
+    template <typename HeadTag, typename HeadCom, typename... Components>
+    struct get_primary<HeadTag, HeadCom, Components...> {
+        using type = get_primary_t<Components...>;
     };
 
-    /*! Optional Tag component
-     *
-     * When used as a visitor parameter, applies the matching logic for the parameter, but does not cause the visit to fail.
-     */
-    template <typename T>
-    class Maybe<Tag<T>>
-    {
-    public:
-        Maybe() : tag(false) {}
-        Maybe(const Maybe&) = default;
-        Maybe(Maybe&&) = default;
-        Maybe& operator=(const Maybe&) = default;
-        Maybe& operator=(Maybe&&) = default;
-        explicit operator bool() const { return tag; }
-    private:
-        template <typename DB, typename EntID, typename... Components>
-        friend struct Applier;
-        Maybe(bool t) : tag(t) {}
-        bool tag;
+    template <typename HeadTag, typename HeadCom>
+    struct get_primary<HeadTag, HeadCom> {
+        using type = primary<void>;
     };
 
-    // ComponentTraits
+    template <typename HeadCom, typename... Components>
+    struct get_primary<component_tags::normal, HeadCom, Components...> {
+        using type = primary<HeadCom>;
+    };
 
-        struct ComponentTags
-        {
-            struct positive {};
-            struct normal : positive {};
-            struct noload : positive {};
-            struct tagged : positive {};
-            struct meta {};
-            struct nofail : meta {};
-            struct inverted : meta {};
-            struct eid : meta {};
-        };
-
-        template <typename DB, typename Component>
-        struct ComponentTraits
-        {
-            using tag = ComponentTags::normal;
-            using com = Component;
-        };
-
-        template <typename DB, typename Component>
-        struct ComponentTraits<DB, Has<Component>>
-        {
-            using tag = ComponentTags::noload;
-            using com = Component;
-        };
-
-        template <typename DB, typename Component>
-        struct ComponentTraits<DB, Tag<Component>>
-        {
-            using tag = ComponentTags::tagged;
-            using com = Tag<Component>;
-        };
-
-        template <typename DB, typename Component>
-        struct ComponentTraits<DB, Maybe<Component>>
-        {
-            using tag = ComponentTags::nofail;
-            using com = Component;
-        };
-
-        template <typename DB, typename Component>
-        struct ComponentTraits<DB, Not<Component>>
-        {
-            using tag = ComponentTags::inverted;
-            using com = Component;
-        };
-
-        template <typename DB>
-        struct ComponentTraits<DB, typename DB::EntID>
-        {
-            using tag = ComponentTags::eid;
-            using com = void;
-        };
+    template <typename HeadCom>
+    struct get_primary<component_tags::normal, HeadCom> {
+        using type = primary<HeadCom>;
+    };
 
     // Applier
 
-        template <typename DB, typename PrimaryComponent, typename... Components>
-        struct Applier;
+    template <typename Traits>
+    struct applier_helper {
+        using component = typename Traits::component;
 
-        template <typename DB, typename PrimaryComponent, typename HeadCom, typename... TailComs>
-        struct Applier<DB, PrimaryComponent, HeadCom, TailComs...>
-        {
-            using EntID = typename DB::EntID;
-            using ComID = typename DB::ComID;
+        template <typename Visitor>
+        static void dispatch(component_tags::normal, DB& db, ent_id eid, Visitor&& visitor) {
+            auto& com = db.template get_component<component>(eid);
+            visitor(com);
+        }
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::normal, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                auto& com = db.template getComponent<typename Traits::com>(eid);
-                return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., com);
+        template <typename Visitor>
+        static void dispatch(component_tags::noload, DB& db, ent_id eid, Visitor&& visitor) {
+            if (db.template has_component<component>(eid)) {
+                visitor(require<component>{});
             }
+        }
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::noload, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid))
-                {
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Has<typename Traits::com>{});
-                }
+        template <typename Visitor>
+        static void dispatch(component_tags::inverted, DB& db, ent_id eid, Visitor&& visitor) {
+            using inner_traits = component_traits<component>;
+            inverted_helper(typename inner_traits::category{}, db, eid, std::forward<Visitor>(visitor));
+        }
+
+        template <typename Visitor>
+        static void inverted_helper(component_tags::positive, DB& db, ent_id eid, Visitor&& visitor) {
+            if (!db.template has_component<component>(eid)) {
+                visitor(deny<component>{});
             }
+        }
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::inverted, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                using InnerTraits = ComponentTraits<DB, typename Traits::com>;
-                return inverted_helper<Traits>(typename InnerTraits::tag{}, db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
+        template <typename Visitor>
+        static void dispatch(component_tags::tagged, DB& db, ent_id eid, Visitor&& visitor) {
+            if (db.template has_component<component>(eid)) {
+                visitor(component{});
             }
+        }
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void inverted_helper(ComponentTags::positive, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                if (!db.template hasComponent<typename Traits::com>(eid))
-                {
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Not<typename Traits::com>{});
-                }
+        template <typename Visitor>
+        static void dispatch(component_tags::nofail, DB& db, ent_id eid, Visitor&& visitor) {
+            using InnerTraits = component_traits<component>;
+            nofail_helper(typename InnerTraits::category{}, db, eid, std::forward<Visitor>(visitor));
+        }
+
+        template <typename Visitor>
+        static void nofail_helper(component_tags::normal, DB& db, ent_id eid, Visitor&& visitor) {
+            if (db.template has_component<component>(eid)) {
+                auto& com = db.template get_component<component>(eid);
+                visitor(optional<component>(&com));
+            } else {
+                visitor(optional<component>(nullptr));
             }
+        }
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void inverted_helper(ComponentTags::inverted, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                using InnerTraits = ComponentTraits<DB, typename Traits::com>;
-                using NextTraits = ComponentTraits<DB, typename InnerTraits::com>;
-                return helper<NextTraits>(typename NextTraits::tag{}, db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
+        template <typename Visitor>
+        static void nofail_helper(component_tags::tagged, DB& db, ent_id eid, Visitor&& visitor) {
+            if (db.template has_component<component>(eid)) {
+                visitor(optional<component>(true));
+            } else {
+                visitor(optional<component>(false));
             }
+        }
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::tagged, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid))
-                {
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., typename Traits::com{});
-                }
-            }
+        template <typename Visitor>
+        static void dispatch(component_tags::eid, DB& db, ent_id eid, Visitor&& visitor) {
+            visitor(eid);
+        }
+    };
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::nofail, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                using InnerTraits = ComponentTraits<DB, typename Traits::com>;
-                return nofail_helper<Traits>(typename InnerTraits::tag{}, db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
-            }
+    template <typename PrimaryComponent, typename... Components>
+    struct applier;
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void nofail_helper(ComponentTags::normal, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid)) {
-                    auto& com = db.template getComponent<typename Traits::com>(eid);
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(&com));
-                } else {
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(nullptr));
-                }
-            }
+    template <typename PrimaryComponent, typename HeadCom, typename... TailComs>
+    struct applier<primary<PrimaryComponent>, HeadCom, TailComs...> {
+        using next_applier = applier<primary<PrimaryComponent>, TailComs...>;
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void nofail_helper(ComponentTags::tagged, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid)) {
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(true));
-                } else {
-                    return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(false));
-                }
-            }
+        template <typename Visitor, typename... Args>
+        static void try_apply(DB& db, ent_id eid, com_id primary_cid, Visitor&& visitor, Args&&... args) {
+            using Traits = component_traits<HeadCom>;
+            applier_helper<Traits>::dispatch(typename Traits::category{}, db, eid, [&](auto&& new_arg){
+                next_applier::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., std::forward<decltype(new_arg)>(new_arg));
+            });
+        }
+    };
 
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::eid, DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., eid);
-            }
+    template <typename PrimaryComponent, typename... TailComs>
+    struct applier<primary<PrimaryComponent>, PrimaryComponent, TailComs...> {
+        using next_applier = applier<primary<PrimaryComponent>, TailComs...>;
 
-            template <typename Visitor, typename... Args>
-            static void try_apply(DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                using Traits = ComponentTraits<DB,HeadCom>;
-                return helper<Traits>(typename Traits::tag{}, db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
-            }
-        };
+        template <typename Visitor, typename... Args>
+        static void try_apply(DB& db, ent_id eid, com_id primary_cid, Visitor&& visitor, Args&&... args) {
+            using Traits = component_traits<PrimaryComponent>;
+            auto& com = db.template get_component_by_id<typename Traits::component>(primary_cid);
+            next_applier::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., com);
+        }
+    };
 
-        template <typename DB, typename PrimaryComponent, typename... TailComs>
-        struct Applier<DB, PrimaryComponent, PrimaryComponent, TailComs...>
-        {
-            using EntID = typename DB::EntID;
-            using ComID = typename DB::ComID;
-
-            template <typename Visitor, typename... Args>
-            static void try_apply(DB& db, EntID eid, ComID primary_cid, Visitor&& visitor, Args&&... args)
-            {
-                using Traits = ComponentTraits<DB,PrimaryComponent>;
-                auto& com = db.template getComponentById<typename Traits::com>(primary_cid);
-                return Applier<DB, PrimaryComponent, TailComs...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., com);
-            }
-        };
-
-        template <typename DB, typename PrimaryComponent>
-        struct Applier<DB, PrimaryComponent>
-        {
-            using EntID = typename DB::EntID;
-            using ComID = typename DB::ComID;
-
-            template <typename Visitor, typename... Args>
-            static void try_apply(DB&, EntID, ComID, Visitor&& visitor, Args&&... args)
-            {
-                std::forward<Visitor>(visitor)(std::forward<Args>(args)...);
-            }
-        };
-
-        template <typename DB, typename HeadCom, typename... TailComs>
-        struct Applier<DB, void, HeadCom, TailComs...>
-        {
-            using EntID = typename DB::EntID;
-            using ComID = typename DB::ComID;
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::normal, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                auto& com = db.template getComponent<typename Traits::com>(eid);
-                return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., com);
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::noload, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid))
-                {
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Has<typename Traits::com>{});
-                }
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::inverted, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                using InnerTraits = ComponentTraits<DB, typename Traits::com>;
-                return inverted_helper<Traits>(typename InnerTraits::tag{}, db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void inverted_helper(ComponentTags::positive, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                if (!db.template hasComponent<typename Traits::com>(eid))
-                {
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Not<typename Traits::com>{});
-                }
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void inverted_helper(ComponentTags::inverted, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                using InnerTraits = ComponentTraits<DB, typename Traits::com>;
-                using NextTraits = ComponentTraits<DB, typename InnerTraits::com>;
-                return helper<NextTraits>(typename NextTraits::tag{}, db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::tagged, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid))
-                {
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., typename Traits::com{});
-                }
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::nofail, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                using InnerTraits = ComponentTraits<DB, typename Traits::com>;
-                return nofail_helper<Traits>(typename InnerTraits::tag{}, db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void nofail_helper(ComponentTags::normal, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid)) {
-                    auto& com = db.template getComponent<typename Traits::com>(eid);
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(&com));
-                } else {
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(nullptr));
-                }
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void nofail_helper(ComponentTags::tagged, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                if (db.template hasComponent<typename Traits::com>(eid)) {
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(true));
-                } else {
-                    return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., Maybe<typename Traits::com>(false));
-                }
-            }
-
-            template <typename Traits, typename Visitor, typename... Args>
-            static void helper(ComponentTags::eid, DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                return Applier<DB, void, TailComs...>::try_apply(db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)..., eid);
-            }
-
-            template <typename Visitor, typename... Args>
-            static void try_apply(DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                using Traits = ComponentTraits<DB,HeadCom>;
-                return helper<Traits>(typename Traits::tag{}, db, eid, std::forward<Visitor>(visitor), std::forward<Args>(args)...);
-            }
-        };
-
-        template <typename DB>
-        struct Applier<DB, void>
-        {
-            using EntID = typename DB::EntID;
-            using ComID = typename DB::ComID;
-
-            template <typename Visitor, typename... Args>
-            static void try_apply(DB& db, EntID eid, Visitor&& visitor, Args&&... args)
-            {
-                std::forward<Visitor>(visitor)(std::forward<Args>(args)...);
-            }
-        };
+    template <typename PrimaryComponent>
+    struct applier<primary<PrimaryComponent>> {
+        template <typename Visitor, typename... Args>
+        static void try_apply(DB&, ent_id, com_id, Visitor&& visitor, Args&&... args) {
+            std::forward<Visitor>(visitor)(std::forward<Args>(args)...);
+        }
+    };
 
     // VisitorKey
 
-        template <typename DB, typename... Components>
-        struct VisitorKey;
-        
-        template <typename DB, typename HeadCom, typename... TailComs>
-        struct VisitorKey<DB, HeadCom, TailComs...>
-        {
-            using EntID = typename DB::EntID;
-            using Traits = ComponentTraits<DB, HeadCom>;
+    template <typename PrimaryComponent, typename... Components>
+    struct visitor_key;
 
-            static bool helper(DB& db, EntID eid, ComponentTags::positive)
-            {
-                return VisitorKey<DB, TailComs...>::check(db, eid) && db.template hasComponent<typename Traits::com>(eid);
-            }
+    template <typename PrimaryComponent, typename HeadCom, typename... TailComs>
+    struct visitor_key<primary<PrimaryComponent>, HeadCom, TailComs...> {
+        using traits = component_traits<HeadCom>;
+        using next_key = visitor_key<primary<PrimaryComponent>, TailComs...>;
 
-            static bool helper(DB& db, EntID eid, ComponentTags::meta)
-            {
-                return VisitorKey<DB, TailComs...>::check(db, eid);
-            }
-            
-            static bool check(DB& db, EntID eid)
-            {
-                return helper(db, eid, typename Traits::tag{});
-            }
-        };
+        static bool helper(DB& db, ent_id eid, component_tags::positive) {
+            return next_key::check(db, eid) && db.template has_component<typename traits::component>(eid);
+        }
 
-        template <typename DB>
-        struct VisitorKey<DB>
-        {
-            using EntID = typename DB::EntID;
-            static bool check(DB&, EntID)
-            {
-                return true;
-            }
-        };
+        static bool helper(DB& db, ent_id eid, component_tags::meta) {
+            return next_key::check(db, eid);
+        }
 
-    // First
+        static bool check(DB& db, ent_id eid) {
+            return helper(db, eid, typename traits::category{});
+        }
+    };
 
-        template <typename T, typename... Ts>
-        struct First
-        {
-            using type = T;
-        };
+    template <typename PrimaryComponent, typename... TailComs>
+    struct visitor_key<primary<PrimaryComponent>, PrimaryComponent, TailComs...> {
+        using next_key = visitor_key<primary<PrimaryComponent>, TailComs...>;
 
-        template <typename... Ts>
-        using First_t = typename First<Ts...>::type;
-    
-    // GetPrimary
+        static bool check(DB& db, ent_id eid) {
+            return next_key::check(db, eid);
+        }
+    };
 
-        template <typename T>
-        struct Primary
-        {
-            using type = T;
-        };
-        
-        template <typename DB, typename HeadTag, typename... Components>
-        struct GetPrimary;
-    
-        template <typename DB, typename... Components>
-        using GetPrimary_t = typename GetPrimary<DB, typename ComponentTraits<DB, First_t<Components...>>::tag, Components...>::type;
+    template <typename PrimaryComponent>
+    struct visitor_key<primary<PrimaryComponent>> {
+        static bool check(DB&, ent_id) {
+            return true;
+        }
+    };
 
-        template <typename DB, typename HeadTag, typename HeadCom, typename... Components>
-        struct GetPrimary<DB, HeadTag, HeadCom, Components...>
-        {
-            using type = GetPrimary_t<DB, Components...>;
-        };
-        
-        template <typename DB, typename HeadTag, typename HeadCom>
-        struct GetPrimary<DB, HeadTag, HeadCom>
-        {
-            using type = Primary<void>;
-        };
-        
-        template <typename DB, typename HeadCom, typename... Components>
-        struct GetPrimary<DB, ComponentTags::normal, HeadCom, Components...>
-        {
-            using type = Primary<HeadCom>;
-        };
-
-        template <typename DB, typename HeadCom>
-        struct GetPrimary<DB, ComponentTags::normal, HeadCom>
-        {
-            using type = Primary<HeadCom>;
-        };
-    
     // FindOther
 
-        template <typename DB, typename T, bool Positive, typename... Ts>
-        struct FindOther;
-        
-        template <typename DB, typename T, typename... Ts>
-        using FindOther_t = typename FindOther<DB, T, is_base_of<ComponentTags::positive, typename ComponentTraits<DB, First_t<Ts...>>::tag>::value, Ts...>::type;
+    template <typename T, bool Positive, typename... Ts>
+    struct find_other;
 
-        template <typename DB, typename T, typename U, typename... Ts>
-        struct FindOther<DB, T, true, U, Ts...>
-        {
-            using type = true_type;
-        };
-        
-        template <typename DB, typename T, typename... Ts>
-        struct FindOther<DB, T, true, T, Ts...>
-        {
-            using type = FindOther_t<DB, T, Ts...>;
-        };
-        
-        template <typename DB, typename T, typename U, typename... Ts>
-        struct FindOther<DB, T, false, U, Ts...>
-        {
-            using type = FindOther_t<DB, T, Ts...>;
-        };
-        
-        template <typename DB, typename T, typename U>
-        struct FindOther<DB, T, false, U>
-        {
-            using type = false_type;
-        };
-        
-        template <typename DB, typename T>
-        struct FindOther<DB, T, true, T>
-        {
-            using type = false_type;
-        };
+    template <typename T, typename... Ts>
+    using find_other_t = typename find_other<T, std::is_base_of<component_tags::positive, typename component_traits<first_t<Ts...>>::category>::value, Ts...>::type;
 
-        template <typename DB, typename T>
-        struct FindOther<DB, T, false, T>
-        {
-        };
+    template <typename T, typename U, typename... Ts>
+    struct find_other<primary<T>, true, U, Ts...> {
+        using type = std::true_type;
+    };
+
+    template <typename T, typename... Ts>
+    struct find_other<primary<T>, true, T, Ts...> {
+        using type = find_other_t<primary<T>, Ts...>;
+    };
+
+    template <typename T, typename U, typename... Ts>
+    struct find_other<primary<T>, false, U, Ts...> {
+        using type = find_other_t<primary<T>, Ts...>;
+    };
+
+    template <typename T, typename U>
+    struct find_other<primary<T>, false, U> {
+        using type = std::false_type;
+    };
+
+    template <typename T>
+    struct find_other<primary<T>, true, T> {
+        using type = std::false_type;
+    };
+
+    template <typename T>
+    struct find_other<primary<T>, false, T> {};
 
     // VisitorTraits
 
-        template <typename DB, typename... Components>
-        struct VisitorTraitsImpl
-        {
-            using EntID = typename DB::EntID;
-            using ComID = typename DB::ComID;
-            using Key = VisitorKey<DB, Components...>;
-            using PrimaryComponent = GetPrimary_t<DB, Components...>;
-            using HasOtherComponents = FindOther_t<DB, typename PrimaryComponent::type, Components...>;
+    template <typename... Components>
+    struct visitor_traits_impl {
+        using ent_id = typename DB::ent_id;
+        using com_id = typename DB::com_id;
+        using primary_component = get_primary_t<Components...>;
+        using has_other_components = find_other_t<primary_component, Components...>;
+        using key = visitor_key<primary_component, Components...>;
 
-            template <typename Visitor>
-            static void apply(DB& db, EntID eid, Visitor&& visitor)
-            {
-                Applier<DB, typename PrimaryComponent::type, Components...>::try_apply(db, eid, std::forward<Visitor>(visitor));
-            }
-            
-            template <typename Visitor>
-            static void apply(DB& db, EntID eid, ComID primary_cid, Visitor&& visitor)
-            {
-                Applier<DB, typename PrimaryComponent::type, Components...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor));
-            }
-        };
-
-        template <typename DB, typename Visitor>
-        struct VisitorTraits : VisitorTraits<DB,decltype(&decay_t<Visitor>::operator())>
-        {};
-
-        template <typename DB, typename R, typename... Ts>
-        struct VisitorTraits<DB, R(&)(Ts...)> : VisitorTraitsImpl<DB,std::decay_t<Ts>...>
-        {};
-
-        template <typename DB, typename Visitor, typename R, typename... Ts>
-        struct VisitorTraits<DB, R(Visitor::*)(Ts...)> : VisitorTraitsImpl<DB,std::decay_t<Ts>...>
-        {};
-
-        template <typename DB, typename Visitor, typename R, typename... Ts>
-        struct VisitorTraits<DB, R(Visitor::*)(Ts...)const> : VisitorTraitsImpl<DB,std::decay_t<Ts>...>
-        {};
-
-        template <typename DB, typename Visitor, typename R, typename... Ts>
-        struct VisitorTraits<DB, R(Visitor::*)(Ts...)&> : VisitorTraitsImpl<DB,std::decay_t<Ts>...>
-        {};
-
-        template <typename DB, typename Visitor, typename R, typename... Ts>
-        struct VisitorTraits<DB, R(Visitor::*)(Ts...)const&> : VisitorTraitsImpl<DB,std::decay_t<Ts>...>
-        {};
-
-        template <typename DB, typename Visitor, typename R, typename... Ts>
-        struct VisitorTraits<DB, R(Visitor::*)(Ts...)&&> : VisitorTraitsImpl<DB,std::decay_t<Ts>...>
-        {};
-
-// SparseSet
-
-    class SparseSet
-    {
-    public:
-        using size_type = std::size_t;
-        virtual ~SparseSet() = 0;
-        virtual void remove(size_type entid) = 0;
+        template <typename Visitor>
+        static void apply(DB& db, ent_id eid, com_id primary_cid, Visitor&& visitor) {
+            applier<primary_component, Components...>::try_apply(db, eid, primary_cid, std::forward<Visitor>(visitor));
+        }
     };
 
-    inline SparseSet::~SparseSet() = default;
+    template <typename Visitor>
+    struct visitor_traits : visitor_traits<decltype(&std::decay_t<Visitor>::operator())> {};
 
-    template <typename T>
-    class SparseSetImpl final : public SparseSet
-    {
-    public:
-        virtual ~SparseSetImpl() = default;
+    template <typename R, typename... Ts>
+    struct visitor_traits<R (&)(Ts...)> : visitor_traits_impl<std::decay_t<Ts>...> {};
 
-        void assign(size_type entid, T com)
-        {
-            if(entid >= entid_to_comid.size()) {
-                entid_to_comid.resize(entid+1, -1);
-            }
+    template <typename Visitor, typename R, typename... Ts>
+    struct visitor_traits<R (Visitor::*)(Ts...)> : visitor_traits_impl<std::decay_t<Ts>...> {};
 
-            auto comid = comid_to_entid.size();
+    template <typename Visitor, typename R, typename... Ts>
+    struct visitor_traits<R (Visitor::*)(Ts...) const> : visitor_traits_impl<std::decay_t<Ts>...> {};
 
-            entid_to_comid[entid] = comid;
-            comid_to_entid.push_back(entid);
-            components.push_back(move(com));
+    template <typename Visitor, typename R, typename... Ts>
+    struct visitor_traits<R (Visitor::*)(Ts...)&> : visitor_traits_impl<std::decay_t<Ts>...> {};
+
+    template <typename Visitor, typename R, typename... Ts>
+    struct visitor_traits<R (Visitor::*)(Ts...) const &> : visitor_traits_impl<std::decay_t<Ts>...> {};
+
+    template <typename Visitor, typename R, typename... Ts>
+    struct visitor_traits<R (Visitor::*)(Ts...) &&> : visitor_traits_impl<std::decay_t<Ts>...> {};
+};
+
+// Component Set
+
+class component_set {
+public:
+    using size_type = std::size_t;
+    virtual ~component_set() = 0;
+    virtual void remove(size_type entid) = 0;
+};
+
+inline component_set::~component_set() = default;
+
+template <typename T>
+class component_set_impl final : public component_set {
+public:
+    virtual ~component_set_impl() = default;
+
+    void assign(size_type entid, T com) {
+        if (entid >= entid_to_comid.size()) {
+            entid_to_comid.resize(entid + 1, -1);
         }
 
-        virtual void remove(size_type entid) override final
-        {
-            auto last = comid_to_entid.size() - 1;
-            auto comid = entid_to_comid[entid];
+        auto comid = comid_to_entid.size();
 
-            entid_to_comid[entid] = -1;
-            entid_to_comid[comid_to_entid[last]] = comid;
+        entid_to_comid[entid] = comid;
+        comid_to_entid.push_back(entid);
+        components.push_back(std::move(com));
+    }
 
-            comid_to_entid[comid] = comid_to_entid[last];
-            comid_to_entid.pop_back();
+    virtual void remove(size_type entid) override final {
+        auto last = comid_to_entid.size() - 1;
+        auto comid = entid_to_comid[entid];
 
-            components[comid] = move(components[last]);
-            components.pop_back();
-        }
+        entid_to_comid[entid] = -1;
+        entid_to_comid[comid_to_entid[last]] = comid;
 
-        size_type get_comid(size_type entid) const
-        {
-            return entid_to_comid[entid];
-        }
+        comid_to_entid[comid] = comid_to_entid[last];
+        comid_to_entid.pop_back();
 
-        T& get_com(size_type comid)
-        {
-            return components[comid];
-        }
+        components[comid] = std::move(components[last]);
+        components.pop_back();
+    }
 
-        size_type get_entid(size_type comid) const
-        {
-            return comid_to_entid[comid];
-        }
+    size_type get_comid(size_type entid) const {
+        return entid_to_comid[entid];
+    }
 
-        auto size() const
-        {
-            return components.size();
-        }
+    T& get_com(size_type comid) {
+        return components[comid];
+    }
 
-    private:
-        vector<size_type> entid_to_comid;
-        vector<size_type> comid_to_entid;
-        vector<T> components;
-    };
+    size_type get_entid(size_type comid) const {
+        return comid_to_entid[comid];
+    }
 
-    template <typename T>
-    class SparseSetImpl<Tag<T>> final : public SparseSet
-    {
-    public:
-        virtual ~SparseSetImpl() = default;
-        virtual void remove(size_type entid) override final {}
-    };
+    auto size() const {
+        return components.size();
+    }
+
+private:
+    std::vector<size_type> entid_to_comid;
+    std::vector<size_type> comid_to_entid;
+    std::vector<T> components;
+};
+
+template <typename T>
+class component_set_impl<tag<T>> final : public component_set {
+public:
+    virtual ~component_set_impl() = default;
+    virtual void remove(size_type entid) override final {}
+};
 
 /*! Database
  *
@@ -781,38 +663,33 @@ namespace _detail {
  * This container does not perform any synchronization. Therefore, it is not
  * considered "thread-safe".
  */
-class Database
-{
+class database {
 public:
-// IDs
+    // IDs
 
     /*! Entity ID.
-    */
-    using EntID = size_t;
+     */
+    using ent_id = std::size_t;
 
     /*! Component ID.
-    */
-    using ComID = size_t;
+     */
+    using com_id = std::size_t;
 
-// Entity functions
+    // Entity functions
 
     /*! Creates a new Entity.
-    *
-    * Creates a new Entity that has no components.
-    *
-    * @return EntID of the new Entity.
-    */
-    EntID makeEntity()
-    {
-        EntID eid;
+     *
+     * Creates a new Entity that has no components.
+     *
+     * @return EntID of the new Entity.
+     */
+    ent_id create_entity() {
+        ent_id eid;
 
-        if (free_entities.empty())
-        {
+        if (free_entities.empty()) {
             eid = entities.size();
             entities.emplace_back();
-        }
-        else
-        {
+        } else {
             eid = free_entities.back();
             free_entities.pop_back();
         }
@@ -823,14 +700,13 @@ public:
     }
 
     /*! Destroys an Entity.
-    *
-    * Destroys the given Entity and all associated components.
-    *
-    * @param eid EntID of the Entity to erase.
-    */
-    void eraseEntity(EntID eid)
-    {
-        for (DynamicBitset::size_type i=1; i<entities[eid].components.size(); ++i) {
+     *
+     * Destroys the given Entity and all associated components.
+     *
+     * @param eid EntID of the Entity to erase.
+     */
+    void destroy_entity(ent_id eid) {
+        for (dynamic_bitset::size_type i = 1; i < entities[eid].components.size(); ++i) {
             if (entities[eid].components.get(i)) {
                 component_sets[i]->remove(eid);
             }
@@ -840,274 +716,256 @@ public:
         free_entities.push_back(eid);
     }
 
-// Component functions
+    // Component functions
 
     /*! Create new component.
-    *
-    * Creates a new component from the given value and associates it with
-    * the given Entity.
-    * If a component of the same type already exists, it will be
-    * overwritten.
-    *
-    * @param eid Entity to attach new component to.
-    * @param com Component value.
-    */
+     *
+     * Creates a new component from the given value and associates it with
+     * the given Entity.
+     * If a component of the same type already exists, it will be
+     * overwritten.
+     *
+     * @param eid Entity to attach new component to.
+     * @param com Component value.
+     */
     template <typename T>
-    void makeComponent(EntID eid, T&& com)
-    {
-        auto guid = getTypeGuid<T>();
+    void create_component(ent_id eid, T&& com) {
+        auto guid = get_type_guid<T>();
 
         auto& ent_coms = entities[eid].components;
 
-        auto& com_set = getOrCreateComSet<T>();
-        
-        if (guid < ent_coms.size() && ent_coms.get(guid))
-        {
+        auto& com_set = get_or_create_com_set<T>();
+
+        if (guid < ent_coms.size() && ent_coms.get(guid)) {
             auto cid = com_set.get_comid(eid);
-            com_set.get_com(cid) = forward<T>(com);
-        }
-        else
-        {
-            com_set.assign(eid, forward<T>(com));
+            com_set.get_com(cid) = std::forward<T>(com);
+        } else {
+            com_set.assign(eid, std::forward<T>(com));
             ent_coms.set(guid);
         }
     }
 
     /*! Create new Tag component.
-    *
-    * Creates a new Tag component associates it with the given Entity.
-    *
-    * @param eid Entity to attach new Tag component to.
-    * @param com Tag value.
-    */
+     *
+     * Creates a new Tag component associates it with the given Entity.
+     *
+     * @param eid Entity to attach new Tag component to.
+     * @param com Tag value.
+     */
     template <typename T>
-    void makeComponent(EntID eid, Tag<T> com)
-    {
-        auto guid = getTypeGuid<Tag<T>>();
+    void create_component(ent_id eid, tag<T> com) {
+        auto guid = get_type_guid<tag<T>>();
         auto& ent_coms = entities[eid].components;
 
-        getOrCreateComSet<Tag<T>>();
+        get_or_create_com_set<tag<T>>();
 
         ent_coms.set(guid);
     }
 
-    /*! Erase a component.
-    *
-    * Destroys the given component and disassociates it from its Entity.
-    *
-    * @warning
-    * All ComIDs associated with components of the component's Entity will
-    * be invalidated.
-    *
-    * @tparam Com Type of the component to erase.
-    * 
-    * @param eid EntID of the entity.
-    */
+    /*! Destroy a component.
+     *
+     * Destroys the given component and disassociates it from its Entity.
+     *
+     * @warning
+     * All ComIDs associated with components of the component's Entity will
+     * be invalidated.
+     *
+     * @tparam Com Type of the component to erase.
+     *
+     * @param eid EntID of the entity.
+     */
     template <typename Com>
-    void eraseComponent(EntID eid)
-    {
-        auto guid = getTypeGuid<Com>();
-        auto& com_set = *getComSet<Com>();
+    void destroy_component(ent_id eid) {
+        auto guid = get_type_guid<Com>();
+        auto& com_set = *get_com_set<Com>();
         com_set.remove(eid);
         entities[eid].components.unset(guid);
     }
-    
+
     /*! Get a component.
-    *
-    * Gets a reference to the component of the given type
-    * that is associated with the given entity.
-    *
-    * @warning
-    * Behavior is undefined when the entity has no associated
-    * component of the given type.
-    *
-    * @tparam Com Type of the component to get.
-    * 
-    * @param eid EntID of the entity.
-    * @return Reference to the component.
-    */
+     *
+     * Gets a reference to the component of the given type
+     * that is associated with the given entity.
+     *
+     * @warning
+     * Behavior is undefined when the entity has no associated
+     * component of the given type.
+     *
+     * @tparam Com Type of the component to get.
+     *
+     * @param eid EntID of the entity.
+     * @return Reference to the component.
+     */
     template <typename Com>
-    Com& getComponent(EntID eid)
-    {
-        auto& com_set = *getComSet<Com>();
+    Com& get_component(ent_id eid) {
+        auto& com_set = *get_com_set<Com>();
         auto cid = com_set.get_comid(eid);
         return com_set.get_com(cid);
     }
 
     /*! Checks if an entity has a component.
-    *
-    * Returns whether or not the entity has a component of the
-    * associated type.
-    *
-    * @tparam Com Type of the component to check.
-    * 
-    * @param eid EntID of the entity.
-    * @return True if the component exists.
-    */
+     *
+     * Returns whether or not the entity has a component of the
+     * associated type.
+     *
+     * @tparam Com Type of the component to check.
+     *
+     * @param eid EntID of the entity.
+     * @return True if the component exists.
+     */
     template <typename Com>
-    bool hasComponent(EntID eid)
-    {
-        auto guid = getTypeGuid<Com>();
+    bool has_component(ent_id eid) {
+        auto guid = get_type_guid<Com>();
         auto& ent_coms = entities[eid].components;
         return guid < ent_coms.size() && ent_coms.get(guid);
     }
 
     /*! Visit the Database.
-    *
-    * Visit the Entities in the Database that match the given function's parameter types.
-    *
-    * The following parameter categories are accepted:
-    *
-    * - Component Data: Any `T` except rvalue-references, matches entities that have component `T`.
-    * - Component Tag: `Tag<T>` value, matches entities that have component `Tag<T>`.
-    * - Component Has: `Has<T>` value, matches entities that have component `T`, but does not load the component.
-    * - Component Maybe: `Maybe<T>` value, checks if a component exists, and provides a way to access it, does not fail.
-    * - Inverted: `Not<T>` value, matches entities that do *not* match component `T`.
-    * - EntID: Matches all entities, provides the `EntID` of the current entity.
-    *
-    * Component Data and Maybe parameters will refer to the entity's matching component.
-    * EntID parameters will contain the entity's EntID.
-    * Other parameters will be their default value.
-    *
-    * Entities that do not match all given parameter conditions will be skipped.
-    *
-    * @warning Entities are visited in no particular order, so adding and removing entities from the visitor
-    *          function could result in non-deterministic behavior.
-    *
-    * @tparam Visitor Visitor function type.
-    * @param visitor Visitor function.
-    */
+     *
+     * Visit the Entities in the Database that match the given function's parameter types.
+     *
+     * The following parameter categories are accepted:
+     *
+     * - Component Data: Any `T` except rvalue-references, matches entities that have component `T`.
+     * - Component Tag: `tag<T>` value, matches entities that have component `tag<T>`.
+     * - Component Require: `require<T>` value, matches entities that have component `T`, but does not load the component.
+     * - Component Optional: `optional<T>` value, checks if a component exists, and provides a way to access it, does not fail.
+     * - Inverted: `deny<T>` value, matches entities that do *not* match component `T`.
+     * - EntID: Matches all entities, provides the `ent_id` of the current entity.
+     *
+     * Component Data and Maybe parameters will refer to the entity's matching component.
+     * EntID parameters will contain the entity's EntID.
+     * Other parameters will be their default value.
+     *
+     * Entities that do not match all given parameter conditions will be skipped.
+     *
+     * @warning Entities are visited in no particular order, so adding and removing entities from the visitor
+     *          function could result in non-deterministic behavior.
+     *
+     * @tparam Visitor Visitor function type.
+     * @param visitor Visitor function.
+     */
     template <typename Visitor>
-    void visit(Visitor&& visitor)
-    {
-        using Traits = VisitorTraits<Database, Visitor>;
-        using PrimaryComponent = typename Traits::PrimaryComponent;
+    void visit(Visitor&& visitor) {
+        using db_traits = database_traits<database>;
+        using traits = typename db_traits::visitor_traits<Visitor>;
+        using primary_component = typename traits::primary_component;
 
-        return visit_helper(forward<Visitor>(visitor), PrimaryComponent{});
+        return visit_helper( std::forward<Visitor>(visitor), primary_component{});
     }
 
-// status functions
+    // status functions
 
     /*! Get the number of entities in the Database.
-    *
-    * @return Number of entities in the Database.
-    */
-    auto size() const
-    {
+     *
+     * @return Number of entities in the Database.
+     */
+    auto size() const {
         return entities.size() - free_entities.size();
     }
 
 private:
-
-    template <typename DB, typename PrimaryComponent, typename... Components>
-    friend struct Applier;
+    template <typename DB>
+    template <typename PrimaryComponent, typename... Components>
+    friend struct database_traits<DB>::applier;
 
     template <typename Com>
-    Com& getComponentById(ComID cid)
-    {
-        auto& com_set = *getComSet<Com>();
+    Com& get_component_by_id(com_id cid) {
+        auto& com_set = *get_com_set<Com>();
         return com_set.get_com(cid);
     }
 
     template <typename Com>
-    SparseSetImpl<Com>* getComSet() {
-        auto guid = getTypeGuid<Com>();
+    component_set_impl<Com>* get_com_set() {
+        auto guid = get_type_guid<Com>();
         auto& com_set = component_sets[guid];
-        auto com_set_impl = static_cast<SparseSetImpl<Com>*>(com_set.get());
+        auto com_set_impl = static_cast<component_set_impl<Com>*>(com_set.get());
         return com_set_impl;
     }
 
     template <typename Com>
-    SparseSetImpl<Com>& getOrCreateComSet() {
-        auto guid = getTypeGuid<Com>();
+    component_set_impl<Com>& get_or_create_com_set() {
+        auto guid = get_type_guid<Com>();
         if (component_sets.size() <= guid) {
-            component_sets.resize(guid+1);
+            component_sets.resize(guid + 1);
         }
         auto& com_set = component_sets[guid];
         if (!com_set) {
-            com_set = make_unique<SparseSetImpl<Com>>();
+            com_set = std::make_unique<component_set_impl<Com>>();
         }
-        auto com_set_impl = static_cast<SparseSetImpl<Com>*>(com_set.get());
+        auto com_set_impl = static_cast<component_set_impl<Com>*>(com_set.get());
         return *com_set_impl;
     }
 
     template <typename Visitor, typename Component>
-    void visit_helper(Visitor&& visitor, Primary<Component>)
-    {
-        using Traits = VisitorTraits<Database, Visitor>;
-        using HasOtherComponents = typename Traits::HasOtherComponents;
+    void visit_helper(Visitor&& visitor, primary<Component>) {
+        using db_traits = database_traits<database>;
+        using traits = typename db_traits::visitor_traits<Visitor>;
+        using has_other_components = typename traits::has_other_components;
 
-        return visit_helper_primary(forward<Visitor>(visitor), Primary<Component>{}, HasOtherComponents{});
+        return visit_helper_primary( std::forward<Visitor>(visitor), primary<Component>{}, has_other_components{});
     }
 
     template <typename Visitor, typename Component>
-    void visit_helper_primary(Visitor&& visitor, Primary<Component>, true_type)
-    {
-        using Traits = VisitorTraits<Database, Visitor>;
-        using Key = typename Traits::Key;
+    void visit_helper_primary(Visitor&& visitor, primary<Component>, std::true_type) {
+        using db_traits = database_traits<database>;
+        using traits = typename db_traits::visitor_traits<Visitor>;
+        using key = typename traits::key;
 
-        if (auto com_set_ptr = getComSet<Component>())
-        {
+        if (auto com_set_ptr = get_com_set<Component>()) {
             auto& com_set = *com_set_ptr;
 
-            for (ComID cid = 0; cid < com_set.size(); ++cid)
-            {
+            for (com_id cid = 0; cid < com_set.size(); ++cid) {
                 auto eid = com_set.get_entid(cid);
-                if (Key::check(*this, eid))
-                {
-                    Traits::apply(*this, eid, cid, visitor);
+                if (key::check(*this, eid)) {
+                    traits::apply(*this, eid, cid, visitor);
                 }
             }
         }
     }
 
     template <typename Visitor, typename Component>
-    void visit_helper_primary(Visitor&& visitor, Primary<Component>, false_type)
-    {
-        using Traits = VisitorTraits<Database, Visitor>;
+    void visit_helper_primary(Visitor&& visitor, primary<Component>, std::false_type) {
+        using db_traits = database_traits<database>;
+        using traits = typename db_traits::visitor_traits<Visitor>;
 
-        if (auto com_set_ptr = getComSet<Component>())
-        {
+        if (auto com_set_ptr = get_com_set<Component>()) {
             auto& com_set = *com_set_ptr;
 
-            for (ComID cid = 0; cid < com_set.size(); ++cid)
-            {
+            for (com_id cid = 0; cid < com_set.size(); ++cid) {
                 auto eid = com_set.get_entid(cid);
-                if (entities[eid].components.get(0))
-                {
-                    Traits::apply(*this, eid, cid, visitor);
+                if (entities[eid].components.get(0)) {
+                    traits::apply(*this, eid, cid, visitor);
                 }
             }
         }
     }
 
     template <typename Visitor>
-    void visit_helper(Visitor&& visitor, Primary<void>)
-    {
-        using Traits = VisitorTraits<Database, Visitor>;
-        using Key = typename Traits::Key;
+    void visit_helper(Visitor&& visitor, primary<void>) {
+        using db_traits = database_traits<database>;
+        using traits = typename db_traits::visitor_traits<Visitor>;
+        using key = typename traits::key;
 
-        for (auto eid = 0; eid < entities.size(); ++eid)
-        {
-            if (Key::check(*this, eid))
-            {
-                Traits::apply(*this, eid, visitor);
+        for (auto eid = 0; eid < entities.size(); ++eid) {
+            if (key::check(*this, eid)) {
+                traits::apply(*this, eid, {}, visitor);
             }
         }
     }
 
-    vector<Entity> entities;
-    vector<EntID> free_entities;
-    vector<unique_ptr<SparseSet>> component_sets;
+    std::vector<entity> entities;
+    std::vector<ent_id> free_entities;
+    std::vector<std::unique_ptr<component_set>> component_sets;
 };
 
 } // namespace _detail
 
-using _detail::Database;
-using _detail::Has;
-using _detail::Not;
-using _detail::Tag;
-using _detail::Maybe;
+using _detail::database;
+using _detail::require;
+using _detail::optional;
+using _detail::deny;
+using _detail::tag;
 
 } // namespace Ginseng
 

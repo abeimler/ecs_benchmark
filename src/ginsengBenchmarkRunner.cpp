@@ -22,14 +22,14 @@ BENCHMARK("ginseng     Creating 10M entities", [](benchpress::context* ctx) {
 
         ctx->start_timer();
         for (size_t c = 0; c < _10M; c++) {
-            auto entity = db.makeEntity();
+            auto entity = db.create_entity();
             created_entities.emplace_back(entity);
         }
         ctx->stop_timer();
 
         // cleanup memory to avoid full memory 
         for (auto entity : created_entities) {
-            db.eraseEntity(entity);
+            db.destroy_entity(entity);
         }
     }
 })
@@ -42,13 +42,13 @@ BENCHMARK("ginseng     Destroying 10M entities", [](benchpress::context* ctx) {
         std::vector<GinsengBenchmark::Entity> created_entities (_10M);
 
         for (size_t c = 0; c < _10M; c++) {
-            auto entity = db.makeEntity();
+            auto entity = db.create_entity();
             created_entities.emplace_back(entity);
         }
         
         ctx->start_timer();
         for (auto entity : created_entities) {
-            db.eraseEntity(entity);
+            db.destroy_entity(entity);
         }
         ctx->stop_timer();
     }
@@ -58,8 +58,8 @@ BENCHMARK("ginseng     Iterating over 10M entities, unpacking one component", []
     GinsengBenchmark::EntityManager db;
 
     for (size_t c = 0; c < _10M; c++) {
-        auto entity = db.makeEntity();
-        db.makeComponent(entity, GinsengBenchmark::PositionComponent{});
+        auto entity = db.create_entity();
+        db.create_component(entity, GinsengBenchmark::PositionComponent{});
     }
 
     ctx->reset_timer();
@@ -75,9 +75,9 @@ BENCHMARK("ginseng     Iterating over 10M entities, unpacking two components", [
     GinsengBenchmark::EntityManager db;
 
     for (size_t c = 0; c < _10M; c++) {
-        auto entity = db.makeEntity();
-        db.makeComponent(entity, GinsengBenchmark::PositionComponent{});
-        db.makeComponent(entity, GinsengBenchmark::DirectionComponent{});
+        auto entity = db.create_entity();
+        db.create_component(entity, GinsengBenchmark::PositionComponent{});
+        db.create_component(entity, GinsengBenchmark::DirectionComponent{});
     }
 
     ctx->reset_timer();
@@ -95,25 +95,25 @@ BENCHMARK("ginseng     create destroy entity with components", [](benchpress::co
 
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        auto entity = db.makeEntity();
+        auto entity = db.create_entity();
 
-        db.makeComponent(entity, GinsengBenchmark::PositionComponent{});
-        db.makeComponent(entity, GinsengBenchmark::DirectionComponent{});
-        db.makeComponent(entity, GinsengBenchmark::ComflabulationComponent{});
+        db.create_component(entity, GinsengBenchmark::PositionComponent{});
+        db.create_component(entity, GinsengBenchmark::DirectionComponent{});
+        db.create_component(entity, GinsengBenchmark::ComflabulationComponent{});
 
-        db.eraseEntity(entity);
+        db.destroy_entity(entity);
     }
 })
 
 inline void init_entities(GinsengBenchmark::EntityManager& db, size_t nentities){
     for (size_t i = 0; i < nentities; i++) {
-        auto entity = db.makeEntity();
+        auto entity = db.create_entity();
 
-        db.makeComponent(entity, GinsengBenchmark::PositionComponent{});
-        db.makeComponent(entity, GinsengBenchmark::DirectionComponent{});
+        db.create_component(entity, GinsengBenchmark::PositionComponent{});
+        db.create_component(entity, GinsengBenchmark::DirectionComponent{});
 
         if (i % 2) {
-            db.makeComponent(entity, GinsengBenchmark::ComflabulationComponent{});
+            db.create_component(entity, GinsengBenchmark::ComflabulationComponent{});
         }
     }
 }

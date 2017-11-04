@@ -31,9 +31,9 @@ public:
         std::string stringy;
     };
 
-    using EntityManager = Ginseng::Database;
+    using EntityManager = ginseng::database;
 
-    using Entity = EntityManager::EntID;
+    using Entity = EntityManager::ent_id;
 
     using TimeDelta = double;
 
