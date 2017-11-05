@@ -2,52 +2,52 @@
 
 #include <ginseng/ginseng.hpp>
 
-using DB = Ginseng::Database;
-using Ginseng::Not;
-using Ginseng::Tag;
-using Ginseng::Maybe;
-using EntID = DB::EntID;
-using ComID = DB::ComID;
+using DB = ginseng::database;
+using ginseng::deny;
+using ginseng::tag;
+using ginseng::optional;
+using ent_id = DB::ent_id;
+using com_id = DB::com_id;
 
-TEST_CASE("Tag types do not use dynamic allocation", "[ginseng]")
+TEST_CASE("tag types do deny use dynamic allocation", "[ginseng]")
 {
-    // Not sure how to actually test this, since allocations happen for the list nodes and entity vector.
+    // Not sure how to actually test this.
     // Instead, I'll just check to make sure it actually compiles.
 
     DB db;
 
-    struct SomeTag {};
-    struct SomeTag2 {};
+    struct Sometag {};
+    struct Sometag2 {};
 
-    auto ent = db.makeEntity();
-    db.makeComponent(ent, Tag<SomeTag>{});
+    auto ent = db.create_entity();
+    db.create_component(ent, tag<Sometag>{});
 
     int visited;
 
     visited = 0;
-    db.visit([&](Tag<SomeTag>){
+    db.visit([&](tag<Sometag>){
         ++visited;
     });
     REQUIRE(visited == 1);
 
     visited = 0;
-    db.visit([&](Tag<SomeTag2>){
+    db.visit([&](tag<Sometag2>){
         ++visited;
     });
     REQUIRE(visited == 0);
 
-    Maybe<Tag<SomeTag>> minfo;
+    optional<tag<Sometag>> minfo;
     visited = 0;
-    db.visit([&](Maybe<Tag<SomeTag>> info){
+    db.visit([&](optional<tag<Sometag>> info){
         ++visited;
         minfo = info;
     });
     REQUIRE(visited == 1);
     REQUIRE(bool(minfo) == true);
     
-    Maybe<Tag<SomeTag2>> minfo2;
+    optional<tag<Sometag2>> minfo2;
     visited = 0;
-    db.visit([&](Maybe<Tag<SomeTag2>> info){
+    db.visit([&](optional<tag<Sometag2>> info){
         ++visited;
         minfo2 = info;
     });

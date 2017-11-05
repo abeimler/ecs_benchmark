@@ -1,6 +1,12 @@
 # Ginseng
 
-An entity component framework designed for use in games.
+Ginseng is an entity-component-system (ECS) library designed for use in games.
+
+The main advantage over similar libraries is that the component types do not need to be listed or registered.
+Component types are detected dynamically.
+
+Any function-like object can be used as a system.
+The function's parameters are used to determine the required components.
 
 ## Features
 
@@ -28,9 +34,9 @@ An example of Ginseng being used in a game:
 ```c++
 #include <ginseng/ginseng.hpp>
 
-using Ginseng::Database;
-using Ginseng::Not;
-using Ginseng::Tag;
+using ginseng::database;
+using ginseng::tag;
+using ginseng::deny;
 
 // Components can be any value type.
 
@@ -44,23 +50,23 @@ struct PositionCom {
 };
 
 // Tag components will not contain a value (no allocation).
-using IsEnemyTag = Tag<struct IsEnemy>;
+using IsEnemyTag = tag<struct IsEnemy>;
 
 struct Game {
-    Database db; // Databases are value types.
+    database db; // Databases are value types.
     
     Game() {
-        // db.makeEntity() returns an entity ID.
-        auto player = db.makeEntity();
+        // db.create_entity() returns an entity ID.
+        auto player = db.create_entity();
         
-        // db.makeComponent() copies the given component into the entity.
-        db.makeComponent(player, NameCom{"The Player"});
-        db.makeComponent(player, PositionCom{12, 42});
+        // db.create_component() copies the given component into the entity.
+        db.create_component(player, NameCom{"The Player"});
+        db.create_component(player, PositionCom{12, 42});
         
-        auto enemy = db.makeEntity();
-        db.makeComponent(enemy, NameCom{"An Enemy"});
-        db.makeComponent(enemy, PositionCom{7, 53});
-        db.makeComponent(enemy, IsEnemyTag{});
+        auto enemy = db.create_entity();
+        db.create_component(enemy, NameCom{"An Enemy"});
+        db.create_component(enemy, PositionCom{7, 53});
+        db.create_component(enemy, IsEnemyTag{});
     }
     
     void run_game() {
@@ -72,7 +78,7 @@ struct Game {
         });
     
         // The Not<> annotation can be used to skip unwanted entities.
-        db.visit([](const NameCom& name, Not<IsEnemyTag>){
+        db.visit([](const NameCom& name, deny<IsEnemyTag>){
             std::cout << name.name << " is not an enemy." << std::endl;
         });
     }
@@ -81,4 +87,8 @@ struct Game {
 
 ## License
 
+MIT
+
 See [LICENSE.txt](https://github.com/dbralir/ginseng/blob/master/LICENSE.txt).
+
+Copyright 2015 Jeramy Harrison
