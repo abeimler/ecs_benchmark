@@ -13,7 +13,7 @@ namespace entityx1_benchmark {
 
 constexpr size_t _10M = 10'000'000L;
 
-BENCHMARK("entityx1 Creating 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[1] entityx1 Creating 10M entities", [](benchpress::context* ctx) {
     EntityXBenchmark::Application app;
     auto& entities = app.entities;
 
@@ -35,7 +35,7 @@ BENCHMARK("entityx1 Creating 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("entityx1 Destroying 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[2] entityx1 Destroying 10M entities", [](benchpress::context* ctx) {
     EntityXBenchmark::Application app;
     auto& entities = app.entities;
     
@@ -56,7 +56,7 @@ BENCHMARK("entityx1 Destroying 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("entityx1 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+BENCHMARK("[3] entityx1 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     EntityXBenchmark::Application app;
     auto& entities = app.entities;
 
@@ -76,7 +76,7 @@ BENCHMARK("entityx1 Iterating over 10M entities, unpacking one component", [](be
     }
 })
 
-BENCHMARK("entityx1 Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
+BENCHMARK("[4] entityx1 Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
     EntityXBenchmark::Application app;
     auto& entities = app.entities;
 

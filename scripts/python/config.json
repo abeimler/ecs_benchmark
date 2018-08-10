@@ -1,0 +1,29 @@
+{
+    "updates": [
+        "entityx1",
+        "entityx2",
+        "entt",
+        "anax",
+        "artemis"
+    ],
+    "plotupdates": [
+        "entityx1",
+        "entityx2",
+        "entt"
+    ],
+    "plotupdates2": [
+        "entityx1",
+        "entityx2",
+        "entt",
+        "anax"
+    ],
+    "eventbus": [
+        "entityx",
+        "eventpp"
+    ],
+    "10Mentities": [
+        "entityx1",
+        "entityx2",
+        "entt"
+    ]
+}

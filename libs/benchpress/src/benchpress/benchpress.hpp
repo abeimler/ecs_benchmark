@@ -37,6 +37,7 @@
 #include <map>         
 #include <unordered_map>
 #include <set>
+#include <fstream>
 
 namespace benchpress {
 
@@ -58,6 +59,8 @@ class options {
     size_t      d_benchtime;
     size_t      d_cpu;
     bool        d_plotdata;
+    std::string d_csvoutput;
+    std::string d_csvsuffix;
 public:
     options()
         : d_bench( { ".*" } )
@@ -81,6 +84,15 @@ public:
         d_plotdata = plotdata;
         return *this;
     }
+    options& csvoutput(std::string csvoutput) {
+        d_csvoutput = csvoutput;
+        return *this;
+    }
+    options& csvsuffix(std::string csvsuffix) {
+        d_csvsuffix = csvsuffix;
+        return *this;
+    }
+
     std::vector<std::string> get_bench() const {
         return d_bench;
     }
@@ -92,6 +104,12 @@ public:
     }
     bool get_plotdata() const {
         return d_plotdata;
+    }
+    std::string get_csvoutput() const {
+        return d_csvoutput;
+    }
+    std::string get_csvsuffix() const {
+        return d_csvsuffix;
     }
 };
 
@@ -478,11 +496,41 @@ private:
 
 #ifdef BENCHPRESS_CONFIG_MAIN
 
+// trim from start
+std::string ltrim(std::string s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+// trim from end
+std::string rtrim(std::string s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+// trim from both ends
+std::string trim(std::string s) {
+    return ltrim(rtrim(s));
+}
+
 /*
  * The run_benchmarks function will run the registered benchmarks.
  */
 void run_benchmarks(const options& opts) {
     using namespace std::string_literals;
+
+    const int COL_WIDTH = 18;
+    const std::string CSV_DELIMITER = ";";
+
+    std::map<std::string, std::set<std::string>> headers;
+    std::map<std::string, std::map<std::string, std::map<std::string, std::string>>> results_map;
+
+    std::set<std::string> plot_headers;
+    std::map<std::string, std::map<std::string, std::string>> plot_results_map;
+
+    std::vector<result> results;
 
     auto std_replace = [](std::string& str,
                 const std::string& oldStr,
@@ -493,9 +541,8 @@ void run_benchmarks(const options& opts) {
             pos += newStr.length();
         }
     };
-    std::vector<result> results;
 
-    for(std::string bench : opts.get_bench()){
+    for(std::string bench : opts.get_bench()) {
         std::regex match_r(bench);
 
         auto benchmarks = registration::get_ptr()->get_benchmarks();
@@ -508,7 +555,7 @@ void run_benchmarks(const options& opts) {
                 context c (info, opts);
                 auto r = c.run();
                 std::string rstr = r.to_string();
-                std::cout << prefix << std::setw(64) << std::left << name << rstr << '\n';
+                std::cout << prefix << std::setw(70) << std::left << name << rstr << '\n';
 
                 r.set_name(name);
 
@@ -533,15 +580,8 @@ void run_benchmarks(const options& opts) {
             }
         }
     }
-
-    if(opts.get_plotdata()) {
-        std::cout << '\n';
-        std::cout << "# plot data" << '\n';
-
-        const int COL_WIDTH = 16;
-
-        std::set<std::string> headers;
-        std::map<std::string, std::map<std::string, std::string>> results_map;
+    
+    if(opts.get_plotdata() || !opts.get_csvoutput().empty()) {
         for(auto& result : results) {
             std::string name = result.get_name();
 
@@ -565,32 +605,59 @@ void run_benchmarks(const options& opts) {
             std::string sort_result = sort_result_ss.str();
 
 
-            headers.insert(sort_col);
-            results_map[sort_row][sort_col] = sort_result;
+
+            std::string outputname = name;
+
+            std::regex name_regex (".*\\[\\s*\\d+\\s*\\]\\s+(\\S*)\\s+.*");
+            std::smatch name_match;
+            if (std::regex_match(outputname, name_match, name_regex)) {
+                if(name_match.size() > 1){
+                    outputname = name_match[1].str();
+                }
+            }
+            std_replace(outputname, "\\[\\s*(\\d+)\\s*\\]", "");
+            outputname = trim(outputname);
+            
+            std::regex name2_regex ("^(\\S*)\\s+.*$");
+            std::smatch name2_match;
+            if (std::regex_match(outputname, name2_match, name2_regex)) {
+                if(name2_match.size() > 1){
+                    outputname = name2_match[1].str();
+                }
+            }
+            outputname = trim(outputname);
+
+            if(outputname.empty()) {
+                outputname = name;
+            }
+
+            headers[outputname].insert(sort_col);
+            results_map[outputname][sort_row][sort_col] = sort_result;
+
+            plot_headers.insert(sort_col);
+            plot_results_map[sort_row][sort_col] = sort_result;
         }
+    }
 
-        //std::cout << "#### " << "[Debug] results_map result" << '\n';
-        //for(const auto& r1 : results_map) {
-        //    for(const auto& r2 : r1.second) {
-        //        std::cout << "### " << r1.first << " " << r2.first << " " << r2.second << '\n'; 
-        //    }
-        //}
+    if(opts.get_plotdata()) {
+        std::cout << '\n';
+        std::cout << "# plot data" << '\n';
 
-        if(!results_map.empty()) {
+        if(!results.empty()) {
             std::cout << "# " << std::setw(COL_WIDTH) << std::right << std::setfill(' ') << ' ';
-            for(const auto& header : headers) {
+            for(const auto& header : plot_headers) {
                 std::cout << header;
             }
             std::cout << '\n';
 
-            for(const auto& row_result : results_map) {
+            for(const auto& row_result : plot_results_map) {
                 const auto& row_left_header = row_result.first;
                 const auto& row = row_result.second;
 
                 if(!row_left_header.empty()) {
                     std::cout << "  " << row_left_header;
 
-                    for(const auto& header : headers) {
+                    for(const auto& header : plot_headers) {
                         const auto find_row_value = row.find(header);
                         if(find_row_value != std::end(row)) {
                             std::cout << find_row_value->second;
@@ -604,6 +671,58 @@ void run_benchmarks(const options& opts) {
             }
         }
         std::cout << '\n';
+    }
+
+    if(!opts.get_csvoutput().empty()) {
+
+
+        //std::cout << "#### " << "[Debug] results_map result" << '\n';
+        //for(const auto& r1 : results_map) {
+        //    for(const auto& r2 : r1.second) {
+        //        for(const auto& r3 : r2.second) {
+        //            std::cout << "### " << r1.first << " " << r2.first << " " << r3.first << " " << r3.second << '\n'; 
+        //        }
+        //    }
+        //}
+
+        if(!results.empty()) {
+            for(const auto& row_result : results_map) {
+                const auto& outputname = row_result.first;
+                const auto& resmap = row_result.second;
+
+                std::string filename = opts.get_csvoutput() + "/" + outputname + ((!opts.get_csvsuffix().empty())? "-"+opts.get_csvsuffix() : "") + ".csv";
+
+                std::ofstream ocsv (filename, std::ofstream::out);
+
+                ocsv << "tag";
+                for(const auto& header : headers[outputname]) {
+                    ocsv << CSV_DELIMITER << header;
+                }
+                ocsv << '\n';
+
+                for(const auto& row_result : resmap) {
+                    const auto& row_left_header = row_result.first;
+                    const auto& row = row_result.second;
+
+                    if(!row_left_header.empty()) {
+                        ocsv << "  " << row_left_header;
+
+                        for(const auto& header : headers[outputname]) {
+                            const auto find_row_value = row.find(header);
+                            if(find_row_value != std::end(row)) {
+                                ocsv << CSV_DELIMITER << find_row_value->second;
+                            } else {
+                                ocsv << CSV_DELIMITER << std::setw(COL_WIDTH) << std::right << std::setfill(' ') << "?";
+                            }
+                        }
+
+                        ocsv<< '\n';
+                    }
+                }
+
+                ocsv.close();
+            }
+        }
     }
 }
 #endif
@@ -630,6 +749,8 @@ int main(int argc, char** argv) {
                 ->default_value(std::to_string(std::thread::hardware_concurrency())))
             ("list", "list all available benchmarks")
             ("plotdata", "print plot data for gnuplot (use [tags] to tag the xlabel)")
+            ("csvsuffix", "suffix of the .csv files", cxxopts::value<std::string>())
+            ("csvoutput", "target output directory of the .csv files", cxxopts::value<std::string>())
             ("help", "print help")
         ;
         cmd_opts.parse(argc, argv);
@@ -648,6 +769,12 @@ int main(int argc, char** argv) {
         }
         if (cmd_opts.count("plotdata")) {
             bench_opts.plotdata(true);
+        }
+        if (cmd_opts.count("csvoutput")) {
+            bench_opts.csvoutput(cmd_opts["csvoutput"].as<std::string>());
+        }
+        if (cmd_opts.count("csvsuffix")) {
+            bench_opts.csvsuffix(cmd_opts["csvsuffix"].as<std::string>());
         }
         if (cmd_opts.count("list")) {
             auto benchmarks = benchpress::registration::get_ptr()->get_benchmarks();

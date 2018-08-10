@@ -14,7 +14,7 @@ namespace entityx2_benchmark {
 
 constexpr size_t _10M = 10'000'000L;
 
-BENCHMARK("entityx2 Creating 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[1] entityx2 Creating 10M entities", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
     ctx->reset_timer();
@@ -35,7 +35,7 @@ BENCHMARK("entityx2 Creating 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("entityx2 Destroying 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[2] entityx2 Destroying 10M entities", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
     
     ctx->reset_timer();
@@ -55,7 +55,7 @@ BENCHMARK("entityx2 Destroying 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("entityx2 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+BENCHMARK("[3] entityx2 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -77,7 +77,7 @@ BENCHMARK("entityx2 Iterating over 10M entities, unpacking one component", [](be
 
 // @FIXME: compiler error, why ?
 /*
-BENCHMARK("entityx2 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+BENCHMARK("[4] entityx2 Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
 
     for (size_t c = 0; c < _10M; c++) {
