@@ -1,0 +1,6 @@
+Benchmark,EntityX (master),EntityX (experimental/compile_time),EnTT (master),Anax,Artemis
+Update  1M entities with 2 Systems,0.061s,0.018s,0.007s,0.070s,166.760s
+Update  2M entities with 2 Systems,0.124s,0.036s,0.013s,0.235s,N/A
+Update  5M entities with 2 Systems,0.333s,0.103s,0.037s,N/A,N/A
+Update 10M entities with 2 Systems,1.036s,0.206s,0.064s,N/A,N/A
+Update 20M entities with 2 Systems,2.040s,0.404s,0.128s,N/A,N/A

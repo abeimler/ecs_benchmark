@@ -15,7 +15,7 @@ namespace entt_benchmark {
 constexpr size_t _10M = 10'000'000L;
 
 
-BENCHMARK("entt     Creating 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[1] entt     Creating 10M entities", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     ctx->reset_timer();
@@ -36,7 +36,7 @@ BENCHMARK("entt     Creating 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("entt     Destroying 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[2] entt     Destroying 10M entities", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
     
     ctx->reset_timer();
@@ -56,7 +56,7 @@ BENCHMARK("entt     Destroying 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("entt     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+BENCHMARK("[3] entt     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -75,7 +75,7 @@ BENCHMARK("entt     Iterating over 10M entities, unpacking one component", [](be
     }
 })
 
-BENCHMARK("entt     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
+BENCHMARK("[4] entt     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     for (size_t c = 0; c < _10M; c++) {

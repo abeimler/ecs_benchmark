@@ -120,26 +120,22 @@ _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPA
 
 ## Benchmark
 
-Date: Mi 15. Aug 11:19:55 CEST 2018
-
-
 ### Environment
 
- - OS: 4.14.60-1-MANJARO x86_64 GNU/Linux
-
- - CPU: Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz
- - RAM: 16G
+ - OS: Antergos Linux (4.13.3-1-ARCH) 64-Bit
+ - CPU: 4x Intel® Core™ i5 CPU 760 @ 2.80GHz
+ - RAM: 8 GB
 
 ### Results
 
 #### Create, Destroying and Iterating over 10M entities
 
-Benchmark                                              |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT (master)
--------------------------------------------------------|--------------------|---------------------------------------|---------------
-Creating 10M entities                                  |  0.132s            |  0.068s                               |  0.028s
-Destroying 10M entities                                |  0.287s            |  0.070s                               |  0.051s
-Iterating over 10M entities, unpacking one component   |  0.142s            |  0.011s                               |  0.009s
-Iterating over 10M entities, unpacking two components  |  0.322s            |  0.017s                               |  N/A
+| Benchmark                                             | EntityX (master) | EntityX (experimental/compile_time) | EnTT (master) |
+|:------------------------------------------------------|-----------------:|------------------------------------:|--------------:|
+| Creating 10M entities                                 |            0.25s |                               0.16s |     **0.07s** |
+| Destroying 10M entities                               |            0.47s |                               0.21s |     **0.14s** |
+| Iterating over 10M entities, unpacking one component  |            0.24s |                               0.02s |     **0.02s** |
+| Iterating over 10M entities, unpacking two components |            0.40s |                               0.08s |     **0.04s** |
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -152,13 +148,13 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 _(lower is better :)_
 
-Benchmark                           |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT (master)  |  Anax    |  Artemis
-------------------------------------|--------------------|---------------------------------------|-----------------|----------|----------
-Update  1M entities with 2 Systems  |  0.061s            |  0.018s                               |  0.007s         |  0.070s  |  166.760s
-Update  2M entities with 2 Systems  |  0.124s            |  0.036s                               |  0.013s         |  0.235s  |  N/A
-Update  5M entities with 2 Systems  |  0.333s            |  0.103s                               |  0.037s         |  N/A     |  N/A
-Update 10M entities with 2 Systems  |  1.036s            |  0.206s                               |  0.064s         |  N/A     |  N/A
-Update 20M entities with 2 Systems  |  2.040s            |  0.404s                               |  0.128s         |  N/A     |  N/A
+| Benchmark                          | Artemis |  Anax | EntityX (master) | EntityX (experimental/compile_time) | EnTT (master) |
+|:-----------------------------------|--------:|------:|-----------------:|------------------------------------:|--------------:|
+| Update  1M entities with 2 Systems | 244.13s | 0.23s |            0.10s |                               0.03s |     **0.01s** |
+| Update  2M entities with 2 Systems |     N/A | 1.29s |            0.22s |                               0.07s |     **0.03s** |
+| Update  5M entities with 2 Systems |     N/A |   N/A |            0.59s |                               0.18s |     **0.07s** |
+| Update 10M entities with 2 Systems |     N/A |   N/A |            1.84s |                               0.38s |     **0.15s** |
+| Update 20M entities with 2 Systems |     N/A |   N/A |            3.92s |                               1.22s |     **0.31s** |
 
 
 #### Eventbus
@@ -167,13 +163,13 @@ Update 20M entities with 2 Systems  |  2.040s            |  0.404s              
 
 Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp).
 
-Benchmark                             |  entityx  |  eventpp
---------------------------------------|-----------|---------
-publish EventA and EventB  20k times  |  0.001s   |  0.001s
-publish EventA and EventB  50k times  |  0.002s   |  0.003s
-publish EventA and EventB 100k times  |  0.003s   |  0.005s
-publish EventA and EventB 200k times  |  0.007s   |  0.010s
-publish EventA and EventB 500k times  |  0.017s   |  0.024s
+| Benchmark                                             | EntityX (master) |   Eventpp |
+|:------------------------------------------------------|-----------------:|----------:|
+| publish EventA and EventB  20k times                  |              1ms |       1ms |
+| publish EventA and EventB  50k times                  |              3ms |       3ms |
+| publish EventA and EventB 100k times                  |          **6ms** |       7ms |
+| publish EventA and EventB 200k times                  |         **12ms** |      14ms |
+| publish EventA and EventB 500k times                  |         **32ms** |      51ms |
 
 _Listen to EventA EventB and EventC_
 
@@ -182,7 +178,7 @@ _Listen to EventA EventB and EventC_
 ## Make your own Results
 
  1. Build this Project, see [Build](#build)
- 2. run `python3 ./scripts/run_benchmark > ./doc/output.txt 2>&1` to print all kind of stuff - _Note: artemis is disabled, it takes to long, but you can uncomment it_
+ 2. run `./scripts/run_benchmark.sh > ./doc/output.txt 2>&1` to print all kind of stuff - _Note: artemis is disabled, it takes to long, but you can uncomment it_
 	2.1. OR just run the direct benchmark with plotdata,
 		`./build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*entt.*update.*" --plotdata > ./doc/data.dat`
 		Now you got the `data.dat`
