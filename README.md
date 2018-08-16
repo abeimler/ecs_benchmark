@@ -120,13 +120,11 @@ _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPA
 
 ## Benchmark
 
-Date: Mi 15. Aug 11:19:55 CEST 2018
-
+Date: Do 16. Aug 14:23:27 CEST 2018
 
 ### Environment
 
  - OS: 4.14.60-1-MANJARO x86_64 GNU/Linux
-
  - CPU: Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz
  - RAM: 16G
 
@@ -136,10 +134,10 @@ Date: Mi 15. Aug 11:19:55 CEST 2018
 
 Benchmark                                              |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT (master)
 -------------------------------------------------------|--------------------|---------------------------------------|---------------
-Creating 10M entities                                  |  0.132s            |  0.068s                               |  0.028s
-Destroying 10M entities                                |  0.287s            |  0.070s                               |  0.051s
-Iterating over 10M entities, unpacking one component   |  0.142s            |  0.011s                               |  0.009s
-Iterating over 10M entities, unpacking two components  |  0.322s            |  0.017s                               |  N/A
+Creating 10M entities                                  |  0.126s            |  0.067s                               |  0.028s
+Destroying 10M entities                                |  0.284s            |  0.069s                               |  0.051s
+Iterating over 10M entities, unpacking one component   |  0.145s            |  0.011s                               |  0.009s
+Iterating over 10M entities, unpacking two components  |  0.303s            |  0.018s                               |  N/A
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -154,11 +152,11 @@ _(lower is better :)_
 
 Benchmark                           |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT (master)  |  Anax    |  Artemis
 ------------------------------------|--------------------|---------------------------------------|-----------------|----------|----------
-Update  1M entities with 2 Systems  |  0.061s            |  0.018s                               |  0.007s         |  0.070s  |  166.760s
-Update  2M entities with 2 Systems  |  0.124s            |  0.036s                               |  0.013s         |  0.235s  |  N/A
-Update  5M entities with 2 Systems  |  0.333s            |  0.103s                               |  0.037s         |  N/A     |  N/A
-Update 10M entities with 2 Systems  |  1.036s            |  0.206s                               |  0.064s         |  N/A     |  N/A
-Update 20M entities with 2 Systems  |  2.040s            |  0.404s                               |  0.128s         |  N/A     |  N/A
+Update  1M entities with 2 Systems  |  0.060s            |  0.016s                               |  0.007s         |  0.067s  |  164.492s
+Update  2M entities with 2 Systems  |  0.123s            |  0.032s                               |  0.013s         |  0.225s  |  N/A
+Update  5M entities with 2 Systems  |  0.334s            |  0.085s                               |  0.035s         |  N/A     |  N/A
+Update 10M entities with 2 Systems  |  1.055s            |  0.183s                               |  0.065s         |  N/A     |  N/A
+Update 20M entities with 2 Systems  |  2.060s            |  0.382s                               |  0.134s         |  N/A     |  N/A
 
 
 #### Eventbus
@@ -170,16 +168,109 @@ Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp)
 Benchmark                             |  entityx  |  eventpp
 --------------------------------------|-----------|---------
 publish EventA and EventB  20k times  |  0.001s   |  0.001s
-publish EventA and EventB  50k times  |  0.002s   |  0.003s
-publish EventA and EventB 100k times  |  0.003s   |  0.005s
+publish EventA and EventB  50k times  |  0.002s   |  0.002s
+publish EventA and EventB 100k times  |  0.004s   |  0.005s
 publish EventA and EventB 200k times  |  0.007s   |  0.010s
-publish EventA and EventB 500k times  |  0.017s   |  0.024s
+publish EventA and EventB 500k times  |  0.019s   |  0.025s
 
 _Listen to EventA EventB and EventC_
 
 
 
+
 ## Make your own Results
+
+### before run benchmark mark
+
+After you implemente the Benchmarks you need to config the python script.
+
+_scripts/run_benchmark/config.json_
+```js
+{
+    "updates": [
+        "entityx1",
+        "entityx2",
+        "entt",
+        "anax"
+    ],
+    "plotupdates": [
+        "entityx1",
+        "entityx2",
+        "entt",
+        "anax"
+    ],
+    "plotupdates2": [
+        "entityx1",
+        "entityx2",
+        "entt",
+        "anax",
+        "artemis"
+    ],
+    "eventbus": [
+        "entityx",
+        "eventpp"
+    ],
+    "10Mentities": [
+        "entityx1",
+        "entityx2",
+        "entt"
+    ]
+}
+```
+
+Depend on what you implemented and want, you must add your `frameworkname` to the list.
+
+ * **updates**: just run benchmark for "Update Systems" without plot
+ * **plotupdates**: run benchmark for "Update Systems" with plot
+ * **plotupdates2**: run benchmark for "Update Systems" with plot (alternative)
+ * **eventbus**: run benchmark for "Eventbus" with plot
+ * **10Mentities**: run benchmark for "Creating, Destroying, ... 10M entities" with plot
+
+_I use `plotupdates2` as alternative to exclude artemis from the normal benchmark_ 
+
+Beware if you are implementing the Benchmarks, you must name the benchmarks right ...  
+```
+[1] frameworkname Creating 10M entities
+[2] frameworkname Destroying 10M entities
+[3] frameworkname Iterating over 10M entities, unpacking one component
+[4] frameworkname Iterating over 10M entities, unpacking two components
+
+
+[10] frameworkname entities component systems update
+[25] frameworkname entities component systems update
+[50] frameworkname entities component systems update
+...
+
+
+[10] frameworkname-eventbus listen to EventA EventB and EventC publish EventA and EventB
+[25] frameworkname-eventbus listen to EventA EventB and EventC publish EventA and EventB
+...
+
+```
+
+ _see other framework benchmark runner as example_
+
+
+
+_scripts/run_benchmark/config.json_
+```js
+{
+    "benchmark": true,
+    "runbenchmark_update2": true,
+    "gencsvfiles": true,
+    "plot": true,
+    "genreadme": true
+}
+```
+
+ * **benchmark**: just run benchmarks for "Update Systems" without plot
+ * **runbenchmark_update2**: run benchmarks for "Update Systems" from 'plotupdates2'
+ * **gencsvfiles**: generate .csv-files (needed for plot and readme)
+ * **plot**: generate (gnuplot) .plt-scripts and plot graphs from .csv-files
+ * **genreadme**: generate README.md with new results (tables from .csv-files)
+
+
+### run benchmark
 
  1. Build this Project, see [Build](#build)
  2. run `python3 ./scripts/run_benchmark > ./doc/output.txt 2>&1` to print all kind of stuff - _Note: artemis is disabled, it takes to long, but you can uncomment it_
@@ -189,7 +280,9 @@ _Listen to EventA EventB and EventC_
  	2.2. use `gnuplot` and the [gnuplot-script](scripts/data-systems-update.plt) to print the plot, _or use this site [http://gnuplot.respawned.com/]()_
 
 
-### edit gnuplot (data-systems-update.plt)
+### edit gnuplot (data-systems-update.plt) DEPRECATED
+
+**you don't need to edit the .plt-file, the python script generate one**
 
 ```gnuplot
 ## 1:1 are Headers
@@ -199,6 +292,7 @@ plot  "data.dat" using 1:2 title 'EntityX1' with lines, \  # 1. Col
 ```
 
 You can edit the `gnuplot`-script to add new cols.
+
 
 
 

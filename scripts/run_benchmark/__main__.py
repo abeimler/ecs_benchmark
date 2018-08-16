@@ -15,14 +15,6 @@ def main(argv):
     doc_dir =  os.path.abspath(root_dir + "/doc")
     doc_csv_dir =  os.path.abspath(doc_dir + "/csv")
 
-    jsonconfigfilename = thispath + "/config.json"
-
-    jsonconfig = ""
-    with open(jsonconfigfilename, 'r') as jsonconfigfile:
-        jsonconfig=jsonconfigfile.read()
-    jsonconfigfile.close()
-
-    config = json.loads(jsonconfig)
 
 
 
@@ -100,8 +92,12 @@ def main(argv):
     for fname in config["plotupdates"]:
         cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
         csvfiles["update"][fname] = os.path.abspath(doc_csv_dir + "/" + fname + "-update.csv")
-    cmd = cmd + '  --plotdata --csvoutput='+doc_csv_dir+' --csvsuffix=update > ' + data_systems_update_dat
-    if BENCHMARK and PLOT:
+    if GENCSVFILES:
+        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvsuffix=update '
+    if PLOT:
+        cmd = cmd + '--plotdata > ' + data_systems_update_dat
+
+    if GENCSVFILES or PLOT:
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -113,8 +109,12 @@ def main(argv):
     for fname in config["plotupdates2"]:
         cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
         csvfiles["update2"][fname] = os.path.abspath(doc_csv_dir + "/" + fname + "-update2.csv")
-    cmd = cmd + ' --plotdata --csvoutput='+doc_csv_dir+' --csvsuffix=update2 > ' + data_systems_update_2_dat
-    if BENCHMARK and PLOT and RUNBENCHMARKUPDATE2:
+    if GENCSVFILES:
+        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvsuffix=update2 '
+    if PLOT:
+        cmd = cmd + ' --plotdata > ' + data_systems_update_2_dat
+
+    if BENCHMARK RUNBENCHMARKUPDATE2 and (GENCSVFILES or PLOT):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -126,8 +126,12 @@ def main(argv):
     for fname in config["eventbus"]:
         cmd = cmd + ' --bench ".*'+fname+'-eventbus.*" '
         csvfiles["eventbus"][fname] = os.path.abspath(doc_csv_dir + "/" + fname + "-eventbus-eventbus.csv")
-    cmd = cmd + ' --plotdata --csvoutput='+doc_csv_dir+' --csvsuffix=eventbus > ' + data_eventbus_dat
-    if BENCHMARK and PLOT:
+    if GENCSVFILES:
+        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvsuffix=eventbus '
+    if PLOT:
+        cmd = cmd + ' --plotdata > ' + data_eventbus_dat
+
+    if GENCSVFILES or PLOT:
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -138,8 +142,10 @@ def main(argv):
     for fname in config["10Mentities"]:
         cmd = cmd + ' --bench ".*'+fname+'.*10M\\s+entities.*" '
         csvfiles["10Mentities"][fname] = os.path.abspath(doc_csv_dir + "/" + fname + "-10Mentities.csv")
-    cmd = cmd + '  --csvoutput='+doc_csv_dir+' --csvsuffix=10Mentities '
-    if BENCHMARK and PLOT:
+    if GENCSVFILES:
+        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvsuffix=10Mentities '
+    
+    if GENCSVFILES:
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -362,7 +368,6 @@ def main(argv):
 
 
     if PLOT:
-
         def makePlotScript(benchmarkname, pltfilename, params):
             plttmpl = ''
             data_plt_tmpl =  os.path.abspath(thispath + "/data.plt.tmpl")

@@ -26,5 +26,11 @@
         "entityx1",
         "entityx2",
         "entt"
-    ]
+    ],
+
+    "benchmark": true,
+    "runbenchmark_update2": true,
+    "plot": true,
+    "gencsvfiles": true,
+    "genreadme": true
 }
