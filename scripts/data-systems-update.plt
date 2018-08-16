@@ -14,4 +14,4 @@ set format x "2^{%L}"
 set format y "10^{%L}"
 
 ## the labels are in Alphabetical order
-plot  "data-systems-update.dat" using 1:2 title 'anaxupdate' with lines lw 3 ,   "data-systems-update.dat" using 1:3 title 'entityx1update' with lines lw 3 ,   "data-systems-update.dat" using 1:4 title 'entityx2update' with lines lw 3 ,   "data-systems-update.dat" using 1:5 title 'enttupdate' with lines lw 3 ,  
+plot  "data-systems-update.dat" using 1:2 title 'anaxupdate' with lines lw 3 ,   "data-systems-update.dat" using 1:3 title 'entityx1update' with lines lw 3 ,   "data-systems-update.dat" using 1:4 title 'entityx2update' with lines lw 3 ,   "data-systems-update.dat" using 1:5 title 'enttupdate' with lines lw 3 ,   "data-systems-update.dat" using 1:6 title 'ginsengupdate' with lines lw 3 ,  

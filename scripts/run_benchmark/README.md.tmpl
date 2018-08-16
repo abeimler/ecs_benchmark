@@ -1,7 +1,7 @@
 # Entity-Component-Systems Benchmark
 
 Simple Benchmark of common Entity-Component-Systems: 
-[EnTT](https://github.com/skypjack/entt) vs. [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp)
+[EnTT](https://github.com/skypjack/entt) vs. [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp) vs. [Ginseng](https://github.com/apples/ginseng)
 
 ## Candidates
 
@@ -43,6 +43,17 @@ Version: 2.1.0 (Januar 2017)
 > The port was orignially written by Sidar Talei, in which he used several C++11 features such as deleted function, variadic templates, nullptr, etc… We wanted the framework to be portable, so we removed all C++11 feature usages.
 
 Version: 1.x (October 2013)
+
+
+### Ginseng by @apples
+
+> Ginseng is an entity-component-system (ECS) library designed for use in games.
+> 
+> The main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.
+> 
+> Any function-like object can be used as a system. The function's parameters are used to determine the required components.
+
+Version: 1.x (Mai 2018)
 
 
 
@@ -95,7 +106,7 @@ I used g++ 7.2.0, clang++ 3.8 should work, too.
  - anax
  - ArtemisCpp
 
-benchpress, entityx (compile-time) and entt are header-only.
+benchpress, entityx (compile-time), entt and ginseng are header-only.
 
 
 #### CMake Configure
@@ -163,7 +174,7 @@ _Listen to EventA EventB and EventC_
 
 ## Make your own Results
 
-### before run benchmark mark
+### before run benchmark
 
 After you implemente the Benchmarks you need to config the python script.
 
@@ -174,19 +185,22 @@ _scripts/run_benchmark/config.json_
         "entityx1",
         "entityx2",
         "entt",
-        "anax"
+        "anax",
+        "ginseng"
     ],
     "plotupdates": [
         "entityx1",
         "entityx2",
         "entt",
-        "anax"
+        "anax",
+        "ginseng"
     ],
     "plotupdates2": [
         "entityx1",
         "entityx2",
         "entt",
         "anax",
+        "ginseng",
         "artemis"
     ],
     "eventbus": [
@@ -196,7 +210,8 @@ _scripts/run_benchmark/config.json_
     "10Mentities": [
         "entityx1",
         "entityx2",
-        "entt"
+        "entt",
+        "ginseng"
     ]
 }
 ```
@@ -209,7 +224,7 @@ Depend on what you implemented and want, you must add your `frameworkname` to th
  * **eventbus**: run benchmark for "Eventbus" with plot
  * **10Mentities**: run benchmark for "Creating, Destroying, ... 10M entities" with plot
 
-_I use `plotupdates2` as alternative to exclude artemis from the normal benchmark_ 
+_I use `plotupdates2` as alternative to exclude artemis from the "normal" benchmark, with artemis it takes a bit longer to benchmark_ 
 
 Beware if you are implementing the Benchmarks, you must name the benchmarks right ...  
 ```
@@ -230,8 +245,8 @@ Beware if you are implementing the Benchmarks, you must name the benchmarks righ
 ...
 
 ```
+see other framework benchmark runner as example
 
- _see other framework benchmark runner as example_
 
 
 
@@ -239,7 +254,7 @@ _scripts/run_benchmark/config.json_
 ```js
 {
     "benchmark": true,
-    "runbenchmark_update2": true,
+    "runbenchmark_update2": false,
     "gencsvfiles": true,
     "plot": true,
     "genreadme": true
@@ -386,3 +401,8 @@ world.update(fakeDeltaTime);
 
  - [http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/]()
  - [https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest]()
+
+
+##### This file is genrated via python and pystache, you can find the template in [scripts/run_benchmark/README.md.tmpl](scripts/run_benchmark/README.md.tmpl)
+ - https://github.com/defunkt/pystache
+ - https://github.com/mplewis/csvtomd

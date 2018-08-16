@@ -38,6 +38,11 @@ printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entt.*upda
 printf "\n"
 printf "\n"
 
+## run Ginseng systems update benchmark
+printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*ginseng.*update.* \n"
+/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*ginseng.*update.*"
+printf "\n"
+printf "\n"
 
 
 ## run Anax systems update benchmark
@@ -64,9 +69,9 @@ printf "\n"
 
 
 
-## run EntityX1, EntityX2 and EnTT 10M entities benchmarks (exclude Anax, it causes bad_alloc)
-printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entityx1.*10M\\s+entities.* --bench .*entityx2.*10M\\s+entities.* --bench .*entt.*10M\\s+entities.* \n"
-/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*entityx1.*10M\\s+entities.*" --bench ".*entityx2.*10M\\s+entities.*" --bench ".*entt.*10M\\s+entities.*"
+## run EntityX1, EntityX2, EnTT, and Ginseng 10M entities benchmarks (exclude Anax, it causes bad_alloc)
+printf "$ /usr/bin/time -f '$pformat' ./build/ecs_benchmark --bench .*entityx1.*10M\\s+entities.* --bench .*entityx2.*10M\\s+entities.* --bench .*entt.*10M\\s+entities.* --bench .*ginseng.*10M\\s+entities.* \n"
+/usr/bin/time -f "$format" ./build/ecs_benchmark --bench ".*entityx1.*10M\\s+entities.*" --bench ".*entityx2.*10M\\s+entities.*" --bench ".*entt.*10M\\s+entities.*" --bench ".*ginseng.*10M\\s+entities.*"
 printf "\n"
 printf "\n"
 

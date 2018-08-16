@@ -1,22 +1,25 @@
 {
     "updates": [
+        "anax",
         "entityx1",
         "entityx2",
         "entt",
-        "anax"
+        "ginseng"
     ],
     "plotupdates": [
+        "anax",
         "entityx1",
         "entityx2",
         "entt",
-        "anax"
+        "ginseng"
     ],
     "plotupdates2": [
+        "anax",
+        "artemis",
         "entityx1",
         "entityx2",
         "entt",
-        "anax",
-        "artemis"
+        "ginseng"
     ],
     "eventbus": [
         "entityx",
@@ -25,11 +28,12 @@
     "10Mentities": [
         "entityx1",
         "entityx2",
-        "entt"
+        "entt",
+        "ginseng"
     ],
 
-    "benchmark": true,
-    "runbenchmark_update2": true,
+    "benchmark": false,
+    "runbenchmark_update2": false,
     "plot": true,
     "gencsvfiles": true,
     "genreadme": true

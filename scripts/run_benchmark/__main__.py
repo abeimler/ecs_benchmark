@@ -1,6 +1,7 @@
 
 import sys
 import os
+import pprint
 from csvtomd import csv_to_table, md_table
 from run_benchmark import *
 
@@ -114,7 +115,7 @@ def main(argv):
     if PLOT:
         cmd = cmd + ' --plotdata > ' + data_systems_update_2_dat
 
-    if BENCHMARK RUNBENCHMARKUPDATE2 and (GENCSVFILES or PLOT):
+    if RUNBENCHMARKUPDATE2 and (GENCSVFILES or PLOT):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -171,11 +172,13 @@ def main(argv):
             elif fname == 'entityx2':
                 fnameheader = 'EntityX (experimental/compile_time)'
             elif fname == 'entt' or fname == 'entt-eventbus':
-                fnameheader = 'EnTT (master)'
+                fnameheader = 'EnTT'
             elif fname == 'anax':
                 fnameheader = 'Anax'
             elif fname == 'artemis':
                 fnameheader = 'Artemis'
+            elif fname == 'ginseng':
+                fnameheader = 'Ginseng'
 
             retHeaders.append(fnameheader)
             retFnames.append(fname)
@@ -211,6 +214,9 @@ def main(argv):
                     if retRows.get(name).get(fnameheader) is None:
                         retRows[name][fnameheader] = 'N/A'
 
+        pprint.pprint(retFnames)
+        pprint.pprint(retHeaders)
+        pprint.pprint(retRows)
 
         return {'headers': retHeaders, 'rows': retRows, 'fnames': retFnames}
 

@@ -1,5 +1,5 @@
-Benchmark,EntityX (master),EntityX (experimental/compile_time),EnTT (master)
-Creating 10M entities,0.126s,0.067s,0.028s
-Destroying 10M entities,0.284s,0.069s,0.051s
-"Iterating over 10M entities, unpacking one component",0.145s,0.011s,0.009s
-"Iterating over 10M entities, unpacking two components",0.303s,0.018s,N/A
+Benchmark,EntityX (master),EntityX (experimental/compile_time),EnTT,Ginseng
+Creating 10M entities,0.126s,0.067s,0.028s,0.047s
+Destroying 10M entities,0.282s,0.068s,0.045s,1.997s
+"Iterating over 10M entities, unpacking one component",0.138s,0.011s,0.009s,0.008s
+"Iterating over 10M entities, unpacking two components",0.299s,0.017s,0.030s,N/A

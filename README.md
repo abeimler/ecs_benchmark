@@ -1,7 +1,7 @@
 # Entity-Component-Systems Benchmark
 
 Simple Benchmark of common Entity-Component-Systems: 
-[EnTT](https://github.com/skypjack/entt) vs. [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp)
+[EnTT](https://github.com/skypjack/entt) vs. [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp) vs. [Ginseng](https://github.com/apples/ginseng)
 
 ## Candidates
 
@@ -43,6 +43,17 @@ Version: 2.1.0 (Januar 2017)
 > The port was orignially written by Sidar Talei, in which he used several C++11 features such as deleted function, variadic templates, nullptr, etc… We wanted the framework to be portable, so we removed all C++11 feature usages.
 
 Version: 1.x (October 2013)
+
+
+### Ginseng by @apples
+
+> Ginseng is an entity-component-system (ECS) library designed for use in games.
+> 
+> The main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.
+> 
+> Any function-like object can be used as a system. The function's parameters are used to determine the required components.
+
+Version: 1.x (Mai 2018)
 
 
 
@@ -95,7 +106,7 @@ I used g++ 7.2.0, clang++ 3.8 should work, too.
  - anax
  - ArtemisCpp
 
-benchpress, entityx (compile-time) and entt are header-only.
+benchpress, entityx (compile-time), entt and ginseng are header-only.
 
 
 #### CMake Configure
@@ -120,7 +131,7 @@ _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPA
 
 ## Benchmark
 
-Date: Do 16. Aug 14:23:27 CEST 2018
+Date: Do 16. Aug 16:02:03 CEST 2018
 
 ### Environment
 
@@ -132,12 +143,12 @@ Date: Do 16. Aug 14:23:27 CEST 2018
 
 #### Create, Destroying and Iterating over 10M entities
 
-Benchmark                                              |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT (master)
--------------------------------------------------------|--------------------|---------------------------------------|---------------
-Creating 10M entities                                  |  0.126s            |  0.067s                               |  0.028s
-Destroying 10M entities                                |  0.284s            |  0.069s                               |  0.051s
-Iterating over 10M entities, unpacking one component   |  0.145s            |  0.011s                               |  0.009s
-Iterating over 10M entities, unpacking two components  |  0.303s            |  0.018s                               |  N/A
+Benchmark                                              |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
+-------------------------------------------------------|--------------------|---------------------------------------|----------|---------
+Creating 10M entities                                  |  0.126s            |  0.067s                               |  0.028s  |  0.047s
+Destroying 10M entities                                |  0.282s            |  0.068s                               |  0.045s  |  1.997s
+Iterating over 10M entities, unpacking one component   |  0.138s            |  0.011s                               |  0.009s  |  0.008s
+Iterating over 10M entities, unpacking two components  |  0.299s            |  0.017s                               |  0.030s  |  N/A
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -150,13 +161,13 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 _(lower is better :)_
 
-Benchmark                           |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT (master)  |  Anax    |  Artemis
-------------------------------------|--------------------|---------------------------------------|-----------------|----------|----------
-Update  1M entities with 2 Systems  |  0.060s            |  0.016s                               |  0.007s         |  0.067s  |  164.492s
-Update  2M entities with 2 Systems  |  0.123s            |  0.032s                               |  0.013s         |  0.225s  |  N/A
-Update  5M entities with 2 Systems  |  0.334s            |  0.085s                               |  0.035s         |  N/A     |  N/A
-Update 10M entities with 2 Systems  |  1.055s            |  0.183s                               |  0.065s         |  N/A     |  N/A
-Update 20M entities with 2 Systems  |  2.060s            |  0.382s                               |  0.134s         |  N/A     |  N/A
+Benchmark                           |  Anax    |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
+------------------------------------|----------|--------------------|---------------------------------------|----------|---------
+Update  1M entities with 2 Systems  |  0.067s  |  0.059s            |  0.016s                               |  0.007s  |  0.007s
+Update  2M entities with 2 Systems  |  0.223s  |  0.122s            |  0.032s                               |  0.013s  |  0.013s
+Update  5M entities with 2 Systems  |  0.328s  |  0.082s            |  0.032s                               |  0.034s  |  N/A
+Update 10M entities with 2 Systems  |  1.019s  |  0.171s            |  0.065s                               |  0.069s  |  N/A
+Update 20M entities with 2 Systems  |  2.078s  |  0.368s            |  0.145s                               |  0.140s  |  N/A
 
 
 #### Eventbus
@@ -171,7 +182,7 @@ publish EventA and EventB  20k times  |  0.001s   |  0.001s
 publish EventA and EventB  50k times  |  0.002s   |  0.002s
 publish EventA and EventB 100k times  |  0.004s   |  0.005s
 publish EventA and EventB 200k times  |  0.007s   |  0.010s
-publish EventA and EventB 500k times  |  0.019s   |  0.025s
+publish EventA and EventB 500k times  |  0.018s   |  0.024s
 
 _Listen to EventA EventB and EventC_
 
@@ -180,7 +191,7 @@ _Listen to EventA EventB and EventC_
 
 ## Make your own Results
 
-### before run benchmark mark
+### before run benchmark
 
 After you implemente the Benchmarks you need to config the python script.
 
@@ -191,19 +202,22 @@ _scripts/run_benchmark/config.json_
         "entityx1",
         "entityx2",
         "entt",
-        "anax"
+        "anax",
+        "ginseng"
     ],
     "plotupdates": [
         "entityx1",
         "entityx2",
         "entt",
-        "anax"
+        "anax",
+        "ginseng"
     ],
     "plotupdates2": [
         "entityx1",
         "entityx2",
         "entt",
         "anax",
+        "ginseng",
         "artemis"
     ],
     "eventbus": [
@@ -213,7 +227,8 @@ _scripts/run_benchmark/config.json_
     "10Mentities": [
         "entityx1",
         "entityx2",
-        "entt"
+        "entt",
+        "ginseng"
     ]
 }
 ```
@@ -226,7 +241,7 @@ Depend on what you implemented and want, you must add your `frameworkname` to th
  * **eventbus**: run benchmark for "Eventbus" with plot
  * **10Mentities**: run benchmark for "Creating, Destroying, ... 10M entities" with plot
 
-_I use `plotupdates2` as alternative to exclude artemis from the normal benchmark_ 
+_I use `plotupdates2` as alternative to exclude artemis from the "normal" benchmark, with artemis it takes a bit longer to benchmark_ 
 
 Beware if you are implementing the Benchmarks, you must name the benchmarks right ...  
 ```
@@ -247,8 +262,8 @@ Beware if you are implementing the Benchmarks, you must name the benchmarks righ
 ...
 
 ```
+see other framework benchmark runner as example
 
- _see other framework benchmark runner as example_
 
 
 
@@ -256,7 +271,7 @@ _scripts/run_benchmark/config.json_
 ```js
 {
     "benchmark": true,
-    "runbenchmark_update2": true,
+    "runbenchmark_update2": false,
     "gencsvfiles": true,
     "plot": true,
     "genreadme": true
@@ -403,3 +418,8 @@ world.update(fakeDeltaTime);
 
  - [http://tilemapkit.com/2015/10/entity-component-systems-compared-benchmarked-entityx-anax-artemis/]()
  - [https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest]()
+
+
+##### This file is genrated via python and pystache, you can find the template in [scripts/run_benchmark/README.md.tmpl](scripts/run_benchmark/README.md.tmpl)
+ - https://github.com/defunkt/pystache
+ - https://github.com/mplewis/csvtomd
