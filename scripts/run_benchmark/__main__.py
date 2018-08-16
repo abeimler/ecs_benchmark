@@ -28,8 +28,10 @@ def main(argv):
 
 
     dateinfo = os.popen("date").read()
+    dateinfo = dateinfo.replace("\n", '')
 
     osinfo = os.popen("uname -o -r -m").read()
+    osinfo = osinfo.replace("\n", '')
 
     cpuinfo = os.popen("lscpu -y | grep -i 'Model name'").read()
     cpuinfo = cpuinfo.replace('Model name:', '').strip()
@@ -145,13 +147,11 @@ def main(argv):
 
 
 
-    benchmarkHeaders = {}
-    benchmarkRows = {}
-
     def genBenchmarkData(name, csvfiles, getrowdata):
         benchmarkheadertitle = 'Benchmark'
 
         retHeaders = []
+        retFnames = []
         names = set()
         retRows = {}
 
@@ -172,6 +172,8 @@ def main(argv):
                 fnameheader = 'Artemis'
 
             retHeaders.append(fnameheader)
+            retFnames.append(fname)
+
             if os.path.exists(filenamecsv):
                 with open(filenamecsv) as csvfile:
                     readCSV = csv.reader(csvfile)
@@ -204,7 +206,7 @@ def main(argv):
                         retRows[name][fnameheader] = 'N/A'
 
 
-        return {'headers': retHeaders, 'rows': retRows}
+        return {'headers': retHeaders, 'rows': retRows, 'fnames': retFnames}
 
 
 
@@ -212,6 +214,10 @@ def main(argv):
 
 
 
+    ### @TODO: refactoring for later, needs to be a class ...
+    benchmarkHeaders = {}
+    benchmarkRows = {}
+    benchmarkFnames = {}
 
     benchmarkname = '10Mentities'
     def getrowdata10Mentities(row):
@@ -236,6 +242,7 @@ def main(argv):
     benchmark = genBenchmarkData(benchmarkname, csvfiles[benchmarkname], getrowdata10Mentities)
     benchmarkHeaders[benchmarkname] = benchmark['headers']
     benchmarkRows[benchmarkname] = benchmark['rows']
+    benchmarkFnames[benchmarkname] = benchmark['fnames']
 
 
 
@@ -265,6 +272,7 @@ def main(argv):
     benchmark = genBenchmarkData(benchmarkname, csvfiles[benchmarkname], getrowdataUpdate)
     benchmarkHeaders[benchmarkname] = benchmark['headers']
     benchmarkRows[benchmarkname] = benchmark['rows']
+    benchmarkFnames[benchmarkname] = benchmark['fnames']
 
     if RUNBENCHMARKUPDATE2:
         benchmarkname = 'update2'
@@ -293,10 +301,12 @@ def main(argv):
         benchmark = genBenchmarkData(benchmarkname, csvfiles[benchmarkname], getrowdataUpdate2)
         benchmarkHeaders[benchmarkname] = benchmark['headers']
         benchmarkRows[benchmarkname] = benchmark['rows']
+        benchmarkFnames[benchmarkname] = benchmark['fnames']
     else:
         benchmarkname = 'update2'
-        benchmarkHeaders[benchmarkname] = {}
+        benchmarkHeaders[benchmarkname] = []
         benchmarkRows[benchmarkname] = {}
+        benchmarkFnames[benchmarkname] = []
 
 
     benchmarkname = 'eventbus'
@@ -325,6 +335,9 @@ def main(argv):
     benchmark = genBenchmarkData(benchmarkname, csvfiles[benchmarkname], getrowdataEventbus)
     benchmarkHeaders[benchmarkname] = benchmark['headers']
     benchmarkRows[benchmarkname] = benchmark['rows']
+    benchmarkFnames[benchmarkname] = benchmark['fnames']
+
+
 
     for benchmark, csvdata in benchmarkRows.items():
         benchmark_csv =  os.path.abspath(doc_csv_dir + "/" + benchmark + "_results.csv")
@@ -348,11 +361,9 @@ def main(argv):
 
 
 
-
-
     if PLOT:
 
-        def genPlotScript(benchmarkname, pltfilename, params):
+        def makePlotScript(benchmarkname, pltfilename, params):
             plttmpl = ''
             data_plt_tmpl =  os.path.abspath(thispath + "/data.plt.tmpl")
             with open(data_plt_tmpl, 'r') as data_plt_tmplfile:
@@ -361,11 +372,12 @@ def main(argv):
             headers = []
             i=2
             for h in params['headers']:
-                headers.append({
-                    'header': h,
-                    'col': i
-                })
-                i = i+1
+                if h != 'Benchmark':
+                    headers.append({
+                        'header': h,
+                        'col': i
+                    })
+                    i = i+1
 
             params['headers'] = headers
 
@@ -374,48 +386,70 @@ def main(argv):
             with open(pltfilename, "w") as data_pltfile:
                 data_pltfile.write(data_plt)
         
+
         pltfiles = {}
 
-        benchmarkname = 'update'
-        params = {
-            'headers': benchmarkHeaders[benchmarkname],
-            'output': 'systems-update-result.png',
-            'xlabel': 'Entities',
-            'ylabel': 'Time per Operation (ns/op)',
-            'title': 'ECS Benchmark System Updates'
-        }
-        pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update.plt")
+        if os.path.exists(data_systems_update_dat):
+            benchmarkname = 'update'
+            ## header name in plot is different, so correct it ...
+            headers = []
+            for f in benchmarkFnames[benchmarkname]:
+                headers.append(f + 'update')
+            headers.sort() # need to be in alphabetic order
+            params = {
+                'headers': headers, 
+                'output': 'systems-update-result.png',
+                'xlabel': 'Entities',
+                'ylabel': 'Time per Operation (ns/op)',
+                'title': 'ECS Benchmark System Updates',
+                'data_dat':  os.path.relpath(data_systems_update_dat, doc_dir)
+            }
+            pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update.plt")
+            makePlotScript(benchmarkname, pltfiles[benchmarkname], params)
 
-        benchmarkname = 'update2'
-        params = {
-            'headers': benchmarkHeaders[benchmarkname],
-            'output': 'systems-update-result-2.png',
-            'xlabel': 'Entities',
-            'ylabel': 'Time per Operation (ns/op)',
-            'title': 'ECS Benchmark System Updates'
-        }
-        pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update-2.plt")
+        if RUNBENCHMARKUPDATE2:
+            if os.path.exists(data_systems_update_2_dat):
+                benchmarkname = 'update2'
+                ## header name in plot is different, so correct it ...
+                headers = []
+                for f in benchmarkFnames[benchmarkname]:
+                    headers.append(f + 'update')
+                headers.sort() # need to be in alphabetic order
+                params = {
+                    'headers': headers, 
+                    'output': 'systems-update-result-2.png',
+                    'xlabel': 'Entities',
+                    'ylabel': 'Time per Operation (ns/op)',
+                    'title': 'ECS Benchmark System Updates',
+                    'data_dat':  os.path.relpath(data_systems_update_2_dat, doc_dir)
+                }
+                pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update-2.plt")
+                makePlotScript(benchmarkname, pltfiles[benchmarkname], params)
 
-        benchmarkname = 'eventbus'
-        params = {
-            'headers': benchmarkHeaders[benchmarkname],
-            'output': 'eventbus-result.png',
-            'xlabel': 'Publish Events',
-            'ylabel': 'Time per Operation (ns/op)',
-            'title': 'ECS Benchmark Eventbus'
-        }
-        pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-eventbus.plt")
+        if os.path.exists(data_eventbus_dat):
+            benchmarkname = 'eventbus'
+            ## header name in plot is different, so correct it ...
+            headers = []
+            for f in benchmarkFnames[benchmarkname]:
+                headers.append(f + '-eventbus')
+            headers.sort() # need to be in alphabetic order
+            params = {
+                'headers': headers, 
+                'output': 'eventbus-result.png',
+                'xlabel': 'Publish Events',
+                'ylabel': 'Time per Operation (ns/op)',
+                'title': 'ECS Benchmark Eventbus',
+                'data_dat':  os.path.relpath(data_eventbus_dat, doc_dir)
+            }
+            pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-eventbus.plt")
+            makePlotScript(benchmarkname, pltfiles[benchmarkname], params)
 
 
 
 
         os.chdir(doc_dir)
-        if os.path.exists(data_systems_update_dat):
-            os.system('gnuplot ' + pltfiles['update'])
-        if os.path.exists(data_systems_update_2_dat):
-            os.system('gnuplot ' + pltfiles['update2'])
-        if os.path.exists(data_eventbus_dat):
-            os.system('gnuplot ' + pltfiles['eventbus'])
+        for benchmarkname, pltfile in pltfiles.items():
+            os.system('gnuplot ' + pltfile)
         os.chdir(root_dir)
 
 

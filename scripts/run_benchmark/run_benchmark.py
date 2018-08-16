@@ -7,11 +7,11 @@ import csv
 import pystache
 
 ## settings
-BENCHMARK=True
+BENCHMARK=False
 RUNBENCHMARKUPDATE2=True
 PLOT=True
-GENCSVFILES=True
-GENREADME=True
+GENCSVFILES=False
+GENREADME=False
 
 
 
