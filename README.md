@@ -131,12 +131,12 @@ _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPA
 
 ## Benchmark
 
-Date: Do 16. Aug 16:02:03 CEST 2018
+Date: So 19. Aug 21:47:44 CEST 2018
 
 ### Environment
 
  - OS: 4.14.60-1-MANJARO x86_64 GNU/Linux
- - CPU: Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz
+ - CPU: AMD Ryzen 5 1600 Six-Core Processor
  - RAM: 16G
 
 ### Results
@@ -145,10 +145,10 @@ Date: Do 16. Aug 16:02:03 CEST 2018
 
 Benchmark                                              |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
 -------------------------------------------------------|--------------------|---------------------------------------|----------|---------
-Creating 10M entities                                  |  0.126s            |  0.067s                               |  0.028s  |  0.047s
-Destroying 10M entities                                |  0.282s            |  0.068s                               |  0.045s  |  1.997s
-Iterating over 10M entities, unpacking one component   |  0.138s            |  0.011s                               |  0.009s  |  0.008s
-Iterating over 10M entities, unpacking two components  |  0.299s            |  0.017s                               |  0.030s  |  N/A
+Creating 10M entities                                  |  0.184s            |  0.103s                               |  0.054s  |  0.078s
+Destroying 10M entities                                |  0.379s            |  0.158s                               |  0.090s  |  1.936s
+Iterating over 10M entities, unpacking one component   |  0.070s            |  0.011s                               |  0.012s  |  0.011s
+Iterating over 10M entities, unpacking two components  |  0.201s            |  0.022s                               |  0.031s  |  N/A
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -163,11 +163,11 @@ _(lower is better :)_
 
 Benchmark                           |  Anax    |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
 ------------------------------------|----------|--------------------|---------------------------------------|----------|---------
-Update  1M entities with 2 Systems  |  0.067s  |  0.059s            |  0.016s                               |  0.007s  |  0.007s
-Update  2M entities with 2 Systems  |  0.223s  |  0.122s            |  0.032s                               |  0.013s  |  0.013s
-Update  5M entities with 2 Systems  |  0.328s  |  0.082s            |  0.032s                               |  0.034s  |  N/A
-Update 10M entities with 2 Systems  |  1.019s  |  0.171s            |  0.065s                               |  0.069s  |  N/A
-Update 20M entities with 2 Systems  |  2.078s  |  0.368s            |  0.145s                               |  0.140s  |  N/A
+Update  1M entities with 2 Systems  |  0.103s  |  0.053s            |  0.019s                               |  0.008s  |  0.006s
+Update  2M entities with 2 Systems  |  0.260s  |  0.112s            |  0.038s                               |  0.015s  |  0.012s
+Update  5M entities with 2 Systems  |  0.313s  |  0.095s            |  0.040s                               |  0.031s  |  N/A
+Update 10M entities with 2 Systems  |  1.046s  |  0.212s            |  0.085s                               |  0.064s  |  N/A
+Update 20M entities with 2 Systems  |  2.114s  |  0.424s            |  0.165s                               |  0.125s  |  N/A
 
 
 #### Eventbus
@@ -180,9 +180,9 @@ Benchmark                             |  entityx  |  eventpp
 --------------------------------------|-----------|---------
 publish EventA and EventB  20k times  |  0.001s   |  0.001s
 publish EventA and EventB  50k times  |  0.002s   |  0.002s
-publish EventA and EventB 100k times  |  0.004s   |  0.005s
-publish EventA and EventB 200k times  |  0.007s   |  0.010s
-publish EventA and EventB 500k times  |  0.018s   |  0.024s
+publish EventA and EventB 100k times  |  0.004s   |  0.003s
+publish EventA and EventB 200k times  |  0.008s   |  0.007s
+publish EventA and EventB 500k times  |  0.019s   |  0.017s
 
 _Listen to EventA EventB and EventC_
 
@@ -193,7 +193,9 @@ _Listen to EventA EventB and EventC_
 
 ### before run benchmark
 
-After you implemente the Benchmarks you need to config the python script.
+After you implemente the Benchmarks you need to config the python script.  
+_you need [pystache](https://github.com/defunkt/pystache) to run the python script: `pip install pystache`_
+
 
 _scripts/run_benchmark/config.json_
 ```js

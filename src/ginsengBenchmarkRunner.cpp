@@ -13,7 +13,7 @@ namespace ginseng_benchmark {
 constexpr size_t _10M = 10'000'000L;
 
 
-BENCHMARK("[1] ginseng     Creating 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[1] ginseng  Creating 10M entities", [](benchpress::context* ctx) {
     GinsengBenchmark::EntityManager db;
 
     ctx->reset_timer();
@@ -34,7 +34,7 @@ BENCHMARK("[1] ginseng     Creating 10M entities", [](benchpress::context* ctx) 
     }
 })
 
-BENCHMARK("[2] ginseng     Destroying 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[2] ginseng  Destroying 10M entities", [](benchpress::context* ctx) {
     GinsengBenchmark::EntityManager db;
     
     ctx->reset_timer();
@@ -54,7 +54,7 @@ BENCHMARK("[2] ginseng     Destroying 10M entities", [](benchpress::context* ctx
     }
 })
 
-BENCHMARK("[3] ginseng     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+BENCHMARK("[3] ginseng  Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     GinsengBenchmark::EntityManager db;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -71,7 +71,7 @@ BENCHMARK("[3] ginseng     Iterating over 10M entities, unpacking one component"
     }
 })
 
-BENCHMARK("[4] ginseng     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
+BENCHMARK("[4] ginseng  Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
     GinsengBenchmark::EntityManager db;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -90,7 +90,7 @@ BENCHMARK("[4] ginseng     Iterating over 10M entities, unpacking two components
     }
 })
 
-BENCHMARK("ginseng     create destroy entity with components", [](benchpress::context* ctx) {
+BENCHMARK("ginseng  create destroy entity with components", [](benchpress::context* ctx) {
     GinsengBenchmark::EntityManager db;
 
     ctx->reset_timer();

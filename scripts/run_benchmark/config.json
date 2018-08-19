@@ -32,7 +32,7 @@
         "ginseng"
     ],
 
-    "benchmark": false,
+    "benchmark": true,
     "runbenchmark_update2": false,
     "plot": true,
     "gencsvfiles": true,

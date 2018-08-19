@@ -1,107 +1,227 @@
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-systems-update.plt", line 17: warning: Skipping data file with no valid points
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-systems-update.plt", line 17: warning: Skipping data file with no valid points
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-systems-update.plt", line 17: warning: Skipping data file with no valid points
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-systems-update.plt", line 17: warning: Skipping data file with no valid points
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-systems-update.plt", line 17: warning: Skipping data file with no valid points
-
-plot  "data-systems-update.dat" using 1:2 title 'anaxupdate' with lines lw 3 ,   "data-systems-update.dat" using 1:3 title 'entityx1update' with lines lw 3 ,   "data-systems-update.dat" using 1:4 title 'entityx2update' with lines lw 3 ,   "data-systems-update.dat" using 1:5 title 'enttupdate' with lines lw 3 ,   "data-systems-update.dat" using 1:6 title 'ginsengupdate' with lines lw 3 ,  
-                                                                                                                                                                                                                                                                                                                                                                                                       ^
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-systems-update.plt", line 17: x range is invalid
-
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-eventbus.plt", line 17: warning: Skipping data file with no valid points
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-eventbus.plt", line 17: warning: Skipping data file with no valid points
-
-plot  "data-eventbus.dat" using 1:2 title 'entityx-eventbus' with lines lw 3 ,   "data-eventbus.dat" using 1:3 title 'eventpp-eventbus' with lines lw 3 ,  
-                                                                                                                                                           ^
-"/home/abeimler/Projects/ecs_benchmark/scripts/data-eventbus.plt", line 17: x range is invalid
-
-Do 16. Aug 15:56:54 CEST 2018
+        [10] anax               10 entities component systems update     5000000               205 ns/op
+        [25] anax               25 entities component systems update     5000000               354 ns/op
+        [50] anax               50 entities component systems update     2000000               648 ns/op
+       [100] anax              100 entities component systems update     1000000              1471 ns/op
+       [200] anax              200 entities component systems update      500000              2912 ns/op
+       [400] anax              400 entities component systems update      200000              5614 ns/op
+       [800] anax              800 entities component systems update      100000             13016 ns/op
+      [1600] anax             1600 entities component systems update       50000             25494 ns/op
+      [3200] anax             3200 entities component systems update       20000             55619 ns/op
+      [5000] anax             5000 entities component systems update       20000             82349 ns/op
+     [10000] anax            10000 entities component systems update       10000            159039 ns/op
+     [30000] anax            30000 entities component systems update        1000           1032504 ns/op             1 ms/op
+    [100000] anax           100000 entities component systems update         200           7238784 ns/op             7 ms/op
+    [500000] anax           500000 entities component systems update          50          33606175 ns/op            33 ms/op          0.03 s/op
+   [1000000] anax          1000000 entities component systems update          10         106093831 ns/op           106 ms/op          0.11 s/op
+   [2000000] anax          2000000 entities component systems update           5         237366188 ns/op           237 ms/op          0.24 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 153.586s
+real 153.59 user 123.63 sys 29.95   2:33.59 elapsed    CPU: 99%  Max.Memory: 1575904k
+        [10] entityx1           10 entities component systems update     2000000               552 ns/op
+        [25] entityx1           25 entities component systems update     1000000              1319 ns/op
+        [50] entityx1           50 entities component systems update      500000              2605 ns/op
+       [100] entityx1          100 entities component systems update      200000              5032 ns/op
+       [200] entityx1          200 entities component systems update      200000              9437 ns/op
+       [400] entityx1          400 entities component systems update      100000             18705 ns/op
+       [800] entityx1          800 entities component systems update       50000             36783 ns/op
+      [1600] entityx1         1600 entities component systems update       20000             74793 ns/op
+      [3200] entityx1         3200 entities component systems update       10000            150566 ns/op
+      [5000] entityx1         5000 entities component systems update        5000            234295 ns/op
+     [10000] entityx1        10000 entities component systems update        5000            465216 ns/op
+     [30000] entityx1        30000 entities component systems update        1000           1394807 ns/op             1 ms/op
+    [100000] entityx1       100000 entities component systems update         500           4790543 ns/op             4 ms/op
+    [500000] entityx1       500000 entities component systems update          50          25131029 ns/op            25 ms/op          0.03 s/op
+   [1000000] entityx1      1000000 entities component systems update          20          55129441 ns/op            55 ms/op          0.06 s/op
+   [2000000] entityx1      2000000 entities component systems update          10         114463804 ns/op           114 ms/op          0.11 s/op
+   [5000000] entityx1      5000000 entities component systems update           5         314169996 ns/op           314 ms/op          0.31 s/op
+  [10000000] entityx1     10000000 entities component systems update           1        1062574666 ns/op          1062 ms/op          1.06 s/op
+  [20000000] entityx1     20000000 entities component systems update           1        2234621540 ns/op          2234 ms/op          2.23 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 54.919s
+real 54.92 user 53.81 sys 1.07   0:54.92 elapsed    CPU: 99%  Max.Memory: 1968712k
+        [10] entityx2           10 entities component systems update    20000000                54 ns/op
+        [25] entityx2           25 entities component systems update    10000000               140 ns/op
+        [50] entityx2           50 entities component systems update     5000000               257 ns/op
+       [100] entityx2          100 entities component systems update     5000000               503 ns/op
+       [200] entityx2          200 entities component systems update     2000000              1032 ns/op
+       [400] entityx2          400 entities component systems update     1000000              1986 ns/op
+       [800] entityx2          800 entities component systems update      500000              4844 ns/op
+      [1600] entityx2         1600 entities component systems update      200000              8169 ns/op
+      [3200] entityx2         3200 entities component systems update      100000             17205 ns/op
+      [5000] entityx2         5000 entities component systems update       50000             27354 ns/op
+     [10000] entityx2        10000 entities component systems update       20000             67903 ns/op
+     [30000] entityx2        30000 entities component systems update        5000            251997 ns/op
+    [100000] entityx2       100000 entities component systems update        1000           1698636 ns/op             1 ms/op
+    [500000] entityx2       500000 entities component systems update         200           9310973 ns/op             9 ms/op
+   [1000000] entityx2      1000000 entities component systems update         100          18530728 ns/op            18 ms/op          0.02 s/op
+   [2000000] entityx2      2000000 entities component systems update          50          37665499 ns/op            37 ms/op          0.04 s/op
+   [5000000] entityx2      5000000 entities component systems update          10         103521902 ns/op           103 ms/op          0.10 s/op
+  [10000000] entityx2     10000000 entities component systems update           5         213696030 ns/op           213 ms/op          0.21 s/op
+  [20000000] entityx2     20000000 entities component systems update           5         417309170 ns/op           417 ms/op          0.42 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 60.394s
+real 60.39 user 58.45 sys 1.94   1:00.39 elapsed    CPU: 99%  Max.Memory: 1968324k
+        [10] entt               10 entities component systems update    50000000                42 ns/op
+        [25] entt               25 entities component systems update    20000000                96 ns/op
+        [50] entt               50 entities component systems update    10000000               182 ns/op
+       [100] entt              100 entities component systems update     5000000               356 ns/op
+       [200] entt              200 entities component systems update     2000000               687 ns/op
+       [400] entt              400 entities component systems update     1000000              2004 ns/op
+       [800] entt              800 entities component systems update      500000              2809 ns/op
+      [1600] entt             1600 entities component systems update      200000              5904 ns/op
+      [3200] entt             3200 entities component systems update      100000             11289 ns/op
+      [5000] entt             5000 entities component systems update      100000             17604 ns/op
+     [10000] entt            10000 entities component systems update       50000             35103 ns/op
+     [30000] entt            30000 entities component systems update       10000            149023 ns/op
+    [100000] entt           100000 entities component systems update        5000            659410 ns/op
+    [500000] entt           500000 entities component systems update         500           3918425 ns/op             3 ms/op
+   [1000000] entt          1000000 entities component systems update         200           7655143 ns/op             7 ms/op
+   [2000000] entt          2000000 entities component systems update         100          15907928 ns/op            15 ms/op          0.02 s/op
+   [5000000] entt          5000000 entities component systems update          50          39933068 ns/op            39 ms/op          0.04 s/op
+  [10000000] entt         10000000 entities component systems update          20          83264789 ns/op            83 ms/op          0.08 s/op
+  [20000000] entt         20000000 entities component systems update          10         163704741 ns/op           163 ms/op          0.16 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 69.14s
+real 69.14 user 66.53 sys 2.60   1:09.14 elapsed    CPU: 99%  Max.Memory: 1590964k
+        [10] ginseng            10 entities component systems update    50000000                36 ns/op
+        [25] ginseng            25 entities component systems update    20000000                81 ns/op
+        [50] ginseng            50 entities component systems update    10000000               159 ns/op
+       [100] ginseng           100 entities component systems update     5000000               327 ns/op
+       [200] ginseng           200 entities component systems update     2000000               626 ns/op
+       [400] ginseng           400 entities component systems update     1000000              1292 ns/op
+       [800] ginseng           800 entities component systems update      500000              2592 ns/op
+      [1600] ginseng          1600 entities component systems update      200000              5146 ns/op
+      [3200] ginseng          3200 entities component systems update      100000             10132 ns/op
+      [5000] ginseng          5000 entities component systems update      100000             15953 ns/op
+     [10000] ginseng         10000 entities component systems update       50000             32291 ns/op
+     [30000] ginseng         30000 entities component systems update       20000             96942 ns/op
+    [100000] ginseng        100000 entities component systems update        5000            356157 ns/op
+    [500000] ginseng        500000 entities component systems update         500           2666172 ns/op             2 ms/op
+   [1000000] ginseng       1000000 entities component systems update         200           5782656 ns/op             5 ms/op
+   [2000000] ginseng       2000000 entities component systems update         100          10940001 ns/op            10 ms/op          0.01 s/op
+   [5000000] ginseng       5000000 entities component systems update          50          27579896 ns/op            27 ms/op          0.03 s/op
+  [10000000] ginseng      10000000 entities component systems update          20          62051710 ns/op            62 ms/op          0.06 s/op
+  [20000000] ginseng      20000000 entities component systems update          10         122642242 ns/op           122 ms/op          0.12 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 62.514s
+real 62.51 user 58.03 sys 4.47   1:02.51 elapsed    CPU: 99%  Max.Memory: 2036916k
+    [10] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     5000000               408 ns/op
+    [50] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     1000000              1898 ns/op
+   [100] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000              3820 ns/op
+   [300] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      100000             11297 ns/op
+  [1000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000             38298 ns/op
+  [5000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       10000            190492 ns/op
+ [10000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            375829 ns/op
+ [20000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            751320 ns/op
+ [50000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000           1925680 ns/op             1 ms/op
+[100000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3839121 ns/op             3 ms/op
+[200000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           7646850 ns/op             7 ms/op
+[500000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         100          18947425 ns/op            18 ms/op          0.02 s/op
+    [10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB     5000000               353 ns/op
+    [50] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB     1000000              1705 ns/op
+   [100] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000              3372 ns/op
+   [300] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      100000             10043 ns/op
+  [1000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000             33560 ns/op
+  [5000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       10000            168325 ns/op
+ [10000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000            334984 ns/op
+ [20000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000            671305 ns/op
+ [50000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000           1678943 ns/op             1 ms/op
+[100000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         500           3362073 ns/op             3 ms/op
+[200000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         200           6736391 ns/op             6 ms/op
+[500000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         100          16786174 ns/op            16 ms/op          0.02 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 74.394s
+real 74.39 user 74.38 sys 0.00   1:14.39 elapsed    CPU: 99%  Max.Memory: 4316k
+[1] entityx1 Creating 10M entities                                         5         202619720 ns/op           202 ms/op          0.20 s/op
+[2] entityx1 Destroying 10M entities                                       5         386559769 ns/op           386 ms/op          0.39 s/op
+[3] entityx1 Iterating over 10M entities, unpacking one component          20          70525965 ns/op            70 ms/op          0.07 s/op
+[4] entityx1 Iterating over 10M entities, unpacking two components           5         203907232 ns/op           203 ms/op          0.20 s/op
+[1] entityx2 Creating 10M entities                                        20          92920877 ns/op            92 ms/op          0.09 s/op
+[2] entityx2 Destroying 10M entities                                      10         159465941 ns/op           159 ms/op          0.16 s/op
+[3] entityx2 Iterating over 10M entities, unpacking one component         100          10549343 ns/op            10 ms/op          0.01 s/op
+[1] entt     Creating 10M entities                                        20          53986650 ns/op            53 ms/op          0.05 s/op
+[2] entt     Destroying 10M entities                                      20          89972431 ns/op            89 ms/op          0.09 s/op
+[3] entt     Iterating over 10M entities, unpacking one component         100          13112518 ns/op            13 ms/op          0.01 s/op
+[4] entt     Iterating over 10M entities, unpacking two components          50          22578676 ns/op            22 ms/op          0.02 s/op
+[1] ginseng  Creating 10M entities                                        20          77645155 ns/op            77 ms/op          0.08 s/op
+[2] ginseng  Destroying 10M entities                                       1        1944414421 ns/op          1944 ms/op          1.94 s/op
+[3] ginseng  Iterating over 10M entities, unpacking one component         100          11508818 ns/op            11 ms/op          0.01 s/op
+[4] ginseng  Iterating over 10M entities, unpacking two components          50          31282575 ns/op            31 ms/op          0.03 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 153.926s
+real 153.92 user 139.93 sys 13.99   2:33.92 elapsed    CPU: 99%  Max.Memory: 2415396k
+[1] entityx1 Creating 10M entities                                        10         184422696 ns/op           184 ms/op          0.18 s/op
+[2] entityx1 Destroying 10M entities                                       5         379267460 ns/op           379 ms/op          0.38 s/op
+[3] entityx1 Iterating over 10M entities, unpacking one component          20          70083147 ns/op            70 ms/op          0.07 s/op
+[4] entityx1 Iterating over 10M entities, unpacking two components           5         200785238 ns/op           200 ms/op          0.20 s/op
+[1] entityx2 Creating 10M entities                                        10         102715604 ns/op           102 ms/op          0.10 s/op
+[2] entityx2 Destroying 10M entities                                      10         158347716 ns/op           158 ms/op          0.16 s/op
+[3] entityx2 Iterating over 10M entities, unpacking one component         100          10530554 ns/op            10 ms/op          0.01 s/op
+[1] entt     Creating 10M entities                                        20          53736468 ns/op            53 ms/op          0.05 s/op
+[2] entt     Destroying 10M entities                                      20          89628182 ns/op            89 ms/op          0.09 s/op
+[3] entt     Iterating over 10M entities, unpacking one component         100          12309201 ns/op            12 ms/op          0.01 s/op
+[4] entt     Iterating over 10M entities, unpacking two components          50          22494881 ns/op            22 ms/op          0.02 s/op
+[1] ginseng  Creating 10M entities                                        20          77922715 ns/op            77 ms/op          0.08 s/op
+[2] ginseng  Destroying 10M entities                                       1        1936391133 ns/op          1936 ms/op          1.94 s/op
+[3] ginseng  Iterating over 10M entities, unpacking one component         100          11032652 ns/op            11 ms/op          0.01 s/op
+[4] ginseng  Iterating over 10M entities, unpacking two components          50          31480130 ns/op            31 ms/op          0.03 s/op
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark 149.737s
+So 19. Aug 21:47:44 CEST 2018
 OS: 4.14.60-1-MANJARO x86_64 GNU/Linux
-CPU: Intel(R) Core(TM) i7-3770K CPU @ 3.50GHz
+CPU: AMD Ryzen 5 1600 Six-Core Processor
 RAM: 16G
 
 
-/home/abeimler/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx1.*update.*"  --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*"  --bench ".*anax.*update.*"  --bench ".*ginseng.*update.*"  --csvoutput=/home/abeimler/Projects/ecs_benchmark/doc/csv --csvsuffix=update --plotdata > /home/abeimler/Projects/ecs_benchmark/doc/data-systems-update.dat
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*anax.*update.*"
 
 
 
 
 
-/home/abeimler/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx-eventbus.*"  --bench ".*eventpp-eventbus.*"  --csvoutput=/home/abeimler/Projects/ecs_benchmark/doc/csv --csvsuffix=eventbus  --plotdata > /home/abeimler/Projects/ecs_benchmark/doc/data-eventbus.dat
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx1.*update.*"
 
 
 
 
 
-/home/abeimler/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx1.*10M\s+entities.*"  --bench ".*entityx2.*10M\s+entities.*"  --bench ".*entt.*10M\s+entities.*"  --bench ".*ginseng.*10M\s+entities.*"  --csvoutput=/home/abeimler/Projects/ecs_benchmark/doc/csv --csvsuffix=10Mentities 
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx2.*update.*"
 
 
 
 
 
-['entityx1', 'entityx2', 'entt', 'ginseng']
-['Benchmark',
- 'EntityX (master)',
- 'EntityX (experimental/compile_time)',
- 'EnTT',
- 'Ginseng']
-{'Creating 10M entities': {'EnTT': '0.027s',
-                           'EntityX (experimental/compile_time)': '0.066s',
-                           'EntityX (master)': '0.127s',
-                           'Ginseng': '0.047s'},
- 'Destroying 10M entities': {'EnTT': '0.045s',
-                             'EntityX (experimental/compile_time)': '0.068s',
-                             'EntityX (master)': '0.282s',
-                             'Ginseng': '2.108s'},
- 'Iterating over 10M entities, unpacking one component': {'EnTT': '0.009s',
-                                                          'EntityX (experimental/compile_time)': '0.011s',
-                                                          'EntityX (master)': '0.139s',
-                                                          'Ginseng': '0.008s'},
- 'Iterating over 10M entities, unpacking two components': {'EnTT': '0.017s',
-                                                           'EntityX (experimental/compile_time)': 'N/A',
-                                                           'EntityX (master)': '0.299s',
-                                                           'Ginseng': '0.030s'}}
-['entityx1', 'entityx2', 'entt', 'anax', 'ginseng']
-['Benchmark',
- 'EntityX (master)',
- 'EntityX (experimental/compile_time)',
- 'EnTT',
- 'Anax',
- 'Ginseng']
-{'Update  1M entities with 2 Systems': {'Anax': '0.066s',
-                                        'EnTT': '0.007s',
-                                        'EntityX (experimental/compile_time)': '0.017s',
-                                        'EntityX (master)': '0.063s',
-                                        'Ginseng': '0.006s'},
- 'Update  2M entities with 2 Systems': {'Anax': '0.224s',
-                                        'EnTT': '0.014s',
-                                        'EntityX (experimental/compile_time)': '0.032s',
-                                        'EntityX (master)': '0.136s',
-                                        'Ginseng': '0.013s'},
- 'Update  5M entities with 2 Systems': {'Anax': 'N/A',
-                                        'EnTT': '0.033s',
-                                        'EntityX (experimental/compile_time)': '0.083s',
-                                        'EntityX (master)': '0.348s',
-                                        'Ginseng': '0.032s'},
- 'Update 10M entities with 2 Systems': {'Anax': 'N/A',
-                                        'EnTT': '0.067s',
-                                        'EntityX (experimental/compile_time)': '0.179s',
-                                        'EntityX (master)': '1.066s',
-                                        'Ginseng': '0.066s'},
- 'Update 20M entities with 2 Systems': {'Anax': 'N/A',
-                                        'EnTT': '0.130s',
-                                        'EntityX (experimental/compile_time)': '0.374s',
-                                        'EntityX (master)': '2.134s',
-                                        'Ginseng': '0.137s'}}
-['entityx', 'eventpp']
-['Benchmark', 'entityx', 'eventpp']
-{'publish EventA and EventB  20k times': {'entityx': '0.001s',
-                                          'eventpp': '0.001s'},
- 'publish EventA and EventB  50k times': {'entityx': '0.002s',
-                                          'eventpp': '0.002s'},
- 'publish EventA and EventB 100k times': {'entityx': '0.003s',
-                                          'eventpp': '0.005s'},
- 'publish EventA and EventB 200k times': {'entityx': '0.007s',
-                                          'eventpp': '0.010s'},
- 'publish EventA and EventB 500k times': {'entityx': '0.017s',
-                                          'eventpp': '0.024s'}}
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entt.*update.*"
+
+
+
+
+
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*ginseng.*update.*"
+
+
+
+
+
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx-eventbus.*"  --bench ".*eventpp-eventbus.*" 
+
+
+
+
+
+/usr/bin/time -f "real %e user %U sys %S   %E elapsed    CPU: %P  Max.Memory: %Mk"  /home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx1.*10M\s+entities.*"  --bench ".*entityx2.*10M\s+entities.*"  --bench ".*entt.*10M\s+entities.*"  --bench ".*ginseng.*10M\s+entities.*" 
+
+
+
+
+
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*anax.*update.*"  --bench ".*entityx1.*update.*"  --bench ".*entityx2.*update.*"  --bench ".*entt.*update.*"  --bench ".*ginseng.*update.*"  --csvoutput=/home/abeimler/Dokumente/Projects/ecs_benchmark/doc/csv --csvsuffix=update --plotdata > /home/abeimler/Dokumente/Projects/ecs_benchmark/doc/data-systems-update.dat
+
+
+
+
+
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx-eventbus.*"  --bench ".*eventpp-eventbus.*"  --csvoutput=/home/abeimler/Dokumente/Projects/ecs_benchmark/doc/csv --csvsuffix=eventbus  --plotdata > /home/abeimler/Dokumente/Projects/ecs_benchmark/doc/data-eventbus.dat
+
+
+
+
+
+/home/abeimler/Dokumente/Projects/ecs_benchmark/build/ecs_benchmark --bench ".*entityx1.*10M\s+entities.*"  --bench ".*entityx2.*10M\s+entities.*"  --bench ".*entt.*10M\s+entities.*"  --bench ".*ginseng.*10M\s+entities.*"  --csvoutput=/home/abeimler/Dokumente/Projects/ecs_benchmark/doc/csv --csvsuffix=10Mentities 
+
+
+
+
+

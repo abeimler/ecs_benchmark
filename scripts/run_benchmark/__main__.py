@@ -214,9 +214,9 @@ def main(argv):
                     if retRows.get(name).get(fnameheader) is None:
                         retRows[name][fnameheader] = 'N/A'
 
-        pprint.pprint(retFnames)
-        pprint.pprint(retHeaders)
-        pprint.pprint(retRows)
+        #pprint.pprint(retFnames)
+        #pprint.pprint(retHeaders)
+        #pprint.pprint(retRows)
 
         return {'headers': retHeaders, 'rows': retRows, 'fnames': retFnames}
 
