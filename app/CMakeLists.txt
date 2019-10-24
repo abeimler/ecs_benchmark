@@ -29,6 +29,9 @@ set(${CMAKE_PROJECT_NAME}_SOURCE "")
 # ]]]
 list(APPEND ${CMAKE_PROJECT_NAME}_SOURCE 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/ginsengBenchmarkRunner.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/anax/anaxBenchmarkRunner.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/artemis/artemisBenchmarkRunner.cpp 
 )
 # [[[end]]]
 
@@ -37,6 +40,7 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" PREFIX "Source Files" FILES ${${
 
 add_executable(${CMAKE_PROJECT_NAME} ${${CMAKE_PROJECT_NAME}_SOURCE})
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${CMAKE_PROJECT_NAME} INTERFACE ${PROJECT_BINARY_DIR}/include)
 

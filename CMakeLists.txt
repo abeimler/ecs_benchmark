@@ -70,6 +70,12 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
+  enttlegacy
+  GIT_REPOSITORY https://github.com/skypjack/entt
+  GIT_TAG        v1.1.0
+)
+
+FetchContent_Declare(
   eventpp
   GIT_REPOSITORY https://github.com/abeimler/eventpp
 )
@@ -81,7 +87,7 @@ FetchContent_Declare(
 )
 
 
-FetchContent_MakeAvailable(benchpress anax Artemis-Cpp entityx entityx2 entt eventpp ginseng)
+FetchContent_MakeAvailable(benchpress anax Artemis-Cpp entityx entityx2 entt enttlegacy eventpp ginseng)
 
 
 ##################################

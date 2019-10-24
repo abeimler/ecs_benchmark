@@ -31,7 +31,9 @@ list(APPEND LIB${CMAKE_PROJECT_NAME}_HEADERS
 #       cog.outl(")")
 # ]]]
 list(APPEND LIB${CMAKE_PROJECT_NAME}_SOURCE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/base.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/GinsengBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/anax/AnaxBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/artemis/ArtemisBenchmark.cpp 
 )
 # [[[end]]]
 
@@ -44,9 +46,16 @@ target_include_directories(lib${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURC
 target_include_directories(lib${CMAKE_PROJECT_NAME} INTERFACE ${PROJECT_BINARY_DIR}/include)
 
 ## todo: add libs
-target_include_directories(lib${CMAKE_PROJECT_NAME} PRIVATE ${anax_SOURCE_DIR}/include)
+target_include_directories(lib${CMAKE_PROJECT_NAME} PUBLIC 
+    ${benchpress_SOURCE_DIR}/src
+    ${anax_SOURCE_DIR}/include
+    ${ArtemisCpp_SOURCE_DIR}/include
+    ${ginseng_SOURCE_DIR}/include
+)
+target_link_libraries(lib${CMAKE_PROJECT_NAME} PUBLIC anax ArtemisCpp ginseng)
 
-target_link_libraries(lib${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+
+#target_link_libraries(lib${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 target_compile_features(lib${CMAKE_PROJECT_NAME} PUBLIC cxx_std_17)
 set_target_properties(lib${CMAKE_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)

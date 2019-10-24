@@ -32,5 +32,5 @@ readability-*,\
 -readability-simplify-boolean-expr,\
 "
 HeaderFilterRegex: 'Source/cm[^/]*\.(h|hxx|cxx|c|cpp|hpp)$'
-WarningsAsErrors: '*,-readability-magic-numbers'
+WarningsAsErrors: '-*,-readability-magic-numbers'
 ...

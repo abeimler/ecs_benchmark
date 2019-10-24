@@ -37,6 +37,7 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" PREFIX "Benchmark Source Files" 
 
 add_executable(${CMAKE_PROJECT_NAME}-benchmark ${${CMAKE_PROJECT_NAME}_BENCHMARK_SOURCE})
 target_include_directories(${CMAKE_PROJECT_NAME}-benchmark PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${CMAKE_PROJECT_NAME}-benchmark PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(${CMAKE_PROJECT_NAME}-benchmark PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(${CMAKE_PROJECT_NAME}-benchmark INTERFACE ${PROJECT_BINARY_DIR}/include)
 

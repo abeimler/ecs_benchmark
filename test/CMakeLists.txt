@@ -38,6 +38,7 @@ source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" PREFIX "Test Source Files" FILES
 
 add_executable(${CMAKE_PROJECT_NAME}-test ${${CMAKE_PROJECT_NAME}_TEST_SOURCE})
 target_include_directories(${CMAKE_PROJECT_NAME}-test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${CMAKE_PROJECT_NAME}-test PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(${CMAKE_PROJECT_NAME}-test PRIVATE ${CONAN_INCLUDE_DIRS_SPDLOG} ${CONAN_INCLUDE_DIRS_CATCH2})
 target_link_libraries(${CMAKE_PROJECT_NAME}-test ${LIB${CMAKE_PROJECT_NAME}} CONAN_PKG::spdlog CONAN_PKG::Catch2)
 target_link_libraries(${CMAKE_PROJECT_NAME}-test ${CMAKE_THREAD_LIBS_INIT})
