@@ -81,7 +81,6 @@ FetchContent_Declare(
 )
 
 
-
 FetchContent_MakeAvailable(benchpress anax Artemis-Cpp entityx entityx2 entt eventpp ginseng)
 
 
@@ -91,6 +90,7 @@ FetchContent_MakeAvailable(benchpress anax Artemis-Cpp entityx entityx2 entt eve
 
 string(TOUPPER "${CMAKE_PROJECT_NAME}" CMAKE_PROJECT_NAME_UPPERCASE)
 set(${CMAKE_PROJECT_NAME_UPPERCASE}_TESTS OFF CACHE BOOL "Enable ${CMAKE_PROJECT_NAME} Tests")
+set(${CMAKE_PROJECT_NAME_UPPERCASE}_BENCHMARK OFF CACHE BOOL "Enable ${CMAKE_PROJECT_NAME} Benchmark")
 configure_file (
     "${PROJECT_SOURCE_DIR}/include/Version.h.in"
     "${PROJECT_BINARY_DIR}/include/Version.h"
@@ -105,6 +105,9 @@ include(CTest)
 enable_testing()
 if (${CMAKE_PROJECT_NAME_UPPERCASE}_TESTS)
   add_subdirectory(test)
+endif()
+if (${CMAKE_PROJECT_NAME_UPPERCASE}_BENCHMARK)
+  add_subdirectory(benchmark)
 endif()
 
 

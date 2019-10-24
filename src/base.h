@@ -6,5 +6,5 @@
 #include <memory>
 
 namespace ecs_benchmark {
-    export void dummy();
+    void dummy();
 };

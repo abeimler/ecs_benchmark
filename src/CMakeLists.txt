@@ -44,9 +44,9 @@ target_include_directories(lib${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURC
 target_include_directories(lib${CMAKE_PROJECT_NAME} INTERFACE ${PROJECT_BINARY_DIR}/include)
 
 ## todo: add libs
-#target_include_directories(lib${CMAKE_PROJECT_NAME} PRIVATE ${date_SOURCE_DIR}/include)
+target_include_directories(lib${CMAKE_PROJECT_NAME} PRIVATE ${anax_SOURCE_DIR}/include)
 
-#target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(lib${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 target_compile_features(lib${CMAKE_PROJECT_NAME} PUBLIC cxx_std_17)
 set_target_properties(lib${CMAKE_PROJECT_NAME} PROPERTIES CXX_EXTENSIONS OFF)
