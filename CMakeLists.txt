@@ -1,230 +1,133 @@
-cmake_minimum_required (VERSION 3.2 FATAL_ERROR)
-project (ecs_benchmark VERSION 2.4.2 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.14)
+project(ecs_benchmark VERSION 2.0.0 LANGUAGES CXX)
 
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-###
-## Setup Compiler
-###
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup(TARGETS NO_OUTPUT_DIRS)
+list(APPEND CMAKE_MODULE_PATH ${CONAN_LIB_DIRS_CATCH2}/cmake/Catch2)
 
-include(CheckCXXSourceCompiles)
+include(useGoldLinker)
 
-## best practice by Jason Turner
-## More Flags: https://github.com/lefticus/cppbestpractices/blob/master/02-Use_the_Tools_Available.md
-## cmake code from https://github.com/ChaiScript/ChaiScript/blob/develop/CMakeLists.txt
+# If clang-format/clang-tidy is not in PATH,
+# you should define CMAKE_PROGRAM_PATH to
+# a list containing it
 
-if(CMAKE_COMPILER_IS_GNUCC)
-  execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
+# Enable modern C++ (default)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-  if(GCC_VERSION VERSION_LESS 4.9)
-    set(CPP11_FLAG "-std=c++1y")
-  else()
-    set(CPP11_FLAG "-std=c++14")
-  endif()
-else()
-  set(CPP11_FLAG "-std=c++14")
-endif()
+################################
+# Find thread
+################################
+find_package(Threads REQUIRED)
 
-if(MSVC)
-  add_definitions(/W4 /w14545 /w34242 /w34254 /w34287 /w44263 /w44265 /w44296 /w44311 /w44826 /we4289 /w14546 /w14547 /w14549 /w14555 /w14619 /w14905 /w14906 /w14928)
+##################################
+# Prepare variables
+##################################
+set(sources_to_format "")
+set(targets_to_tidy "")
 
-  if (MSVC_VERSION STREQUAL "1800")
-    # VS2013 doesn't have magic statics
-    add_definitions(/w44640)
-  else()
-    # enum warnings are too noisy on MSVC2013
-    add_definitions(/w34062)
-  endif()
+##################################
+# add more dependencies
+##################################
+include(FetchContent)
 
-  add_definitions(/bigobj)
-  # Note on MSVC compiler flags.
-  # The code base selective disables warnings as necessary when the compiler is complaining too much
-  # about something that is perfectly valid, or there is simply no technical way around it
-  # This particular warning, C4503 is in regards to the decorated names that MSVC generates internally.
-  # The error did not come up until the move to C++11, but the compiler doesn't give enough information
-  # to determine where the error is coming from, and the internet provides no real information for
-  # how to workaround or fix the error. So I'm disabling it globally.
-  add_definitions(/wd4503)
-else()
-  add_definitions(-Wall -Wextra -Wno-error -Wconversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wcast-qual -Wunused -Woverloaded-virtual -Wno-old-style-cast  -pedantic ${CPP11_FLAG})
-
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_definitions(-Weverything -Wno-c++98-compat-pedantic  -Wno-c++98-compat -Wno-documentation -Wno-switch-enum -Wno-weak-vtables -Wno-missing-prototypes -Wno-padded -Wno-missing-noreturn -Wno-exit-time-destructors -Wno-documentation-unknown-command)
-  else()
-    add_definitions(-Wnoexcept)
-  endif()
-
-  if(APPLE)
-    add_definitions(-Wno-sign-compare)
-  endif()
-endif()
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  option(USE_LIBCXX "Use clang's libcxx" TRUE)
-
-  if(USE_LIBCXX)
-    add_definitions(-stdlib=libc++)
-    set(LINKER_FLAGS "${LINKER_FLAGS} ${CPP11_FLAG} -stdlib=libc++")
-  else()
-    set(LINKER_FLAGS "${LINKER_FLAGS} ${CPP11_FLAG}")
-  endif()
-elseif(CMAKE_COMPILER_IS_GNUCC)
-  set(LINKER_FLAGS "${LINKER_FLAGS} ${CPP11_FLAG}")
-endif()
-
-# limitations in MinGW require us to make an optimized build
-# for the sake of object sizes or something
-if(MINGW OR CYGWIN)
-  add_definitions(-O3)
-endif()
-
-find_package (Threads)
-if(CMAKE_COMPILER_IS_GNUCC)
-    execute_process(COMMAND ${CMAKE_C_COMPILER} --version OUTPUT_VARIABLE GCC_FULL_VERSION)
-    if(GCC_FULL_VERSION MATCHES "4.8.1.*ubuntu")
-    set(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--no-as-needed -pthread")
-    else()
-    set(LINKER_FLAGS "${LINKER_FLAGS} -pthread")
-    endif()
-else()
-    set(LINKER_FLAGS "${LINKER_FLAGS} -pthread")
-endif()
-
-add_definitions(-pthread)
-
-##
-# Testing Compiler
-##
-
-check_cxx_source_compiles(
-"
-#include <cstdint>
-#include <ctime>
-
-#include <random>
-
-int main() {
-
-    std::random_device rd {};
-    auto value = rd();
-
-    return 0;
-}
-"
-HAS_CXX11_RANDOM_DEVICE
+FetchContent_Declare(
+  benchpress
+  GIT_REPOSITORY https://github.com/abeimler/benchpress
+  GIT_TAG        1.1.0
 )
 
-check_cxx_source_compiles(
-"
-#include <cstdint>
-#include <ctime>
-
-#include <random>
-
-int main() {
-
-    std::default_random_engine generator(time(0));
-    std::uniform_int_distribution<unsigned int> dis;
-    auto value = dis(generator);
-
-    return 0;
-}
-"
-HAS_CXX11_DEFAULT_RANDOM_ENGINE
+FetchContent_Declare(
+  anax
+  GIT_REPOSITORY https://github.com/miguelmartin75/anax
+  GIT_TAG        v2.1.0
 )
 
-if(NOT HAS_CXX11_RANDOM_DEVICE)
-    add_definitions(-DHAS_NO_CXX11_RANDOM_DEVICE)
+FetchContent_Declare(
+  Artemis-Cpp
+  GIT_REPOSITORY https://github.com/vinova/Artemis-Cpp
+)
+
+FetchContent_Declare(
+  entityx
+  GIT_REPOSITORY https://github.com/alecthomas/entityx
+  GIT_TAG        1.1.2
+)
+
+FetchContent_Declare(
+  entityx2
+  GIT_REPOSITORY https://github.com/alecthomas/entityx
+  GIT_TAG        origin/experimental/compile_time
+)
+
+FetchContent_Declare(
+  entt
+  GIT_REPOSITORY https://github.com/skypjack/entt
+  GIT_TAG        v3.1.1
+)
+
+FetchContent_Declare(
+  eventpp
+  GIT_REPOSITORY https://github.com/abeimler/eventpp
+)
+
+FetchContent_Declare(
+  ginseng
+  GIT_REPOSITORY https://github.com/apples/ginseng
+  GIT_TAG        v1.1
+)
+
+
+
+FetchContent_MakeAvailable(benchpress anax Artemis-Cpp entityx entityx2 entt eventpp ginseng)
+
+
+##################################
+# Project
+##################################
+
+string(TOUPPER "${CMAKE_PROJECT_NAME}" CMAKE_PROJECT_NAME_UPPERCASE)
+set(${CMAKE_PROJECT_NAME_UPPERCASE}_TESTS OFF CACHE BOOL "Enable ${CMAKE_PROJECT_NAME} Tests")
+configure_file (
+    "${PROJECT_SOURCE_DIR}/include/Version.h.in"
+    "${PROJECT_BINARY_DIR}/include/Version.h"
+)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+add_subdirectory(src)
+add_subdirectory(app)
+
+include(CTest)
+enable_testing()
+if (${CMAKE_PROJECT_NAME_UPPERCASE}_TESTS)
+  add_subdirectory(test)
 endif()
 
-if(NOT HAS_CXX11_DEFAULT_RANDOM_ENGINE)
-    add_definitions(-DHAS_NO_CXX11_DEFAULT_RANDOM_DEVICE)
+
+##################################
+# Utilities
+##################################
+
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+    set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
+    set(CMAKE_CUDA_COMPILER_LAUNCHER "${CCACHE_PROGRAM}") # CMake 3.9+
 endif()
 
+# A target named "clangformat", use make clangformat to format all specified files
+include(ClangFormat)
+clangformat_setup(${sources_to_format})
 
-
-
-
-
-
-
-
-
-
-
-
-###
-## Source/Header Files
-###
-set(SRC_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-file(GLOB_RECURSE SRC ${SRC_PATH}/*.cpp ${SRC_PATH}/*.cxx ${SRC_PATH}/*.cc)
-file(GLOB_RECURSE HEADERS ${INCLUDE_PATH}/*.h ${INCLUDE_PATH}/*.hpp ${INCLUDE_PATH}/*.hxx)
-
-
-
-###
-## 3rd libs
-###
-set(LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-
-set(ENTITYX_BUILD_SHARED 0)
-add_subdirectory(${LIB_PATH}/entityx1)
-add_subdirectory(${LIB_PATH}/entityx2)
-
-add_subdirectory(${LIB_PATH}/anax)
-add_subdirectory(${LIB_PATH}/Artemis-Cpp)
-
-add_subdirectory(${LIB_PATH}/benchpress)
-
-add_subdirectory(${LIB_PATH}/eventpp)
-add_subdirectory(${LIB_PATH}/entt)
-
-add_subdirectory(${LIB_PATH}/ginseng)
-
-###
-## Application build
-###
-add_executable(${PROJECT_NAME} ${SRC})
-
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_constexpr 
-                                                cxx_aggregate_default_initializers
-                                                cxx_auto_type 
-                                                cxx_range_for 
-                                                cxx_decltype_auto 
-                                                cxx_nullptr
-						                                    cxx_lambdas)
-
-# use SYSTEM to get rid of warnings in 3rd librarys
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entityx1)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entityx2)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/anax/include)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/Artemis-Cpp/include)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/benchpress/src)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/eventpp/src)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${LIB_PATH}/entt/src)
-
-
-target_link_libraries (${PROJECT_NAME} PRIVATE entityx)
-target_link_libraries (${PROJECT_NAME} PRIVATE anax)
-target_link_libraries (${PROJECT_NAME} PRIVATE ArtemisCpp)
-target_link_libraries (${PROJECT_NAME} PRIVATE ginseng)
-
-target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDE_PATH})
-target_include_directories(${PROJECT_NAME} PRIVATE ${SRC_PATH})
-
-#target_compile_options(${PROJECT_NAME} PRIVATE -fexceptions)
-#target_compile_options(${PROJECT_NAME} PRIVATE -fno-exceptions)
-
-
-
-###
-## More Settings
-###
-
-SET(USE_MORECOMPLEX_SYSTEM OFF CACHE BOOL "use the 4. MoreComplex-System")
-if(USE_MORECOMPLEX_SYSTEM)
-target_compile_options(${PROJECT_NAME} PRIVATE -DUSE_MORECOMPLEX_SYSTEM)
+# If this finds clang-tidy, it will automatically set CMAKE_CXX_CLANG_TIDY,
+include(ClangTidy)
+clangtidy_setup()
+if (CLANG_TIDY_COMMAND)
+    message(STATUS "Your clang-tidy path is: ${CMAKE_CXX_CLANG_TIDY}")
+    set_target_properties(${targets_to_tidy} PROPERTIES
+        CXX_CLANG_TIDY "${CMAKE_CXX_CLANG_TIDY}"
+    )
 endif()
