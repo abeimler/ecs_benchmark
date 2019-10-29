@@ -85,8 +85,9 @@ Minimum is 3.2.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="2097152" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DENTITYX_BUILD_SHARED:BOOL="0" -DINSTALL_HEADERS:BOOL="0" -DINSTALL_GMOCK:BOOL="0" -DBUILD_GMOCK:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0" -DINSTALL_GTEST:BOOL="0"`
- 4. `cmake --build ./build --target ecs_benchmark`
+ 3. `./deps.sh`
+ 4. `./configure.sh`
+ 4. `./build.sh`
 
 
 #### C++ Compiler
@@ -131,11 +132,11 @@ _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPA
 
 ## Benchmark
 
-Date: So 19. Aug 21:47:44 CEST 2018
+Date: Di 29. Okt 21:43:25 CET 2019
 
 ### Environment
 
- - OS: 4.14.60-1-MANJARO x86_64 GNU/Linux
+ - OS: 4.19.80-1-MANJARO x86_64 GNU/Linux
  - CPU: AMD Ryzen 5 1600 Six-Core Processor
  - RAM: 16G
 

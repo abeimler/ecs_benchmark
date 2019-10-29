@@ -80,27 +80,24 @@ I fork [benchpress](https://github.com/abeimler/benchpress) (add some utils and 
 
 ### CMake
 
-I used CMake 3.9.3 for the build.
-Minimum is 3.2.
+I used CMake 3.15.4 for the build.
+Minimum is 3.14.
 
  1. change directory to this Folder
  2. `mkdir ./build`
- 3. `cmake -H. -B./build -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DANAX_DEFAULT_ENTITY_POOL_SIZE:STRING="2097152" -DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_TESTING:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DENTITYX_BUILD_SHARED:BOOL="0" -DINSTALL_HEADERS:BOOL="0" -DINSTALL_GMOCK:BOOL="0" -DBUILD_GMOCK:BOOL="0" -DENTITYX_BUILD_TESTING:BOOL="0" -DINSTALL_GTEST:BOOL="0"`
- 4. `cmake --build ./build --target ecs_benchmark`
+ 3. `./deps.sh`
+ 4. `./configure.sh`
+ 4. `./build.sh`
 
 
-#### C++ Compiler
+#### Dependencies 
 
- - modern C++14 Standard (`-std=c++14`)
- - Default CMake Release Flags (`-O3 -DNDEBUG`)
- - some Compiler Warnings (`-Wall -Wextra -Wnon-virtual-dtor -Wcast-align -Woverloaded-virtual -pedantic`)
- - Threading (not used, yet?) (`-pthread`)
+I used [Conan](https://conan.io/) and [CMake FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) for all dependencies.
 
-
-I used g++ 7.2.0, clang++ 3.8 should work, too.
+_see [deps.sh](deps.sh) for more details_
 
 
-#### Linked Libraries
+##### Linked Libraries
 
  - entityx (1.x)
  - anax
@@ -126,7 +123,7 @@ benchpress, entityx (compile-time), entt and ginseng are header-only.
 
 _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPACITY>`) of `16777216`, to avoid `bad_alloc`-Errors_
 
-
+_see [configure.sh](configure.sh) for more details_
 
 
 ## Benchmark

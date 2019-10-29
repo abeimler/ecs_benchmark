@@ -4,9 +4,9 @@
 #include <memory>
 #include <sstream>
 
-#include <ginseng/GinsengBenchmark.h>
-
 #include <benchpress/benchpress.hpp>
+
+#include <ginseng/GinsengBenchmark.h>
 
 namespace ginseng_benchmark {
 

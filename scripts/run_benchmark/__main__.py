@@ -12,7 +12,7 @@ def main(argv):
 
     root_dir =  os.path.abspath(thispath + "/../../")
     scripts_dir =  os.path.abspath(thispath + "/..")
-    ecs_benchmark_cmd =  os.path.abspath(root_dir + "/build/ecs_benchmark")
+    ecs_benchmark_cmd =  os.path.abspath(root_dir + "/build/app/ecs_benchmark")
     doc_dir =  os.path.abspath(root_dir + "/doc")
     doc_csv_dir =  os.path.abspath(doc_dir + "/csv")
 

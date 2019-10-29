@@ -39,55 +39,103 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/abeimler/benchpress
   GIT_TAG        1.1.0
 )
+FetchContent_GetProperties(benchpress)
+if(NOT benchpress_POPULATED)
+  FetchContent_Populate(benchpress)
+  #add_subdirectory(${benchpress_SOURCE_DIR} ${benchpress_BINARY_DIR})
+endif()
 
 FetchContent_Declare(
   anax
   GIT_REPOSITORY https://github.com/miguelmartin75/anax
   GIT_TAG        v2.1.0
 )
+FetchContent_GetProperties(anax)
+if(NOT anax_POPULATED)
+  FetchContent_Populate(anax)
+
+  set(INSTALL_HEADERS false)
+  set(BUILD_SHARED_LIBS false)
+
+  add_subdirectory(${anax_SOURCE_DIR} ${anax_BINARY_DIR})
+endif()
 
 FetchContent_Declare(
-  Artemis-Cpp
+  ArtemisCpp
   GIT_REPOSITORY https://github.com/vinova/Artemis-Cpp
 )
+FetchContent_GetProperties(ArtemisCpp)
+if(NOT ArtemisCpp_POPULATED)
+  FetchContent_Populate(ArtemisCpp)
+  add_subdirectory(${artemiscpp_SOURCE_DIR} ${artemiscpp_BINARY_DIR})
+endif()
 
 FetchContent_Declare(
   entityx
   GIT_REPOSITORY https://github.com/alecthomas/entityx
   GIT_TAG        1.1.2
 )
+FetchContent_GetProperties(entityx)
+if(NOT entityx_POPULATED)
+  FetchContent_Populate(entityx)
+
+  set(ENTITYX_BUILD_SHARED false)
+  set(ENTITYX_BUILD_TESTING false)
+  set(ENTITYX_RUN_BENCHMARKS false)
+
+  add_subdirectory(${entityx_SOURCE_DIR} ${entityx_BINARY_DIR})
+endif()
 
 FetchContent_Declare(
   entityx2
   GIT_REPOSITORY https://github.com/alecthomas/entityx
   GIT_TAG        origin/experimental/compile_time
 )
+FetchContent_GetProperties(entityx2)
+if(NOT entityx2_POPULATED)
+  FetchContent_Populate(entityx2)
+endif()
 
 FetchContent_Declare(
   entt
   GIT_REPOSITORY https://github.com/skypjack/entt
   GIT_TAG        v3.1.1
 )
+FetchContent_GetProperties(entt)
+if(NOT entt_POPULATED)
+  FetchContent_Populate(entt)
+endif()
 
 FetchContent_Declare(
   enttlegacy
   GIT_REPOSITORY https://github.com/skypjack/entt
   GIT_TAG        v1.1.0
 )
+FetchContent_GetProperties(enttlegacy)
+if(NOT enttlegacy_POPULATED)
+  FetchContent_Populate(enttlegacy)
+endif()
 
 FetchContent_Declare(
   eventpp
   GIT_REPOSITORY https://github.com/abeimler/eventpp
 )
+FetchContent_GetProperties(eventpp)
+if(NOT eventpp_POPULATED)
+  FetchContent_Populate(eventpp)
+endif()
 
 FetchContent_Declare(
   ginseng
   GIT_REPOSITORY https://github.com/apples/ginseng
   GIT_TAG        v1.1
 )
+FetchContent_GetProperties(ginseng)
+if(NOT ginseng_POPULATED)
+  FetchContent_Populate(ginseng)
+endif()
 
 
-FetchContent_MakeAvailable(benchpress anax Artemis-Cpp entityx entityx2 entt enttlegacy eventpp ginseng)
 
 
 ##################################

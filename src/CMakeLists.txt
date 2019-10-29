@@ -32,8 +32,11 @@ list(APPEND LIB${CMAKE_PROJECT_NAME}_HEADERS
 # ]]]
 list(APPEND LIB${CMAKE_PROJECT_NAME}_SOURCE 
     ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/GinsengBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/anax/AnaxBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/artemis/ArtemisBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entityx/EntityXBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entityx2/EntityX2Benchmark.cpp 
 )
 # [[[end]]]
 
@@ -50,9 +53,14 @@ target_include_directories(lib${CMAKE_PROJECT_NAME} PUBLIC
     ${benchpress_SOURCE_DIR}/src
     ${anax_SOURCE_DIR}/include
     ${ArtemisCpp_SOURCE_DIR}/include
+    ${entityx_SOURCE_DIR}
+    ${entityx2_SOURCE_DIR}
+    ${entt_SOURCE_DIR}/single_include
+    ${enttlegacy_SOURCE_DIR}/src
+    ${eventpp_SOURCE_DIR}/src
     ${ginseng_SOURCE_DIR}/include
 )
-target_link_libraries(lib${CMAKE_PROJECT_NAME} PUBLIC anax ArtemisCpp ginseng)
+target_link_libraries(lib${CMAKE_PROJECT_NAME} PUBLIC anax ArtemisCpp entityx)
 
 
 #target_link_libraries(lib${CMAKE_PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})

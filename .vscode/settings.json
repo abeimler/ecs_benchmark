@@ -92,5 +92,6 @@
         "locale": "cpp",
         "queue": "cpp",
         "stack": "cpp"
-    }
+    },
+    "C_Cpp.default.configurationProvider": "go2sh.cmake-integration"
 }
