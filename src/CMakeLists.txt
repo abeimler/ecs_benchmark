@@ -50,7 +50,7 @@ target_include_directories(lib${CMAKE_PROJECT_NAME} INTERFACE ${PROJECT_BINARY_D
 
 ## todo: add libs
 target_include_directories(lib${CMAKE_PROJECT_NAME} PUBLIC 
-    ${benchpress_SOURCE_DIR}/src
+    ${benchpress_SOURCE_DIR}/include
     ${anax_SOURCE_DIR}/include
     ${ArtemisCpp_SOURCE_DIR}/include
     ${entityx_SOURCE_DIR}

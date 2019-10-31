@@ -42,7 +42,7 @@ target_include_directories(${CMAKE_PROJECT_NAME}-benchmark PUBLIC ${CMAKE_CURREN
 target_include_directories(${CMAKE_PROJECT_NAME}-benchmark INTERFACE ${PROJECT_BINARY_DIR}/include)
 
 ## todo: add libs
-target_include_directories(${CMAKE_PROJECT_NAME}-benchmark PRIVATE ${benchpress_SOURCE_DIR}/src)
+target_include_directories(${CMAKE_PROJECT_NAME}-benchmark PRIVATE ${benchpress_SOURCE_DIR}/include)
 
 target_link_libraries(${CMAKE_PROJECT_NAME}-benchmark lib${CMAKE_PROJECT_NAME})
 target_link_libraries(${CMAKE_PROJECT_NAME}-benchmark ${CMAKE_THREAD_LIBS_INIT})
