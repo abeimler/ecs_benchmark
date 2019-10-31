@@ -252,19 +252,21 @@ see other framework benchmark runner as example
 _scripts/run_benchmark/config.json_
 ```js
 {
+    "simplebenchmark": false,
     "benchmark": true,
-    "runbenchmark_update2": false,
+    "runbenchmarkupdatelong": false,
     "gencsvfiles": true,
     "plot": true,
     "genreadme": true
 }
 ```
 
- * **benchmark**: just run benchmarks for "Update Systems" without plot
- * **runbenchmark_update2**: run benchmarks for "Update Systems" from 'plotupdates2'
+ * **simplebenchmark**: just run benchmarks for "Update Systems" without plot
+ * **benchmark**: run benchmarks for "Update Systems" with plot (plot) and generate .csv-files (gencsvfiles)
+ * **runbenchmarkupdatelong**: run benchmarks for "Update Systems" for 'updateslong'-frameworks (see config.js)
  * **gencsvfiles**: generate .csv-files (needed for plot and readme)
  * **plot**: generate (gnuplot) .plt-scripts and plot graphs from .csv-files
- * **genreadme**: generate README.md with new results (tables from .csv-files)
+ * **genreadme**: generate README.md with new results (from .csv-files)
 
 
 ### run benchmark

@@ -128,7 +128,7 @@ _see [configure.sh](configure.sh) for more details_
 
 ## Benchmark
 
-Date: Do 31. Okt 14:02:26 CET 2019
+Date: Do 31. Okt 17:16:52 CET 2019
 
 ### Environment
 
@@ -142,10 +142,10 @@ Date: Do 31. Okt 14:02:26 CET 2019
 
                                                        |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
 -------------------------------------------------------|--------------------|---------------------------------------|----------|---------
-Creating 10M entities                                  |  0.257s            |  0.138s                               |  0.055s  |  0.089s
-Destroying 10M entities                                |  0.381s            |  0.133s                               |  0.081s  |  1.620s
-Iterating over 10M entities, unpacking one component   |  0.057s            |  0.009s                               |  0.009s  |  0.012s
-Iterating over 10M entities, unpacking two components  |  0.112s            |  N/A                                  |  0.020s  |  0.029s
+Creating 10M entities                                  |  0.255s            |  0.135s                               |  0.055s  |  0.088s
+Destroying 10M entities                                |  0.381s            |  0.130s                               |  0.081s  |  1.616s
+Iterating over 10M entities, unpacking one component   |  0.058s            |  0.007s                               |  0.009s  |  0.012s
+Iterating over 10M entities, unpacking two components  |  0.112s            |  N/A                                  |  0.019s  |  0.030s
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -158,13 +158,13 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 _(lower is better :)_
 
-                                    |  Anax    |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
-------------------------------------|----------|--------------------|---------------------------------------|----------|---------
-Update  1M entities with 2 Systems  |  0.112s  |  0.038s            |  0.018s                               |  0.007s  |  0.007s
-Update  2M entities with 2 Systems  |  0.262s  |  0.078s            |  0.036s                               |  0.014s  |  0.015s
-Update  5M entities with 2 Systems  |  N/A     |  0.214s            |  0.091s                               |  0.036s  |  0.038s
-Update 10M entities with 2 Systems  |  N/A     |  0.437s            |  0.189s                               |  0.079s  |  0.078s
-Update 20M entities with 2 Systems  |  N/A     |  1.254s            |  0.405s                               |  0.152s  |  0.166s
+                                    |  Anax    |  Artemis  |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
+------------------------------------|----------|-----------|--------------------|---------------------------------------|----------|---------
+Update  1M entities with 2 Systems  |  0.114s  |  82.175s  |  0.038s            |  0.017s                               |  0.007s  |  0.007s
+Update  2M entities with 2 Systems  |  0.267s  |  N/A      |  0.078s            |  0.035s                               |  0.014s  |  0.015s
+Update  5M entities with 2 Systems  |  N/A     |  N/A      |  0.214s            |  0.091s                               |  0.035s  |  0.038s
+Update 10M entities with 2 Systems  |  N/A     |  N/A      |  0.438s            |  0.187s                               |  0.086s  |  0.079s
+Update 20M entities with 2 Systems  |  N/A     |  N/A      |  1.250s            |  0.397s                               |  0.171s  |  0.165s
 
 
 #### Eventbus
@@ -173,7 +173,13 @@ Update 20M entities with 2 Systems  |  N/A     |  1.254s            |  0.405s   
 
 Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp).
 
-
+                                      |  entityx-eventbus  |  eventpp-eventbus
+--------------------------------------|--------------------|------------------
+publish EventA and EventB  20k times  |  0.001s            |  0.002s
+publish EventA and EventB  50k times  |  0.002s            |  0.004s
+publish EventA and EventB 100k times  |  0.004s            |  0.008s
+publish EventA and EventB 200k times  |  0.008s            |  0.017s
+publish EventA and EventB 500k times  |  0.020s            |  0.042s
 
 _Listen to EventA EventB and EventC_
 
@@ -263,19 +269,21 @@ see other framework benchmark runner as example
 _scripts/run_benchmark/config.json_
 ```js
 {
+    "simplebenchmark": false,
     "benchmark": true,
-    "runbenchmark_update2": false,
+    "runbenchmarkupdatelong": false,
     "gencsvfiles": true,
     "plot": true,
     "genreadme": true
 }
 ```
 
- * **benchmark**: just run benchmarks for "Update Systems" without plot
- * **runbenchmark_update2**: run benchmarks for "Update Systems" from 'plotupdates2'
+ * **simplebenchmark**: just run benchmarks for "Update Systems" without plot
+ * **benchmark**: run benchmarks for "Update Systems" with plot (plot) and generate .csv-files (gencsvfiles)
+ * **runbenchmarkupdatelong**: run benchmarks for "Update Systems" for 'updateslong'-frameworks (see config.js)
  * **gencsvfiles**: generate .csv-files (needed for plot and readme)
  * **plot**: generate (gnuplot) .plt-scripts and plot graphs from .csv-files
- * **genreadme**: generate README.md with new results (tables from .csv-files)
+ * **genreadme**: generate README.md with new results (from .csv-files)
 
 
 ### run benchmark

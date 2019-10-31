@@ -1,12 +1,11 @@
 {
     "update": [
-        "anax",
         "entityx1",
         "entityx2",
         "entt",
         "ginseng"
     ],
-    "update2": [
+    "updatelong": [
         "anax",
         "artemis",
         "entityx1",
@@ -60,7 +59,7 @@
 
     "simplebenchmark": false,
     "benchmark": false,
-    "runbenchmarkupdate2": false,
+    "runbenchmarkupdatelong": true,
     "plot": true,
     "gencsvfiles": true,
     "genreadme": true

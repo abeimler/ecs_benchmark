@@ -185,7 +185,10 @@ def main(argv):
 
 
     if config["simplebenchmark"]:
-        for fname in config["updates"]:
+        updatebenchmarks = config["update"]
+        if config["simplebenchmark"]:
+            updatebenchmarks = config["updatelong"]
+        for fname in updatebenchmarks:
             cmd = time_cmd+' '+ecs_benchmark_cmd
 
             cmd = cmd + ' --bench ".*'+fname+'.*update.*"'
@@ -219,7 +222,7 @@ def main(argv):
 
     csvfiles={}
     csvfiles["update"]=""
-    csvfiles["update2"]=""
+    csvfiles["updatelong"]=""
     csvfiles["eventbus"]=""
     csvfiles["10Mentities"]=""
 
@@ -241,18 +244,18 @@ def main(argv):
         print("\n")
 
 
-    data_systems_update_2_dat =  os.path.abspath(doc_dir + "/data-systems-update-2.dat")
+    data_systems_update_2_dat =  os.path.abspath(doc_dir + "/data-systems-update-long.dat")
     cmd = ecs_benchmark_cmd
-    for fname in config["update2"]:
+    for fname in config["updatelong"]:
         cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
     if config["gencsvfiles"]:
-        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=update2 --csvunit seconds '
-        csvfiles["update2"] = os.path.abspath(doc_csv_dir + "/update2.csv")
-        csvfiles["printupdate2"] = os.path.abspath(doc_csv_dir + "/print.update2.csv")
+        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatelong --csvunit seconds '
+        csvfiles["updatelong"] = os.path.abspath(doc_csv_dir + "/updatelong.csv")
+        csvfiles["printupdatelong"] = os.path.abspath(doc_csv_dir + "/print.updatelong.csv")
     if config["plot"]:
         cmd = cmd + ' --plotdata > ' + data_systems_update_2_dat
 
-    if config["benchmark"] and (config["runbenchmarkupdate2"] and (config["gencsvfiles"] or config["plot"])):
+    if config["benchmark"] and (config["runbenchmarkupdatelong"] and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -296,10 +299,10 @@ def main(argv):
     if config["gencsvfiles"]:
         if csvfiles["update"]:
             updateCSV(csvfiles["update"], "update", replaceColUpdate, csvfiles["printupdate"])
-        if csvfiles["update2"]:
-            updateCSV(csvfiles["update2"], "update", replaceColUpdate2, csvfiles["printupdate2"])
-        #if csvfiles["eventbus"]:
-        #    updateCSV(csvfiles["eventbus"], "eventbus", replaceColEventbus, csvfiles["printeventbus"])
+        if csvfiles["updatelong"]:
+            updateCSV(csvfiles["updatelong"], "update", replaceColUpdate2, csvfiles["printupdatelong"])
+        if csvfiles["eventbus"]:
+            updateCSV(csvfiles["eventbus"], "eventbus", replaceColEventbus, csvfiles["printeventbus"])
         if csvfiles["10Mentities"]:
             updateCSV(csvfiles["10Mentities"], "10Mentities", replaceCol10Mentities, csvfiles["print10Mentities"])
 
@@ -316,18 +319,18 @@ def main(argv):
             headers.sort() # need to be in alphabetic order
             params = {
                 'headers': headers, 
-                'output': os.path.relpath(doc_dir + '/systems-update-result.png', root_dir),
+                'output': os.path.relpath(doc_dir + '/systems-update-result.png', doc_dir),
                 'xlabel': 'Entities',
                 'ylabel': 'Time per Operation (ns/op)',
                 'title': 'ECS Benchmark System Updates',
-                'data_dat':  os.path.relpath(data_systems_update_dat, root_dir)
+                'data_dat':  os.path.relpath(data_systems_update_dat, doc_dir)
             }
             pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update.plt")
             makePlotScript(thispath, benchmarkname, pltfiles[benchmarkname], params)
 
-        if config["runbenchmarkupdate2"]:
+        if config["runbenchmarkupdatelong"]:
             if os.path.exists(data_systems_update_2_dat):
-                benchmarkname = 'update2'
+                benchmarkname = 'updatelong'
                 ## header name in plot is different, so correct it ...
                 headers = []
                 for f in config[benchmarkname]:
@@ -335,13 +338,13 @@ def main(argv):
                 headers.sort() # need to be in alphabetic order
                 params = {
                     'headers': headers, 
-                    'output': os.path.relpath(doc_dir + '/systems-update-result-2.png', root_dir),
+                    'output': os.path.relpath(doc_dir + '/systems-update-result-long.png', doc_dir),
                     'xlabel': 'Entities',
                     'ylabel': 'Time per Operation (ns/op)',
                     'title': 'ECS Benchmark System Updates',
-                    'data_dat':  os.path.relpath(data_systems_update_2_dat, root_dir)
+                    'data_dat':  os.path.relpath(data_systems_update_2_dat, doc_dir)
                 }
-                pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update-2.plt")
+                pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update-long.plt")
                 makePlotScript(thispath, benchmarkname, pltfiles[benchmarkname], params)
 
         if os.path.exists(data_eventbus_dat):
@@ -353,11 +356,11 @@ def main(argv):
             headers.sort() # need to be in alphabetic order
             params = {
                 'headers': headers, 
-                'output': os.path.relpath(doc_dir + '/eventbus-result.png', root_dir),
+                'output': os.path.relpath(doc_dir + '/eventbus-result.png', doc_dir),
                 'xlabel': 'Publish Events',
                 'ylabel': 'Time per Operation (ns/op)',
                 'title': 'ECS Benchmark Eventbus',
-                'data_dat':  os.path.relpath(data_eventbus_dat, root_dir)
+                'data_dat':  os.path.relpath(data_eventbus_dat, doc_dir)
             }
             pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-eventbus.plt")
             makePlotScript(thispath, benchmarkname, pltfiles[benchmarkname], params)
@@ -378,8 +381,8 @@ def main(argv):
             mdTable10MEntities = md_table(table10MEntities)
         
         mdTableUpdate2 = ''
-        if os.path.exists(csvfiles['printupdate2']):
-            with open(csvfiles['printupdate2'], 'r') as f:
+        if os.path.exists(csvfiles['printupdatelong']):
+            with open(csvfiles['printupdatelong'], 'r') as f:
                 tableUpdate2 = csv_to_table(f, ';')
             mdTableUpdate2 = md_table(tableUpdate2)
 
@@ -390,7 +393,7 @@ def main(argv):
             mdTableUpdate = md_table(tableUpdate)
 
 
-        if config["runbenchmarkupdate2"] and tableUpdate2 != '':
+        if config["runbenchmarkupdatelong"] and tableUpdate2 != '':
             mdTableUpdate = mdTableUpdate2
 
         mdTableEventbus = ''
