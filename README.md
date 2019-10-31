@@ -80,8 +80,8 @@ I fork [benchpress](https://github.com/abeimler/benchpress) (add some utils and 
 
 ### CMake
 
-I used CMake 3.9.3 for the build.
-Minimum is 3.2.
+I used CMake 3.15.4 for the build.
+Minimum is 3.14.
 
  1. change directory to this Folder
  2. `mkdir ./build`
@@ -90,18 +90,14 @@ Minimum is 3.2.
  4. `./build.sh`
 
 
-#### C++ Compiler
+#### Dependencies 
 
- - modern C++14 Standard (`-std=c++14`)
- - Default CMake Release Flags (`-O3 -DNDEBUG`)
- - some Compiler Warnings (`-Wall -Wextra -Wnon-virtual-dtor -Wcast-align -Woverloaded-virtual -pedantic`)
- - Threading (not used, yet?) (`-pthread`)
+I used [Conan](https://conan.io/) and [CMake FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) for all dependencies.
 
-
-I used g++ 7.2.0, clang++ 3.8 should work, too.
+_see [deps.sh](deps.sh) for more details_
 
 
-#### Linked Libraries
+##### Linked Libraries
 
  - entityx (1.x)
  - anax
@@ -127,12 +123,12 @@ benchpress, entityx (compile-time), entt and ginseng are header-only.
 
 _EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPACITY>`) of `16777216`, to avoid `bad_alloc`-Errors_
 
-
+_see [configure.sh](configure.sh) for more details_
 
 
 ## Benchmark
 
-Date: Di 29. Okt 21:43:25 CET 2019
+Date: Do 31. Okt 13:14:06 CET 2019
 
 ### Environment
 
@@ -144,12 +140,12 @@ Date: Di 29. Okt 21:43:25 CET 2019
 
 #### Create, Destroying and Iterating over 10M entities
 
-Benchmark                                              |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
--------------------------------------------------------|--------------------|---------------------------------------|----------|---------
-Creating 10M entities                                  |  0.184s            |  0.103s                               |  0.054s  |  0.078s
-Destroying 10M entities                                |  0.379s            |  0.158s                               |  0.090s  |  1.936s
-Iterating over 10M entities, unpacking one component   |  0.070s            |  0.011s                               |  0.012s  |  0.011s
-Iterating over 10M entities, unpacking two components  |  0.201s            |  0.022s                               |  0.031s  |  N/A
+;&quot;entityx110Mentities&quot;;&quot;entityx210Mentities&quot;;&quot;entt10Mentities&quot;;&quot;ginseng10Mentities&quot;
+-----------------------------------------------------------------------------------
+1;0.260s;0.139s;0.057s;0.090s
+2;0.390s;0.135s;0.081s;1.716s
+3;0.058s;0.008s;0.010s;0.012s
+4;0.113s;&quot;N/A&quot;;0.022s;0.030s
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -162,13 +158,27 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 _(lower is better :)_
 
-Benchmark                           |  Anax    |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
-------------------------------------|----------|--------------------|---------------------------------------|----------|---------
-Update  1M entities with 2 Systems  |  0.103s  |  0.053s            |  0.019s                               |  0.008s  |  0.006s
-Update  2M entities with 2 Systems  |  0.260s  |  0.112s            |  0.038s                               |  0.015s  |  0.012s
-Update  5M entities with 2 Systems  |  0.313s  |  0.095s            |  0.040s                               |  0.031s  |  N/A
-Update 10M entities with 2 Systems  |  1.046s  |  0.212s            |  0.085s                               |  0.064s  |  N/A
-Update 20M entities with 2 Systems  |  2.114s  |  0.424s            |  0.165s                               |  0.125s  |  N/A
+;&quot;anaxupdate&quot;;&quot;entityx1update&quot;;&quot;entityx2update&quot;;&quot;enttupdate&quot;;&quot;ginsengupdate&quot;
+----------------------------------------------------------------------------
+10;0.000s;0.000s;0.000s;0.000s;0.000s
+25;0.000s;0.000s;0.000s;0.000s;0.000s
+50;0.000s;0.000s;0.000s;0.000s;0.000s
+100;0.000s;0.000s;0.000s;0.000s;0.000s
+200;0.000s;0.000s;0.000s;0.000s;0.000s
+400;0.000s;0.000s;0.000s;0.000s;0.000s
+800;0.000s;0.000s;0.000s;0.000s;0.000s
+1600;0.000s;0.000s;0.000s;0.000s;0.000s
+3200;0.000s;0.000s;0.000s;0.000s;0.000s
+5000;0.000s;0.000s;0.000s;0.000s;0.000s
+10000;0.000s;0.000s;0.000s;0.000s;0.000s
+30000;0.001s;0.001s;0.000s;0.000s;0.000s
+100000;0.008s;0.004s;0.001s;0.000s;0.001s
+500000;0.051s;0.019s;0.009s;0.003s;0.004s
+1000000;0.112s;0.038s;0.018s;0.007s;0.007s
+2000000;0.266s;0.078s;0.036s;0.014s;0.015s
+5000000;&quot;N/A&quot;;0.214s;0.093s;0.036s;0.039s
+10000000;&quot;N/A&quot;;0.438s;0.202s;0.086s;0.080s
+20000000;&quot;N/A&quot;;1.240s;0.409s;0.168s;0.169s
 
 
 #### Eventbus
@@ -177,13 +187,7 @@ Update 20M entities with 2 Systems  |  2.114s  |  0.424s            |  0.165s   
 
 Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp).
 
-Benchmark                             |  entityx  |  eventpp
---------------------------------------|-----------|---------
-publish EventA and EventB  20k times  |  0.001s   |  0.001s
-publish EventA and EventB  50k times  |  0.002s   |  0.002s
-publish EventA and EventB 100k times  |  0.004s   |  0.003s
-publish EventA and EventB 200k times  |  0.008s   |  0.007s
-publish EventA and EventB 500k times  |  0.019s   |  0.017s
+
 
 _Listen to EventA EventB and EventC_
 

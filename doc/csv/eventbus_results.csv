@@ -1,6 +1,0 @@
-Benchmark,entityx,eventpp
-publish EventA and EventB  20k times,0.001s,0.001s
-publish EventA and EventB  50k times,0.002s,0.002s
-publish EventA and EventB 100k times,0.004s,0.003s
-publish EventA and EventB 200k times,0.008s,0.007s
-publish EventA and EventB 500k times,0.019s,0.017s

@@ -3,8 +3,6 @@
 import sys
 import os
 import json
-import csv
-import pystache
 
 thispath =  os.path.dirname(os.path.abspath(__file__))
 
@@ -19,11 +17,10 @@ config = json.loads(jsonconfig)
 
 
 ## settings
+SIMPLEBENCHMARK=bool(config['simplebenchmark'])
 BENCHMARK=bool(config['benchmark'])
-RUNBENCHMARKUPDATE2=bool(config['runbenchmark_update2'])
+RUNBENCHMARKUPDATE2=bool(config['runbenchmarkupdate2'])
 PLOT=bool(config['plot'])
 GENCSVFILES=bool(config['gencsvfiles'])
 GENREADME=bool(config['genreadme'])
-
-
 

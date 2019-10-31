@@ -1,19 +1,12 @@
 {
-    "updates": [
+    "update": [
         "anax",
         "entityx1",
         "entityx2",
         "entt",
         "ginseng"
     ],
-    "plotupdates": [
-        "anax",
-        "entityx1",
-        "entityx2",
-        "entt",
-        "ginseng"
-    ],
-    "plotupdates2": [
+    "update2": [
         "anax",
         "artemis",
         "entityx1",
@@ -32,8 +25,42 @@
         "ginseng"
     ],
 
-    "benchmark": true,
-    "runbenchmark_update2": false,
+    "info": {
+        "anax": {
+            "name": "Anax",
+            "framework": true
+        },
+        "artemis": {
+            "name": "Artemis",
+            "framework": true
+        },
+        "entityx1": {
+            "name": "EntityX (master)",
+            "framework": true
+        },
+        "entityx2": {
+            "name": "EntityX (experimental/compile_time)",
+            "framework": true
+        },
+        "entt": {
+            "name": "EnTT",
+            "framework": true
+        },
+        "ginseng": {
+            "name": "Ginseng",
+            "framework": true
+        },
+        "entityx1-eventbus": {
+            "name": "EntityX (master)"
+        },
+        "entt-eventbus": {
+            "name": "EnTT"
+        }
+    },
+
+    "simplebenchmark": false,
+    "benchmark": false,
+    "runbenchmarkupdate2": false,
     "plot": true,
     "gencsvfiles": true,
     "genreadme": true
