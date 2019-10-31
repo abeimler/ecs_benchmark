@@ -1,0 +1,6 @@
+;Anax;EntityX (master);EntityX (experimental/compile_time);EnTT;Ginseng
+Update  1M entities with 2 Systems;0.112s;0.038s;0.018s;0.007s;0.007s
+Update  2M entities with 2 Systems;0.262s;0.078s;0.036s;0.014s;0.015s
+Update  5M entities with 2 Systems;N/A;0.214s;0.091s;0.036s;0.038s
+Update 10M entities with 2 Systems;N/A;0.437s;0.189s;0.079s;0.078s
+Update 20M entities with 2 Systems;N/A;1.254s;0.405s;0.152s;0.166s

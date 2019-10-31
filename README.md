@@ -128,7 +128,7 @@ _see [configure.sh](configure.sh) for more details_
 
 ## Benchmark
 
-Date: Do 31. Okt 13:14:06 CET 2019
+Date: Do 31. Okt 14:02:26 CET 2019
 
 ### Environment
 
@@ -140,12 +140,12 @@ Date: Do 31. Okt 13:14:06 CET 2019
 
 #### Create, Destroying and Iterating over 10M entities
 
-;&quot;entityx110Mentities&quot;;&quot;entityx210Mentities&quot;;&quot;entt10Mentities&quot;;&quot;ginseng10Mentities&quot;
------------------------------------------------------------------------------------
-1;0.260s;0.139s;0.057s;0.090s
-2;0.390s;0.135s;0.081s;1.716s
-3;0.058s;0.008s;0.010s;0.012s
-4;0.113s;&quot;N/A&quot;;0.022s;0.030s
+                                                       |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
+-------------------------------------------------------|--------------------|---------------------------------------|----------|---------
+Creating 10M entities                                  |  0.257s            |  0.138s                               |  0.055s  |  0.089s
+Destroying 10M entities                                |  0.381s            |  0.133s                               |  0.081s  |  1.620s
+Iterating over 10M entities, unpacking one component   |  0.057s            |  0.009s                               |  0.009s  |  0.012s
+Iterating over 10M entities, unpacking two components  |  0.112s            |  N/A                                  |  0.020s  |  0.029s
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -158,27 +158,13 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 
 _(lower is better :)_
 
-;&quot;anaxupdate&quot;;&quot;entityx1update&quot;;&quot;entityx2update&quot;;&quot;enttupdate&quot;;&quot;ginsengupdate&quot;
-----------------------------------------------------------------------------
-10;0.000s;0.000s;0.000s;0.000s;0.000s
-25;0.000s;0.000s;0.000s;0.000s;0.000s
-50;0.000s;0.000s;0.000s;0.000s;0.000s
-100;0.000s;0.000s;0.000s;0.000s;0.000s
-200;0.000s;0.000s;0.000s;0.000s;0.000s
-400;0.000s;0.000s;0.000s;0.000s;0.000s
-800;0.000s;0.000s;0.000s;0.000s;0.000s
-1600;0.000s;0.000s;0.000s;0.000s;0.000s
-3200;0.000s;0.000s;0.000s;0.000s;0.000s
-5000;0.000s;0.000s;0.000s;0.000s;0.000s
-10000;0.000s;0.000s;0.000s;0.000s;0.000s
-30000;0.001s;0.001s;0.000s;0.000s;0.000s
-100000;0.008s;0.004s;0.001s;0.000s;0.001s
-500000;0.051s;0.019s;0.009s;0.003s;0.004s
-1000000;0.112s;0.038s;0.018s;0.007s;0.007s
-2000000;0.266s;0.078s;0.036s;0.014s;0.015s
-5000000;&quot;N/A&quot;;0.214s;0.093s;0.036s;0.039s
-10000000;&quot;N/A&quot;;0.438s;0.202s;0.086s;0.080s
-20000000;&quot;N/A&quot;;1.240s;0.409s;0.168s;0.169s
+                                    |  Anax    |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
+------------------------------------|----------|--------------------|---------------------------------------|----------|---------
+Update  1M entities with 2 Systems  |  0.112s  |  0.038s            |  0.018s                               |  0.007s  |  0.007s
+Update  2M entities with 2 Systems  |  0.262s  |  0.078s            |  0.036s                               |  0.014s  |  0.015s
+Update  5M entities with 2 Systems  |  N/A     |  0.214s            |  0.091s                               |  0.036s  |  0.038s
+Update 10M entities with 2 Systems  |  N/A     |  0.437s            |  0.189s                               |  0.079s  |  0.078s
+Update 20M entities with 2 Systems  |  N/A     |  1.254s            |  0.405s                               |  0.152s  |  0.166s
 
 
 #### Eventbus

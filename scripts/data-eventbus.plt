@@ -1,6 +1,6 @@
 # Scale font and line width (dpi) by changing the size! It will always display stretched.
 set terminal png size 1024,800 enhanced font "Arial,14"
-set output 'eventbus-result.png'
+set output 'doc/eventbus-result.png'
 
 # Key means label...
 set key inside bottom right
@@ -14,4 +14,4 @@ set format x "2^{%L}"
 set format y "10^{%L}"
 
 ## the labels are in Alphabetical order
-plot  "data-eventbus.dat" using 1:2 title 'entityx-eventbus' with lines lw 3 ,   "data-eventbus.dat" using 1:3 title 'eventpp-eventbus' with lines lw 3 ,  
+plot  "doc/data-eventbus.dat" using 1:2 title 'entityx-eventbus' with lines lw 3 ,   "doc/data-eventbus.dat" using 1:3 title 'eventpp-eventbus' with lines lw 3 ,  

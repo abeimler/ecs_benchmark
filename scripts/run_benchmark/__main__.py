@@ -91,7 +91,7 @@ def replaceColHeader(row, suffix):
             framework = config["info"][fname]
             col = row[rindex]
             if col == fname + suffix:
-                row[rindex] = framework.name
+                row[rindex] = framework["name"]
                 break
     return row
 
@@ -297,7 +297,7 @@ def main(argv):
         if csvfiles["update"]:
             updateCSV(csvfiles["update"], "update", replaceColUpdate, csvfiles["printupdate"])
         if csvfiles["update2"]:
-            updateCSV(csvfiles["update2"], "update2", replaceColUpdate2, csvfiles["printupdate2"])
+            updateCSV(csvfiles["update2"], "update", replaceColUpdate2, csvfiles["printupdate2"])
         #if csvfiles["eventbus"]:
         #    updateCSV(csvfiles["eventbus"], "eventbus", replaceColEventbus, csvfiles["printeventbus"])
         if csvfiles["10Mentities"]:
@@ -353,7 +353,7 @@ def main(argv):
             headers.sort() # need to be in alphabetic order
             params = {
                 'headers': headers, 
-                'output': os.path.relpath(doc_dir + 'eventbus-result.png', root_dir),
+                'output': os.path.relpath(doc_dir + '/eventbus-result.png', root_dir),
                 'xlabel': 'Publish Events',
                 'ylabel': 'Time per Operation (ns/op)',
                 'title': 'ECS Benchmark Eventbus',
@@ -374,19 +374,19 @@ def main(argv):
         mdTable10MEntities = ''
         if os.path.exists(csvfiles['print10Mentities']):
             with open(csvfiles['print10Mentities'], 'r') as f:
-                table10MEntities = csv_to_table(f, ',')
+                table10MEntities = csv_to_table(f, ';')
             mdTable10MEntities = md_table(table10MEntities)
         
         mdTableUpdate2 = ''
         if os.path.exists(csvfiles['printupdate2']):
             with open(csvfiles['printupdate2'], 'r') as f:
-                tableUpdate2 = csv_to_table(f, ',')
+                tableUpdate2 = csv_to_table(f, ';')
             mdTableUpdate2 = md_table(tableUpdate2)
 
         mdTableUpdate = ''
         if os.path.exists(csvfiles['update']):
             with open(csvfiles['printupdate'], 'r') as f:
-                tableUpdate = csv_to_table(f, ',')
+                tableUpdate = csv_to_table(f, ';')
             mdTableUpdate = md_table(tableUpdate)
 
 
@@ -396,7 +396,7 @@ def main(argv):
         mdTableEventbus = ''
         if os.path.exists(csvfiles['eventbus']):
             with open(csvfiles['printeventbus'], 'r') as f:
-                tableEventbus = csv_to_table(f, ',')
+                tableEventbus = csv_to_table(f, ';')
             mdTableEventbus = md_table(tableEventbus)
 
         params = {
