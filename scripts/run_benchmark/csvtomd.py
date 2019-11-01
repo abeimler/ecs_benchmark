@@ -106,5 +106,5 @@ def md_table(table, *, padding=DEFAULT_PADDING, divider='|', header_div='-'):
     return '\n'.join(table)
 
 
-def csv_to_table(file, delimiter):
-    return list(csv.reader(file, delimiter=delimiter))
+def csv_to_table(file, delimiter=',', quotechar='"'):
+    return list(csv.reader(file, delimiter=delimiter, quotechar=quotechar))

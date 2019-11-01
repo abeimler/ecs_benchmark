@@ -128,7 +128,7 @@ _see [configure.sh](configure.sh) for more details_
 
 ## Benchmark
 
-Date: Do 31. Okt 17:16:52 CET 2019
+Date: Sa 2. Nov 00:16:29 CET 2019
 
 ### Environment
 

@@ -9,6 +9,8 @@ from csvtomd import csv_to_table, md_table
 from run_benchmark import config
 
 
+CSV_DELIMITER=','
+CSV_QUOTECHAR='"'
 
 def replaceCol10Mentities(row):
     if row[0] == '1':
@@ -113,7 +115,7 @@ def updateCSV(filenamecsv, suffix, replaceCols, newfilenamecsv=None):
                         newrows.append(row)
         if len(newrows) > 0:
             with open(newfilenamecsv, mode='w') as csvfile:
-                csv_writer = csv.writer(csvfile, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                csv_writer = csv.writer(csvfile, delimiter=CSV_DELIMITER, quotechar=CSV_QUOTECHAR, quoting=csv.QUOTE_MINIMAL)
                 for newrow in newrows:
                     csv_writer.writerow(newrow)
 
@@ -137,9 +139,28 @@ def makePlotScript(thispath, benchmarkname, pltfilename, params):
     params['headers'] = headers
 
     data_plt = pystache.render(plttmpl, params)
+    with open(pltfilename, "w") as pltfile:
+        pltfile.write(data_plt)
+    return pltfilename
 
-    with open(pltfilename, "w") as data_pltfile:
-        data_pltfile.write(data_plt)
+def makePlotScriptFromCSV(benchmarkname, title, thispath, scripts_dir, doc_dir, data_dat_filename, data_csv_filename):
+    if os.path.exists(data_csv_filename):
+
+        rdr = csv.reader(open(data_csv_filename))
+        headers = next(rdr)
+
+        params = {
+            'headers': headers[1:], 
+            'output': os.path.relpath(doc_dir + '/{}.png'.format(benchmarkname), doc_dir),
+            'xlabel': 'Entities',
+            'ylabel': 'Time per Operation (ns/op)',
+            'title': title,
+            'data_dat':  os.path.relpath(data_dat_filename, doc_dir)
+        }
+        pltfilename = os.path.abspath(scripts_dir + '/{}.plt'.format(benchmarkname))
+        return makePlotScript(thispath, benchmarkname, pltfilename, params)
+    return ''
+
 
 
 def main(argv):
@@ -150,9 +171,6 @@ def main(argv):
     ecs_benchmark_cmd =  os.path.abspath(root_dir + "/build/app/ecs_benchmark")
     doc_dir =  os.path.abspath(root_dir + "/doc")
     doc_csv_dir =  os.path.abspath(doc_dir + "/csv")
-
-
-
 
 
     dateinfo = os.popen("date").read()
@@ -244,7 +262,7 @@ def main(argv):
         print("\n")
 
 
-    data_systems_update_2_dat =  os.path.abspath(doc_dir + "/data-systems-update-long.dat")
+    data_systems_update_long_dat =  os.path.abspath(doc_dir + "/data-systems-update-long.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["updatelong"]:
         cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
@@ -253,7 +271,7 @@ def main(argv):
         csvfiles["updatelong"] = os.path.abspath(doc_csv_dir + "/updatelong.csv")
         csvfiles["printupdatelong"] = os.path.abspath(doc_csv_dir + "/print.updatelong.csv")
     if config["plot"]:
-        cmd = cmd + ' --plotdata > ' + data_systems_update_2_dat
+        cmd = cmd + ' --plotdata > ' + data_systems_update_long_dat
 
     if config["benchmark"] and (config["runbenchmarkupdatelong"] and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
@@ -310,62 +328,11 @@ def main(argv):
     if config["plot"]:
         pltfiles = {}
 
-        if os.path.exists(data_systems_update_dat):
-            benchmarkname = 'update'
-            ## header name in plot is different, so correct it ...
-            headers = []
-            for f in config[benchmarkname]:
-                headers.append(f + 'update')
-            headers.sort() # need to be in alphabetic order
-            params = {
-                'headers': headers, 
-                'output': os.path.relpath(doc_dir + '/systems-update-result.png', doc_dir),
-                'xlabel': 'Entities',
-                'ylabel': 'Time per Operation (ns/op)',
-                'title': 'ECS Benchmark System Updates',
-                'data_dat':  os.path.relpath(data_systems_update_dat, doc_dir)
-            }
-            pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update.plt")
-            makePlotScript(thispath, benchmarkname, pltfiles[benchmarkname], params)
-
+        pltfiles['update'] = makePlotScriptFromCSV('update', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, data_systems_update_dat, csvfiles["printupdate"])
         if config["runbenchmarkupdatelong"]:
-            if os.path.exists(data_systems_update_2_dat):
-                benchmarkname = 'updatelong'
-                ## header name in plot is different, so correct it ...
-                headers = []
-                for f in config[benchmarkname]:
-                    headers.append(f + 'update')
-                headers.sort() # need to be in alphabetic order
-                params = {
-                    'headers': headers, 
-                    'output': os.path.relpath(doc_dir + '/systems-update-result-long.png', doc_dir),
-                    'xlabel': 'Entities',
-                    'ylabel': 'Time per Operation (ns/op)',
-                    'title': 'ECS Benchmark System Updates',
-                    'data_dat':  os.path.relpath(data_systems_update_2_dat, doc_dir)
-                }
-                pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-systems-update-long.plt")
-                makePlotScript(thispath, benchmarkname, pltfiles[benchmarkname], params)
+            pltfiles['updatelong'] = makePlotScriptFromCSV('updatelong', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, data_systems_update_long_dat, csvfiles["printupdatelong"])
 
-        if os.path.exists(data_eventbus_dat):
-            benchmarkname = 'eventbus'
-            ## header name in plot is different, so correct it ...
-            headers = []
-            for f in config[benchmarkname]:
-                headers.append(f + '-eventbus')
-            headers.sort() # need to be in alphabetic order
-            params = {
-                'headers': headers, 
-                'output': os.path.relpath(doc_dir + '/eventbus-result.png', doc_dir),
-                'xlabel': 'Publish Events',
-                'ylabel': 'Time per Operation (ns/op)',
-                'title': 'ECS Benchmark Eventbus',
-                'data_dat':  os.path.relpath(data_eventbus_dat, doc_dir)
-            }
-            pltfiles[benchmarkname] = os.path.abspath(scripts_dir + "/data-eventbus.plt")
-            makePlotScript(thispath, benchmarkname, pltfiles[benchmarkname], params)
-
-
+        pltfiles['eventbus'] = makePlotScriptFromCSV('eventbus', 'ECS Benchmark Eventbus', thispath, scripts_dir, doc_dir, data_eventbus_dat, csvfiles["printeventbus"])
 
         os.chdir(doc_dir)
         for benchmarkname, pltfile in pltfiles.items():
@@ -377,19 +344,19 @@ def main(argv):
         mdTable10MEntities = ''
         if os.path.exists(csvfiles['print10Mentities']):
             with open(csvfiles['print10Mentities'], 'r') as f:
-                table10MEntities = csv_to_table(f, ';')
+                table10MEntities = csv_to_table(f, ',')
             mdTable10MEntities = md_table(table10MEntities)
         
         mdTableUpdate2 = ''
         if os.path.exists(csvfiles['printupdatelong']):
             with open(csvfiles['printupdatelong'], 'r') as f:
-                tableUpdate2 = csv_to_table(f, ';')
+                tableUpdate2 = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
             mdTableUpdate2 = md_table(tableUpdate2)
 
         mdTableUpdate = ''
         if os.path.exists(csvfiles['update']):
             with open(csvfiles['printupdate'], 'r') as f:
-                tableUpdate = csv_to_table(f, ';')
+                tableUpdate = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
             mdTableUpdate = md_table(tableUpdate)
 
 
@@ -399,7 +366,7 @@ def main(argv):
         mdTableEventbus = ''
         if os.path.exists(csvfiles['eventbus']):
             with open(csvfiles['printeventbus'], 'r') as f:
-                tableEventbus = csv_to_table(f, ';')
+                tableEventbus = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
             mdTableEventbus = md_table(tableEventbus)
 
         params = {

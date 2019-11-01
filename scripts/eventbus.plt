@@ -1,10 +1,10 @@
 # Scale font and line width (dpi) by changing the size! It will always display stretched.
 set terminal png size 1024,800 enhanced font "Arial,14"
-set output 'eventbus-result.png'
+set output 'eventbus.png'
 
 # Key means label...
 set key inside bottom right
-set xlabel 'Publish Events'
+set xlabel 'Entities'
 set ylabel 'Time per Operation (ns/op)'
 set title 'ECS Benchmark Eventbus'
 
