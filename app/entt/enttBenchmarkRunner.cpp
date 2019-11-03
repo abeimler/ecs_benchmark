@@ -13,7 +13,7 @@ namespace entt_benchmark {
 constexpr size_t _10M = 10'000'000L;
 
 
-BENCHMARK("[1] entt3     Creating 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[1] entt     Creating 10M entities", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     ctx->reset_timer();
@@ -34,7 +34,7 @@ BENCHMARK("[1] entt3     Creating 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("[2] entt3     Destroying 10M entities", [](benchpress::context* ctx) {
+BENCHMARK("[2] entt     Destroying 10M entities", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
     
     ctx->reset_timer();
@@ -54,7 +54,7 @@ BENCHMARK("[2] entt3     Destroying 10M entities", [](benchpress::context* ctx) 
     }
 })
 
-BENCHMARK("[3] entt3     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+BENCHMARK("[3] entt     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -73,7 +73,7 @@ BENCHMARK("[3] entt3     Iterating over 10M entities, unpacking one component", 
     }
 })
 
-BENCHMARK("[4] entt3     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
+BENCHMARK("[4] entt     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     for (size_t c = 0; c < _10M; c++) {
@@ -96,6 +96,23 @@ BENCHMARK("[4] entt3     Iterating over 10M entities, unpacking two components",
 })
 
 
+BENCHMARK("[5] entt     Creating 10M entities at once", [](benchpress::context* ctx) {
+    EnttBenchmark::EntityManager registry;
+
+    ctx->reset_timer();
+    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+        std::vector<EnttBenchmark::Entity> created_entities (_10M);
+
+        ctx->start_timer();
+        registry.create(std::begin(created_entities), std::end(created_entities));
+        ctx->stop_timer();
+
+        // cleanup memory to avoid full memory 
+        for (auto entity : created_entities) {
+            registry.destroy(entity);
+        }
+    }
+})
 
 
 
@@ -108,7 +125,7 @@ BENCHMARK("[4] entt3     Iterating over 10M entities, unpacking two components",
 
 
 
-BENCHMARK("entt3     create destroy entity with components", [](benchpress::context* ctx) {
+BENCHMARK("entt     create destroy entity with components", [](benchpress::context* ctx) {
     EnttBenchmark::EntityManager registry;
 
     ctx->reset_timer();
@@ -186,7 +203,7 @@ const std::vector<int> BenchmarksEntt::ENTITIES = {
     10'000'000, 20'000'000
 };
 
-BenchmarksEntt enttbenchmarks("entt3");
+BenchmarksEntt enttbenchmarks("entt");
 
 
 } // namespace entt_benchmark

@@ -14,4 +14,4 @@ set format x "2^{%L}"
 set format y "10^{%L}"
 
 ## the labels are in Alphabetical order
-plot  "data-systems-update.dat" using 1:2 title 'EnTT' with lines lw 3 ,   "data-systems-update.dat" using 1:3 title 'Ginseng' with lines lw 3 ,   "data-systems-update.dat" using 1:4 title 'EntityX' with lines lw 3 ,   "data-systems-update.dat" using 1:5 title 'EntityX (experimental/compile_time)' with lines lw 3 ,   "data-systems-update.dat" using 1:6 title 'EnTT (legacy)' with lines lw 3 ,  
+plot  "data-systems-update.dat" using 1:2 title 'EnTT' with lines lw 3 ,   "data-systems-update.dat" using 1:3 title 'Ginseng' with lines lw 3 ,   "data-systems-update.dat" using 1:4 title 'EntityX' with lines lw 3 ,   "data-systems-update.dat" using 1:5 title 'EntityX (experimental/compile_time)' with lines lw 3 ,   "data-systems-update.dat" using 1:6 title 'EnTT (use group)' with lines lw 3 ,   "data-systems-update.dat" using 1:7 title 'EnTT (legacy)' with lines lw 3 ,  

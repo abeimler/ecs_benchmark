@@ -96,6 +96,23 @@ BENCHMARK("[4] entityx2 Iterating over 10M entities, unpacking two component", [
 */
 
 
+BENCHMARK("[5] entityx2 Creating 10M entities at once", [](benchpress::context* ctx) {
+    EntityX2Benchmark::EntityManager entities;
+
+    ctx->reset_timer();
+    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+        std::vector<EntityX2Benchmark::Entity> created_entities;
+
+        ctx->start_timer();
+        created_entities = entities.create_many(_10M);
+        ctx->stop_timer();
+
+        // cleanup memory to avoid full memory 
+        for (auto entity : created_entities) {
+            entities.destroy(entity.id());
+        }
+    }
+})
 
 
 

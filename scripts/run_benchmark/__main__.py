@@ -26,6 +26,9 @@ def replaceCol10Mentities(row):
     elif row[0] == '4':
         row[0] = 'Iterating over 10M entities, unpacking two components'
         return row
+    elif row[0] == '5':
+        row[0] = 'Creating 10M entities at once'
+        return row
 
     return None
 
@@ -212,7 +215,7 @@ def main(argv):
         for fname in updatebenchmarks:
             cmd = time_cmd+' '+ecs_benchmark_cmd
 
-            cmd = cmd + ' --bench ".*'+fname+'.*update.*"'
+            cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*"'
 
             print(cmd + "\n")
             os.system(cmd)
@@ -222,7 +225,7 @@ def main(argv):
 
         cmd = time_cmd+' '+ecs_benchmark_cmd
         for fname in config["eventbus"]:
-            cmd = cmd + ' --bench ".*'+fname+'-eventbus.*" '
+            cmd = cmd + ' --bench ".*\\s+'+fname+'-eventbus\\s+.*" '
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -231,7 +234,7 @@ def main(argv):
 
         cmd = time_cmd+' '+ecs_benchmark_cmd
         for fname in config["10Mentities"]:
-            cmd = cmd + ' --bench ".*'+fname+'.*10M\\s+entities.*" '
+            cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*10M\\s+entities.*" '
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -255,7 +258,7 @@ def main(argv):
     datfiles["update"] =  os.path.abspath(doc_dir + "/data-systems-update.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["update"]:
-        cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
+        cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
     cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=update --csvunit seconds '
@@ -274,7 +277,7 @@ def main(argv):
     datfiles["updatelong"] =  os.path.abspath(doc_dir + "/data-systems-update-long.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["updatelong"]:
-        cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
+        cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
     cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatelong --csvunit seconds '
@@ -293,7 +296,7 @@ def main(argv):
     datfiles["eventbus"] =  os.path.abspath(doc_dir + "/data-eventbus.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["eventbus"]:
-        cmd = cmd + ' --bench ".*'+fname+'-eventbus.*" '
+        cmd = cmd + ' --bench ".*\\s+'+fname+'-eventbus\\s+.*" '
     cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=eventbus --csvunit seconds '
@@ -311,7 +314,7 @@ def main(argv):
 
     cmd = ecs_benchmark_cmd
     for fname in config["10Mentities"]:
-        cmd = cmd + ' --bench ".*'+fname+'.*10M\\s+entities.*" '
+        cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*10M\\s+entities.*" '
     cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=10Mentities --csvunit seconds '

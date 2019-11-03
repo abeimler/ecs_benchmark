@@ -10,7 +10,7 @@
 
 #include <entt/entt.hpp>
 
-class EnttBenchmark {
+class EnttGroupBenchmark {
     public:
 
     struct PositionComponent {
@@ -58,7 +58,7 @@ class EnttBenchmark {
         MovementSystem() = default;
 
         void update(EntityManager& registry, TimeDelta dt) override {
-            registry.view<PositionComponent, DirectionComponent>().each([dt](auto entity, auto& position, auto& direction) {
+            registry.group<PositionComponent>(entt::get<DirectionComponent>).each([dt](auto entity, auto& position, auto& direction) {
                 position.x += direction.x * dt;
                 position.y += direction.y * dt;
             });
@@ -98,7 +98,8 @@ class EnttBenchmark {
         MoreComplexSystem() = default;
 
         void update(EntityManager& registry, TimeDelta dt) override {
-            registry.view<PositionComponent, DirectionComponent, ComflabulationComponent>().each([dt](auto entity, auto& position, auto& direction, auto& comflab) {
+            registry.group<>(entt::get<PositionComponent, DirectionComponent, ComflabulationComponent>).each([dt](auto entity, auto& position, auto& direction, auto& comflab) {
+
                 std::vector<double> vec;
                 for(size_t i = 0;i < comflab.dingy && i < 100;i++){
                     vec.push_back(i * comflab.thingy);

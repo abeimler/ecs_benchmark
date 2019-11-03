@@ -33,6 +33,7 @@ list(APPEND LIB${CMAKE_PROJECT_NAME}_HEADERS
 list(APPEND LIB${CMAKE_PROJECT_NAME}_SOURCE 
     ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/GinsengBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttGroupBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/anax/AnaxBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/artemis/ArtemisBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx/EntityXBenchmark.cpp 
