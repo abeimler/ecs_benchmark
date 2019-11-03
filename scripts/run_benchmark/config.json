@@ -2,16 +2,18 @@
     "update": [
         "entityx1",
         "entityx2",
-        "entt",
-        "ginseng"
+        "enttlegacy",
+        "ginseng",
+        "entt3"
     ],
     "updatelong": [
         "anax",
         "artemis",
         "entityx1",
         "entityx2",
-        "entt",
-        "ginseng"
+        "enttlegacy",
+        "ginseng",
+        "entt3"
     ],
     "eventbus": [
         "entityx",
@@ -20,8 +22,9 @@
     "10Mentities": [
         "entityx1",
         "entityx2",
-        "entt",
-        "ginseng"
+        "enttlegacy",
+        "ginseng",
+        "entt3"
     ],
 
     "info": {
@@ -44,7 +47,7 @@
             "linkedlib": true
         },
         "entityx1": {
-            "name": "EntityX (master)",
+            "name": "EntityX",
             "author": "@alecthomas",
             "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.",
             "version": "1.1.2 (Juli 2017)",
@@ -61,11 +64,20 @@
             "framework": true,
             "linkedlib": false
         },
-        "entt": {
-            "name": "EnTT",
+        "enttlegacy": {
+            "name": "EnTT (legacy)",
             "author": "@skypjack",
             "description": "EnTT is a header-only, tiny and easy to use entity-component system in modern C++.",
             "version": "1.1.0 (September 2017)",
+            "link": "https://github.com/skypjack/entt",
+            "framework": true,
+            "linkedlib": false
+        },
+        "entt3": {
+            "name": "EnTT",
+            "author": "@skypjack",
+            "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++, mainly known for its innovative entity-component-system (ECS) model.",
+            "version": "3.2.0 (October 2019)",
             "link": "https://github.com/skypjack/entt",
             "framework": true,
             "linkedlib": false
@@ -74,7 +86,7 @@
             "name": "Ginseng",
             "author": "@apples",
             "description": "Ginseng is an entity-component-system (ECS) library designed for use in games.",
-            "version": "1.x (Mai 2018)",
+            "version": "1.1 (October 2018)",
             "link": "https://github.com/apples/ginseng",
             "framework": true,
             "linkedlib": false
@@ -88,8 +100,8 @@
         }
     },
 
-    "simplebenchmark": false,
-    "benchmark": false,
+    "simplebenchmark": true,
+    "benchmark": true,
     "runbenchmarkupdatelong": true,
     "plot": true,
     "gencsvfiles": true,

@@ -1,6 +1,6 @@
-,EnTT,Ginseng,EntityX (master),EntityX (experimental/compile_time)
-Update  1M entities with 2 Systems,0.007s,0.008s,0.042s,0.020s
-Update  2M entities with 2 Systems,0.015s,0.016s,0.080s,0.040s
-Update  5M entities with 2 Systems,0.039s,0.041s,0.251s,0.108s
-Update 10M entities with 2 Systems,0.085s,0.087s,0.457s,0.236s
-Update 20M entities with 2 Systems,0.171s,0.181s,1.300s,0.463s
+,EnTT,Ginseng,EntityX,EntityX (experimental/compile_time),EnTT (legacy)
+Update  1M entities with 2 Systems,0.012s,0.007s,0.042s,0.019s,0.007s
+Update  2M entities with 2 Systems,0.025s,0.016s,0.085s,0.038s,0.014s
+Update  5M entities with 2 Systems,0.063s,0.040s,0.237s,0.101s,0.037s
+Update 10M entities with 2 Systems,0.139s,0.081s,0.491s,0.218s,0.087s
+Update 20M entities with 2 Systems,0.268s,0.173s,1.391s,0.428s,0.159s

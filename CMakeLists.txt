@@ -99,7 +99,7 @@ endif()
 FetchContent_Declare(
   entt
   GIT_REPOSITORY https://github.com/skypjack/entt
-  GIT_TAG        v3.1.1
+  GIT_TAG        v3.2.0
 )
 FetchContent_GetProperties(entt)
 if(NOT entt_POPULATED)

@@ -4,6 +4,7 @@ import os
 import pprint
 import csv
 import pystache
+import datetime
 
 from csvtomd import csv_to_table, md_table
 from run_benchmark import config
@@ -413,7 +414,7 @@ def main(argv):
                 renderinfo.append(newvalue)
 
         params = {
-            'dateinfo': dateinfo,
+            'dateinfo': "{:%d, %b %Y}".format(datetime.date.today()),
             'osinfo': osinfo,
             'cpuinfo': cpuinfo,
             'raminfo': raminfo,

@@ -488,15 +488,9 @@ class BenchmarksEntt {
 
     static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
         for(int nentities : entities) {
-            std::string tag = "[" + std::to_string(nentities) + "]";
-
-            std::stringstream ss;
-            ss << std::right << std::setw(12) << tag << ' ';
-            ss << std::left << std::setw(8) << name << ' ';
-            ss << std::right << std::setw(12) << nentities;
-            ss << " entities component systems update";
-
-            std::string benchmark_name = ss.str();
+            std::string tag = fmt::format("[{}]", nentities);
+            std::string benchmark_name = fmt::format("{:>12}{:<10}{:>12} entities component systems update", tag, name, nentities);
+            
             BENCHMARK(benchmark_name, [nentities](benchpress::context* ctx) {
                 runEntitiesSystemsEnttBenchmark(ctx, nentities);
             })
@@ -534,6 +528,6 @@ BenchmarksEntt enttbenchmarks("entt");
  - [https://github.com/LearnCocos2D/LearnCocos2D/tree/master/EntityComponentSystemsTest]()
 
 
-##### This file is genrated via python and pystache, you can find the template in [scripts/run_benchmark/README.md.tmpl](scripts/run_benchmark/README.md.tmpl)
+##### This file is genrated via python and pystache, you can find the template in [scripts/run_benchmark/README.md.mustache](scripts/run_benchmark/README.md.mustache)
  - https://github.com/defunkt/pystache
  - https://github.com/mplewis/csvtomd
