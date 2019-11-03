@@ -100,8 +100,8 @@
         }
     },
 
-    "simplebenchmark": true,
-    "benchmark": true,
+    "simplebenchmark": false,
+    "benchmark": false,
     "runbenchmarkupdatelong": true,
     "plot": true,
     "gencsvfiles": true,

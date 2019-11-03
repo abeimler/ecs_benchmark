@@ -362,33 +362,32 @@ def main(argv):
         mdTable10MEntities = ''
         if os.path.exists(csvfiles['print10Mentities']):
             with open(csvfiles['print10Mentities'], 'r') as f:
-                table10MEntities = csv_to_table(f, ',')
-            mdTable10MEntities = md_table(table10MEntities)
+                table10MEntities = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
+                mdTable10MEntities = md_table(table10MEntities)
+        
+        mdTableUpdate = ''
+        if os.path.exists(csvfiles['printupdate']):
+            with open(csvfiles['printupdate'], 'r') as f:
+                tableUpdate = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
+                mdTableUpdate = md_table(tableUpdate)
         
         mdTableUpdateLong = ''
         if os.path.exists(csvfiles['printupdatelong']):
             with open(csvfiles['printupdatelong'], 'r') as f:
                 tableUpdateLong = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
-            mdTableUpdatelong = md_table(tableUpdateLong)
+                mdTableUpdateLong = md_table(tableUpdateLong)
 
-        mdTableUpdate = ''
-        if os.path.exists(csvfiles['update']):
-            with open(csvfiles['printupdate'], 'r') as f:
-                tableUpdate = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
-            mdTableUpdate = md_table(tableUpdate)
-
+        mdTableEventbus = ''
+        if os.path.exists(csvfiles['eventbus']):
+            with open(csvfiles['printeventbus'], 'r') as f:
+                tableEventbus = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
+                mdTableEventbus = md_table(tableEventbus)
 
         mdTableResult = ''
         if config["runbenchmarkupdatelong"]:
             mdTableResult = mdTableUpdateLong
         else:
             mdTableResult = mdTableUpdate
-
-        mdTableEventbus = ''
-        if os.path.exists(csvfiles['eventbus']):
-            with open(csvfiles['printeventbus'], 'r') as f:
-                tableEventbus = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
-            mdTableEventbus = md_table(tableEventbus)
 
         git_doc_dir = 'https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/'
         pngs = {}
@@ -414,7 +413,7 @@ def main(argv):
                 renderinfo.append(newvalue)
 
         params = {
-            'dateinfo': "{:%d, %b %Y}".format(datetime.date.today()),
+            'dateinfo': "{:%d. %b %Y}".format(datetime.date.today()),
             'osinfo': osinfo,
             'cpuinfo': cpuinfo,
             'raminfo': raminfo,
