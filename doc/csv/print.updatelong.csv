@@ -1,6 +1,6 @@
-,Anax,EnTT,Artemis,Ginseng,EntityX,EntityX (experimental/compile_time),EnTT (legacy)
-Update  1M entities with 2 Systems,0.112s,0.012s,175.217s,0.007s,0.041s,0.018s,0.006s
-Update  2M entities with 2 Systems,0.278s,0.025s,N/A,0.015s,0.085s,0.037s,0.014s
-Update  5M entities with 2 Systems,N/A,0.065s,N/A,0.040s,0.236s,0.095s,0.036s
-Update 10M entities with 2 Systems,N/A,0.138s,N/A,0.081s,0.478s,0.208s,0.078s
-Update 20M entities with 2 Systems,N/A,0.268s,N/A,0.171s,1.314s,0.415s,0.151s
+,Anax,EnTT,Artemis,Ginseng,EntityX,EntityX (experimental/compile_time),EnTT (use group),EnTT (legacy)
+Update  1M entities with 2 Systems,0.130s,0.006s,94.635s,0.007s,0.041s,0.019s,0.005s,0.007s
+Update  2M entities with 2 Systems,0.290s,0.011s,N/A,0.015s,0.085s,0.039s,0.011s,0.014s
+Update  5M entities with 2 Systems,N/A,0.030s,N/A,0.039s,0.239s,0.101s,0.028s,0.039s
+Update 10M entities with 2 Systems,N/A,0.061s,N/A,0.084s,0.481s,0.221s,0.061s,0.091s
+Update 20M entities with 2 Systems,N/A,0.130s,N/A,0.174s,1.383s,0.449s,0.136s,0.160s
