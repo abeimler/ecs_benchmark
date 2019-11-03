@@ -6,19 +6,19 @@
 
 #include <benchpress/benchpress.hpp>
 
-#include <entt/EnttBenchmark.h>
+#include <enttlegacy/EnttLegacyBenchmark.h>
 
-namespace entt_benchmark {
+namespace enttlegacy_benchmark {
 
 constexpr size_t _10M = 10'000'000L;
 
 
-BENCHMARK("[1] entt3     Creating 10M entities", [](benchpress::context* ctx) {
-    EnttBenchmark::EntityManager registry;
+BENCHMARK("[1] enttlegacy     Creating 10M entities", [](benchpress::context* ctx) {
+    EnttLegacyBenchmark::EntityManager registry;
 
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        std::vector<EnttBenchmark::Entity> created_entities (_10M);
+        std::vector<EnttLegacyBenchmark::Entity> created_entities (_10M);
 
         ctx->start_timer();
         for (size_t c = 0; c < _10M; c++) {
@@ -34,12 +34,12 @@ BENCHMARK("[1] entt3     Creating 10M entities", [](benchpress::context* ctx) {
     }
 })
 
-BENCHMARK("[2] entt3     Destroying 10M entities", [](benchpress::context* ctx) {
-    EnttBenchmark::EntityManager registry;
+BENCHMARK("[2] enttlegacy     Destroying 10M entities", [](benchpress::context* ctx) {
+    EnttLegacyBenchmark::EntityManager registry;
     
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        std::vector<EnttBenchmark::Entity> created_entities (_10M);
+        std::vector<EnttLegacyBenchmark::Entity> created_entities (_10M);
 
         for (size_t c = 0; c < _10M; c++) {
             auto entity = registry.create();
@@ -54,40 +54,40 @@ BENCHMARK("[2] entt3     Destroying 10M entities", [](benchpress::context* ctx) 
     }
 })
 
-BENCHMARK("[3] entt3     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
-    EnttBenchmark::EntityManager registry;
+BENCHMARK("[3] enttlegacy     Iterating over 10M entities, unpacking one component", [](benchpress::context* ctx) {
+    EnttLegacyBenchmark::EntityManager registry;
 
     for (size_t c = 0; c < _10M; c++) {
         auto entity = registry.create();
-        registry.assign<EnttBenchmark::PositionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::PositionComponent>(entity);
     }
 
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        for(auto entity : registry.view<EnttBenchmark::PositionComponent>()) {
+        for(auto entity : registry.view<EnttLegacyBenchmark::PositionComponent>()) {
             DISABLE_REDUNDANT_CODE_OPT();
-            auto& position = registry.get<EnttBenchmark::PositionComponent>(entity);
+            auto& position = registry.get<EnttLegacyBenchmark::PositionComponent>(entity);
 
             benchpress::escape(&position);
         }
     }
 })
 
-BENCHMARK("[4] entt3     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
-    EnttBenchmark::EntityManager registry;
+BENCHMARK("[4] enttlegacy     Iterating over 10M entities, unpacking two components", [](benchpress::context* ctx) {
+    EnttLegacyBenchmark::EntityManager registry;
 
     for (size_t c = 0; c < _10M; c++) {
         auto entity = registry.create();
-        registry.assign<EnttBenchmark::PositionComponent>(entity);
-        registry.assign<EnttBenchmark::DirectionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::PositionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::DirectionComponent>(entity);
     }
 
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        for(auto entity : registry.view<EnttBenchmark::PositionComponent, EnttBenchmark::DirectionComponent>()) {
+        for(auto entity : registry.view<EnttLegacyBenchmark::PositionComponent, EnttLegacyBenchmark::DirectionComponent>()) {
             DISABLE_REDUNDANT_CODE_OPT();
-            auto& position = registry.get<EnttBenchmark::PositionComponent>(entity);
-            auto& velocity = registry.get<EnttBenchmark::DirectionComponent>(entity);
+            auto& position = registry.get<EnttLegacyBenchmark::PositionComponent>(entity);
+            auto& velocity = registry.get<EnttLegacyBenchmark::DirectionComponent>(entity);
 
             benchpress::escape(&position);
             benchpress::escape(&velocity);
@@ -108,16 +108,16 @@ BENCHMARK("[4] entt3     Iterating over 10M entities, unpacking two components",
 
 
 
-BENCHMARK("entt3     create destroy entity with components", [](benchpress::context* ctx) {
-    EnttBenchmark::EntityManager registry;
+BENCHMARK("enttlegacy     create destroy entity with components", [](benchpress::context* ctx) {
+    EnttLegacyBenchmark::EntityManager registry;
 
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
         auto entity = registry.create();
 
-        registry.assign<EnttBenchmark::PositionComponent>(entity);
-        registry.assign<EnttBenchmark::DirectionComponent>(entity);
-        registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::PositionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::DirectionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::ComflabulationComponent>(entity);
 
         registry.destroy(entity);
     }
@@ -125,35 +125,35 @@ BENCHMARK("entt3     create destroy entity with components", [](benchpress::cont
 
 
 
-inline void init_entities(EnttBenchmark::EntityManager& registry, size_t nentities){
+inline void init_entities(EnttLegacyBenchmark::EntityManager& registry, size_t nentities){
     for (size_t i = 0; i < nentities; i++) {
         auto entity = registry.create();
 
-        registry.assign<EnttBenchmark::PositionComponent>(entity);
-        registry.assign<EnttBenchmark::DirectionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::PositionComponent>(entity);
+        registry.assign<EnttLegacyBenchmark::DirectionComponent>(entity);
 
 
         if (i % 2) {
-            registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
+            registry.assign<EnttLegacyBenchmark::ComflabulationComponent>(entity);
         }
     }
 }
 
-inline void runEntitiesSystemsEnttBenchmark(benchpress::context* ctx, size_t nentities) {
-    EnttBenchmark::Application app;
+inline void runEntitiesSystemsEnttLegacyBenchmark(benchpress::context* ctx, size_t nentities) {
+    EnttLegacyBenchmark::Application app;
     auto& registry = app.getEntityManager();
 
     init_entities(registry, nentities);
 
     ctx->reset_timer();
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        app.update(EnttBenchmark::fakeDeltaTime);
+        app.update(EnttLegacyBenchmark::fakeDeltaTime);
     }
 }
 
 
 
-class BenchmarksEntt {
+class BenchmarksEnttLegacy {
     public:
     static const std::vector<int> ENTITIES;
 
@@ -167,16 +167,16 @@ class BenchmarksEntt {
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
             
             BENCHMARK(benchmark_name, [nentities](benchpress::context* ctx) {
-                runEntitiesSystemsEnttBenchmark(ctx, nentities);
+                runEntitiesSystemsEnttLegacyBenchmark(ctx, nentities);
             })
         }
     }
 
-    BenchmarksEntt(std::string name){
+    BenchmarksEnttLegacy(std::string name){
         makeBenchmarks(name);
     }
 };
-const std::vector<int> BenchmarksEntt::ENTITIES = {
+const std::vector<int> BenchmarksEnttLegacy::ENTITIES = {
     10, 25, 50,
     100, 200, 400, 800,
     1600, 3200, 5000,
@@ -186,7 +186,7 @@ const std::vector<int> BenchmarksEntt::ENTITIES = {
     10'000'000, 20'000'000
 };
 
-BenchmarksEntt enttbenchmarks("entt3");
+BenchmarksEnttLegacy enttlegacybenchmarks("enttlegacy");
 
 
-} // namespace entt_benchmark
+} // namespace enttlegacy_benchmark

@@ -151,15 +151,9 @@ class BenchmarksEntityX2 {
     
     static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
         for(int nentities : entities) {
-            std::string tag = "[" + std::to_string(nentities) + "]";
-
-            std::stringstream ss;
-            ss << std::right << std::setw(12) << tag << ' ';
-            ss << std::left << std::setw(8) << name << ' ';
-            ss << std::right << std::setw(12) << nentities;
-            ss << " entities component systems update";
-
-            std::string benchmark_name = ss.str();
+            std::string tag = fmt::format("[{}]", nentities);
+            std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
+            
             BENCHMARK(benchmark_name, [nentities](benchpress::context* ctx) {
                 runEntitiesSystemsEntityX2Benchmark(ctx, nentities);
             })

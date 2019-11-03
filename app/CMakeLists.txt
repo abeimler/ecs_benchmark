@@ -36,6 +36,7 @@ list(APPEND ${CMAKE_PROJECT_NAME}_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx/entityxEventBusBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx/entityxBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx2/entityx2BenchmarkRunner.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/enttlegacy/enttlegacyBenchmarkRunner.cpp 
 )
 # [[[end]]]
 

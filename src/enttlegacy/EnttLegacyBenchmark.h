@@ -1,5 +1,5 @@
-#ifndef ENTTBENCHMARK_H_
-#define ENTTBENCHMARK_H_
+#ifndef ENTTLEGACYBENCHMARK_H_
+#define ENTTLEGACYBENCHMARK_H_
 
 #include <string>
 #include <vector>
@@ -8,9 +8,9 @@
 #include <numeric>
 #include <functional>
 
-#include <entt/entt.hpp>
+#include <registry.hpp>
 
-class EnttBenchmark {
+class EnttLegacyBenchmark {
     public:
 
     struct PositionComponent {
@@ -30,7 +30,7 @@ class EnttBenchmark {
         std::string stringy;
     };
 
-    using EntityManager = entt::registry;
+    using EntityManager = entt::DefaultRegistry<PositionComponent, DirectionComponent, ComflabulationComponent>;
 
     //template <typename C>
     //using Component = C;
@@ -157,4 +157,4 @@ class EnttBenchmark {
     static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 
-#endif // ENTTBENCHMARK_H_
+#endif // ENTTLEGACYBENCHMARK_H_

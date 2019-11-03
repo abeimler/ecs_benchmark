@@ -37,6 +37,7 @@ list(APPEND LIB${CMAKE_PROJECT_NAME}_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/artemis/ArtemisBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx/EntityXBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx2/EntityX2Benchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/enttlegacy/EnttLegacyBenchmark.cpp 
 )
 # [[[end]]]
 
