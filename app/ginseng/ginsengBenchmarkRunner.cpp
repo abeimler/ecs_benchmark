@@ -112,7 +112,7 @@ inline void init_entities(GinsengBenchmark::EntityManager& db, size_t nentities)
         db.add_component(entity, GinsengBenchmark::PositionComponent{});
         db.add_component(entity, GinsengBenchmark::DirectionComponent{});
 
-        if (i % 2) {
+        if (i % 2 != 0) {
             db.add_component(entity, GinsengBenchmark::ComflabulationComponent{});
         }
     }
@@ -136,11 +136,11 @@ class BenchmarksGinseng {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
 
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
@@ -151,7 +151,7 @@ class BenchmarksGinseng {
         }
     }
 
-    BenchmarksGinseng(std::string name){
+    BenchmarksGinseng(const std::string& name){
         makeBenchmarks(name);
     }
 };

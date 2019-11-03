@@ -36,7 +36,7 @@ inline void init_entities(anax::World& entities, size_t nentities){
 		entity.addComponent<AnaxBenchmark::PositionComponent>();
 		entity.addComponent<AnaxBenchmark::DirectionComponent>();
 
-		if (i % 2) {
+		if (i % 2 != 0) {
 			entity.addComponent<AnaxBenchmark::ComflabulationComponent>();
 		}
 
@@ -61,11 +61,11 @@ class AnaxBenchmarks {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
     
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
@@ -76,7 +76,7 @@ class AnaxBenchmarks {
         }
     }
 
-    AnaxBenchmarks(std::string name){
+    AnaxBenchmarks(const std::string& name){
         makeBenchmarks(name);
     }
 };

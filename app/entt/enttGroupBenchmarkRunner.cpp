@@ -28,6 +28,7 @@ BENCHMARK("[4] entt-group     Iterating over 10M entities, unpacking two compone
     for (size_t i = 0; i < ctx->num_iterations(); ++i) {
         registry.group<EnttGroupBenchmark::PositionComponent>(entt::get<EnttGroupBenchmark::DirectionComponent>).each([](auto entity, auto &position, auto &velocity) {
             DISABLE_REDUNDANT_CODE_OPT();
+            benchpress::escape(&entity);
             benchpress::escape(&position);
             benchpress::escape(&velocity);
         });
@@ -46,7 +47,7 @@ inline void init_entities(EnttGroupBenchmark::EntityManager& registry, size_t ne
         registry.assign<EnttGroupBenchmark::DirectionComponent>(entity);
 
 
-        if (i % 2) {
+        if (i % 2 != 0) {
             registry.assign<EnttGroupBenchmark::ComflabulationComponent>(entity);
         }
     }
@@ -70,11 +71,11 @@ class BenchmarksEnttGroup {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
 
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
@@ -85,7 +86,7 @@ class BenchmarksEnttGroup {
         }
     }
 
-    BenchmarksEnttGroup(std::string name){
+    BenchmarksEnttGroup(const std::string& name){
         makeBenchmarks(name);
     }
 };

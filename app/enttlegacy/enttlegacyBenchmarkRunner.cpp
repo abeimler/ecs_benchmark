@@ -133,7 +133,7 @@ inline void init_entities(EnttLegacyBenchmark::EntityManager& registry, size_t n
         registry.assign<EnttLegacyBenchmark::DirectionComponent>(entity);
 
 
-        if (i % 2) {
+        if (i % 2 != 0) {
             registry.assign<EnttLegacyBenchmark::ComflabulationComponent>(entity);
         }
     }
@@ -157,11 +157,11 @@ class BenchmarksEnttLegacy {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
 
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
@@ -172,7 +172,7 @@ class BenchmarksEnttLegacy {
         }
     }
 
-    BenchmarksEnttLegacy(std::string name){
+    BenchmarksEnttLegacy(const std::string& name){
         makeBenchmarks(name);
     }
 };

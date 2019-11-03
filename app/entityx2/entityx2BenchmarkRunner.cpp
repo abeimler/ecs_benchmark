@@ -63,6 +63,8 @@ BENCHMARK("[3] entityx2 Iterating over 10M entities, unpacking one component", [
 
     auto update_func = [&](EntityX2Benchmark::Entity entity, EntityX2Benchmark::PositionComponent& position) {
         DISABLE_REDUNDANT_CODE_OPT();
+        benchpress::escape(&entity);
+        benchpress::escape(&position);
     };
 
     ctx->reset_timer();
@@ -72,8 +74,7 @@ BENCHMARK("[3] entityx2 Iterating over 10M entities, unpacking one component", [
 })
 
 
-
-// @FIXME: compiler error, why ?
+/// @FIXME: error: too many arguments provided to function-like macro invocation
 /*
 BENCHMARK("[4] entityx2 Iterating over 10M entities, unpacking two component", [](benchpress::context* ctx) {
     EntityX2Benchmark::EntityManager entities;
@@ -86,6 +87,9 @@ BENCHMARK("[4] entityx2 Iterating over 10M entities, unpacking two component", [
 
     auto update_func = [&](EntityX2Benchmark::Entity entity, EntityX2Benchmark::PositionComponent& position, EntityX2Benchmark::DirectionComponent& velocity) {
         DISABLE_REDUNDANT_CODE_OPT();
+        benchpress::escape(&entity);
+        benchpress::escape(&position);
+        benchpress::escape(&velocity);
     };
 
     ctx->reset_timer();
@@ -140,7 +144,7 @@ inline void init_entities(EntityX2Benchmark::EntityManager& entities, size_t nen
 		entity.assign<EntityX2Benchmark::PositionComponent>();
 		entity.assign<EntityX2Benchmark::DirectionComponent>();
 
-		if (i % 2) {
+		if (i % 2 != 0) {
 			entity.assign<EntityX2Benchmark::ComflabulationComponent>();
 		}
 	}
@@ -162,11 +166,11 @@ class BenchmarksEntityX2 {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
     
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
@@ -177,7 +181,7 @@ class BenchmarksEntityX2 {
         }
     }
 
-    BenchmarksEntityX2(std::string name){
+    BenchmarksEntityX2(const std::string& name){
         makeBenchmarks(name);
     }
 };

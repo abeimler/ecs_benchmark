@@ -411,7 +411,7 @@ for (size_t i = 0; i < nentities; i++) {
 	entity.addComponent<PositionComponent>();
 	entity.addComponent<DirectionComponent>();
 
-	if (i % 2) {
+	if (i % 2 != 0) {
 		entity.addComponent<ComflabulationComponent>();
 	}
 }
@@ -544,11 +544,11 @@ class BenchmarksEntt {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
 
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12}{:<10}{:>12} entities component systems update", tag, name, nentities);
@@ -559,7 +559,7 @@ class BenchmarksEntt {
         }
     }
 
-    BenchmarksEntt(std::string name){
+    BenchmarksEntt(const std::string& name){
         makeBenchmarks(name);
     }
 };

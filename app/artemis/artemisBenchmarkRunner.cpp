@@ -46,7 +46,7 @@ inline void init_entities(artemis::EntityManager* entities, size_t nentities){
 		entity.addComponent(new ArtemisBenchmark::PositionComponent());
 		entity.addComponent(new ArtemisBenchmark::DirectionComponent());
 
-		if (i % 2) {
+		if (i % 2 != 0) {
 			entity.addComponent(new ArtemisBenchmark::ComflabulationComponent());
 		}
 
@@ -71,11 +71,11 @@ class BenchmarksArtemis {
     public:
     static const std::vector<int> ENTITIES;
 
-    static inline void makeBenchmarks(std::string name) {
+    static inline void makeBenchmarks(const std::string& name) {
         makeBenchmarks(name, ENTITIES);
     }
     
-    static void makeBenchmarks(std::string name, const std::vector<int>& entities) {
+    static void makeBenchmarks(const std::string& name, const std::vector<int>& entities) {
         for(int nentities : entities) {
             std::string tag = fmt::format("[{}]", nentities);
             std::string benchmark_name = fmt::format("{:>12} {:<10} {:>12} entities component systems update", tag, name, nentities);
@@ -86,7 +86,7 @@ class BenchmarksArtemis {
         }
     }
 
-    BenchmarksArtemis(std::string name){
+    BenchmarksArtemis(const std::string& name){
         makeBenchmarks(name);
     }
 };
