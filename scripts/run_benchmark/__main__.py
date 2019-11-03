@@ -122,7 +122,7 @@ def updateCSV(filenamecsv, suffix, replaceCols, newfilenamecsv=None):
 
 def makePlotScript(thispath, benchmarkname, pltfilename, params):
     plttmpl = ''
-    data_plt_tmpl =  os.path.abspath(thispath + "/data.plt.tmpl")
+    data_plt_tmpl =  os.path.abspath(thispath + "/data.plt.mustache")
     with open(data_plt_tmpl, 'r') as data_plt_tmplfile:
         plttmpl = data_plt_tmplfile.read()
 
@@ -203,6 +203,8 @@ def main(argv):
 
 
     if config["simplebenchmark"]:
+        print("Run Simple Benchmarks\n")
+
         updatebenchmarks = config["update"]
         if config["simplebenchmark"]:
             updatebenchmarks = config["updatelong"]
@@ -244,16 +246,22 @@ def main(argv):
     csvfiles["eventbus"]=""
     csvfiles["10Mentities"]=""
 
-    data_systems_update_dat =  os.path.abspath(doc_dir + "/data-systems-update.dat")
+    datfiles={}
+    datfiles["update"]=""
+    datfiles["updatelong"]=""
+    datfiles["eventbus"]=""
+
+    datfiles["update"] =  os.path.abspath(doc_dir + "/data-systems-update.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["update"]:
         cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
+    cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=update --csvunit seconds '
-        csvfiles["update"] = os.path.abspath(doc_csv_dir + "/update.csv")
-        csvfiles["printupdate"] = os.path.abspath(doc_csv_dir + "/print.update.csv")
+    csvfiles["update"] = os.path.abspath(doc_csv_dir + "/update.csv")
+    csvfiles["printupdate"] = os.path.abspath(doc_csv_dir + "/print.update.csv")
     if config["plot"]:
-        cmd = cmd + ' --plotdata > ' + data_systems_update_dat
+        cmd = cmd + ' --plotdata > ' + datfiles["update"]
 
     if config["benchmark"] and (config["gencsvfiles"] or config["plot"]):
         print(cmd + "\n")
@@ -262,16 +270,17 @@ def main(argv):
         print("\n")
 
 
-    data_systems_update_long_dat =  os.path.abspath(doc_dir + "/data-systems-update-long.dat")
+    datfiles["updatelong"] =  os.path.abspath(doc_dir + "/data-systems-update-long.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["updatelong"]:
         cmd = cmd + ' --bench ".*'+fname+'.*update.*" '
+    cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatelong --csvunit seconds '
-        csvfiles["updatelong"] = os.path.abspath(doc_csv_dir + "/updatelong.csv")
-        csvfiles["printupdatelong"] = os.path.abspath(doc_csv_dir + "/print.updatelong.csv")
+    csvfiles["updatelong"] = os.path.abspath(doc_csv_dir + "/updatelong.csv")
+    csvfiles["printupdatelong"] = os.path.abspath(doc_csv_dir + "/print.updatelong.csv")
     if config["plot"]:
-        cmd = cmd + ' --plotdata > ' + data_systems_update_long_dat
+        cmd = cmd + ' --plotdata > ' + datfiles["updatelong"]
 
     if config["benchmark"] and (config["runbenchmarkupdatelong"] and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
@@ -280,16 +289,17 @@ def main(argv):
         print("\n")
 
 
-    data_eventbus_dat =  os.path.abspath(doc_dir + "/data-eventbus.dat")
+    datfiles["eventbus"] =  os.path.abspath(doc_dir + "/data-eventbus.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["eventbus"]:
         cmd = cmd + ' --bench ".*'+fname+'-eventbus.*" '
+    cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=eventbus --csvunit seconds '
-        csvfiles["eventbus"] = os.path.abspath(doc_csv_dir + "/eventbus.csv")
-        csvfiles["printeventbus"] = os.path.abspath(doc_csv_dir + "/print.eventbus.csv")
+    csvfiles["eventbus"] = os.path.abspath(doc_csv_dir + "/eventbus.csv")
+    csvfiles["printeventbus"] = os.path.abspath(doc_csv_dir + "/print.eventbus.csv")
     if config["plot"]:
-        cmd = cmd + ' --plotdata > ' + data_eventbus_dat
+        cmd = cmd + ' --plotdata > ' + datfiles["eventbus"]
 
     if config["benchmark"] and (config["gencsvfiles"] or config["plot"]):
         print(cmd + "\n")
@@ -301,10 +311,11 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["10Mentities"]:
         cmd = cmd + ' --bench ".*'+fname+'.*10M\\s+entities.*" '
+    cmd = cmd + ' --colwidth=20 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=10Mentities --csvunit seconds '
-        csvfiles["10Mentities"] = os.path.abspath(doc_csv_dir + "/10Mentities.csv")
-        csvfiles["print10Mentities"] = os.path.abspath(doc_csv_dir + "/print.10Mentities.csv")
+    csvfiles["10Mentities"] = os.path.abspath(doc_csv_dir + "/10Mentities.csv")
+    csvfiles["print10Mentities"] = os.path.abspath(doc_csv_dir + "/print.10Mentities.csv")
     
     if config["benchmark"] and config["gencsvfiles"]:
         print(cmd + "\n")
@@ -317,25 +328,31 @@ def main(argv):
     if config["gencsvfiles"]:
         if csvfiles["update"]:
             updateCSV(csvfiles["update"], "update", replaceColUpdate, csvfiles["printupdate"])
+            print("CSV generate: {}".format(csvfiles["printupdate"]))
         if csvfiles["updatelong"]:
             updateCSV(csvfiles["updatelong"], "update", replaceColUpdate2, csvfiles["printupdatelong"])
+            print("CSV generate: {}".format(csvfiles["printupdatelong"]))
         if csvfiles["eventbus"]:
             updateCSV(csvfiles["eventbus"], "eventbus", replaceColEventbus, csvfiles["printeventbus"])
+            print("CSV generate: {}".format(csvfiles["printeventbus"]))
         if csvfiles["10Mentities"]:
             updateCSV(csvfiles["10Mentities"], "10Mentities", replaceCol10Mentities, csvfiles["print10Mentities"])
+            print("CSV generate: {}".format(csvfiles["print10Mentities"]))
 
 
     if config["plot"]:
         pltfiles = {}
 
-        pltfiles['update'] = makePlotScriptFromCSV('update', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, data_systems_update_dat, csvfiles["printupdate"])
+        pltfiles['update'] = makePlotScriptFromCSV('update', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, datfiles["update"], csvfiles["printupdate"])
         if config["runbenchmarkupdatelong"]:
-            pltfiles['updatelong'] = makePlotScriptFromCSV('updatelong', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, data_systems_update_long_dat, csvfiles["printupdatelong"])
+            pltfiles['updatelong'] = makePlotScriptFromCSV('updatelong', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, datfiles["updatelong"], csvfiles["printupdatelong"])
 
-        pltfiles['eventbus'] = makePlotScriptFromCSV('eventbus', 'ECS Benchmark Eventbus', thispath, scripts_dir, doc_dir, data_eventbus_dat, csvfiles["printeventbus"])
+        pltfiles['eventbus'] = makePlotScriptFromCSV('eventbus', 'ECS Benchmark Eventbus', thispath, scripts_dir, doc_dir, datfiles["eventbus"], csvfiles["printeventbus"])
 
         os.chdir(doc_dir)
-        for benchmarkname, pltfile in pltfiles.items():
+        for frameworkname, pltfile in pltfiles.items():
+            if frameworkname in datfiles:
+                print("gnuplot with data {} and plotscript {}".format(datfiles[frameworkname], pltfile))
             os.system('gnuplot ' + pltfile)
         os.chdir(root_dir)
 
@@ -347,11 +364,11 @@ def main(argv):
                 table10MEntities = csv_to_table(f, ',')
             mdTable10MEntities = md_table(table10MEntities)
         
-        mdTableUpdate2 = ''
+        mdTableUpdateLong = ''
         if os.path.exists(csvfiles['printupdatelong']):
             with open(csvfiles['printupdatelong'], 'r') as f:
-                tableUpdate2 = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
-            mdTableUpdate2 = md_table(tableUpdate2)
+                tableUpdateLong = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
+            mdTableUpdatelong = md_table(tableUpdateLong)
 
         mdTableUpdate = ''
         if os.path.exists(csvfiles['update']):
@@ -360,14 +377,40 @@ def main(argv):
             mdTableUpdate = md_table(tableUpdate)
 
 
-        if config["runbenchmarkupdatelong"] and tableUpdate2 != '':
-            mdTableUpdate = mdTableUpdate2
+        mdTableResult = ''
+        if config["runbenchmarkupdatelong"]:
+            mdTableResult = mdTableUpdateLong
+        else:
+            mdTableResult = mdTableUpdate
 
         mdTableEventbus = ''
         if os.path.exists(csvfiles['eventbus']):
             with open(csvfiles['printeventbus'], 'r') as f:
                 tableEventbus = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
             mdTableEventbus = md_table(tableEventbus)
+
+        git_doc_dir = 'https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/'
+        pngs = {}
+        pngs['update'] = git_doc_dir + "{}.png".format('update')
+        if config["runbenchmarkupdatelong"]:
+            pngs['updatelong'] = git_doc_dir + "{}.png".format('updatelong')
+            pngs['results'] = pngs['updatelong']
+        else:
+            pngs['results'] = pngs['update']
+        pngs['eventbus'] = git_doc_dir + "{}.png".format('eventbus')
+
+        renderinfo = []
+        for key, value in config['info'].items():
+            if 'framework' in value and value['framework']:
+                newvalue = value
+                newvalue['key'] = key
+
+                if 'description' in value:
+                    newdescription = value['description'].split('\n')
+                    newvalue['description'] = newdescription
+                
+
+                renderinfo.append(newvalue)
 
         params = {
             'dateinfo': dateinfo,
@@ -376,18 +419,26 @@ def main(argv):
             'raminfo': raminfo,
             'table10MEntities': mdTable10MEntities,
             'tableUpdate': mdTableUpdate,
-            'tableEventbus': mdTableEventbus
+            'tableUpdateLong': mdTableUpdateLong,
+            'tableEventbus': mdTableEventbus,
+            'tableResult': mdTableResult,
+            'config': config,
+            'info': renderinfo,
+            'pngs': pngs
         }
 
         readmetmpl = ''
-        readme_tmpl =  os.path.abspath(thispath + "/README.md.tmpl")
+        readme_tmpl =  os.path.abspath(thispath + "/README.md.mustache")
         with open(readme_tmpl, 'r') as readmetmplfile:
             readmetmpl = readmetmplfile.read()
 
         readme = pystache.render(readmetmpl, params)
 
-        with open(root_dir + "/README.md", "w") as readmefile:
+        readmefilename = root_dir + "/README.md"
+        with open(readmefilename, "w") as readmefile:
             readmefile.write(readme)
+
+        print("generate README: {}".format(readmefilename))
 
 
 

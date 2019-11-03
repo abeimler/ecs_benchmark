@@ -1,5 +1,5 @@
 # Scale font and line width (dpi) by changing the size! It will always display stretched.
-set terminal png size 1024,800 enhanced font "Arial,14"
+set terminal png size 1280,720 enhanced font "Arial,12"
 set output 'eventbus.png'
 
 # Key means label...

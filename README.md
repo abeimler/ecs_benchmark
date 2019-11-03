@@ -1,65 +1,61 @@
 # Entity-Component-Systems Benchmark
 
 Simple Benchmark of common Entity-Component-Systems: 
-[EnTT](https://github.com/skypjack/entt) vs. [entityx](https://github.com/alecthomas/entityx) vs. [anax](https://github.com/miguelmartin75/anax) vs. [Artemis-Cpp](https://github.com/vinova/Artemis-Cpp) vs. [Ginseng](https://github.com/apples/ginseng)
+ - [Anax](https://github.com/miguelmartin75/anax)
+ - [Artemis](https://github.com/vinova/Artemis-Cpp)
+ - [EntityX (master)](https://github.com/alecthomas/entityx)
+ - [EntityX (experimental/compile_time)](https://github.com/alecthomas/entityx/tree/experimental/compile_time)
+ - [EnTT](https://github.com/skypjack/entt)
+ - [Ginseng](https://github.com/apples/ginseng)
+
+### TL;DR Results
+
+![benchmark results systems update](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update")
+
+
 
 ## Candidates
+
+### Anax by @miguelmartin75
+
+> anax is an open source C++ entity system designed to be portable, lightweight and easy to use. 
+
+Version: 2.1.0 (Januar 2017)
+
+### Artemis by @vinova
+
+> A C++ port of Artemis Entity System Framework.
+
+Version: 1.x (October 2013)
+
+### EntityX (master) by @alecthomas
+
+> Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.
+
+Version: 1.1.2 (Juli 2017)
+
+### EntityX (experimental/compile_time) by @alecthomas
+
+> Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.
+
+Version: compiler-time branch aka. Version 2.0.0 (?) (August 2017)
 
 ### EnTT by @skypjack
 
 > EnTT is a header-only, tiny and easy to use entity-component system in modern C++.
-> ECS is an architectural pattern used mostly in game development.
-> I started using another well known Entity Component System named entityx.
-> 
-> While I was playing with it, I found that I didn't like that much the way it manages its memory. Moreover, I was pretty sure that one > could achieve better performance with a slightly modified pool under the hood.
-> That's also the reason for which the interface is quite similar to the one of entityx, so that EnTT can be used as a drop-in > replacement for it with a minimal effort.
 
 Version: 1.1.0 (September 2017)
-
-
-### EntityX by @alecthomas
-
-> Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity "objects" themselves. 
-> The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.
-> 
-> EntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. 
-> It was built during the creation of a 2D space shooter.
-
-Version: 1.1.2 (Juli 2017) and the [`compiler-time`](https://github.com/alecthomas/entityx/tree/experimental/compile_time) Version 2.0.0 (?) (August 2017)
-
-
-### anax by @miguelmartin75
-
-> anax is an open source C++ entity system designed to be portable, lightweight and easy to use. 
-> It is aimed toward Game Development, however it would be possible to use it for other projects.
-
-Version: 2.1.0 (Januar 2017)
-
-
-### Artemis C++ by @vinova
-
-> A C++ port of Artemis Entity System Framework.
-> 
-> The port was orignially written by Sidar Talei, in which he used several C++11 features such as deleted function, variadic templates, nullptr, etc… We wanted the framework to be portable, so we removed all C++11 feature usages.
-
-Version: 1.x (October 2013)
-
 
 ### Ginseng by @apples
 
 > Ginseng is an entity-component-system (ECS) library designed for use in games.
-> 
-> The main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.
-> 
-> Any function-like object can be used as a system. The function's parameters are used to determine the required components.
 
 Version: 1.x (Mai 2018)
 
 
 
 
-
-## Benchmark-Framework: [benchpress](https://github.com/sbs-ableton/benchpress)
+## Benchmark-Framework: [benchpress](https://github.com/abeimler/benchpress)
 
 > Why benchpress?
 > 
@@ -68,9 +64,6 @@ Version: 1.x (Mai 2018)
 > Benchpress is inspired by Catch and by Golang's benchmark functionality.
 
 It's simple, light and header-only.
-
-Version: 1.x (Juni 2015)
-
 
 I fork [benchpress](https://github.com/abeimler/benchpress) (add some utils and helper) to plot data for gnuplot.
 
@@ -87,7 +80,7 @@ Minimum is 3.14.
  2. `mkdir ./build`
  3. `./deps.sh`
  4. `./configure.sh`
- 4. `./build.sh`
+ 5. `./build.sh`
 
 
 #### Dependencies 
@@ -99,11 +92,11 @@ _see [deps.sh](deps.sh) for more details_
 
 ##### Linked Libraries
 
- - entityx (1.x)
- - anax
- - ArtemisCpp
+- Anax
+- Artemis
+- EntityX (master)
 
-benchpress, entityx (compile-time), entt and ginseng are header-only.
+Other Frameworks are header-only.
 
 
 #### CMake Configure
@@ -121,14 +114,12 @@ benchpress, entityx (compile-time), entt and ginseng are header-only.
  - Test and Examples are not build (`-DENTITYX_BUILD_TESTING:BOOL="0" -DBUILD_TESTING:BOOL="0"`)
  - Linked Libraries are static builds (`-DENTITYX_BUILD_SHARED:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0"`)
 
-_EntityX2 has a Column Storage Capacity (`ColumnStorage<Components, INITIAL_CAPACITY>`) of `16777216`, to avoid `bad_alloc`-Errors_
-
 _see [configure.sh](configure.sh) for more details_
 
 
 ## Benchmark
 
-Date: Sa 2. Nov 00:16:29 CET 2019
+Date: So 3. Nov 12:49:59 CET 2019
 
 ### Environment
 
@@ -140,38 +131,41 @@ Date: Sa 2. Nov 00:16:29 CET 2019
 
 #### Create, Destroying and Iterating over 10M entities
 
-                                                       |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
--------------------------------------------------------|--------------------|---------------------------------------|----------|---------
-Creating 10M entities                                  |  0.255s            |  0.135s                               |  0.055s  |  0.088s
-Destroying 10M entities                                |  0.381s            |  0.130s                               |  0.081s  |  1.616s
-Iterating over 10M entities, unpacking one component   |  0.058s            |  0.007s                               |  0.009s  |  0.012s
-Iterating over 10M entities, unpacking two components  |  0.112s            |  N/A                                  |  0.019s  |  0.030s
+                                                       |  EnTT    |  Ginseng  |  EntityX (master)  |  EntityX (experimental/compile_time)
+-------------------------------------------------------|----------|-----------|--------------------|-------------------------------------
+Creating 10M entities                                  |  0.061s  |  0.115s   |  0.276s            |  0.153s
+Destroying 10M entities                                |  0.087s  |  1.696s   |  0.396s            |  0.142s
+Iterating over 10M entities, unpacking one component   |  0.010s  |  0.012s   |  0.059s            |  0.007s
+Iterating over 10M entities, unpacking two components  |  0.020s  |  0.032s   |  0.117s            |  N/A
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
 
 #### Systems update
 
-![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result.png "Benchmark Results: Systems update #1")
+![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/update.png "Benchmark Results: Systems update #1")
 
-![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/systems-update-result-2.png "Benchmark Results: Systems update #2")
+                                    |  EnTT    |  Ginseng  |  EntityX (master)  |  EntityX (experimental/compile_time)
+------------------------------------|----------|-----------|--------------------|-------------------------------------
+Update  1M entities with 2 Systems  |  0.007s  |  0.008s   |  0.042s            |  0.020s
+Update  2M entities with 2 Systems  |  0.015s  |  0.016s   |  0.080s            |  0.040s
+Update  5M entities with 2 Systems  |  0.039s  |  0.041s   |  0.251s            |  0.108s
+Update 10M entities with 2 Systems  |  0.085s  |  0.087s   |  0.457s            |  0.236s
+Update 20M entities with 2 Systems  |  0.171s  |  0.181s   |  1.300s            |  0.463s
+
+![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update #2")
+
+
+
+
 
 _(lower is better :)_
 
-                                    |  Anax    |  Artemis  |  EntityX (master)  |  EntityX (experimental/compile_time)  |  EnTT    |  Ginseng
-------------------------------------|----------|-----------|--------------------|---------------------------------------|----------|---------
-Update  1M entities with 2 Systems  |  0.114s  |  82.175s  |  0.038s            |  0.017s                               |  0.007s  |  0.007s
-Update  2M entities with 2 Systems  |  0.267s  |  N/A      |  0.078s            |  0.035s                               |  0.014s  |  0.015s
-Update  5M entities with 2 Systems  |  N/A     |  N/A      |  0.214s            |  0.091s                               |  0.035s  |  0.038s
-Update 10M entities with 2 Systems  |  N/A     |  N/A      |  0.438s            |  0.187s                               |  0.086s  |  0.079s
-Update 20M entities with 2 Systems  |  N/A     |  N/A      |  1.250s            |  0.397s                               |  0.171s  |  0.165s
 
 
 #### Eventbus
 
-![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/master/doc/eventbus-result.png "Benchmark Results: Eventbus")
-
-Some bonus with EntityX (1.x) and [eventpp](https://github.com/skypjack/eventpp).
+![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus.png "Benchmark Results: Eventbus")
 
                                       |  entityx-eventbus  |  eventpp-eventbus
 --------------------------------------|--------------------|------------------
@@ -179,7 +173,7 @@ publish EventA and EventB  20k times  |  0.001s            |  0.002s
 publish EventA and EventB  50k times  |  0.002s            |  0.004s
 publish EventA and EventB 100k times  |  0.004s            |  0.008s
 publish EventA and EventB 200k times  |  0.008s            |  0.017s
-publish EventA and EventB 500k times  |  0.020s            |  0.042s
+publish EventA and EventB 500k times  |  0.019s            |  0.042s
 
 _Listen to EventA EventB and EventC_
 
@@ -197,27 +191,21 @@ _you need [pystache](https://github.com/defunkt/pystache) to run the python scri
 _scripts/run_benchmark/config.json_
 ```js
 {
-    "updates": [
+    "update": [
         "entityx1",
         "entityx2",
         "entt",
-        "anax",
-        "ginseng"
-    ],
-    "plotupdates": [
-        "entityx1",
-        "entityx2",
-        "entt",
-        "anax",
-        "ginseng"
-    ],
-    "plotupdates2": [
-        "entityx1",
-        "entityx2",
-        "entt",
-        "anax",
         "ginseng",
-        "artemis"
+        "yourframeworkname"
+    ],
+    "updatelong": [
+        "anax",
+        "artemis",
+        "entityx1",
+        "entityx2",
+        "entt",
+        "ginseng",
+        "yourframeworkname"
     ],
     "eventbus": [
         "entityx",
@@ -227,20 +215,43 @@ _scripts/run_benchmark/config.json_
         "entityx1",
         "entityx2",
         "entt",
-        "ginseng"
-    ]
+        "ginseng",
+        "yourframeworkname"
+    ],
+
+    "info": {
+        "yourframeworkname": {
+            "name": "MyFramework",
+            "author": "@me",
+            "description": "This is a descroption.\nMy framework is awesome :)",
+            "version": "1.1.0",
+            "link": "https://github.com/abeimler/myframework",
+            "framework": true,
+            "linkedlib": false
+        },
+    }
 }
 ```
 
-Depend on what you implemented and want, you must add your `frameworkname` to the list.
+Put you Framework information into `info` with this keys:
+ - **name**: Displayname of you Framework (csv, README, ...)
+ - **author**: Author 
+ - **description**: description for Candidates-list in README
+ - **version**: Version used in this benchmark
+ - **link**: Link to your Framework (Website, github, ...)
+ - **framework**: `true` when this a framework for benchmark
+ - **linkedlib**: `true` when this framework need to be linked (only used README)
+
+
+Depend on what you implemented, you must add your `yourframeworkname` to the list.
 
  * **updates**: just run benchmark for "Update Systems" without plot
  * **plotupdates**: run benchmark for "Update Systems" with plot
- * **plotupdates2**: run benchmark for "Update Systems" with plot (alternative)
+ * **updatelong**: run benchmark for "Update Systems" with plot (alternative)
  * **eventbus**: run benchmark for "Eventbus" with plot
  * **10Mentities**: run benchmark for "Creating, Destroying, ... 10M entities" with plot
 
-_I use `plotupdates2` as alternative to exclude artemis from the "normal" benchmark, with artemis it takes a bit longer to benchmark_ 
+_I use `updatelong` as alternative to include artemis from the "normal" benchmark, with artemis it takes a bit longer to benchmark_ 
 
 Beware if you are implementing the Benchmarks, you must name the benchmarks right ...  
 ```
@@ -289,31 +300,12 @@ _scripts/run_benchmark/config.json_
 ### run benchmark
 
  1. Build this Project, see [Build](#build)
- 2. run `python3 ./scripts/run_benchmark > ./doc/output.txt 2>&1` to print all kind of stuff - _Note: artemis is disabled, it takes to long, but you can uncomment it_
+ 2. run `python3 ./scripts/run_benchmark` to print all kind of stuff - _Note: artemis is disabled, it takes to long, but you can uncomment it_
 	2.1. OR just run the direct benchmark with plotdata,
 		`./build/ecs_benchmark --bench ".*entityx1.*update.*" --bench ".*entityx2.*update.*" --bench ".*entt.*update.*" --plotdata > ./doc/data.dat`
 		Now you got the `data.dat`
  	2.2. use `gnuplot` and the [gnuplot-script](scripts/data-systems-update.plt) to print the plot, _or use this site [http://gnuplot.respawned.com/]()_
-
-
-### edit gnuplot (data-systems-update.plt) DEPRECATED
-
-**you don't need to edit the .plt-file, the python script generate one**
-
-```gnuplot
-## 1:1 are Headers
-plot  "data.dat" using 1:2 title 'EntityX1' with lines, \  # 1. Col
-	"data.dat" using 1:3 title 'EntityX2' with lines, \    # 2. Col
-	"data.dat" using 1:4 title 'EnTT' with lines           # 3. Col
-```
-
-You can edit the `gnuplot`-script to add new cols.
-
-
-
-
-
-
+ 3. see generated README for results or CSVs or Graphs
 
 
 

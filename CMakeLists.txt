@@ -37,7 +37,7 @@ include(FetchContent)
 FetchContent_Declare(
   benchpress
   GIT_REPOSITORY https://github.com/abeimler/benchpress
-  GIT_TAG        1.2.0
+  GIT_TAG        1.2.2
 )
 FetchContent_GetProperties(benchpress)
 if(NOT benchpress_POPULATED)

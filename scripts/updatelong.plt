@@ -1,5 +1,5 @@
 # Scale font and line width (dpi) by changing the size! It will always display stretched.
-set terminal png size 1024,800 enhanced font "Arial,14"
+set terminal png size 1280,720 enhanced font "Arial,12"
 set output 'updatelong.png'
 
 # Key means label...
@@ -14,4 +14,4 @@ set format x "2^{%L}"
 set format y "10^{%L}"
 
 ## the labels are in Alphabetical order
-plot  "data-systems-update-long.dat" using 1:2 title 'Anax' with lines lw 3 ,   "data-systems-update-long.dat" using 1:3 title 'Artemis' with lines lw 3 ,   "data-systems-update-long.dat" using 1:4 title 'EntityX (master)' with lines lw 3 ,   "data-systems-update-long.dat" using 1:5 title 'EntityX (experimental/compile_time)' with lines lw 3 ,   "data-systems-update-long.dat" using 1:6 title 'EnTT' with lines lw 3 ,   "data-systems-update-long.dat" using 1:7 title 'Ginseng' with lines lw 3 ,  
+plot  "data-systems-update-long.dat" using 1:2 title 'Anax' with lines lw 3 ,   "data-systems-update-long.dat" using 1:3 title 'EnTT' with lines lw 3 ,   "data-systems-update-long.dat" using 1:4 title 'Artemis' with lines lw 3 ,   "data-systems-update-long.dat" using 1:5 title 'Ginseng' with lines lw 3 ,   "data-systems-update-long.dat" using 1:6 title 'EntityX (master)' with lines lw 3 ,   "data-systems-update-long.dat" using 1:7 title 'EntityX (experimental/compile_time)' with lines lw 3 ,  
