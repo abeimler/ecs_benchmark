@@ -72,7 +72,7 @@
             "author": "@skypjack",
             "description": "EnTT is a header-only, tiny and easy to use entity-component system in modern C++.",
             "version": "1.1.0 (September 2017)",
-            "link": "https://github.com/skypjack/entt",
+            "link": "https://github.com/skypjack/entt/releases/tag/v1.1.0",
             "framework": true,
             "linkedlib": false
         },
@@ -95,10 +95,10 @@
             "linkedlib": false
         },
 
-        "entityx1-eventbus": {
+        "entityx": {
             "name": "EntityX"
         },
-        "entt-eventbus": {
+        "eventpp": {
             "name": "EnTT (legacy)"
         },
         "entt-group": {

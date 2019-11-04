@@ -1,4 +1,4 @@
-,entityx-eventbus,eventpp-eventbus
+,EntityX,EnTT (legacy)
 publish EventA and EventB  20k times,0.001s,0.002s
 publish EventA and EventB  50k times,0.002s,0.004s
 publish EventA and EventB 100k times,0.004s,0.008s

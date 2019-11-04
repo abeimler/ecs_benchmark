@@ -337,7 +337,7 @@ def main(argv):
             updateCSV(csvfiles["updatelong"], "update", replaceColUpdate2, csvfiles["printupdatelong"])
             print("CSV generate: {}".format(csvfiles["printupdatelong"]))
         if csvfiles["eventbus"]:
-            updateCSV(csvfiles["eventbus"], "eventbus", replaceColEventbus, csvfiles["printeventbus"])
+            updateCSV(csvfiles["eventbus"], "-eventbus", replaceColEventbus, csvfiles["printeventbus"])
             print("CSV generate: {}".format(csvfiles["printeventbus"]))
         if csvfiles["10Mentities"]:
             updateCSV(csvfiles["10Mentities"], "10Mentities", replaceCol10Mentities, csvfiles["print10Mentities"])

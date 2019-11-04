@@ -11,7 +11,8 @@ Simple Benchmark of common Entity-Component-Systems:
 
 ### TL;DR Results
 
-![benchmark results systems update](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update")
+![benchmark results systems update](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update")  
+_(lower is better)_
 
 |                                    |  Anax    |  EnTT    |  Artemis  |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)|
 |------------------------------------|----------|----------|-----------|-----------|-----------|---------------------------------------|--------------------|---------------|
@@ -21,7 +22,6 @@ Simple Benchmark of common Entity-Component-Systems:
 |Update 10M entities with 2 Systems  |  N/A     |  0.061s  |  N/A      |  0.084s   |  0.481s   |  0.221s                               |  0.061s            |  0.091s       |
 |Update 20M entities with 2 Systems  |  N/A     |  0.130s  |  N/A      |  0.174s   |  1.383s   |  0.449s                               |  0.136s            |  0.160s       |
 
-_(lower is faster)_
 
 ## Candidates
 
@@ -137,7 +137,7 @@ _see [configure.sh](configure.sh) for more details_
 
 ## Benchmark Result Details
 
-Date: 03. Nov 2019
+Date: 04. Nov 2019
 
 ### Environment
 
@@ -163,6 +163,7 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 #### Systems update
 
 ![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/update.png "Benchmark Results: Systems update #1")
+_(lower is faster)_
 
 |                                    |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)|
 |------------------------------------|----------|-----------|-----------|---------------------------------------|--------------------|---------------|
@@ -172,7 +173,8 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 |Update 10M entities with 2 Systems  |  0.061s  |  0.084s   |  0.480s   |  0.215s                               |  0.060s            |  0.089s       |
 |Update 20M entities with 2 Systems  |  0.130s  |  0.180s   |  1.409s   |  0.439s                               |  0.134s            |  0.185s       |
 
-![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update #2")
+![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update #2")  
+_(lower is faster)_
 
 |                                    |  Anax    |  EnTT    |  Artemis  |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)|
 |------------------------------------|----------|----------|-----------|-----------|-----------|---------------------------------------|--------------------|---------------|
@@ -182,7 +184,6 @@ _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors.
 |Update 10M entities with 2 Systems  |  N/A     |  0.061s  |  N/A      |  0.084s   |  0.481s   |  0.221s                               |  0.061s            |  0.091s       |
 |Update 20M entities with 2 Systems  |  N/A     |  0.130s  |  N/A      |  0.174s   |  1.383s   |  0.449s                               |  0.136s            |  0.160s       |
 
-_(lower is faster)_
 
 
 
@@ -190,13 +191,13 @@ _(lower is faster)_
 
 ![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus.png "Benchmark Results: Eventbus")
 
-|                                      |  entityx-eventbus  |  eventpp-eventbus|
-|--------------------------------------|--------------------|------------------|
-|publish EventA and EventB  20k times  |  0.001s            |  0.002s          |
-|publish EventA and EventB  50k times  |  0.002s            |  0.004s          |
-|publish EventA and EventB 100k times  |  0.004s            |  0.008s          |
-|publish EventA and EventB 200k times  |  0.008s            |  0.017s          |
-|publish EventA and EventB 500k times  |  0.020s            |  0.042s          |
+|                                      |  EntityX  |  EnTT (legacy)|
+|--------------------------------------|-----------|---------------|
+|publish EventA and EventB  20k times  |  0.001s   |  0.002s       |
+|publish EventA and EventB  50k times  |  0.002s   |  0.004s       |
+|publish EventA and EventB 100k times  |  0.004s   |  0.008s       |
+|publish EventA and EventB 200k times  |  0.008s   |  0.017s       |
+|publish EventA and EventB 500k times  |  0.020s   |  0.042s       |
 
 _Listen to EventA EventB and EventC_
 
