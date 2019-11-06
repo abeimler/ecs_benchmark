@@ -1,72 +1,32 @@
 # Entity-Component-Systems Benchmark
 
 Simple Benchmark of common Entity-Component-Systems: 
- - [Anax](https://github.com/miguelmartin75/anax)
- - [Artemis](https://github.com/vinova/Artemis-Cpp)
- - [EntityX](https://github.com/alecthomas/entityx)
- - [EntityX (experimental/compile_time)](https://github.com/alecthomas/entityx/tree/experimental/compile_time)
- - [EnTT (legacy)](https://github.com/skypjack/entt/releases/tag/v1.1.0)
- - [EnTT](https://github.com/skypjack/entt)
- - [Ginseng](https://github.com/apples/ginseng)
+{{#info}}
+ - [{{name}}]({{link}})
+{{/info}}
 
 ### TL;DR Results
 
-![benchmark results systems update](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update")  
+![benchmark results systems update]({{pngs.results}} "Benchmark Results: Systems update")  
 _(lower is better)_
 
-|                                    |  Anax    |  EnTT    |  Artemis  |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
-|------------------------------------|----------|----------|-----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.114s  |  0.005s  |  91.216s  |  0.007s   |  0.041s   |  0.017s                               |  0.005s            |  0.007s         |  0.012s                 |
-|Update  2M entities with 2 Systems  |  0.253s  |  0.011s  |  N/A      |  0.015s   |  0.083s   |  0.035s                               |  0.010s            |  0.014s         |  0.025s                 |
-|Update  5M entities with 2 Systems  |  N/A     |  0.028s  |  N/A      |  0.038s   |  0.230s   |  0.090s                               |  0.025s            |  0.036s         |  0.066s                 |
-|Update 10M entities with 2 Systems  |  N/A     |  0.057s  |  N/A      |  0.078s   |  0.472s   |  0.187s                               |  0.054s            |  0.080s         |  0.139s                 |
-|Update 20M entities with 2 Systems  |  N/A     |  0.117s  |  N/A      |  0.163s   |  1.295s   |  0.397s                               |  0.124s            |  0.149s         |  0.278s                 |
+{{tableResult}}
 
 
 ## Candidates
 
-### Anax by @miguelmartin75
+{{#info}}
+{{#framework}}
+### {{name}} by {{author}}
 
-> anax is an open source C++ entity system designed to be portable, lightweight and easy to use. 
+{{#description}}
+> {{& .}}
+{{/description}}
 
-Version: 2.1.0 (Januar 2017)
+Version: {{version}}
 
-### Artemis by @vinova
-
-> A C++ port of Artemis Entity System Framework.
-
-Version: 1.x (October 2013)
-
-### EntityX by @alecthomas
-
-> Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.
-
-Version: 1.1.2 (Juli 2017)
-
-### EntityX (experimental/compile_time) by @alecthomas
-
-> Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.
-
-Version: compiler-time branch aka. Version 2.0.0 (?) (August 2017)
-
-### EnTT (legacy) by @skypjack
-
-> EnTT is a header-only, tiny and easy to use entity-component system in modern C++.
-
-Version: 1.1.0 (September 2017)
-
-### EnTT by @skypjack
-
-> EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++, mainly known for its innovative entity-component-system (ECS) model.
-
-Version: 3.2.0 (October 2019)
-
-### Ginseng by @apples
-
-> Ginseng is an entity-component-system (ECS) library designed for use in games.
-
-Version: 1.1 (October 2018)
-
+{{/framework}}
+{{/info}}
 
 
 
@@ -110,9 +70,11 @@ _see [deps.sh](deps.sh) and [CMakeLists.txt](CMakeLists.txt) for more details_
 
 ##### Linked Libraries
 
-- Anax
-- Artemis
-- EntityX
+{{#info}}
+{{#linkedlib}}
+- {{name}}
+{{/linkedlib}}
+{{/info}}
 
 Other Frameworks are header-only.
 
@@ -137,67 +99,45 @@ _see [configure.sh](configure.sh) for more details_
 
 ## Benchmark Result Details
 
-Date: 06. Nov 2019
+Date: {{dateinfo}}
 
 ### Environment
 
- - OS: 4.19.81-1-MANJARO x86_64 GNU/Linux
- - CPU: AMD Ryzen 5 1600 Six-Core Processor
- - RAM: 16G
+ - OS: {{osinfo}}
+ - CPU: {{cpuinfo}}
+ - RAM: {{raminfo}}
 
 ### Results
 
 #### Create, Destroying and Iterating over 10M entities
 
-|                                                       |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (use runtime-view)  |  EnTT (legacy)|
-|-------------------------------------------------------|----------|-----------|-----------|---------------------------------------|--------------------|---------------------------|---------------|
-|Creating 10M entities                                  |  0.076s  |  0.086s   |  0.251s   |  0.134s                               |  N/A               |  N/A                      |  0.055s       |
-|Destroying 10M entities                                |  0.072s  |  1.612s   |  0.410s   |  0.135s                               |  N/A               |  N/A                      |  0.079s       |
-|Iterating over 10M entities, unpacking one component   |  0.023s  |  0.012s   |  0.059s   |  0.028s                               |  N/A               |  0.000s                   |  0.010s       |
-|Iterating over 10M entities, unpacking two components  |  0.061s  |  0.029s   |  0.117s   |  0.030s                               |  0.017s            |  0.000s                   |  0.019s       |
-|Creating 10M entities at once                          |  0.045s  |  N/A      |  N/A      |  0.061s                               |  N/A               |  N/A                      |  N/A          |
+{{table10MEntities}}
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
 
 #### Systems update
 
-![benchmark results systems update 1](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/update.png "Benchmark Results: Systems update #1")
+![benchmark results systems update 1]({{pngs.update}} "Benchmark Results: Systems update #1")
 _(lower is faster)_
 
-|                                    |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
-|------------------------------------|----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.005s  |  0.007s   |  0.041s   |  0.018s                               |  0.005s            |  0.007s         |  0.012s                 |
-|Update  2M entities with 2 Systems  |  0.011s  |  0.015s   |  0.084s   |  0.035s                               |  0.010s            |  0.014s         |  0.025s                 |
-|Update  5M entities with 2 Systems  |  0.028s  |  0.038s   |  0.233s   |  0.090s                               |  0.025s            |  0.035s         |  0.067s                 |
-|Update 10M entities with 2 Systems  |  0.057s  |  0.079s   |  0.477s   |  0.200s                               |  0.055s            |  0.086s         |  0.138s                 |
-|Update 20M entities with 2 Systems  |  0.118s  |  0.164s   |  1.312s   |  0.398s                               |  0.125s            |  0.172s         |  0.275s                 |
+{{tableUpdate}}
 
-![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update #2")  
+{{#config.runbenchmarkupdatelong}}
+![benchmark results systems update 2]({{pngs.updatelong}} "Benchmark Results: Systems update #2")  
 _(lower is faster)_
 
-|                                    |  Anax    |  EnTT    |  Artemis  |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
-|------------------------------------|----------|----------|-----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.114s  |  0.005s  |  91.216s  |  0.007s   |  0.041s   |  0.017s                               |  0.005s            |  0.007s         |  0.012s                 |
-|Update  2M entities with 2 Systems  |  0.253s  |  0.011s  |  N/A      |  0.015s   |  0.083s   |  0.035s                               |  0.010s            |  0.014s         |  0.025s                 |
-|Update  5M entities with 2 Systems  |  N/A     |  0.028s  |  N/A      |  0.038s   |  0.230s   |  0.090s                               |  0.025s            |  0.036s         |  0.066s                 |
-|Update 10M entities with 2 Systems  |  N/A     |  0.057s  |  N/A      |  0.078s   |  0.472s   |  0.187s                               |  0.054s            |  0.080s         |  0.139s                 |
-|Update 20M entities with 2 Systems  |  N/A     |  0.117s  |  N/A      |  0.163s   |  1.295s   |  0.397s                               |  0.124s            |  0.149s         |  0.278s                 |
+{{tableUpdateLong}}
+{{/config.runbenchmarkupdatelong}}
 
 
 
 
 #### Eventbus
 
-![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus.png "Benchmark Results: Eventbus")
+![benchmark results eventbus]({{pngs.eventbus}} "Benchmark Results: Eventbus")
 
-|                                      |  EntityX  |  EnTT (legacy)|
-|--------------------------------------|-----------|---------------|
-|publish EventA and EventB  20k times  |  0.001s   |  0.002s       |
-|publish EventA and EventB  50k times  |  0.002s   |  0.004s       |
-|publish EventA and EventB 100k times  |  0.004s   |  0.008s       |
-|publish EventA and EventB 200k times  |  0.008s   |  0.016s       |
-|publish EventA and EventB 500k times  |  0.019s   |  0.039s       |
+{{tableEventbus}}
 
 _Listen to EventA EventB and EventC_
 

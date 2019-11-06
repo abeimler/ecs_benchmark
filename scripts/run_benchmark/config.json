@@ -1,0 +1,121 @@
+{
+    "update": [
+        "entityx1",
+        "entityx2",
+        "enttlegacy",
+        "ginseng",
+        "entt",
+        "entt-group",
+        "entt-runtime"
+    ],
+    "updatelong": [
+        "anax",
+        "artemis",
+        "entityx1",
+        "entityx2",
+        "enttlegacy",
+        "ginseng",
+        "entt",
+        "entt-group",
+        "entt-runtime"
+    ],
+    "eventbus": [
+        "entityx",
+        "eventpp"
+    ],
+    "10Mentities": [
+        "entityx1",
+        "entityx2",
+        "enttlegacy",
+        "ginseng",
+        "entt",
+        "entt-group",
+        "entt-runtime"
+    ],
+
+    "info": {
+        "anax": {
+            "name": "Anax",
+            "author": "@miguelmartin75",
+            "description": "anax is an open source C++ entity system designed to be portable, lightweight and easy to use. ",
+            "version": "2.1.0 (Januar 2017)",
+            "link": "https://github.com/miguelmartin75/anax",
+            "framework": true,
+            "linkedlib": true
+        },
+        "artemis": {
+            "name": "Artemis",
+            "author": "@vinova",
+            "description": "A C++ port of Artemis Entity System Framework.",
+            "version": "1.x (October 2013)",
+            "link": "https://github.com/vinova/Artemis-Cpp",
+            "framework": true,
+            "linkedlib": true
+        },
+        "entityx1": {
+            "name": "EntityX",
+            "author": "@alecthomas",
+            "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.",
+            "version": "1.1.2 (Juli 2017)",
+            "link": "https://github.com/alecthomas/entityx",
+            "framework": true,
+            "linkedlib": true
+        },
+        "entityx2": {
+            "name": "EntityX (experimental/compile_time)",
+            "author": "@alecthomas",
+            "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.",
+            "version": "compiler-time branch aka. Version 2.0.0 (?) (August 2017)",
+            "link": "https://github.com/alecthomas/entityx/tree/experimental/compile_time",
+            "framework": true,
+            "linkedlib": false
+        },
+        "enttlegacy": {
+            "name": "EnTT (legacy)",
+            "author": "@skypjack",
+            "description": "EnTT is a header-only, tiny and easy to use entity-component system in modern C++.",
+            "version": "1.1.0 (September 2017)",
+            "link": "https://github.com/skypjack/entt/releases/tag/v1.1.0",
+            "framework": true,
+            "linkedlib": false
+        },
+        "entt": {
+            "name": "EnTT",
+            "author": "@skypjack",
+            "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++, mainly known for its innovative entity-component-system (ECS) model.",
+            "version": "3.2.0 (October 2019)",
+            "link": "https://github.com/skypjack/entt",
+            "framework": true,
+            "linkedlib": false
+        },
+        "ginseng": {
+            "name": "Ginseng",
+            "author": "@apples",
+            "description": "Ginseng is an entity-component-system (ECS) library designed for use in games.",
+            "version": "1.1 (October 2018)",
+            "link": "https://github.com/apples/ginseng",
+            "framework": true,
+            "linkedlib": false
+        },
+
+        "entityx": {
+            "name": "EntityX"
+        },
+        "eventpp": {
+            "name": "EnTT (legacy)"
+        },
+        "entt-group": {
+            "name": "EnTT (use group)"
+        },
+        "entt-runtime": {
+            "name": "EnTT (use runtime-view)"
+        }
+    },
+
+    "simplebenchmark": true,
+    "benchmark": true,
+    "runbenchmarkupdatelong": true,
+    "plot": true,
+    "gencsvfiles": true,
+    "genreadme": true
+}

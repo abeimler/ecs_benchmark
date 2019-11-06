@@ -1,0 +1,64 @@
+sudo: required
+dist: trusty
+
+language: cpp
+
+services:
+    - docker
+
+before_install:
+    - docker pull htfy96/build-image:2-lite
+    - docker run -ti -v $(pwd):/data htfy96/build-image:2-lite bash -c "cd /data; mkdir -p build && cd build && rm -rf * && export CONAN_USER_HOME=\$(pwd)/../.conan-build; conan install -e CXX=${X_CXX} -e CC=${X_CC} -s compiler.libcxx=libstdc++11 -s compiler=${X_CONAN_COMPILER} -s compiler.version=${X_CONAN_COMPILER_VERSION} --build=missing -s build_type=${X_CONAN_BUILD_TYPE} .. && cmake -Dexample-build_tests=ON -DCMAKE_C_COMPILER=${X_CC} -DCMAKE_CXX_COMPILER=${X_CXX} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DUSE_GOLD_LINKER=ON .."
+
+script:
+    - docker run -ti -v $(pwd):/data htfy96/build-image:2-lite bash -c 'cd /data/build; export CONAN_USER_HOME="$(pwd)/../.conan-build"; make -j4'
+    - docker run -ti -v $(pwd):/data htfy96/build-image:2-lite bash -c 'cd /data/build; export CONAN_USER_HOME="$(pwd)/../.conan-build"; ctest --output-on-failure; valgrind --track-fds=yes ctest --output-on-failure'
+
+cache:
+    directories:
+        - .conan-build/
+
+matrix:
+  include:
+    - env: 
+          - X_CC=gcc-6
+          - X_CXX=g++-6
+          - X_CONAN_COMPILER=gcc
+          - X_CONAN_COMPILER_VERSION=6
+          - X_CONAN_BUILD_TYPE=Debug
+          - BUILD_TYPE=Debug
+    - env: 
+          - X_CC=gcc-6
+          - X_CXX=g++-6
+          - X_CONAN_COMPILER=gcc
+          - X_CONAN_COMPILER_VERSION=6
+          - X_CONAN_BUILD_TYPE=RelWithDebInfo
+          - BUILD_TYPE=RelWithDebInfo
+    - env: 
+          - X_CC=gcc-7
+          - X_CXX=g++-7
+          - X_CONAN_COMPILER=gcc
+          - X_CONAN_COMPILER_VERSION=7
+          - X_CONAN_BUILD_TYPE=Debug
+          - BUILD_TYPE=Debug
+    - env: 
+          - X_CC=gcc-7
+          - X_CXX=g++-7
+          - X_CONAN_COMPILER=gcc
+          - X_CONAN_COMPILER_VERSION=7
+          - X_CONAN_BUILD_TYPE=RelWithDebInfo
+          - BUILD_TYPE=RelWithDebInfo
+    - env: 
+          - X_CC=clang-6.0
+          - X_CXX=clang++-6.0
+          - X_CONAN_COMPILER=clang
+          - X_CONAN_COMPILER_VERSION=6.0
+          - X_CONAN_BUILD_TYPE=Debug
+          - BUILD_TYPE=Debug
+    - env:
+          - X_CC=clang-6.0
+          - X_CXX=clang++-6.0
+          - X_CONAN_COMPILER=clang
+          - X_CONAN_COMPILER_VERSION=6.0
+          - X_CONAN_BUILD_TYPE=RelWithDebInfo
+          - BUILD_TYPE=RelWithDebInfo
