@@ -100,6 +100,7 @@ BENCHMARK(
           auto &velocity =
               registry.get<EnttLegacyBenchmark::DirectionComponent>(entity);
 
+          benchpress::escape(&entity);
           benchpress::escape(&position);
           benchpress::escape(&velocity);
         }

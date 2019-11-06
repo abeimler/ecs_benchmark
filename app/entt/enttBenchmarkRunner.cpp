@@ -69,6 +69,7 @@ BENCHMARK("[3] entt     Iterating over 10M entities, unpacking one component",
                 auto &position =
                     registry.get<EnttBenchmark::PositionComponent>(entity);
 
+                benchpress::escape(&entity);
                 benchpress::escape(&position);
               }
             }
@@ -95,6 +96,7 @@ BENCHMARK("[4] entt     Iterating over 10M entities, unpacking two components",
                 auto &velocity =
                     registry.get<EnttBenchmark::DirectionComponent>(entity);
 
+                benchpress::escape(&entity);
                 benchpress::escape(&position);
                 benchpress::escape(&velocity);
               }

@@ -70,6 +70,7 @@ BENCHMARK("[3] entityx1 Iterating over 10M entities, unpacking one component",
 
               for (auto entity : entities.entities_with_components(position)) {
                 DISABLE_REDUNDANT_CODE_OPT();
+                benchpress::escape(&entity);
                 benchpress::escape(position.get());
               }
             }
@@ -96,6 +97,7 @@ BENCHMARK("[4] entityx1 Iterating over 10M entities, unpacking two components",
               for (auto entity :
                    entities.entities_with_components(position, velocity)) {
                 DISABLE_REDUNDANT_CODE_OPT();
+                benchpress::escape(&entity);
                 benchpress::escape(position.get());
                 benchpress::escape(velocity.get());
               }

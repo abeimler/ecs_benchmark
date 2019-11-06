@@ -41,6 +41,7 @@ BENCHMARK(
           auto &position =
               registry.get<EnttRuntimeBenchmark::PositionComponent>(entity);
 
+          benchpress::escape(&entity);
           benchpress::escape(&position);
         }
       }
@@ -69,6 +70,7 @@ BENCHMARK(
           auto &velocity =
               registry.get<EnttRuntimeBenchmark::DirectionComponent>(entity);
 
+          benchpress::escape(&entity);
           benchpress::escape(&position);
           benchpress::escape(&velocity);
         }

@@ -5,7 +5,8 @@
         "enttlegacy",
         "ginseng",
         "entt",
-        "entt-group"
+        "entt-group",
+        "entt-runtime"
     ],
     "updatelong": [
         "anax",
@@ -15,7 +16,8 @@
         "enttlegacy",
         "ginseng",
         "entt",
-        "entt-group"
+        "entt-group",
+        "entt-runtime"
     ],
     "eventbus": [
         "entityx",
@@ -27,7 +29,8 @@
         "enttlegacy",
         "ginseng",
         "entt",
-        "entt-group"
+        "entt-group",
+        "entt-runtime"
     ],
 
     "info": {
@@ -103,11 +106,14 @@
         },
         "entt-group": {
             "name": "EnTT (use group)"
+        },
+        "entt-runtime": {
+            "name": "EnTT (use runtime-view)"
         }
     },
 
-    "simplebenchmark": false,
-    "benchmark": false,
+    "simplebenchmark": true,
+    "benchmark": true,
     "runbenchmarkupdatelong": true,
     "plot": true,
     "gencsvfiles": true,

@@ -1,43 +1,43 @@
-##     [10] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     5000000         395 ns/op
-##     [50] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     1000000        1967 ns/op
-##    [100] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000        3916 ns/op
-##    [300] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      100000       11834 ns/op
-##   [1000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000       41028 ns/op
-##   [5000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       10000      201919 ns/op
-##  [10000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000      395999 ns/op
-##  [20000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000      786338 ns/op
-##  [50000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000     1985381 ns/op             1 ms/op
-## [100000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         500     3961330 ns/op             3 ms/op
-## [200000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         200     7934317 ns/op             7 ms/op
-## [500000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         100    19655731 ns/op            19 ms/op          0.02 s/op
-##     [10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB     2000000         830 ns/op
-##     [50] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000        4117 ns/op
-##    [100] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000        8455 ns/op
-##    [300] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000       25376 ns/op
-##   [1000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000       84815 ns/op
-##   [5000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000      412304 ns/op
-##  [10000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000      842477 ns/op
-##  [20000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000     1691942 ns/op             1 ms/op
-##  [50000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         500     4224331 ns/op             4 ms/op
-## [100000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         200     8420469 ns/op             8 ms/op
-## [200000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         100    16798805 ns/op            16 ms/op          0.02 s/op
-## [500000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB          50    42255187 ns/op            42 ms/op          0.04 s/op
+##     [10] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     5000000         390 ns/op
+##     [50] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB     1000000        1946 ns/op
+##    [100] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000        3834 ns/op
+##    [300] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB      100000       11490 ns/op
+##   [1000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000       38337 ns/op
+##   [5000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB       10000      191616 ns/op
+##  [10000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000      388991 ns/op
+##  [20000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000      767485 ns/op
+##  [50000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000     1917085 ns/op             1 ms/op
+## [100000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         500     3893460 ns/op             3 ms/op
+## [200000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         200     7661319 ns/op             7 ms/op
+## [500000] entityx-eventbus listen to EventA EventB and EventC publish EventA and EventB         100    19149340 ns/op            19 ms/op          0.02 s/op
+##     [10] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB     2000000         782 ns/op
+##     [50] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      500000        3895 ns/op
+##    [100] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB      200000        7783 ns/op
+##    [300] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       50000       23336 ns/op
+##   [1000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB       20000       77936 ns/op
+##   [5000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        5000      388853 ns/op
+##  [10000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        2000      778995 ns/op
+##  [20000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB        1000     1556593 ns/op             1 ms/op
+##  [50000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         500     3887924 ns/op             3 ms/op
+## [100000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         200     7777556 ns/op             7 ms/op
+## [200000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB         100    15553887 ns/op            15 ms/op          0.02 s/op
+## [500000] eventpp-eventbus listen to EventA EventB and EventC publish EventA and EventB          50    38890985 ns/op            38 ms/op          0.04 s/op
 
 # plot data
                          entityx-eventbus    eventpp-eventbus
-                   10                 395                 830
-                   50                1967                4117
-                  100                3916                8455
-                  300               11834               25376
-                 1000               41028               84815
-                 5000              201919              412304
-                10000              395999              842477
-                20000              786338             1691942
-                50000             1985381             4224331
-               100000             3961330             8420469
-               200000             7934317            16798805
-               500000            19655731            42255187
+                   10                 390                 782
+                   50                1946                3895
+                  100                3834                7783
+                  300               11490               23336
+                 1000               38337               77936
+                 5000              191616              388853
+                10000              388991              778995
+                20000              767485             1556593
+                50000             1917085             3887924
+               100000             3893460             7777556
+               200000             7661319            15553887
+               500000            19149340            38890985
 
 
 
-## /home/abeimler/Dokumente/Projects/ecs_benchmark_2/build/app/ecs_benchmark 80.59s
+## /home/abeimler/Dokumente/Projects/ecs_benchmark_2/build/app/ecs_benchmark 76.50s
