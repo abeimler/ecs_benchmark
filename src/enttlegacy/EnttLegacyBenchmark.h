@@ -10,6 +10,8 @@
 
 #include <registry.hpp>
 
+namespace enttlegacy_benchmark {
+
 class EnttLegacyBenchmark {
 public:
   struct PositionComponent {
@@ -159,5 +161,7 @@ public:
 
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
+
+} // namespace enttlegacy_benchmark
 
 #endif // ENTTLEGACYBENCHMARK_H_

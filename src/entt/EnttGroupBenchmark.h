@@ -1,5 +1,5 @@
-#ifndef ENTTBENCHMARK_H_
-#define ENTTBENCHMARK_H_
+#ifndef ENTTGROUPBENCHMARK_H_
+#define ENTTGROUPBENCHMARK_H_
 
 #include <functional>
 #include <memory>
@@ -10,6 +10,7 @@
 
 #include <entt/entt.hpp>
 
+namespace enttgroup_benchmark {
 class EnttGroupBenchmark {
 public:
   struct PositionComponent {
@@ -155,4 +156,6 @@ public:
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 
-#endif // ENTTBENCHMARK_H_
+} // namespace enttgroup_benchmark
+
+#endif // ENTTGROUPBENCHMARK_H_

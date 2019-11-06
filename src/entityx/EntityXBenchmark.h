@@ -10,6 +10,7 @@
 
 #include <entityx/entityx.h>
 
+namespace entityx1_benchmark {
 class EntityXBenchmark {
 public:
   struct PositionComponent {
@@ -149,5 +150,7 @@ public:
 
   static constexpr double fakeDeltaTime = 1.0 / 60;
 };
+
+} // namespace entityx1_benchmark
 
 #endif // ENTITYXBENCHMARK_H_

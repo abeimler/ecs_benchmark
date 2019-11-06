@@ -32,6 +32,7 @@ list(APPEND ${CMAKE_PROJECT_NAME}_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/ginsengBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/enttBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/enttGroupBenchmarkRunner.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entt/enttRuntimeBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/anax/anaxBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/artemis/artemisBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entityx/entityxEventBusBenchmarkRunner.cpp 

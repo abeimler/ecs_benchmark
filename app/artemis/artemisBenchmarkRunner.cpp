@@ -7,6 +7,8 @@
 #include <thread>
 #include <vector>
 
+namespace artemis_benchmark {
+
 BENCHMARK("artemis create destroy entity with components",
           [](benchpress::context *ctx) {
             artemis::World world;
@@ -82,3 +84,5 @@ const std::vector<int> BenchmarksArtemis::ENTITIES = {
     3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000};
 
 BenchmarksArtemis artemisbenchmarks("artemis");
+
+} // namespace artemis_benchmark

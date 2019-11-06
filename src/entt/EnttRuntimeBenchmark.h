@@ -1,6 +1,7 @@
-#ifndef ENTITYX2BENCHMARK_H_
-#define ENTITYX2BENCHMARK_H_
+#ifndef ENTTRUNTIMEBENCHMARK_H_
+#define ENTTRUNTIMEBENCHMARK_H_
 
+#include <array>
 #include <functional>
 #include <memory>
 #include <numeric>
@@ -8,36 +9,35 @@
 #include <string>
 #include <vector>
 
-#include <entityx/entityx.hh>
+#include <entt/entt.hpp>
 
-namespace entityx2_benchmark {
+namespace enttruntime_benchmark {
 
-class EntityX2Benchmark {
+class EnttRuntimeBenchmark {
 public:
   struct PositionComponent {
-    double x = 0.0f;
-    double y = 0.0f;
+    float x = 0.0f;
+    float y = 0.0f;
   };
 
   struct DirectionComponent {
-    double x = 0.0f;
-    double y = 0.0f;
+    float x = 0.0f;
+    float y = 0.0f;
   };
 
   struct ComflabulationComponent {
-    double thingy = 0.0;
+    float thingy = 0.0;
     int dingy = 0;
     bool mingy = false;
     std::string stringy;
   };
 
-  using EntityManager =
-      entityx::EntityX<entityx::DefaultStorage, 0, PositionComponent,
-                       DirectionComponent, ComflabulationComponent>;
+  using EntityManager = entt::registry;
 
-  template <typename C> using Component = C *;
+  // template <typename C>
+  // using Component = C;
 
-  using Entity = EntityManager::Entity;
+  using Entity = EntityManager::entity_type;
 
   using TimeDelta = double;
 
@@ -55,13 +55,20 @@ public:
   };
 
   class MovementSystem : public System {
-  public:
-    MovementSystem() = default;
+  private:
+    std::array<entt::component, 2> types;
 
-    void update(EntityManager &es, TimeDelta dt) override {
-      es.for_each<PositionComponent, DirectionComponent>(
-          [&](Entity entity, PositionComponent &position,
-              DirectionComponent &direction) {
+  public:
+    MovementSystem(EntityManager &registry)
+        : types({registry.type<PositionComponent>(),
+                 registry.type<DirectionComponent>()}){};
+
+    void update(EntityManager &registry, TimeDelta dt) override {
+      registry.runtime_view(std::begin(types), std::end(types))
+          .each([&](auto entity) {
+            auto &position = registry.get<PositionComponent>(entity);
+            auto &direction = registry.get<DirectionComponent>(entity);
+
             position.x += direction.x * dt;
             position.y += direction.y * dt;
           });
@@ -69,12 +76,18 @@ public:
   };
 
   class ComflabSystem : public System {
-  public:
-    ComflabSystem() = default;
+  private:
+    std::array<entt::component, 1> types;
 
-    void update(EntityManager &es, TimeDelta dt) override {
-      es.for_each<ComflabulationComponent>(
-          [&](Entity entity, ComflabulationComponent &comflab) {
+  public:
+    ComflabSystem(EntityManager &registry)
+        : types({registry.type<ComflabulationComponent>()}){};
+
+    void update(EntityManager &registry, TimeDelta dt) override {
+      registry.runtime_view(std::begin(types), std::end(types))
+          .each([&](auto entity) {
+            auto &comflab = registry.get<ComflabulationComponent>(entity);
+
             comflab.thingy *= 1.000001f;
             comflab.mingy = !comflab.mingy;
             comflab.dingy++;
@@ -98,14 +111,21 @@ public:
       return uniform_dist(e1);
     }
 
-  public:
-    MoreComplexSystem() = default;
+    std::array<entt::component, 3> types;
 
-    void update(EntityManager &es, TimeDelta dt) override {
-      entities.for_each<PositionComponent, DirectionComponent,
-                        ComflabulationComponent>(
-          [&](Entity entity, PositionComponent &position,
-              DirectionComponent &direction, ComflabulationComponent &comflab) {
+  public:
+    MoreComplexSystem(EntityManager &registry)
+        : types({registry.type<PositionComponent>(),
+                 registry.type<DirectionComponent>(),
+                 registry.type<ComflabulationComponent>()}){};
+
+    void update(EntityManager &registry, TimeDelta dt) override {
+      registry.runtime_view(std::begin(types), std::end(types))
+          .each([&](auto entity) {
+            auto &position = registry.get<PositionComponent>(entity);
+            auto &direction = registry.get<DirectionComponent>(entity);
+            auto &comflab = registry.get<ComflabulationComponent>(entity);
+
             std::vector<double> vec;
             for (size_t i = 0; i < comflab.dingy && i < 100; i++) {
               vec.push_back(i * comflab.thingy);
@@ -117,7 +137,7 @@ public:
 
             comflab.stringy = std::to_string(comflab.dingy);
 
-            if (position && direction && comflab.dingy % 10000 == 0) {
+            if (comflab.dingy % 10000 == 0) {
               if (position.x > position.y) {
                 direction.x = random(0, 5);
                 direction.y = random(0, 10);
@@ -134,10 +154,13 @@ public:
   class Application {
   public:
     Application() {
-      this->systems_.emplace_back(std::make_unique<MovementSystem>());
-      this->systems_.emplace_back(std::make_unique<ComflabSystem>());
+      this->systems_.emplace_back(
+          std::make_unique<MovementSystem>(this->entities_));
+      this->systems_.emplace_back(
+          std::make_unique<ComflabSystem>(this->entities_));
 #ifdef USE_MORECOMPLEX_SYSTEM
-      this->systems_.emplace_back(std::make_unique<MoreComplexSystem>());
+      this->systems_.emplace_back(
+          std::make_unique<MoreComplexSystem>(this->entities_));
 #endif
     }
 
@@ -158,6 +181,6 @@ public:
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 
-} // namespace entityx2_benchmark
+} // namespace enttruntime_benchmark
 
-#endif // ENTITYX2BENCHMARK_H_
+#endif // ENTTRUNTIMEBENCHMARK_H_

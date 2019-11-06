@@ -1,15 +1,18 @@
-#include <entityx/EntityXBenchmark.h>
-#include <entityx/entityx.h>
-
-#include <bus.hpp>
-#include <event.hpp>
 #include <memory>
-#include <signal.hpp>
 #include <string>
 #include <thread>
 #include <vector>
 
+#include <bus.hpp>
+#include <event.hpp>
+#include <signal.hpp>
+
+#include <entityx/EntityXBenchmark.h>
+#include <entityx/entityx.h>
+
 #include "benchpress/benchpress.hpp"
+
+namespace entityx1_benchmark {
 
 class EventppTest {
 public:
@@ -814,3 +817,5 @@ BENCHMARK(
         EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 500000);
       }
     })
+
+} // namespace entityx1_benchmark

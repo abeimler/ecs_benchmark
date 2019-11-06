@@ -11,6 +11,8 @@
 
 #include <ginseng/ginseng.hpp>
 
+namespace ginseng_benchmark {
+
 class GinsengBenchmark {
 public:
   struct PositionComponent {
@@ -147,5 +149,7 @@ public:
 
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
+
+} // namespace ginseng_benchmark
 
 #endif // GINSENGBENCHMARK_H_

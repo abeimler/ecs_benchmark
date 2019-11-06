@@ -76,32 +76,38 @@ BENCHMARK("[3] entityx2 Iterating over 10M entities, unpacking one component",
             }
           })
 
-/// @FIXME: error: too many arguments provided to function-like macro invocation
-/*
-BENCHMARK("[4] entityx2 Iterating over 10M entities, unpacking two component",
-[](benchpress::context* ctx) { EntityX2Benchmark::EntityManager entities;
-
-    for (size_t c = 0; c < _10M; c++) {
-        auto entity = entities.create();
-        entity.assign<EntityX2Benchmark::PositionComponent>();
-        entity.assign<EntityX2Benchmark::DirectionComponent>();
-    }
-
-    auto update_func = [&](EntityX2Benchmark::Entity entity,
-EntityX2Benchmark::PositionComponent& position,
-EntityX2Benchmark::DirectionComponent& velocity) { DISABLE_REDUNDANT_CODE_OPT();
-        benchpress::escape(&entity);
-        benchpress::escape(&position);
-        benchpress::escape(&velocity);
+/// @NOTE: avoid "too many arguments provided to function-like macro
+/// invocation"-error in BENCHMARK-Macro
+inline auto update_func_components_2 =
+    [](EntityX2Benchmark::Entity entity,
+       EntityX2Benchmark::PositionComponent &position,
+       EntityX2Benchmark::DirectionComponent &velocity) {
+      DISABLE_REDUNDANT_CODE_OPT();
+      benchpress::escape(&entity);
+      benchpress::escape(&position);
+      benchpress::escape(&velocity);
     };
+inline auto for_each_update_func_components_2 =
+    [](EntityX2Benchmark::EntityManager &entities) {
+      entities.for_each<EntityX2Benchmark::PositionComponent,
+                        EntityX2Benchmark::DirectionComponent>(
+          update_func_components_2);
+    };
+BENCHMARK("[4] entityx2 Iterating over 10M entities, unpacking two component",
+          [](benchpress::context *ctx) {
+            EntityX2Benchmark::EntityManager entities;
 
-    ctx->reset_timer();
-    for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        entities.for_each<EntityX2Benchmark::PositionComponent,
-EntityX2Benchmark::DirectionComponent>(update_func);
-    }
-})
-*/
+            for (size_t c = 0; c < _10M; c++) {
+              auto entity = entities.create();
+              entity.assign<EntityX2Benchmark::PositionComponent>();
+              entity.assign<EntityX2Benchmark::DirectionComponent>();
+            }
+
+            ctx->reset_timer();
+            for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+              for_each_update_func_components_2(entities);
+            }
+          })
 
 BENCHMARK("[5] entityx2 Creating 10M entities at once",
           [](benchpress::context *ctx) {

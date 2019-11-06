@@ -10,6 +10,8 @@
 
 #include <Artemis/Artemis.h>
 
+namespace artemis_benchmark {
+
 class ArtemisBenchmark {
 public:
   struct PositionComponent : artemis::Component {
@@ -205,5 +207,7 @@ public:
 
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
+
+} // namespace artemis_benchmark
 
 #endif // ARTEMISBENCHMARK_H_

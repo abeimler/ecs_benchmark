@@ -12,6 +12,7 @@
 #include <anax/System.hpp>
 #include <anax/anax.hpp>
 
+namespace anax_benchmark {
 class AnaxBenchmark {
 public:
   struct PositionComponent : anax::Component {
@@ -181,5 +182,7 @@ public:
 
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
+
+} // namespace anax_benchmark
 
 #endif // ANAXBENCHMARK_H_

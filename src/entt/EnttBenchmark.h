@@ -10,6 +10,7 @@
 
 #include <entt/entt.hpp>
 
+namespace entt_benchmark {
 class EnttBenchmark {
 public:
   struct PositionComponent {
@@ -154,5 +155,7 @@ public:
 
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
+
+} // namespace entt_benchmark
 
 #endif // ENTTBENCHMARK_H_
