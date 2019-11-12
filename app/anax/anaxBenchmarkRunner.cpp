@@ -17,9 +17,9 @@ BENCHMARK("anax create destroy entity with components",
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               auto entity = entities.createEntity();
 
-              entity.addComponent<AnaxBenchmark::PositionComponent>();
-              entity.addComponent<AnaxBenchmark::DirectionComponent>();
-              entity.addComponent<AnaxBenchmark::ComflabulationComponent>();
+              entity.addComponent<PositionComponent>();
+              entity.addComponent<DirectionComponent>();
+              entity.addComponent<ComflabulationComponent>();
 
               entity.kill();
             }
@@ -29,11 +29,11 @@ inline void init_entities(anax::World &entities, size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto entity = entities.createEntity();
 
-    entity.addComponent<AnaxBenchmark::PositionComponent>();
-    entity.addComponent<AnaxBenchmark::DirectionComponent>();
+    entity.addComponent<PositionComponent>();
+    entity.addComponent<DirectionComponent>();
 
     if (i % 2 != 0) {
-      entity.addComponent<AnaxBenchmark::ComflabulationComponent>();
+      entity.addComponent<ComflabulationComponent>();
     }
 
     entity.activate();
@@ -42,7 +42,7 @@ inline void init_entities(anax::World &entities, size_t nentities) {
 
 inline void runEntitiesSystemsAnaxBenchmark(benchpress::context *ctx,
                                             size_t nentities) {
-  AnaxBenchmark::Application app;
+  Application app;
 
   init_entities(app, nentities);
 

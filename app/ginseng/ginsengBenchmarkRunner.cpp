@@ -13,11 +13,11 @@ namespace ginseng_benchmark {
 constexpr size_t _10M = 10'000'000L;
 
 BENCHMARK("[1] ginseng  Creating 10M entities", [](benchpress::context *ctx) {
-  GinsengBenchmark::EntityManager db;
+  EntityManager db;
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    std::vector<GinsengBenchmark::Entity> created_entities(_10M);
+    std::vector<Entity> created_entities(_10M);
 
     ctx->start_timer();
     for (size_t c = 0; c < _10M; c++) {
@@ -34,11 +34,11 @@ BENCHMARK("[1] ginseng  Creating 10M entities", [](benchpress::context *ctx) {
 })
 
 BENCHMARK("[2] ginseng  Destroying 10M entities", [](benchpress::context *ctx) {
-  GinsengBenchmark::EntityManager db;
+  EntityManager db;
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    std::vector<GinsengBenchmark::Entity> created_entities(_10M);
+    std::vector<Entity> created_entities(_10M);
 
     for (size_t c = 0; c < _10M; c++) {
       auto entity = db.create_entity();
@@ -55,16 +55,16 @@ BENCHMARK("[2] ginseng  Destroying 10M entities", [](benchpress::context *ctx) {
 
 BENCHMARK("[3] ginseng  Iterating over 10M entities, unpacking one component",
           [](benchpress::context *ctx) {
-            GinsengBenchmark::EntityManager db;
+            EntityManager db;
 
             for (size_t c = 0; c < _10M; c++) {
               auto entity = db.create_entity();
-              db.add_component(entity, GinsengBenchmark::PositionComponent{});
+              db.add_component(entity, PositionComponent{});
             }
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              db.visit([&](GinsengBenchmark::PositionComponent &position) {
+              db.visit([&](PositionComponent &position) {
                 DISABLE_REDUNDANT_CODE_OPT();
                 benchpress::escape(&position);
               });
@@ -73,18 +73,18 @@ BENCHMARK("[3] ginseng  Iterating over 10M entities, unpacking one component",
 
 BENCHMARK("[4] ginseng  Iterating over 10M entities, unpacking two components",
           [](benchpress::context *ctx) {
-            GinsengBenchmark::EntityManager db;
+            EntityManager db;
 
             for (size_t c = 0; c < _10M; c++) {
               auto entity = db.create_entity();
-              db.add_component(entity, GinsengBenchmark::PositionComponent{});
-              db.add_component(entity, GinsengBenchmark::DirectionComponent{});
+              db.add_component(entity, PositionComponent{});
+              db.add_component(entity, DirectionComponent{});
             }
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              db.visit([&](GinsengBenchmark::PositionComponent &position,
-                           GinsengBenchmark::DirectionComponent &velocity) {
+              db.visit([&](PositionComponent &position,
+                           DirectionComponent &velocity) {
                 DISABLE_REDUNDANT_CODE_OPT();
                 benchpress::escape(&position);
                 benchpress::escape(&velocity);
@@ -94,38 +94,38 @@ BENCHMARK("[4] ginseng  Iterating over 10M entities, unpacking two components",
 
 BENCHMARK("ginseng  create destroy entity with components",
           [](benchpress::context *ctx) {
-            GinsengBenchmark::EntityManager db;
+            EntityManager db;
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               auto entity = db.create_entity();
 
-              db.add_component(entity, GinsengBenchmark::PositionComponent{});
-              db.add_component(entity, GinsengBenchmark::DirectionComponent{});
+              db.add_component(entity, PositionComponent{});
+              db.add_component(entity, DirectionComponent{});
               db.add_component(entity,
-                               GinsengBenchmark::ComflabulationComponent{});
+                               ComflabulationComponent{});
 
               db.destroy_entity(entity);
             }
           })
 
-inline void init_entities(GinsengBenchmark::EntityManager &db,
+inline void init_entities(EntityManager &db,
                           size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto entity = db.create_entity();
 
-    db.add_component(entity, GinsengBenchmark::PositionComponent{});
-    db.add_component(entity, GinsengBenchmark::DirectionComponent{});
+    db.add_component(entity, PositionComponent{});
+    db.add_component(entity, DirectionComponent{});
 
     if (i % 2 != 0) {
-      db.add_component(entity, GinsengBenchmark::ComflabulationComponent{});
+      db.add_component(entity, ComflabulationComponent{});
     }
   }
 }
 
 inline void runEntitiesSystemsGinsengBenchmark(benchpress::context *ctx,
                                                size_t nentities) {
-  GinsengBenchmark::Application app;
+  Application app;
   auto &db = app.getEntityManager();
 
   init_entities(db, nentities);

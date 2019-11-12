@@ -17,19 +17,19 @@ constexpr size_t _10M = 10'000'000L;
 typedef std::array<entt::component, 1> array_types_component_1;
 typedef std::array<entt::component, 2> array_types_component_2;
 array_types_component_1 array_types_1 = 
-      {EnttRuntimeBenchmark::EntityManager::type<EnttRuntimeBenchmark::PositionComponent>()};
+      {EntityManager::type<PositionComponent>()};
 
-array_types_component_2 array_types_2 = {EnttRuntimeBenchmark::EntityManager::type<EnttRuntimeBenchmark::PositionComponent>(),
-       EnttRuntimeBenchmark::EntityManager::type<EnttRuntimeBenchmark::DirectionComponent>()};
+array_types_component_2 array_types_2 = {EntityManager::type<PositionComponent>(),
+       EntityManager::type<DirectionComponent>()};
 
 BENCHMARK(
     "[3] entt-runtime     Iterating over 10M entities, unpacking one component",
     [](benchpress::context *ctx) {
-      EnttRuntimeBenchmark::EntityManager registry;
+      EntityManager registry;
 
       for (size_t c = 0; c < _10M; c++) {
         auto entity = registry.create();
-        registry.assign<EnttRuntimeBenchmark::PositionComponent>(entity);
+        registry.assign<PositionComponent>(entity);
       }
       array_types_component_1& types_1 = array_types_1;
 
@@ -39,7 +39,7 @@ BENCHMARK(
              registry.runtime_view(std::begin(types_1), std::end(types_1))) {
           DISABLE_REDUNDANT_CODE_OPT();
           auto &position =
-              registry.get<EnttRuntimeBenchmark::PositionComponent>(entity);
+              registry.get<PositionComponent>(entity);
 
           benchpress::escape(&entity);
           benchpress::escape(&position);
@@ -51,12 +51,12 @@ BENCHMARK(
     "[4] entt-runtime     Iterating over 10M entities, unpacking two "
     "components",
     [](benchpress::context *ctx) {
-      EnttRuntimeBenchmark::EntityManager registry;
+      EntityManager registry;
 
       for (size_t c = 0; c < _10M; c++) {
         auto entity = registry.create();
-        registry.assign<EnttRuntimeBenchmark::PositionComponent>(entity);
-        registry.assign<EnttRuntimeBenchmark::DirectionComponent>(entity);
+        registry.assign<PositionComponent>(entity);
+        registry.assign<DirectionComponent>(entity);
       }
       array_types_component_2& types_2 = array_types_2;
 
@@ -66,9 +66,9 @@ BENCHMARK(
              registry.runtime_view(std::begin(types_2), std::end(types_2))) {
           DISABLE_REDUNDANT_CODE_OPT();
           auto &position =
-              registry.get<EnttRuntimeBenchmark::PositionComponent>(entity);
+              registry.get<PositionComponent>(entity);
           auto &velocity =
-              registry.get<EnttRuntimeBenchmark::DirectionComponent>(entity);
+              registry.get<DirectionComponent>(entity);
 
           benchpress::escape(&entity);
           benchpress::escape(&position);
@@ -77,23 +77,23 @@ BENCHMARK(
       }
     })
 
-inline void init_entities(EnttRuntimeBenchmark::EntityManager &registry,
+inline void init_entities(EntityManager &registry,
                           size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto entity = registry.create();
 
-    registry.assign<EnttRuntimeBenchmark::PositionComponent>(entity);
-    registry.assign<EnttRuntimeBenchmark::DirectionComponent>(entity);
+    registry.assign<PositionComponent>(entity);
+    registry.assign<DirectionComponent>(entity);
 
     if (i % 2 != 0) {
-      registry.assign<EnttRuntimeBenchmark::ComflabulationComponent>(entity);
+      registry.assign<ComflabulationComponent>(entity);
     }
   }
 }
 
 inline void runEntitiesSystemsEnttRuntimeBenchmark(benchpress::context *ctx,
                                                    size_t nentities) {
-  EnttRuntimeBenchmark::Application app;
+  Application app;
   auto &registry = app.getEntityManager();
 
   init_entities(registry, nentities);
