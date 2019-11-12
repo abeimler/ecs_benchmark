@@ -20,8 +20,7 @@ void ComflabSystem::update(EntityManager &registry, TimeDelta dt) {
       });
 }
 
-#ifdef USE_MORECOMPLEX_SYSTEM
-static int MoreComplexSystem::random(int min, int max) {
+int MoreComplexSystem::random(int min, int max) {
   // Seed with a real random value, if available
   static std::random_device r;
 
@@ -60,15 +59,13 @@ void MoreComplexSystem::update(EntityManager &registry, TimeDelta dt) {
         }
       });
 }
-};
-#endif
 
-Application::Application() {
+Application::Application(bool addmorecomplexsystem) : addmorecomplexsystem_(addmorecomplexsystem) {
   this->systems_.emplace_back(std::make_unique<MovementSystem>());
   this->systems_.emplace_back(std::make_unique<ComflabSystem>());
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->systems_.emplace_back(std::make_unique<MoreComplexSystem>());
-#endif
+  if (this->addmorecomplexsystem_) {
+    this->systems_.emplace_back(std::make_unique<MoreComplexSystem>());
+  }
 }
 
 void Application::update(TimeDelta dt) {

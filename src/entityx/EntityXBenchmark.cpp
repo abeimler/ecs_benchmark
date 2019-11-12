@@ -27,7 +27,6 @@ void ComflabSystem::update(entityx::EntityManager &es,
   }
 }
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 int MoreComplexSystem::random(int min, int max) {
   // Seed with a real random value, if available
   static std::random_device r;
@@ -73,14 +72,13 @@ void MoreComplexSystem::update(entityx::EntityManager &es,
   }
 }
 
-#endif
-
-Application::Application() {
+Application::Application(bool addmorecomplexsystem)
+    : addmorecomplexsystem_(addmorecomplexsystem) {
   this->systems.add<MovementSystem>();
   this->systems.add<ComflabSystem>();
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->systems.add<MoreComplexSystem>();
-#endif
+  if (this->addmorecomplexsystem_) {
+    this->systems.add<MoreComplexSystem>();
+  }
 
   this->systems.configure();
 }
@@ -88,9 +86,9 @@ Application::Application() {
 void Application::update(TimeDelta dt) {
   this->systems.update<MovementSystem>(dt);
   this->systems.update<ComflabSystem>(dt);
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->systems.update<MoreComplexSystem>(dt);
-#endif
+  if (this->addmorecomplexsystem_) {
+    this->systems.update<MoreComplexSystem>(dt);
+  }
 }
 
 } // namespace entityx1_benchmark

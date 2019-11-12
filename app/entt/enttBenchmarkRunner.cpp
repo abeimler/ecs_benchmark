@@ -154,8 +154,9 @@ inline void init_entities(EntityManager &registry,
 }
 
 inline void runEntitiesSystemsEnttBenchmark(benchpress::context *ctx,
-                                            size_t nentities) {
-  Application app;
+                                            size_t nentities,
+                                            bool addmorecomplexsystem) {
+  Application app (addmorecomplexsystem);
   auto &registry = app.getEntityManager();
 
   init_entities(registry, nentities);
@@ -170,31 +171,35 @@ class BenchmarksEntt {
 public:
   static const std::vector<int> ENTITIES;
 
-  static inline void makeBenchmarks(const std::string &name) {
-    makeBenchmarks(name, ENTITIES);
+  static inline void makeBenchmarks(const std::string &name, bool addmorecomplexsystem) {
+    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
   }
 
   static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities) {
+                             const std::vector<int> &entities,
+                             bool addmorecomplexsystem) {
     for (int nentities : entities) {
       std::string tag = fmt::format("[{}]", nentities);
       std::string benchmark_name =
           fmt::format("{:>12} {:<10} {:>12} entities component systems update",
                       tag, name, nentities);
 
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsEnttBenchmark(ctx, nentities);
+      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
+        runEntitiesSystemsEnttBenchmark(ctx, nentities, addmorecomplexsystem);
       })
     }
   }
 
-  BenchmarksEntt(const std::string &name) { makeBenchmarks(name); }
+  BenchmarksEntt(const std::string &name, bool addmorecomplexsystem) { 
+    makeBenchmarks(name, addmorecomplexsystem); 
+  }
 };
 const std::vector<int> BenchmarksEntt::ENTITIES = {
     10,        25,        50,        100,        200,       400,     800,
     1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
     1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksEntt enttbenchmarks("entt");
+BenchmarksEntt enttbenchmarks("entt", false);
+BenchmarksEntt enttbenchmarks_morecomplex("entt-morecomplex", true);
 
 } // namespace entt_benchmark

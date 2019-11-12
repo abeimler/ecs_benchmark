@@ -37,7 +37,6 @@ void ComflabSystem::processEntity(artemis::Entity &e) {
   // comflab.stringy = std::to_string(comflab.dingy);
 }
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 int MoreComplexSystem::random(int min, int max) {
   // Seed with a real random value, if available
   static std::random_device r;
@@ -92,20 +91,20 @@ void MoreComplexSystem::processEntity(artemis::Entity &e) {
     }
   }
 }
-};
-#endif
 
-Application::Application() {
+Application::Application(bool addmorecomplexsystem)
+    : addmorecomplexsystem_(addmorecomplexsystem) {
   auto systemmanager = this->getSystemManager();
 
   this->movement_system_ =
       (MovementSystem *)systemmanager->setSystem(new MovementSystem());
   this->comflab_system_ =
       (ComflabSystem *)systemmanager->setSystem(new ComflabSystem());
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->more_complex_system_ =
-      (MoreComplexSystem *)systemmanager->setSystem(new MoreComplexSystem());
-#endif
+
+  if (this->addmorecomplexsystem_) {
+    this->more_complex_system_ =
+        (MoreComplexSystem *)systemmanager->setSystem(new MoreComplexSystem());
+  }
 
   systemmanager->initializeAll();
 }
@@ -116,9 +115,9 @@ void Application::update(TimeDelta dt) {
 
   this->movement_system_->process();
   this->comflab_system_->process();
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->more_complex_system_->process();
-#endif
+  if (this->addmorecomplexsystem_) {
+    this->more_complex_system_->process();
+  }
 }
 
 } // namespace artemis_benchmark

@@ -41,8 +41,9 @@ inline void init_entities(anax::World &entities, size_t nentities) {
 }
 
 inline void runEntitiesSystemsAnaxBenchmark(benchpress::context *ctx,
-                                            size_t nentities) {
-  Application app;
+                                            size_t nentities,
+                                            bool addmorecomplexsystem) {
+  Application app (addmorecomplexsystem);
 
   init_entities(app, nentities);
 
@@ -56,30 +57,35 @@ class AnaxBenchmarks {
 public:
   static const std::vector<int> ENTITIES;
 
-  static inline void makeBenchmarks(const std::string &name) {
-    makeBenchmarks(name, ENTITIES);
+  static inline void makeBenchmarks(const std::string &name,
+                                    bool addmorecomplexsystem) {
+    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
   }
 
   static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities) {
+                             const std::vector<int> &entities,
+                             bool addmorecomplexsystem) {
     for (int nentities : entities) {
       std::string tag = fmt::format("[{}]", nentities);
       std::string benchmark_name =
           fmt::format("{:>12} {:<10} {:>12} entities component systems update",
                       tag, name, nentities);
 
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsAnaxBenchmark(ctx, nentities);
+      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
+        runEntitiesSystemsAnaxBenchmark(ctx, nentities, addmorecomplexsystem);
       })
     }
   }
 
-  AnaxBenchmarks(const std::string &name) { makeBenchmarks(name); }
+  AnaxBenchmarks(const std::string &name, bool addmorecomplexsystem) {
+    makeBenchmarks(name, addmorecomplexsystem);
+  }
 };
 const std::vector<int> AnaxBenchmarks::ENTITIES = {
     10,   25,   50,     100,    200,     400,     800,       1600,
     3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000, 2'000'000};
 
-AnaxBenchmarks anaxbenchmarks("anax");
+AnaxBenchmarks anaxbenchmarks("anax", false);
+AnaxBenchmarks anaxbenchmarks_morecomplex("anax-morecomplex", true);
 
 } // namespace anax_benchmark

@@ -25,8 +25,7 @@ void ComflabSystem::update(TimeDelta dt) {
   }
 }
 
-#ifdef USE_MORECOMPLEX_SYSTEM
-static int MoreComplexSystem::random(int min, int max) {
+int MoreComplexSystem::random(int min, int max) {
   // Seed with a real random value, if available
   static std::random_device r;
 
@@ -68,14 +67,13 @@ void MoreComplexSystem::update(TimeDelta dt) {
     }
   }
 }
-#endif
 
-Application::Application() {
+Application::Application(bool addmorecomplexsystem) : addmorecomplexsystem_(addmorecomplexsystem) {
   this->addSystem(this->movement_system_);
   this->addSystem(this->comflab_system_);
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->addSystem(this->morecomplex_system_);
-#endif
+  if (addmorecomplexsystem_) {
+    this->addSystem(this->morecomplex_system_);
+  }
 }
 
 void Application::update(TimeDelta dt) {
@@ -83,9 +81,9 @@ void Application::update(TimeDelta dt) {
 
   this->movement_system_.update(dt);
   this->comflab_system_.update(dt);
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->morecomplex_system_.update(dt);
-#endif
+  if (addmorecomplexsystem_) {
+    this->morecomplex_system_.update(dt);
+  }
 }
 
 } // namespace anax_benchmark

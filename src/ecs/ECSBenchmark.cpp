@@ -26,9 +26,7 @@ void ComflabSystem::tick(EntityManager *world, float dt) {
       });
 }
 
-#ifdef USE_MORECOMPLEX_SYSTEM
-
-static int MoreComplexSystem::random(int min, int max) {
+int MoreComplexSystem::random(int min, int max) {
   // Seed with a real random value, if available
   static std::random_device r;
 
@@ -41,7 +39,7 @@ static int MoreComplexSystem::random(int min, int max) {
 }
 
 void MoreComplexSystem::tick(EntityManager *world, float dt) {
-  world->each<PositionComponent, DirectionComponent>(
+  world->each<PositionComponent, DirectionComponent, ComflabulationComponent>(
       [&](Entity *ent, PositionComponentHandle position,
           DirectionComponentHandle direction,
           ComflabulationComponentHandle comflab) {
@@ -67,17 +65,16 @@ void MoreComplexSystem::tick(EntityManager *world, float dt) {
         }
       });
 }
-#endif
 
-Application::Application() {
+Application::Application(bool addmorecomplexsystem) : addmorecomplexsystem_(addmorecomplexsystem) {
   this->entities_ = ECS::World::createWorld();
 
   this->systems_.emplace_back(entities_->registerSystem(new MovementSystem()));
   this->systems_.emplace_back(entities_->registerSystem(new ComflabSystem()));
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->systems_.emplace_back(
-      entities_->registerSystem(new MoreComplexSystem()));
-#endif
+  if (this->addmorecomplexsystem_) {
+    this->systems_.emplace_back(
+        entities_->registerSystem(new MoreComplexSystem()));
+  }
 }
 
 } // namespace ecs_benchmark

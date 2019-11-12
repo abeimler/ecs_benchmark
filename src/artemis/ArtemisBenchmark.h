@@ -72,7 +72,6 @@ public:
   void processEntity(artemis::Entity &e) override;
 };
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 class MoreComplexSystem : public artemis::EntityProcessingSystem {
 private:
   artemis::ComponentMapper<PositionComponent> positionMapper_;
@@ -94,20 +93,18 @@ public:
 
   virtual void processEntity(artemis::Entity &e) override;
 };
-#endif
 
 class Application : public artemis::World {
 public:
-  Application();
+  Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt);
 
 private:
   MovementSystem *movement_system_;
   ComflabSystem *comflab_system_;
-#ifdef USE_MORECOMPLEX_SYSTEM
   MoreComplexSystem *more_complex_system_;
-#endif
+  bool addmorecomplexsystem_;
 };
 
 class ArtemisBenchmark {

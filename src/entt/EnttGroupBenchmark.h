@@ -65,7 +65,6 @@ namespace enttgroup_benchmark {
     void update(EntityManager &registry, TimeDelta dt) override;
   };
 
-#ifdef USE_MORECOMPLEX_SYSTEM
   class MoreComplexSystem : public System {
   private:
     static int random(int min, int max);
@@ -75,11 +74,10 @@ namespace enttgroup_benchmark {
 
     void update(EntityManager &registry, TimeDelta dt) override;
   };
-#endif
 
   class Application {
   public:
-    Application();
+    Application(bool addmorecomplexsystem = false);
 
     void update(TimeDelta dt);
 
@@ -89,6 +87,7 @@ namespace enttgroup_benchmark {
   private:
     EntityManager entities_;
     std::vector<std::unique_ptr<System>> systems_;
+    bool addmorecomplexsystem_;
   };
 
 class EnttGroupBenchmark {

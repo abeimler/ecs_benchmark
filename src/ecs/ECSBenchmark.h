@@ -79,7 +79,6 @@ public:
   void tick(EntityManager *world, float dt) override;
 };
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 class MoreComplexSystem : public System {
 private:
   static int random(int min, int max);
@@ -89,12 +88,10 @@ public:
 
   void tick(EntityManager *world, float dt) override;
 };
-#endif
 
 class Application {
 public:
-  Application();
-  virtual ~Application() = default;
+  Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt) { this->entities_->tick(dt); }
 
@@ -104,6 +101,7 @@ public:
 private:
   EntityManager *entities_;
   std::vector<ECS::EntitySystem *> systems_;
+  bool addmorecomplexsystem_;
 };
 
 static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;

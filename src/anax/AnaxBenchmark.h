@@ -77,7 +77,6 @@ public:
   void update(TimeDelta dt);
 };
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 class MoreComplexSystem
     : public anax::System<anax::Requires<PositionComponent, DirectionComponent,
                                          ComflabulationComponent>> {
@@ -89,20 +88,18 @@ public:
 
   void update(TimeDelta dt);
 };
-#endif
 
 class Application : public anax::World {
 public:
-  Application();
+  Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt);
 
 private:
   MovementSystem movement_system_;
   ComflabSystem comflab_system_;
-#ifdef USE_MORECOMPLEX_SYSTEM
   MoreComplexSystem morecomplex_system_;
-#endif
+  bool addmorecomplexsystem_;
 };
 
 class AnaxBenchmark {
