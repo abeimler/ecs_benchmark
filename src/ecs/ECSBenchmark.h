@@ -92,11 +92,12 @@ public:
 class Application {
 public:
   Application(bool addmorecomplexsystem = false);
+  virtual ~Application();
 
   void update(TimeDelta dt) { this->entities_->tick(dt); }
 
-  EntityManager &getEntityManager() { return *this->entities_; }
-  const EntityManager &getEntityManager() const { return *this->entities_; }
+  EntityManager *getEntityManager() { return this->entities_; }
+  const EntityManager *getEntityManager() const { return this->entities_; }
 
 private:
   EntityManager *entities_;
@@ -104,7 +105,10 @@ private:
   bool addmorecomplexsystem_;
 };
 
+class ECSBenchmark {
+public:
 static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
+};
 
 } // namespace ecs_benchmark
 

@@ -77,4 +77,8 @@ Application::Application(bool addmorecomplexsystem) : addmorecomplexsystem_(addm
   }
 }
 
+Application::~Application(){
+  this->entities_->destroyWorld();
+}
+
 } // namespace ecs_benchmark

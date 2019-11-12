@@ -19,6 +19,15 @@
         "entt-group",
         "entt-runtime"
     ],
+    "updatemorecomplex": [
+        "entityx1-morecomplex",
+        "entityx2-morecomplex",
+        "enttlegacy-morecomplex",
+        "ginseng-morecomplex",
+        "entt-morecomplex",
+        "entt-group-morecomplex",
+        "entt-runtime-morecomplex"
+    ],
     "eventbus": [
         "entityx",
         "eventpp"
@@ -97,6 +106,15 @@
             "framework": true,
             "linkedlib": false
         },
+        "ecs": {
+            "name": "ECS",
+            "author": "@redxdev",
+            "description": "This is a simple C++ header-only type-safe entity component system library. It makes heavy use of C++11 constructs, so make sure you have an up to date compiler. It isn't meant to do absolutely everything, so please feel free to modify it when using.",
+            "version": "1.x (May 2019)",
+            "link": "https://github.com/redxdev/ECS",
+            "framework": true,
+            "linkedlib": false
+        },
 
         "entityx": {
             "name": "EntityX"
@@ -115,6 +133,7 @@
     "simplebenchmark": true,
     "benchmark": true,
     "runbenchmarkupdatelong": true,
+    "runbenchmarkupdatemorecomplex": true,
     "plot": true,
     "gencsvfiles": true,
     "genreadme": true

@@ -127,6 +127,22 @@ BENCHMARK("[5] entityx2 Creating 10M entities at once",
             }
           })
 
+BENCHMARK("[6] entityx2 Destroying 10M entities at once",
+          [](benchpress::context *ctx) {
+            EntityManager entities;
+
+            ctx->reset_timer();
+            for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+              ctx->stop_timer();
+              std::vector<Entity> created_entities;
+              created_entities = entities.create_many(_10M);
+
+              ctx->start_timer();
+              entities.reset();
+              ctx->stop_timer();
+            }
+          })
+
 BENCHMARK("entityx2 create destroy entity with components",
           [](benchpress::context *ctx) {
             EntityManager entities;
