@@ -12,10 +12,7 @@
 
 #include "benchpress/benchpress.hpp"
 
-namespace entityx1_benchmark {
-
-class EventppTest {
-public:
+namespace eventpp_benchmark {
   struct EventA {
     int value;
 
@@ -23,9 +20,9 @@ public:
   };
 
   struct EventB {
-    EntityXBenchmark::Entity target;
+    entityx1_benchmark::Entity target;
 
-    EventB(EntityXBenchmark::Entity p_target) : target(p_target) {}
+    EventB(entityx1_benchmark::Entity p_target) : target(p_target) {}
   };
 
   struct EventC {
@@ -75,15 +72,14 @@ public:
     for (size_t i = 0; i < nemits; ++i) {
       const int x = 40;
       const int y = 2;
-      bus.publish<EventppTest::EventA>(x, y);
-      bus.publish<EventppTest::EventB>(entity);
-      bus.publish<EventppTest::EventC>();
+      bus.publish<EventA>(x, y);
+      bus.publish<EventB>(entity);
+      bus.publish<EventC>();
     }
   }
-};
+} // namespace eventpp_benchmark
 
-class EntityXEventBusTest {
-public:
+namespace entityx1_benchmark {
   struct EventA {
     int value;
 
@@ -91,9 +87,9 @@ public:
   };
 
   struct EventB {
-    EntityXBenchmark::Entity target;
+    Entity target;
 
-    EventB(EntityXBenchmark::Entity p_target) : target(p_target) {}
+    EventB(Entity p_target) : target(p_target) {}
   };
 
   struct EventC {
@@ -160,9 +156,9 @@ public:
     void reset() { c_ = 0; }
   };
 
-  class Application : public entityx::EntityX {
+  class ApplicationEventAEventBEventC : public entityx::EntityX {
   public:
-    Application() {
+    ApplicationEventAEventBEventC() {
       systems.add<TestListenerEventA>();
       systems.add<TestListenerEventB>();
       systems.add<TestListenerEventC>();
@@ -208,24 +204,23 @@ public:
     for (size_t i = 0; i < nemits; ++i) {
       const int x = 42;
       const int y = 2;
-      events.emit<EntityXEventBusTest::EventA>(x, y);
-      events.emit<EntityXEventBusTest::EventB>(entity);
-      events.emit<EntityXEventBusTest::EventC>();
+      events.emit<EventA>(x, y);
+      events.emit<EventB>(entity);
+      events.emit<EventC>();
     }
   }
-};
 
 BENCHMARK("        eventpp eventbus listen to EventA publish EventA",
           [](benchpress::context *ctx) {
             auto eventa_listener =
-                std::make_shared<EventppTest::TestListenerEventA>();
-            EventppTest::Bus bus;
+                std::make_shared<eventpp_benchmark::TestListenerEventA>();
+            eventpp_benchmark::Bus bus;
 
             bus.reg(eventa_listener);
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              bus.publish<EventppTest::EventA>(40, 2);
+              bus.publish<eventpp_benchmark::EventA>(40, 2);
             }
           })
 
@@ -238,17 +233,17 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        bus.publish<EventppTest::EventA>(40, 2);
-        bus.publish<EventppTest::EventB>(entity);
+        bus.publish<eventpp_benchmark::EventA>(40, 2);
+        bus.publish<eventpp_benchmark::EventB>(entity);
       }
     })
 
@@ -260,12 +255,12 @@ BENCHMARK("        eventpp eventbus listen to EventA EventB and EventC publish "
             auto entity = entities.create();
 
             auto eventa_listener =
-                std::make_shared<EventppTest::TestListenerEventA>();
+                std::make_shared<eventpp_benchmark::TestListenerEventA>();
             auto eventb_listener =
-                std::make_shared<EventppTest::TestListenerEventB>();
+                std::make_shared<eventpp_benchmark::TestListenerEventB>();
             auto eventc_listener =
-                std::make_shared<EventppTest::TestListenerEventC>();
-            EventppTest::Bus bus;
+                std::make_shared<eventpp_benchmark::TestListenerEventC>();
+            eventpp_benchmark::Bus bus;
 
             bus.reg(eventa_listener);
             bus.reg(eventb_listener);
@@ -273,9 +268,9 @@ BENCHMARK("        eventpp eventbus listen to EventA EventB and EventC publish "
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              bus.publish<EventppTest::EventA>(40, 2);
-              bus.publish<EventppTest::EventB>(entity);
-              bus.publish<EventppTest::EventC>();
+              bus.publish<eventpp_benchmark::EventA>(40, 2);
+              bus.publish<eventpp_benchmark::EventB>(entity);
+              bus.publish<eventpp_benchmark::EventC>();
             }
           })
 
@@ -288,12 +283,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -301,7 +296,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 10);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 10);
       }
     })
 
@@ -314,12 +309,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -327,7 +322,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 50);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 50);
       }
     })
 
@@ -340,12 +335,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -353,7 +348,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 100);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 100);
       }
     })
 
@@ -366,12 +361,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -379,7 +374,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 300);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 300);
       }
     })
 
@@ -392,12 +387,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -405,7 +400,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 1000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 1000);
       }
     })
 
@@ -418,12 +413,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -431,7 +426,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 5000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 5000);
       }
     })
 
@@ -444,12 +439,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -457,7 +452,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 10000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 10000);
       }
     })
 
@@ -470,12 +465,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -483,7 +478,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 20000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 20000);
       }
     })
 
@@ -496,12 +491,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -509,7 +504,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 50000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 50000);
       }
     })
 
@@ -522,12 +517,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -535,7 +530,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 100000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 100000);
       }
     })
 
@@ -548,12 +543,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -561,7 +556,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 200000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 200000);
       }
     })
 
@@ -574,12 +569,12 @@ BENCHMARK(
       auto entity = entities.create();
 
       auto eventa_listener =
-          std::make_shared<EventppTest::TestListenerEventA>();
+          std::make_shared<eventpp_benchmark::TestListenerEventA>();
       auto eventb_listener =
-          std::make_shared<EventppTest::TestListenerEventB>();
+          std::make_shared<eventpp_benchmark::TestListenerEventB>();
       auto eventc_listener =
-          std::make_shared<EventppTest::TestListenerEventC>();
-      EventppTest::Bus bus;
+          std::make_shared<eventpp_benchmark::TestListenerEventC>();
+      eventpp_benchmark::Bus bus;
 
       bus.reg(eventa_listener);
       bus.reg(eventb_listener);
@@ -587,7 +582,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EventppTest::runPublishEventsBenchmark(bus, entity, 500000);
+        eventpp_benchmark::runPublishEventsBenchmark(bus, entity, 500000);
       }
     })
 
@@ -595,14 +590,14 @@ BENCHMARK(
     "        entityx eventbus listen to EventA publish EventA                  "
     "           ",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::ApplicationEventA app;
+      ApplicationEventA app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        events.emit<EntityXEventBusTest::EventA>(40, 2);
+        events.emit<EventA>(40, 2);
       }
     })
 
@@ -610,31 +605,31 @@ BENCHMARK(
     "        entityx eventbus listen to EventA publish EventA and EventB       "
     "           ",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::ApplicationEventA app;
+      ApplicationEventA app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        events.emit<EntityXEventBusTest::EventA>(40, 2);
-        events.emit<EntityXEventBusTest::EventB>(entity);
+        events.emit<EventA>(40, 2);
+        events.emit<EventB>(entity);
       }
     })
 
 BENCHMARK("        entityx eventbus listen to EventA EventB and EventC publish "
           "EventA and EventB",
           [](benchpress::context *ctx) {
-            EntityXEventBusTest::Application app;
+            ApplicationEventAEventBEventC app;
             auto &entities = app.entities;
             auto &events = app.events;
             auto entity = entities.create();
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              events.emit<EntityXEventBusTest::EventA>(40, 2);
-              events.emit<EntityXEventBusTest::EventB>(entity);
-              events.emit<EntityXEventBusTest::EventC>();
+              events.emit<EventA>(40, 2);
+              events.emit<EventB>(entity);
+              events.emit<EventC>();
             }
           })
 
@@ -642,14 +637,14 @@ BENCHMARK(
     "    [10] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 10);
+        runPublishEventsBenchmark(events, entity, 10);
       }
     })
 
@@ -657,14 +652,14 @@ BENCHMARK(
     "    [50] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 50);
+        runPublishEventsBenchmark(events, entity, 50);
       }
     })
 
@@ -672,14 +667,14 @@ BENCHMARK(
     "   [100] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 100);
+        runPublishEventsBenchmark(events, entity, 100);
       }
     })
 
@@ -687,14 +682,14 @@ BENCHMARK(
     "   [300] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 300);
+        runPublishEventsBenchmark(events, entity, 300);
       }
     })
 
@@ -702,14 +697,14 @@ BENCHMARK(
     "  [1000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 1000);
+        runPublishEventsBenchmark(events, entity, 1000);
       }
     })
 
@@ -717,14 +712,14 @@ BENCHMARK(
     "  [5000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 5000);
+        runPublishEventsBenchmark(events, entity, 5000);
       }
     })
 
@@ -732,14 +727,14 @@ BENCHMARK(
     " [10000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 10000);
+        runPublishEventsBenchmark(events, entity, 10000);
       }
     })
 
@@ -747,14 +742,14 @@ BENCHMARK(
     " [20000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 20000);
+        runPublishEventsBenchmark(events, entity, 20000);
       }
     })
 
@@ -762,14 +757,14 @@ BENCHMARK(
     " [50000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 50000);
+        runPublishEventsBenchmark(events, entity, 50000);
       }
     })
 
@@ -777,14 +772,14 @@ BENCHMARK(
     "[100000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 100000);
+        runPublishEventsBenchmark(events, entity, 100000);
       }
     })
 
@@ -792,14 +787,14 @@ BENCHMARK(
     "[200000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 200000);
+        runPublishEventsBenchmark(events, entity, 200000);
       }
     })
 
@@ -807,14 +802,14 @@ BENCHMARK(
     "[500000] entityx-eventbus listen to EventA EventB and EventC publish "
     "EventA and EventB",
     [](benchpress::context *ctx) {
-      EntityXEventBusTest::Application app;
+      ApplicationEventAEventBEventC app;
       auto &entities = app.entities;
       auto &events = app.events;
       auto entity = entities.create();
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        EntityXEventBusTest::runPublishEventsBenchmark(events, entity, 500000);
+        runPublishEventsBenchmark(events, entity, 500000);
       }
     })
 

@@ -14,19 +14,18 @@ constexpr size_t _10M = 10'000'000L;
 BENCHMARK(
     "[4] entt-group     Iterating over 10M entities, unpacking two components",
     [](benchpress::context *ctx) {
-      EnttGroupBenchmark::EntityManager registry;
+      EntityManager registry;
 
       for (size_t c = 0; c < _10M; c++) {
         auto entity = registry.create();
-        registry.assign<EnttGroupBenchmark::PositionComponent>(entity);
-        registry.assign<EnttGroupBenchmark::DirectionComponent>(entity);
+        registry.assign<PositionComponent>(entity);
+        registry.assign<DirectionComponent>(entity);
       }
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
         registry
-            .group<EnttGroupBenchmark::PositionComponent>(
-                entt::get<EnttGroupBenchmark::DirectionComponent>)
+            .group<PositionComponent>(entt::get<DirectionComponent>)
             .each([](auto entity, auto &position, auto &velocity) {
               DISABLE_REDUNDANT_CODE_OPT();
               benchpress::escape(&entity);
@@ -36,23 +35,23 @@ BENCHMARK(
       }
     })
 
-inline void init_entities(EnttGroupBenchmark::EntityManager &registry,
+inline void init_entities(EntityManager &registry,
                           size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto entity = registry.create();
 
-    registry.assign<EnttGroupBenchmark::PositionComponent>(entity);
-    registry.assign<EnttGroupBenchmark::DirectionComponent>(entity);
+    registry.assign<PositionComponent>(entity);
+    registry.assign<DirectionComponent>(entity);
 
     if (i % 2 != 0) {
-      registry.assign<EnttGroupBenchmark::ComflabulationComponent>(entity);
+      registry.assign<ComflabulationComponent>(entity);
     }
   }
 }
 
 inline void runEntitiesSystemsEnttGroupBenchmark(benchpress::context *ctx,
                                                  size_t nentities) {
-  EnttGroupBenchmark::Application app;
+  Application app;
   auto &registry = app.getEntityManager();
 
   init_entities(registry, nentities);

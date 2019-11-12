@@ -18,10 +18,9 @@ BENCHMARK("artemis create destroy entity with components",
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               auto &entity = em->create();
 
-              entity.addComponent(new ArtemisBenchmark::PositionComponent());
-              entity.addComponent(new ArtemisBenchmark::DirectionComponent());
-              entity.addComponent(
-                  new ArtemisBenchmark::ComflabulationComponent());
+              entity.addComponent(new PositionComponent());
+              entity.addComponent(new DirectionComponent());
+              entity.addComponent(new ComflabulationComponent());
 
               entity.remove();
             }
@@ -31,11 +30,11 @@ inline void init_entities(artemis::EntityManager *entities, size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto &entity = entities->create();
 
-    entity.addComponent(new ArtemisBenchmark::PositionComponent());
-    entity.addComponent(new ArtemisBenchmark::DirectionComponent());
+    entity.addComponent(new PositionComponent());
+    entity.addComponent(new DirectionComponent());
 
     if (i % 2 != 0) {
-      entity.addComponent(new ArtemisBenchmark::ComflabulationComponent());
+      entity.addComponent(new ComflabulationComponent());
     }
 
     entity.refresh();
@@ -44,7 +43,7 @@ inline void init_entities(artemis::EntityManager *entities, size_t nentities) {
 
 inline void runEntitiesSystemsArtemisBenchmark(benchpress::context *ctx,
                                                size_t nentities) {
-  ArtemisBenchmark::Application app;
+  Application app;
   auto entities = app.getEntityManager();
 
   init_entities(entities, nentities);

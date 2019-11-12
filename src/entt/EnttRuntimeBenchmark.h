@@ -13,8 +13,6 @@
 
 namespace enttruntime_benchmark {
 
-class EnttRuntimeBenchmark {
-public:
   struct PositionComponent {
     float x = 0.0f;
     float y = 0.0f;
@@ -59,20 +57,9 @@ public:
     std::array<entt::component, 2> types;
 
   public:
-    MovementSystem(EntityManager &registry)
-        : types({registry.type<PositionComponent>(),
-                 registry.type<DirectionComponent>()}){};
+    MovementSystem(EntityManager &registry);
 
-    void update(EntityManager &registry, TimeDelta dt) override {
-      registry.runtime_view(std::begin(types), std::end(types))
-          .each([&](auto entity) {
-            auto &position = registry.get<PositionComponent>(entity);
-            auto &direction = registry.get<DirectionComponent>(entity);
-
-            position.x += direction.x * dt;
-            position.y += direction.y * dt;
-          });
-    }
+    void update(EntityManager &registry, TimeDelta dt) override;
   };
 
   class ComflabSystem : public System {
@@ -80,95 +67,30 @@ public:
     std::array<entt::component, 1> types;
 
   public:
-    ComflabSystem(EntityManager &registry)
-        : types({registry.type<ComflabulationComponent>()}){};
+    ComflabSystem(EntityManager &registry);
 
-    void update(EntityManager &registry, TimeDelta dt) override {
-      registry.runtime_view(std::begin(types), std::end(types))
-          .each([&](auto entity) {
-            auto &comflab = registry.get<ComflabulationComponent>(entity);
-
-            comflab.thingy *= 1.000001f;
-            comflab.mingy = !comflab.mingy;
-            comflab.dingy++;
-            // comflab.stringy = std::to_string(comflab.dingy);
-          });
-    }
+    void update(EntityManager &registry, TimeDelta dt) override;
   };
 
 #ifdef USE_MORECOMPLEX_SYSTEM
   class MoreComplexSystem : public System {
   private:
-    static int random(int min, int max) {
-      // Seed with a real random value, if available
-      static std::random_device r;
-
-      // Choose a random mean between min and max
-      static std::default_random_engine e1(r());
-
-      std::uniform_int_distribution<int> uniform_dist(min, max);
-
-      return uniform_dist(e1);
-    }
+    static int random(int min, int max);
 
     std::array<entt::component, 3> types;
 
   public:
-    MoreComplexSystem(EntityManager &registry)
-        : types({registry.type<PositionComponent>(),
-                 registry.type<DirectionComponent>(),
-                 registry.type<ComflabulationComponent>()}){};
+    MoreComplexSystem(EntityManager &registry);
 
-    void update(EntityManager &registry, TimeDelta dt) override {
-      registry.runtime_view(std::begin(types), std::end(types))
-          .each([&](auto entity) {
-            auto &position = registry.get<PositionComponent>(entity);
-            auto &direction = registry.get<DirectionComponent>(entity);
-            auto &comflab = registry.get<ComflabulationComponent>(entity);
-
-            std::vector<double> vec;
-            for (size_t i = 0; i < comflab.dingy && i < 100; i++) {
-              vec.push_back(i * comflab.thingy);
-            }
-
-            int sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
-            int product = std::accumulate(std::begin(vec), std::end(vec), 1,
-                                          std::multiplies<double>());
-
-            comflab.stringy = std::to_string(comflab.dingy);
-
-            if (comflab.dingy % 10000 == 0) {
-              if (position.x > position.y) {
-                direction.x = random(0, 5);
-                direction.y = random(0, 10);
-              } else {
-                direction.x = random(0, 10);
-                direction.y = random(0, 5);
-              }
-            }
-          });
-    }
+    void update(EntityManager &registry, TimeDelta dt) override;
   };
 #endif
 
   class Application {
   public:
-    Application() {
-      this->systems_.emplace_back(
-          std::make_unique<MovementSystem>(this->entities_));
-      this->systems_.emplace_back(
-          std::make_unique<ComflabSystem>(this->entities_));
-#ifdef USE_MORECOMPLEX_SYSTEM
-      this->systems_.emplace_back(
-          std::make_unique<MoreComplexSystem>(this->entities_));
-#endif
-    }
+    Application();
 
-    void update(TimeDelta dt) {
-      for (auto &system : this->systems_) {
-        system->update(this->entities_, dt);
-      }
-    }
+    void update(TimeDelta dt);
 
     EntityManager &getEntityManager() { return this->entities_; }
     const EntityManager &getEntityManager() const { return this->entities_; }
@@ -178,6 +100,8 @@ public:
     std::vector<std::unique_ptr<System>> systems_;
   };
 
+class EnttRuntimeBenchmark {
+public:
   static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 

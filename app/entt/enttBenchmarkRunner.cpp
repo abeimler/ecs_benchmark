@@ -12,11 +12,11 @@ namespace entt_benchmark {
 constexpr size_t _10M = 10'000'000L;
 
 BENCHMARK("[1] entt     Creating 10M entities", [](benchpress::context *ctx) {
-  EnttBenchmark::EntityManager registry;
+  EntityManager registry;
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    std::vector<EnttBenchmark::Entity> created_entities(_10M);
+    std::vector<Entity> created_entities(_10M);
 
     ctx->start_timer();
     for (size_t c = 0; c < _10M; c++) {
@@ -33,11 +33,11 @@ BENCHMARK("[1] entt     Creating 10M entities", [](benchpress::context *ctx) {
 })
 
 BENCHMARK("[2] entt     Destroying 10M entities", [](benchpress::context *ctx) {
-  EnttBenchmark::EntityManager registry;
+  EntityManager registry;
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    std::vector<EnttBenchmark::Entity> created_entities(_10M);
+    std::vector<Entity> created_entities(_10M);
 
     for (size_t c = 0; c < _10M; c++) {
       auto entity = registry.create();
@@ -54,20 +54,20 @@ BENCHMARK("[2] entt     Destroying 10M entities", [](benchpress::context *ctx) {
 
 BENCHMARK("[3] entt     Iterating over 10M entities, unpacking one component",
           [](benchpress::context *ctx) {
-            EnttBenchmark::EntityManager registry;
+            EntityManager registry;
 
             for (size_t c = 0; c < _10M; c++) {
               auto entity = registry.create();
-              registry.assign<EnttBenchmark::PositionComponent>(entity);
+              registry.assign<PositionComponent>(entity);
             }
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               for (auto entity :
-                   registry.view<EnttBenchmark::PositionComponent>()) {
+                   registry.view<PositionComponent>()) {
                 DISABLE_REDUNDANT_CODE_OPT();
                 auto &position =
-                    registry.get<EnttBenchmark::PositionComponent>(entity);
+                    registry.get<PositionComponent>(entity);
 
                 benchpress::escape(&entity);
                 benchpress::escape(&position);
@@ -77,24 +77,24 @@ BENCHMARK("[3] entt     Iterating over 10M entities, unpacking one component",
 
 BENCHMARK("[4] entt     Iterating over 10M entities, unpacking two components",
           [](benchpress::context *ctx) {
-            EnttBenchmark::EntityManager registry;
+            EntityManager registry;
 
             for (size_t c = 0; c < _10M; c++) {
               auto entity = registry.create();
-              registry.assign<EnttBenchmark::PositionComponent>(entity);
-              registry.assign<EnttBenchmark::DirectionComponent>(entity);
+              registry.assign<PositionComponent>(entity);
+              registry.assign<DirectionComponent>(entity);
             }
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               for (auto entity :
-                   registry.view<EnttBenchmark::PositionComponent,
-                                 EnttBenchmark::DirectionComponent>()) {
+                   registry.view<PositionComponent,
+                                 DirectionComponent>()) {
                 DISABLE_REDUNDANT_CODE_OPT();
                 auto &position =
-                    registry.get<EnttBenchmark::PositionComponent>(entity);
+                    registry.get<PositionComponent>(entity);
                 auto &velocity =
-                    registry.get<EnttBenchmark::DirectionComponent>(entity);
+                    registry.get<DirectionComponent>(entity);
 
                 benchpress::escape(&entity);
                 benchpress::escape(&position);
@@ -105,11 +105,11 @@ BENCHMARK("[4] entt     Iterating over 10M entities, unpacking two components",
 
 BENCHMARK("[5] entt     Creating 10M entities at once",
           [](benchpress::context *ctx) {
-            EnttBenchmark::EntityManager registry;
+            EntityManager registry;
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              std::vector<EnttBenchmark::Entity> created_entities(_10M);
+              std::vector<Entity> created_entities(_10M);
 
               ctx->start_timer();
               registry.create(std::begin(created_entities),
@@ -125,37 +125,37 @@ BENCHMARK("[5] entt     Creating 10M entities at once",
 
 BENCHMARK("entt     create destroy entity with components",
           [](benchpress::context *ctx) {
-            EnttBenchmark::EntityManager registry;
+            EntityManager registry;
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               auto entity = registry.create();
 
-              registry.assign<EnttBenchmark::PositionComponent>(entity);
-              registry.assign<EnttBenchmark::DirectionComponent>(entity);
-              registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
+              registry.assign<PositionComponent>(entity);
+              registry.assign<DirectionComponent>(entity);
+              registry.assign<ComflabulationComponent>(entity);
 
               registry.destroy(entity);
             }
           })
 
-inline void init_entities(EnttBenchmark::EntityManager &registry,
+inline void init_entities(EntityManager &registry,
                           size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto entity = registry.create();
 
-    registry.assign<EnttBenchmark::PositionComponent>(entity);
-    registry.assign<EnttBenchmark::DirectionComponent>(entity);
+    registry.assign<PositionComponent>(entity);
+    registry.assign<DirectionComponent>(entity);
 
     if (i % 2 != 0) {
-      registry.assign<EnttBenchmark::ComflabulationComponent>(entity);
+      registry.assign<ComflabulationComponent>(entity);
     }
   }
 }
 
 inline void runEntitiesSystemsEnttBenchmark(benchpress::context *ctx,
                                             size_t nentities) {
-  EnttBenchmark::Application app;
+  Application app;
   auto &registry = app.getEntityManager();
 
   init_entities(registry, nentities);
