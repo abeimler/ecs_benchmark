@@ -283,7 +283,7 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["update"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=update --csvunit seconds '
     csvfiles["update"] = os.path.abspath(doc_csv_dir + "/update.csv")
@@ -291,7 +291,7 @@ def main(argv):
     if config["plot"]:
         cmd = cmd + ' --plotdata > ' + datfiles["update"]
 
-    if config["benchmark"] and (config["gencsvfiles"] or config["plot"]):
+    if config["benchmark"] and ((not 'runbenchmarkupdate' in config or ('runbenchmarkupdate' in config and config["runbenchmarkupdate"])) and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -302,7 +302,7 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["updatelong"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatelong --csvunit seconds '
     csvfiles["updatelong"] = os.path.abspath(doc_csv_dir + "/updatelong.csv")
@@ -321,7 +321,7 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["eventbus"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'-eventbus\\s+.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=eventbus --csvunit seconds '
     csvfiles["eventbus"] = os.path.abspath(doc_csv_dir + "/eventbus.csv")
@@ -329,7 +329,7 @@ def main(argv):
     if config["plot"]:
         cmd = cmd + ' --plotdata > ' + datfiles["eventbus"]
 
-    if config["benchmark"] and (config["gencsvfiles"] or config["plot"]):
+    if config["benchmark"] and ((not 'runbenchmarkupdate' in config or ('runbenchmarkeventbus' in config and config["runbenchmarkeventbus"])) and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -339,13 +339,13 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["10Mentities"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*10M\\s+entities.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=10Mentities --csvunit seconds '
     csvfiles["10Mentities"] = os.path.abspath(doc_csv_dir + "/10Mentities.csv")
     csvfiles["print10Mentities"] = os.path.abspath(doc_csv_dir + "/print.10Mentities.csv")
     
-    if config["benchmark"] and config["gencsvfiles"]:
+    if config["benchmark"] and ((not 'runbenchmark10Mentities' in config or ('runbenchmark10Mentities' in config and config["runbenchmark10Mentities"])) and config["gencsvfiles"]):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -356,7 +356,7 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["updatemorecomplex"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatemorecomplex --csvunit seconds '
     csvfiles["updatemorecomplex"] = os.path.abspath(doc_csv_dir + "/updatemorecomplex.csv")
@@ -385,7 +385,7 @@ def main(argv):
             updateCSV(csvfiles["10Mentities"], "10Mentities", replaceCol10Mentities, csvfiles["print10Mentities"])
             print("CSV generate: {}".format(csvfiles["print10Mentities"]))
         if csvfiles["updatemorecomplex"]:
-            updateCSV(csvfiles["updatemorecomplex"], "updatemorecomplex", replaceColUpdateMoreComplex, csvfiles["printupdatemorecomplex"])
+            updateCSV(csvfiles["updatemorecomplex"], "-morecomplexupdate", replaceColUpdateMoreComplex, csvfiles["printupdatemorecomplex"])
             print("CSV generate: {}".format(csvfiles["printupdatemorecomplex"]))
 
 
@@ -452,6 +452,8 @@ def main(argv):
             pngs['results'] = pngs['updatelong']
         else:
             pngs['results'] = pngs['update']
+        if config["runbenchmarkupdatemorecomplex"]:
+            pngs['updatemorecomplex'] = git_doc_dir + "{}.png".format('updatemorecomplex')
         pngs['eventbus'] = git_doc_dir + "{}.png".format('eventbus')
 
         renderinfo = []

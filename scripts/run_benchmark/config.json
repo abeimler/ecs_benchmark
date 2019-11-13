@@ -6,7 +6,8 @@
         "ginseng",
         "entt",
         "entt-group",
-        "entt-runtime"
+        "entt-runtime",
+        "ecs"
     ],
     "updatelong": [
         "anax",
@@ -17,7 +18,8 @@
         "ginseng",
         "entt",
         "entt-group",
-        "entt-runtime"
+        "entt-runtime",
+        "ecs"
     ],
     "updatemorecomplex": [
         "entityx1-morecomplex",
@@ -26,7 +28,8 @@
         "ginseng-morecomplex",
         "entt-morecomplex",
         "entt-group-morecomplex",
-        "entt-runtime-morecomplex"
+        "entt-runtime-morecomplex",
+        "ecs-morecomplex"
     ],
     "eventbus": [
         "entityx",
@@ -39,7 +42,8 @@
         "ginseng",
         "entt",
         "entt-group",
-        "entt-runtime"
+        "entt-runtime",
+        "ecs"
     ],
 
     "info": {

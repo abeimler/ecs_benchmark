@@ -71,7 +71,7 @@ void MoreComplexSystem::update(TimeDelta dt) {
 Application::Application(bool addmorecomplexsystem) : addmorecomplexsystem_(addmorecomplexsystem) {
   this->addSystem(this->movement_system_);
   this->addSystem(this->comflab_system_);
-  if (addmorecomplexsystem_) {
+  if (this->addmorecomplexsystem_) {
     this->addSystem(this->morecomplex_system_);
   }
 }
@@ -81,7 +81,7 @@ void Application::update(TimeDelta dt) {
 
   this->movement_system_.update(dt);
   this->comflab_system_.update(dt);
-  if (addmorecomplexsystem_) {
+  if (this->addmorecomplexsystem_) {
     this->morecomplex_system_.update(dt);
   }
 }
