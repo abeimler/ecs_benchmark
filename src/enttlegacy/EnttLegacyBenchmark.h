@@ -92,10 +92,6 @@ private:
   bool addmorecomplexsystem_;
 };
 
-class EnttLegacyBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
 
 } // namespace enttlegacy_benchmark
 

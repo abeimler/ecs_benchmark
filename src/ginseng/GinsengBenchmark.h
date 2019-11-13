@@ -88,11 +88,6 @@ private:
   bool addmorecomplexsystem_;
 };
 
-class GinsengBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
-
 } // namespace ginseng_benchmark
 
 #endif // GINSENGBENCHMARK_H_

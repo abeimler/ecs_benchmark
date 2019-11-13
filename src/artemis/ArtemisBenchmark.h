@@ -108,11 +108,6 @@ private:
   bool addmorecomplexsystem_;
 };
 
-class ArtemisBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
-
 } // namespace artemis_benchmark
 
 #endif // ARTEMISBENCHMARK_H_

@@ -91,10 +91,6 @@ private:
   bool addmorecomplexsystem_;
 };
 
-class EntityX2Benchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
 
 } // namespace entityx2_benchmark
 

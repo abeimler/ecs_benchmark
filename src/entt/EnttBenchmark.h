@@ -90,11 +90,6 @@ private:
   bool addmorecomplexsystem_;
 };
 
-class EnttBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
-
 } // namespace entt_benchmark
 
 #endif // ENTTBENCHMARK_H_

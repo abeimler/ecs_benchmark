@@ -70,32 +70,6 @@ BENCHMARK("[4] entt-runtime     Iterating over 10M entities, unpacking two "
             }
           })
 
-inline void init_entities(EntityManager &registry, size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = registry.create();
-
-    registry.assign<PositionComponent>(entity);
-    registry.assign<DirectionComponent>(entity);
-
-    if (i % 2 != 0) {
-      registry.assign<ComflabulationComponent>(entity);
-    }
-  }
-}
-
-inline void runEntitiesSystemsEnttRuntimeBenchmark(benchpress::context *ctx,
-                                                   size_t nentities) {
-  Application app;
-  auto &registry = app.getEntityManager();
-
-  init_entities(registry, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(EnttRuntimeBenchmark::fakeDeltaTime);
-  }
-}
-
 class BenchmarkEnttRuntime
     : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
                                           TimeDelta> {

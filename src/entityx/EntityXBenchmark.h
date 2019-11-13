@@ -79,10 +79,6 @@ public:
 private:
   bool addmorecomplexsystem_;
 };
-class EntityXBenchmark {
-public:
-  static constexpr double fakeDeltaTime = 1.0 / 60;
-};
 
 } // namespace entityx1_benchmark
 

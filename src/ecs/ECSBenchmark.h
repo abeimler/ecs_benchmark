@@ -105,11 +105,6 @@ private:
   bool addmorecomplexsystem_;
 };
 
-class ECSBenchmark {
-public:
-static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
-
 } // namespace ecs_benchmark
 
 #endif // ECSBENCHMARK_H_

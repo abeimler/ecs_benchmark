@@ -93,6 +93,8 @@ public:
 
 class Application : public anax::World {
 public:
+  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
+
   Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt);
@@ -105,11 +107,6 @@ private:
   ComflabSystem comflab_system_;
   MoreComplexSystem morecomplex_system_;
   bool addmorecomplexsystem_;
-};
-
-class AnaxBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 
 } // namespace anax_benchmark
