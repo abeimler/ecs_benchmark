@@ -1,17 +1,14 @@
+#include <benchpress/benchpress.hpp>
+
 #include <anax/AnaxBenchmark.h>
 
-#include <anax/anax.hpp>
-#include <benchpress/benchpress.hpp>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
+#include <BaseBenchmark.h>
 
 namespace anax_benchmark {
 
 BENCHMARK("anax create destroy entity with components",
           [](benchpress::context *ctx) {
-            anax::World entities;
+            EntityManager entities;
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
@@ -25,67 +22,45 @@ BENCHMARK("anax create destroy entity with components",
             }
           })
 
-inline void init_entities(anax::World &entities, size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = entities.createEntity();
+class BenchmarkAnax
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+                                          TimeDelta> {
+public:
+  BenchmarkAnax(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000}) {}
 
-    entity.addComponent<PositionComponent>();
-    entity.addComponent<DirectionComponent>();
-
-    if (i % 2 != 0) {
-      entity.addComponent<ComflabulationComponent>();
-    }
-
+  auto createOneEntity(EntityManager &registry) -> Entity& override {
+    return this->entities_.emplace_back(registry.createEntity());
+  }
+  void afterCreateEntity(EntityManager & /*registry*/, Entity &entity) override {
     entity.activate();
   }
-}
-
-inline void runEntitiesSystemsAnaxBenchmark(benchpress::context *ctx,
-                                            size_t nentities,
-                                            bool addmorecomplexsystem) {
-  Application app (addmorecomplexsystem);
-
-  init_entities(app, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(AnaxBenchmark::fakeDeltaTime);
+  void afterBenchmark(Application&  /*app*/) override {
+    this->entities_.clear();
   }
-}
-
-class AnaxBenchmarks {
-public:
-  static const std::vector<int> ENTITIES;
-
-  static inline void makeBenchmarks(const std::string &name,
-                                    bool addmorecomplexsystem) {
-    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
+  void assignPositionComponent(EntityManager & /*registry*/,
+                               Entity &entity) override {
+    entity.addComponent<PositionComponent>();
+  }
+  void assignDirectionComponent(EntityManager & /*registry*/,
+                                Entity &entity) override {
+    entity.addComponent<DirectionComponent>();
+  }
+  void assignComflabulationComponent(EntityManager & /*registry*/,
+                                     Entity &entity) override {
+    entity.addComponent<ComflabulationComponent>();
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities,
-                             bool addmorecomplexsystem) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
-        runEntitiesSystemsAnaxBenchmark(ctx, nentities, addmorecomplexsystem);
-      })
-    }
+  auto createApplication(bool addmorecomplexsystem) -> Application override {
+    return Application(addmorecomplexsystem);
   }
-
-  AnaxBenchmarks(const std::string &name, bool addmorecomplexsystem) {
-    makeBenchmarks(name, addmorecomplexsystem);
-  }
+private:
+  std::vector<Entity> entities_;
 };
-const std::vector<int> AnaxBenchmarks::ENTITIES = {
-    10,   25,   50,     100,    200,     400,     800,       1600,
-    3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000, 2'000'000};
 
-AnaxBenchmarks anaxbenchmarks("anax", false);
-AnaxBenchmarks anaxbenchmarks_morecomplex("anax-morecomplex", true);
+BenchmarkAnax anaxbenchmarks("anax", false);
+BenchmarkAnax anaxbenchmarks_morecomplex("anax-morecomplex", true);
 
 } // namespace anax_benchmark

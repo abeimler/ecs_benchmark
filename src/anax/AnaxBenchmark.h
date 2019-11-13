@@ -58,6 +58,8 @@ struct ComflabulationComponent : anax::Component {
 #endif // ANAX_VIRTUAL_DTORS_IN_COMPONENT
 };
 
+using EntityManager = anax::World;
+using Entity = anax::Entity;
 using TimeDelta = double;
 
 class MovementSystem
@@ -94,6 +96,9 @@ public:
   Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt);
+
+  EntityManager &getEntityManager() { return *this; }
+  const EntityManager &getEntityManager() const { return *this; }
 
 private:
   MovementSystem movement_system_;

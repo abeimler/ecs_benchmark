@@ -13,6 +13,9 @@ set(${CMAKE_PROJECT_NAME}_SOURCE "")
 #           cog.outl("    ${CMAKE_CURRENT_SOURCE_DIR}/%s " % os.path.relpath(src, path))
 #       cog.outl(")")
 # ]]]
+list(APPEND ${CMAKE_PROJECT_NAME}_HEADERS 
+    ${CMAKE_CURRENT_SOURCE_DIR}/BaseBenchmark.h 
+)
 # [[[end]]]
 
 # [[[cog
@@ -29,6 +32,7 @@ set(${CMAKE_PROJECT_NAME}_SOURCE "")
 # ]]]
 list(APPEND ${CMAKE_PROJECT_NAME}_SOURCE 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/BaseBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/ginsengBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ecsBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/enttBenchmarkRunner.cpp 

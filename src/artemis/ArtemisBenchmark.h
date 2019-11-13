@@ -100,6 +100,7 @@ public:
 
   void update(TimeDelta dt);
 
+  EntityManager &getEntityManager() { return *this->artemis::World::getEntityManager(); }
 private:
   MovementSystem *movement_system_;
   ComflabSystem *comflab_system_;

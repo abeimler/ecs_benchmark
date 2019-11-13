@@ -1,11 +1,8 @@
 #include <ecs/ECSBenchmark.h>
 
+#include <BaseBenchmark.h>
+
 #include <benchpress/benchpress.hpp>
-#include <memory>
-#include <sstream>
-#include <string>
-#include <thread>
-#include <vector>
 
 namespace ecs_benchmark {
 
@@ -28,6 +25,7 @@ BENCHMARK("[1] ecs     Creating 10M entities", [](benchpress::context *ctx) {
     registry->cleanup();
   }
 
+  ctx->stop_timer();
   registry->destroyWorld();
 })
 
@@ -50,6 +48,7 @@ BENCHMARK("[2] ecs     Destroying 10M entities", [](benchpress::context *ctx) {
     ctx->stop_timer();
   }
 
+  ctx->stop_timer();
   registry->destroyWorld();
 })
 
@@ -152,67 +151,38 @@ BENCHMARK("ecs     create destroy entity with components",
             registry->destroyWorld();
           })
 
-inline void init_entities(EntityManager *registry, size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = registry->create();
-
-    entity->assign<PositionComponent>();
-    entity->assign<DirectionComponent>();
-
-    if (i % 2 != 0) {
-      entity->assign<ComflabulationComponent>();
-    }
-  }
-}
-
-inline void runEntitiesSystemsECSBenchmark(benchpress::context *ctx,
-                                           size_t nentities,
-                                           bool addmorecomplexsystem) {
-  Application app(addmorecomplexsystem);
-  auto registry = app.getEntityManager();
-
-  init_entities(registry, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(ECSBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksECS {
+class BenchmarkECS
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+                                          TimeDelta> {
 public:
-  static const std::vector<int> ENTITIES;
+  BenchmarkECS(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000,
+                       5'000'000, 10'000'000, 20'000'000}) {}
 
-  static inline void makeBenchmarks(const std::string &name,
-                                    bool addmorecomplexsystem) {
-    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
+  auto createOneEntity(EntityManager &registry) -> Entity& override {
+    return *registry.create();
+  }
+  void assignPositionComponent(EntityManager & /*registry*/,
+                               Entity &entity) override {
+    entity.assign<PositionComponent>();
+  }
+  void assignDirectionComponent(EntityManager & /*registry*/,
+                                Entity &entity) override {
+    entity.assign<DirectionComponent>();
+  }
+  void assignComflabulationComponent(EntityManager & /*registry*/,
+                                     Entity &entity) override {
+    entity.assign<ComflabulationComponent>();
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities,
-                             bool addmorecomplexsystem) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
-        runEntitiesSystemsECSBenchmark(ctx, nentities, addmorecomplexsystem);
-      })
-    }
-  }
-
-  BenchmarksECS(const std::string &name, bool addmorecomplexsystem) {
-    makeBenchmarks(name, addmorecomplexsystem);
+  auto createApplication(bool addmorecomplexsystem) -> Application override {
+    return Application(addmorecomplexsystem);
   }
 };
-const std::vector<int> BenchmarksECS::ENTITIES = {
-    10,        25,        50,        100,        200,       400,     800,
-    1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
-    1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksECS ecsbenchmarks("ecs", false);
-BenchmarksECS ecsbenchmarks_morecomplex("ecs-morecomplex", true);
+BenchmarkECS ecsbenchmarks("ecs", false);
+BenchmarkECS ecsbenchmarks_morecomplex("ecs-morecomplex", true);
 
 } // namespace ecs_benchmark

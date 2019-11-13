@@ -73,6 +73,9 @@ public:
 
   void update(TimeDelta dt);
 
+  EntityManager &getEntityManager() { return this->entities; }
+  const EntityManager &getEntityManager() const { return this->entities; }
+
 private:
   bool addmorecomplexsystem_;
 };

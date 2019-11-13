@@ -1,10 +1,8 @@
+#include <benchpress/benchpress.hpp>
+
 #include <entityx/EntityXBenchmark.h>
 
-#include <benchpress/benchpress.hpp>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
+#include <BaseBenchmark.h>
 
 namespace entityx1_benchmark {
 
@@ -16,6 +14,7 @@ BENCHMARK("[1] entityx1 Creating 10M entities", [](benchpress::context *ctx) {
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+    ctx->stop_timer();
     std::vector<Entity> created_entities(_10M);
 
     ctx->start_timer();
@@ -38,6 +37,7 @@ BENCHMARK("[2] entityx1 Destroying 10M entities", [](benchpress::context *ctx) {
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+    ctx->stop_timer();
     std::vector<Entity> created_entities(_10M);
 
     for (size_t c = 0; c < _10M; c++) {
@@ -118,66 +118,43 @@ BENCHMARK("entityx1 create destroy entity with components",
             }
           })
 
-inline void init_entities(entityx::EntityManager &entities, size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = entities.create();
-
-    entity.assign<PositionComponent>();
-    entity.assign<DirectionComponent>();
-
-    if (i % 2 != 0) {
-      entity.assign<ComflabulationComponent>();
-    }
-  }
-}
-
-inline void runEntitiesSystemsEntityXBenchmark(benchpress::context *ctx,
-                                               size_t nentities,
-                                               bool addmorecomplexsystem) {
-  Application app (addmorecomplexsystem);
-  auto &entities = app.entities;
-
-  init_entities(entities, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(EntityXBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksEntityX {
+class BenchmarkEntityX
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+                                          TimeDelta> {
 public:
-  static const std::vector<int> ENTITIES;
+  BenchmarkEntityX(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000,
+                       5'000'000, 10'000'000, 20'000'000}) {}
 
-  static inline void makeBenchmarks(const std::string &name, bool addmorecomplexsystem) {
-    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
+  auto createOneEntity(EntityManager &registry) -> Entity& override {
+    return this->entities_.emplace_back(registry.create());
+  }
+  void afterBenchmark(Application&  /*app*/) override {
+    this->entities_.clear();
+  }
+  void assignPositionComponent(EntityManager & /*registry*/,
+                               Entity &entity) override {
+    entity.assign<PositionComponent>();
+  }
+  void assignDirectionComponent(EntityManager & /*registry*/,
+                                Entity &entity) override {
+    entity.assign<DirectionComponent>();
+  }
+  void assignComflabulationComponent(EntityManager & /*registry*/,
+                                     Entity &entity) override {
+    entity.assign<ComflabulationComponent>();
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities,
-                             bool addmorecomplexsystem) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
-        runEntitiesSystemsEntityXBenchmark(ctx, nentities, addmorecomplexsystem);
-      })
-    }
+  auto createApplication(bool addmorecomplexsystem) -> Application override {
+    return Application(addmorecomplexsystem);
   }
-
-  BenchmarksEntityX(const std::string &name, bool addmorecomplexsystem) { 
-    makeBenchmarks(name, addmorecomplexsystem); 
-  }
+private:
+  std::vector<Entity> entities_;
 };
-const std::vector<int> BenchmarksEntityX::ENTITIES = {
-    10,        25,        50,        100,        200,       400,     800,
-    1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
-    1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksEntityX entityxbenchmarks("entityx1", false);
-BenchmarksEntityX entityxbenchmarks_morecomplex("entityx1-morecomplex", true);
+BenchmarkEntityX entityxbenchmarks("entityx1", false);
+BenchmarkEntityX entityxbenchmarks_morecomplex("entityx1-morecomplex", true);
 
 } // namespace entityx1_benchmark

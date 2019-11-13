@@ -1,11 +1,8 @@
-#include <Artemis/Artemis.h>
 #include <artemis/ArtemisBenchmark.h>
 
 #include <benchpress/benchpress.hpp>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
+
+#include <BaseBenchmark.h>
 
 namespace artemis_benchmark {
 
@@ -26,67 +23,41 @@ BENCHMARK("artemis create destroy entity with components",
             }
           })
 
-inline void init_entities(artemis::EntityManager *entities, size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto &entity = entities->create();
+class BenchmarkArtemis
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+                                          TimeDelta> {
+public:
+  BenchmarkArtemis(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000}) {}
 
-    entity.addComponent(new PositionComponent());
-    entity.addComponent(new DirectionComponent());
-
-    if (i % 2 != 0) {
-      entity.addComponent(new ComflabulationComponent());
-    }
-
+  auto createOneEntity(EntityManager &registry) -> Entity& override {
+    return registry.create();
+  }
+  void afterCreateEntity(EntityManager & /*registry*/, Entity &entity) override {
     entity.refresh();
   }
-}
-
-inline void runEntitiesSystemsArtemisBenchmark(benchpress::context *ctx,
-                                               size_t nentities,
-                                               bool addmorecomplexsystem) {
-  Application app (addmorecomplexsystem);
-  auto entities = app.getEntityManager();
-
-  init_entities(entities, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(ArtemisBenchmark::fakeDeltaTime);
+  void assignPositionComponent(EntityManager & /*registry*/,
+                               Entity &entity) override {
+    entity.addComponent(new PositionComponent());
   }
-}
-
-class BenchmarksArtemis {
-public:
-  static const std::vector<int> ENTITIES;
-
-  static inline void makeBenchmarks(const std::string &name, bool addmorecomplexsystem) {
-    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
+  void assignDirectionComponent(EntityManager & /*registry*/,
+                                Entity &entity) override {
+    entity.addComponent(new DirectionComponent());
+  }
+  void assignComflabulationComponent(EntityManager & /*registry*/,
+                                     Entity &entity) override {
+    entity.addComponent(new ComflabulationComponent());
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities,
-                             bool addmorecomplexsystem) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
-        runEntitiesSystemsArtemisBenchmark(ctx, nentities, addmorecomplexsystem);
-      })
-    }
-  }
-
-  BenchmarksArtemis(const std::string &name, bool addmorecomplexsystem) { 
-    makeBenchmarks(name, addmorecomplexsystem); 
+  auto createApplication(bool addmorecomplexsystem) -> Application override {
+    return Application(addmorecomplexsystem);
   }
 };
-const std::vector<int> BenchmarksArtemis::ENTITIES = {
-    10,   25,   50,     100,    200,     400,     800,      1600,
-    3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000};
 
-BenchmarksArtemis artemisbenchmarks("artemis", false);
-BenchmarksArtemis artemisbenchmarks_morecomplex("artemis-morecomplex", true);
+
+BenchmarkArtemis artemisbenchmarks("artemis", false);
+BenchmarkArtemis artemisbenchmarks_morecomplex("artemis-morecomplex", true);
 
 } // namespace artemis_benchmark

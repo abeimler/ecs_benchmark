@@ -56,7 +56,8 @@ void MoreComplexSystem::update(EntityManager &db, TimeDelta dt) {
   });
 }
 
-Application::Application(bool addmorecomplexsystem) : addmorecomplexsystem_(addmorecomplexsystem) {
+Application::Application(bool addmorecomplexsystem)
+    : addmorecomplexsystem_(addmorecomplexsystem) {
   this->systems_.emplace_back(std::make_unique<MovementSystem>());
   this->systems_.emplace_back(std::make_unique<ComflabSystem>());
   if (this->addmorecomplexsystem_) {

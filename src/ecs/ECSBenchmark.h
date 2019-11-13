@@ -96,8 +96,8 @@ public:
 
   void update(TimeDelta dt) { this->entities_->tick(dt); }
 
-  EntityManager *getEntityManager() { return this->entities_; }
-  const EntityManager *getEntityManager() const { return this->entities_; }
+  EntityManager &getEntityManager() { return *this->entities_; }
+  const EntityManager &getEntityManager() const { return *this->entities_; }
 
 private:
   EntityManager *entities_;

@@ -1,11 +1,8 @@
+#include <benchpress/benchpress.hpp>
+
 #include <entt/EnttBenchmark.h>
 
-#include <benchpress/benchpress.hpp>
-#include <memory>
-#include <sstream>
-#include <string>
-#include <thread>
-#include <vector>
+#include <BaseBenchmark.h>
 
 namespace entt_benchmark {
 
@@ -16,6 +13,7 @@ BENCHMARK("[1] entt     Creating 10M entities", [](benchpress::context *ctx) {
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+    ctx->stop_timer();
     std::vector<Entity> created_entities(_10M);
 
     ctx->start_timer();
@@ -37,6 +35,7 @@ BENCHMARK("[2] entt     Destroying 10M entities", [](benchpress::context *ctx) {
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+    ctx->stop_timer();
     std::vector<Entity> created_entities(_10M);
 
     for (size_t c = 0; c < _10M; c++) {
@@ -63,11 +62,9 @@ BENCHMARK("[3] entt     Iterating over 10M entities, unpacking one component",
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              for (auto entity :
-                   registry.view<PositionComponent>()) {
+              for (auto entity : registry.view<PositionComponent>()) {
                 DISABLE_REDUNDANT_CODE_OPT();
-                auto &position =
-                    registry.get<PositionComponent>(entity);
+                auto &position = registry.get<PositionComponent>(entity);
 
                 benchpress::escape(&entity);
                 benchpress::escape(&position);
@@ -88,13 +85,10 @@ BENCHMARK("[4] entt     Iterating over 10M entities, unpacking two components",
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               for (auto entity :
-                   registry.view<PositionComponent,
-                                 DirectionComponent>()) {
+                   registry.view<PositionComponent, DirectionComponent>()) {
                 DISABLE_REDUNDANT_CODE_OPT();
-                auto &position =
-                    registry.get<PositionComponent>(entity);
-                auto &velocity =
-                    registry.get<DirectionComponent>(entity);
+                auto &position = registry.get<PositionComponent>(entity);
+                auto &velocity = registry.get<DirectionComponent>(entity);
 
                 benchpress::escape(&entity);
                 benchpress::escape(&position);
@@ -109,6 +103,7 @@ BENCHMARK("[5] entt     Creating 10M entities at once",
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+              ctx->stop_timer();
               std::vector<Entity> created_entities(_10M);
 
               ctx->start_timer();
@@ -139,67 +134,43 @@ BENCHMARK("entt     create destroy entity with components",
             }
           })
 
-inline void init_entities(EntityManager &registry,
-                          size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = registry.create();
-
-    registry.assign<PositionComponent>(entity);
-    registry.assign<DirectionComponent>(entity);
-
-    if (i % 2 != 0) {
-      registry.assign<ComflabulationComponent>(entity);
-    }
-  }
-}
-
-inline void runEntitiesSystemsEnttBenchmark(benchpress::context *ctx,
-                                            size_t nentities,
-                                            bool addmorecomplexsystem) {
-  Application app (addmorecomplexsystem);
-  auto &registry = app.getEntityManager();
-
-  init_entities(registry, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(EnttBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksEntt {
+class BenchmarkEntt
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+                                          TimeDelta> {
 public:
-  static const std::vector<int> ENTITIES;
+  BenchmarkEntt(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000,
+                       5'000'000, 10'000'000, 20'000'000}) {}
 
-  static inline void makeBenchmarks(const std::string &name, bool addmorecomplexsystem) {
-    makeBenchmarks(name, ENTITIES, addmorecomplexsystem);
+  auto createOneEntity(EntityManager &registry) -> Entity& override {
+    return this->entities_.emplace_back(registry.create());
+  }
+  void afterBenchmark(Application&  /*app*/) override {
+    this->entities_.clear();
+  }
+  void assignPositionComponent(EntityManager &registry,
+                               Entity &entity) override {
+    registry.assign<PositionComponent>(entity);
+  }
+  void assignDirectionComponent(EntityManager &registry,
+                                Entity &entity) override {
+    registry.assign<DirectionComponent>(entity);
+  }
+  void assignComflabulationComponent(EntityManager &registry,
+                                     Entity &entity) override {
+    registry.assign<ComflabulationComponent>(entity);
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities,
-                             bool addmorecomplexsystem) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [&](benchpress::context *ctx) {
-        runEntitiesSystemsEnttBenchmark(ctx, nentities, addmorecomplexsystem);
-      })
-    }
+  auto createApplication(bool addmorecomplexsystem) -> Application override {
+    return Application(addmorecomplexsystem);
   }
-
-  BenchmarksEntt(const std::string &name, bool addmorecomplexsystem) { 
-    makeBenchmarks(name, addmorecomplexsystem); 
-  }
+private:
+  std::vector<Entity> entities_;
 };
-const std::vector<int> BenchmarksEntt::ENTITIES = {
-    10,        25,        50,        100,        200,       400,     800,
-    1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
-    1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksEntt enttbenchmarks("entt", false);
-BenchmarksEntt enttbenchmarks_morecomplex("entt-morecomplex", true);
+BenchmarkEntt enttbenchmarks("entt", false);
+BenchmarkEntt enttbenchmarks_morecomplex("entt-morecomplex", true);
 
 } // namespace entt_benchmark
