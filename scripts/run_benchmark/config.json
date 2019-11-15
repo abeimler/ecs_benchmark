@@ -33,7 +33,8 @@
     ],
     "eventbus": [
         "entityx",
-        "eventpp"
+        "eventpp",
+        "ecs"
     ],
     "10Mentities": [
         "entityx1",
@@ -134,10 +135,10 @@
         }
     },
 
-    "simplebenchmark": true,
+    "simplebenchmark": false,
     "benchmark": true,
-    "runbenchmarkupdatelong": true,
-    "runbenchmarkupdatemorecomplex": true,
+    "runbenchmarkupdatelong": false,
+    "runbenchmarkupdatemorecomplex": false,
     "plot": true,
     "gencsvfiles": true,
     "genreadme": true

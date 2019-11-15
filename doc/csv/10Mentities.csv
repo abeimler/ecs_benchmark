@@ -1,6 +1,7 @@
-;"entt10Mentities";"ginseng10Mentities";"entityx110Mentities";"entityx210Mentities";"entt-group10Mentities";"entt-runtime10Mentities";"enttlegacy10Mentities"
-"1";0.076s;0.086s;0.251s;0.134s;"N/A";"N/A";0.055s
-"2";0.072s;1.612s;0.410s;0.135s;"N/A";"N/A";0.079s
-"3";0.023s;0.012s;0.059s;0.028s;"N/A";0.000s;0.010s
-"4";0.061s;0.029s;0.117s;0.030s;0.017s;0.000s;0.019s
-"5";0.045s;"N/A";"N/A";0.061s;"N/A";"N/A";"N/A"
+;"ecs10Mentities";"entt10Mentities";"ginseng10Mentities";"entityx110Mentities";"entityx210Mentities";"entt-group10Mentities";"enttlegacy10Mentities";"entt-runtime10Mentities"
+"1";0.573s;0.085s;0.114s;0.274s;0.158s;"N/A";0.062s;"N/A"
+"2";0.252s;0.071s;1.473s;0.339s;0.109s;"N/A";0.085s;"N/A"
+"3";0.158s;0.023s;0.012s;0.062s;0.029s;"N/A";0.010s;0.000s
+"4";"N/A";0.065s;0.032s;0.115s;0.032s;0.018s;0.025s;0.000s
+"5";"N/A";0.055s;"N/A";"N/A";0.071s;"N/A";"N/A";"N/A"
+"6";0.300s;"N/A";"N/A";"N/A";0.065s;"N/A";"N/A";"N/A"

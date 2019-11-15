@@ -1,6 +1,7 @@
-,EnTT,Ginseng,EntityX,EntityX (experimental/compile_time),EnTT (use group),EnTT (use runtime-view),EnTT (legacy)
-Creating 10M entities,0.076s,0.086s,0.251s,0.134s,N/A,N/A,0.055s
-Destroying 10M entities,0.072s,1.612s,0.410s,0.135s,N/A,N/A,0.079s
-"Iterating over 10M entities, unpacking one component",0.023s,0.012s,0.059s,0.028s,N/A,0.000s,0.010s
-"Iterating over 10M entities, unpacking two components",0.061s,0.029s,0.117s,0.030s,0.017s,0.000s,0.019s
-Creating 10M entities at once,0.045s,N/A,N/A,0.061s,N/A,N/A,N/A
+,ECS,EnTT,Ginseng,EntityX,EntityX (experimental/compile_time),EnTT (use group),EnTT (legacy),EnTT (use runtime-view)
+Creating 10M entities,0.573s,0.085s,0.114s,0.274s,0.158s,N/A,0.062s,N/A
+Destroying 10M entities,0.252s,0.071s,1.473s,0.339s,0.109s,N/A,0.085s,N/A
+"Iterating over 10M entities, unpacking one component",0.158s,0.023s,0.012s,0.062s,0.029s,N/A,0.010s,0.000s
+"Iterating over 10M entities, unpacking two components",N/A,0.065s,0.032s,0.115s,0.032s,0.018s,0.025s,0.000s
+Creating 10M entities at once,N/A,0.055s,N/A,N/A,0.071s,N/A,N/A,N/A
+Destroying 10M entities at once,0.300s,N/A,N/A,N/A,0.065s,N/A,N/A,N/A
