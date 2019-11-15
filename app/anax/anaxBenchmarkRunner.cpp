@@ -22,45 +22,63 @@ BENCHMARK("anax create destroy entity with components",
             }
           })
 
-class BenchmarkAnax
-    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
-                                          TimeDelta> {
-public:
-  BenchmarkAnax(const std::string &name, bool addmorecomplexsystem)
-      : BaseBenchmark(name, addmorecomplexsystem,
-                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
-                       30'000, 100'000, 500'000, 1'000'000, 2'000'000}) {}
+inline void init_entities(EntityManager &entities, size_t nentities) {
+  for (size_t i = 0; i < nentities; i++) {
+    auto entity = entities.createEntity();
 
-  auto createOneEntity(EntityManager &registry) -> Entity& override {
-    return this->entities_.emplace_back(registry.createEntity());
-  }
-  void afterCreateEntity(EntityManager & /*registry*/, Entity &entity) override {
+    entity.addComponent<PositionComponent>();
+    entity.addComponent<DirectionComponent>();
+
+    if (i % 2 != 0) {
+      entity.addComponent<ComflabulationComponent>();
+    }
+
     entity.activate();
   }
-  void afterBenchmark(Application&  /*app*/) override {
-    this->entities_.clear();
-  }
-  void assignPositionComponent(EntityManager & /*registry*/,
-                               Entity &entity) override {
-    entity.addComponent<PositionComponent>();
-  }
-  void assignDirectionComponent(EntityManager & /*registry*/,
-                                Entity &entity) override {
-    entity.addComponent<DirectionComponent>();
-  }
-  void assignComflabulationComponent(EntityManager & /*registry*/,
-                                     Entity &entity) override {
-    entity.addComponent<ComflabulationComponent>();
-  }
+}
 
-  auto createApplication(bool addmorecomplexsystem) -> Application override {
-    return Application(addmorecomplexsystem);
-  }
+class AnaxBenchmark {
 private:
-  std::vector<Entity> entities_;
-};
+  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
+  static const std::vector<int> ENTITIES;
 
-BenchmarkAnax anaxbenchmarks("anax", false);
-BenchmarkAnax anaxbenchmarks_morecomplex("anax-morecomplex", true);
+  static inline void makeBenchmarks(const std::string &name) {
+    makeBenchmarks(name, ENTITIES);
+  }
+
+  static void makeBenchmarks(const std::string &name,
+                             const std::vector<int> &entities) {
+    for (int nentities : entities) {
+      std::string tag = fmt::format("[{}]", nentities);
+      std::string benchmark_name =
+          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
+                      tag, name, nentities);
+
+      std::function<void(benchpress::context *)> bench_func =
+          [nentities = nentities](benchpress::context *ctx) {
+            Application app;
+
+            init_entities(app, nentities);
+
+            ctx->reset_timer();
+            for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+              app.update(fakeDeltaTime);
+            }
+          };
+
+      BENCHMARK(benchmark_name, bench_func)
+    }
+  }
+
+public:
+  AnaxBenchmark(const std::string &name) {
+    makeBenchmarks(name);
+  }
+};
+const std::vector<int> AnaxBenchmark::ENTITIES = {
+    10,   25,   50,     100,    200,     400,     800,       1600,
+    3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000, 2'000'000};
+
+AnaxBenchmark anaxbenchmarks("anax");
 
 } // namespace anax_benchmark

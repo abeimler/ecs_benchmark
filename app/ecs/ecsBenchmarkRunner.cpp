@@ -152,7 +152,7 @@ BENCHMARK("ecs     create destroy entity with components",
           })
 
 class BenchmarkECS
-    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Entity*, Application,
                                           TimeDelta> {
 public:
   BenchmarkECS(const std::string &name, bool addmorecomplexsystem)
@@ -160,25 +160,22 @@ public:
                       {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
                        30'000, 100'000, 500'000, 1'000'000, 2'000'000,
                        5'000'000, 10'000'000, 20'000'000}) {}
+  ~BenchmarkECS() override = default;
 
-  auto createOneEntity(EntityManager &registry) -> Entity& override {
-    return *registry.create();
+  auto createOneEntity(EntityManager &registry) -> Entity* override {
+    return registry.create();
   }
   void assignPositionComponent(EntityManager & /*registry*/,
-                               Entity &entity) override {
-    entity.assign<PositionComponent>();
+                               Entity *&entity) override {
+    entity->assign<PositionComponent>();
   }
   void assignDirectionComponent(EntityManager & /*registry*/,
-                                Entity &entity) override {
-    entity.assign<DirectionComponent>();
+                                Entity *&entity) override {
+    entity->assign<DirectionComponent>();
   }
   void assignComflabulationComponent(EntityManager & /*registry*/,
-                                     Entity &entity) override {
-    entity.assign<ComflabulationComponent>();
-  }
-
-  auto createApplication(bool addmorecomplexsystem) -> Application override {
-    return Application(addmorecomplexsystem);
+                                     Entity *&entity) override {
+    entity->assign<ComflabulationComponent>();
   }
 };
 

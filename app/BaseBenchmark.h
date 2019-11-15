@@ -10,17 +10,18 @@
 
 namespace ecs_benchmark {
 
-template <class EntityManager, class Entity, class Application,
-          typename TimeDelta>
+template <class EntityManager, class Entity, typename EntityCreatedType,
+          class Application, typename TimeDelta>
 class BaseBenchmark {
-private:
+protected:
   const std::string name_;
   const bool addmorecomplexsystem_;
   const std::vector<int> entities_;
 
+private:
   void init_entities(EntityManager &registry, int nentities) {
     for (size_t i = 0; i < nentities; i++) {
-      auto&& entity = createOneEntity(registry);
+      EntityCreatedType entity = createOneEntity(registry);
 
       assignPositionComponent(registry, entity);
       assignDirectionComponent(registry, entity);
@@ -39,15 +40,14 @@ private:
                       tag, this->name_, nentities);
 
       std::function<void(benchpress::context *)> benchmark_func =
-          [this, nentities=nentities](benchpress::context *ctx) {
-            Application app = this->createApplication(this->addmorecomplexsystem_);
+          [this, nentities = nentities](benchpress::context *ctx) {
+            Application app;
             auto &registry = app.getEntityManager();
-
             this->init_entities(registry, nentities);
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              app.update(BaseBenchmark::fakeDeltaTime);
+              app.update(this->fakeDeltaTime);
             }
 
             ctx->stop_timer();
@@ -57,8 +57,9 @@ private:
       BENCHMARK(benchmark_name, benchmark_func)
     }
   }
+
 public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
+  const TimeDelta fakeDeltaTime = 1.0 / 60;
 
   BaseBenchmark(const std::string &name)
       : name_(name), addmorecomplexsystem_(false),
@@ -80,18 +81,17 @@ public:
   }
   virtual ~BaseBenchmark() = default;
 
-  virtual Entity& createOneEntity(EntityManager &registry) = 0;
-  virtual void afterCreateEntity(EntityManager &registry, Entity &entity) {}
+  virtual EntityCreatedType createOneEntity(EntityManager &registry) = 0;
+  virtual void afterCreateEntity(EntityManager &registry,
+                                 EntityCreatedType &entity) {}
   virtual void assignPositionComponent(EntityManager &registry,
-                                       Entity &entity) = 0;
+                                       EntityCreatedType &entity) = 0;
   virtual void assignDirectionComponent(EntityManager &registry,
-                                        Entity &entity) = 0;
+                                        EntityCreatedType &entity) = 0;
   virtual void assignComflabulationComponent(EntityManager &registry,
-                                             Entity &entity) = 0;
+                                             EntityCreatedType &entity) = 0;
 
-  virtual Application createApplication(bool addmorecomplexsystem) = 0;
-  virtual void afterBenchmark(Application& app) {}
-
+  virtual void afterBenchmark(Application &app) {}
 };
 
-} // namespace benchmark_ecs_app
+} // namespace ecs_benchmark

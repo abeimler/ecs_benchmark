@@ -47,11 +47,25 @@ public:
   MovementSystem(MovementSystem &&) = default;
   MovementSystem &operator=(MovementSystem &&) = default;
 
-  MovementSystem();
+  MovementSystem() {
+    addComponentType<PositionComponent>();
+    addComponentType<DirectionComponent>();
+  };
 
-  void initialize() override;
+  void initialize() override {
+    positionMapper_.init(*world);
+    directionMapper_.init(*world);
+  };
 
-  void processEntity(artemis::Entity &e) override;
+  void processEntity(artemis::Entity &e) override {
+    auto dt = world->getDelta();
+
+    auto position = positionMapper_.get(e);
+    auto direction = directionMapper_.get(e);
+
+    position->x += direction->x * dt;
+    position->y += direction->y * dt;
+  };
 };
 
 class ComflabSystem : public artemis::EntityProcessingSystem {
@@ -65,47 +79,46 @@ public:
   ComflabSystem(ComflabSystem &&) = default;
   ComflabSystem &operator=(ComflabSystem &&) = default;
 
-  ComflabSystem();
+  ComflabSystem() { addComponentType<ComflabulationComponent>(); };
 
-  void initialize() override;
+  void initialize() override { comflabulationMapper_.init(*world); };
 
-  void processEntity(artemis::Entity &e) override;
-};
+  void processEntity(artemis::Entity &e) override {
+    auto dt = world->getDelta();
 
-class MoreComplexSystem : public artemis::EntityProcessingSystem {
-private:
-  artemis::ComponentMapper<PositionComponent> positionMapper_;
-  artemis::ComponentMapper<DirectionComponent> directionMapper_;
-  artemis::ComponentMapper<ComflabulationComponent> comflabulationMapper_;
+    auto comflab = comflabulationMapper_.get(e);
 
-  static int random(int min, int max);
-
-public:
-  virtual ~MoreComplexSystem() = default;
-  MoreComplexSystem(const MoreComplexSystem &) = default;
-  MoreComplexSystem &operator=(const MoreComplexSystem &) = default;
-  MoreComplexSystem(MoreComplexSystem &&) = default;
-  MoreComplexSystem &operator=(MoreComplexSystem &&) = default;
-
-  MoreComplexSystem();
-
-  virtual void initialize() override;
-
-  virtual void processEntity(artemis::Entity &e) override;
+    comflab->thingy *= 1.000001f;
+    comflab->mingy = !comflab->mingy;
+    comflab->dingy++;
+    // comflab.stringy = std::to_string(comflab.dingy);
+  }
 };
 
 class Application : public artemis::World {
 public:
-  Application(bool addmorecomplexsystem = false);
+  Application() {
+    auto systemmanager = this->getSystemManager();
 
-  void update(TimeDelta dt);
+    this->movement_system_ =
+        (MovementSystem *)systemmanager->setSystem(new MovementSystem());
+    this->comflab_system_ =
+        (ComflabSystem *)systemmanager->setSystem(new ComflabSystem());
 
-  EntityManager &getEntityManager() { return *this->artemis::World::getEntityManager(); }
+    systemmanager->initializeAll();
+  }
+
+  void update(TimeDelta dt) {
+    this->loopStart();
+    this->setDelta(dt);
+
+    this->movement_system_->process();
+    this->comflab_system_->process();
+  }
+
 private:
   MovementSystem *movement_system_;
   ComflabSystem *comflab_system_;
-  MoreComplexSystem *more_complex_system_;
-  bool addmorecomplexsystem_;
 };
 
 } // namespace artemis_benchmark

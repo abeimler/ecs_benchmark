@@ -107,7 +107,7 @@ BENCHMARK("ginseng  create destroy entity with components",
           })
 
 class BenchmarkGinseng
-    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Entity, Application,
                                           TimeDelta> {
 public:
   BenchmarkGinseng(const std::string &name, bool addmorecomplexsystem)
@@ -115,12 +115,10 @@ public:
                       {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
                        30'000, 100'000, 500'000, 1'000'000, 2'000'000,
                        5'000'000, 10'000'000, 20'000'000}) {}
+  ~BenchmarkGinseng() override = default;
 
-  auto createOneEntity(EntityManager &db) -> Entity& override {
-    return this->entities_.emplace_back(db.create_entity());
-  }
-  void afterBenchmark(Application&  /*app*/) override {
-    this->entities_.clear();
+  auto createOneEntity(EntityManager &db) -> Entity override {
+    return db.create_entity();
   }
   void assignPositionComponent(EntityManager &db, Entity &entity) override {
     db.add_component(entity, PositionComponent{});
@@ -133,11 +131,6 @@ public:
     db.add_component(entity, ComflabulationComponent{});
   }
 
-  auto createApplication(bool addmorecomplexsystem) -> Application override {
-    return Application(addmorecomplexsystem);
-  }
-private:
-  std::vector<Entity> entities_;
 };
 
 BenchmarkGinseng ginsengbenchmarks("ginseng", false);

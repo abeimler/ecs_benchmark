@@ -119,7 +119,7 @@ BENCHMARK("entityx1 create destroy entity with components",
           })
 
 class BenchmarkEntityX
-    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Application,
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Entity, Application,
                                           TimeDelta> {
 public:
   BenchmarkEntityX(const std::string &name, bool addmorecomplexsystem)
@@ -127,12 +127,10 @@ public:
                       {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
                        30'000, 100'000, 500'000, 1'000'000, 2'000'000,
                        5'000'000, 10'000'000, 20'000'000}) {}
+  ~BenchmarkEntityX() override = default;
 
-  auto createOneEntity(EntityManager &registry) -> Entity& override {
-    return this->entities_.emplace_back(registry.create());
-  }
-  void afterBenchmark(Application&  /*app*/) override {
-    this->entities_.clear();
+  auto createOneEntity(EntityManager &registry) -> Entity override {
+    return registry.create();
   }
   void assignPositionComponent(EntityManager & /*registry*/,
                                Entity &entity) override {
@@ -147,11 +145,6 @@ public:
     entity.assign<ComflabulationComponent>();
   }
 
-  auto createApplication(bool addmorecomplexsystem) -> Application override {
-    return Application(addmorecomplexsystem);
-  }
-private:
-  std::vector<Entity> entities_;
 };
 
 BenchmarkEntityX entityxbenchmarks("entityx1", false);

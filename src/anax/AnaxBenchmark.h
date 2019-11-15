@@ -60,6 +60,7 @@ struct ComflabulationComponent : anax::Component {
 
 using EntityManager = anax::World;
 using Entity = anax::Entity;
+
 using TimeDelta = double;
 
 class MovementSystem
@@ -68,7 +69,16 @@ class MovementSystem
 public:
   MovementSystem() = default;
 
-  void update(TimeDelta dt);
+  void update(TimeDelta dt) {
+    auto entities = getEntities();
+    for (auto &entity : entities) {
+      auto &position = entity.getComponent<PositionComponent>();
+      auto &direction = entity.getComponent<DirectionComponent>();
+
+      position.x += direction.x * dt;
+      position.y += direction.y * dt;
+    }
+  }
 };
 
 class ComflabSystem
@@ -76,37 +86,37 @@ class ComflabSystem
 public:
   ComflabSystem() = default;
 
-  void update(TimeDelta dt);
-};
+  void update(TimeDelta dt) {
 
-class MoreComplexSystem
-    : public anax::System<anax::Requires<PositionComponent, DirectionComponent,
-                                         ComflabulationComponent>> {
-private:
-  static int random(int min, int max);
+    auto entities = getEntities();
+    for (auto &entity : entities) {
+      auto &comflab = entity.getComponent<ComflabulationComponent>();
 
-public:
-  MoreComplexSystem() = default;
-
-  void update(TimeDelta dt);
+      comflab.thingy *= 1.000001f;
+      comflab.mingy = !comflab.mingy;
+      comflab.dingy++;
+      // comflab.stringy = std::to_string(comflab.dingy);
+    }
+  }
 };
 
 class Application : public anax::World {
 public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
+  Application() {
+    this->addSystem(this->movement_system_);
+    this->addSystem(this->comflab_system_);
+  }
 
-  Application(bool addmorecomplexsystem = false);
+  void update(double dt) {
+    this->refresh();
 
-  void update(TimeDelta dt);
-
-  EntityManager &getEntityManager() { return *this; }
-  const EntityManager &getEntityManager() const { return *this; }
+    this->movement_system_.update(dt);
+    this->comflab_system_.update(dt);
+  }
 
 private:
   MovementSystem movement_system_;
   ComflabSystem comflab_system_;
-  MoreComplexSystem morecomplex_system_;
-  bool addmorecomplexsystem_;
 };
 
 } // namespace anax_benchmark
