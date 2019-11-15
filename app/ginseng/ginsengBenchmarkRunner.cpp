@@ -1,12 +1,8 @@
-#include <memory>
-#include <sstream>
-#include <string>
-#include <thread>
-#include <vector>
+#include <ginseng/GinsengBenchmark.h>
+
+#include <BaseBenchmark.h>
 
 #include <benchpress/benchpress.hpp>
-
-#include <ginseng/GinsengBenchmark.h>
 
 namespace ginseng_benchmark {
 
@@ -17,6 +13,7 @@ BENCHMARK("[1] ginseng  Creating 10M entities", [](benchpress::context *ctx) {
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+    ctx->stop_timer();
     std::vector<Entity> created_entities(_10M);
 
     ctx->start_timer();
@@ -38,6 +35,7 @@ BENCHMARK("[2] ginseng  Destroying 10M entities", [](benchpress::context *ctx) {
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+    ctx->stop_timer();
     std::vector<Entity> created_entities(_10M);
 
     for (size_t c = 0; c < _10M; c++) {
@@ -102,69 +100,40 @@ BENCHMARK("ginseng  create destroy entity with components",
 
               db.add_component(entity, PositionComponent{});
               db.add_component(entity, DirectionComponent{});
-              db.add_component(entity,
-                               ComflabulationComponent{});
+              db.add_component(entity, ComflabulationComponent{});
 
               db.destroy_entity(entity);
             }
           })
 
-inline void init_entities(EntityManager &db,
-                          size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = db.create_entity();
-
-    db.add_component(entity, PositionComponent{});
-    db.add_component(entity, DirectionComponent{});
-
-    if (i % 2 != 0) {
-      db.add_component(entity, ComflabulationComponent{});
-    }
-  }
-}
-
-inline void runEntitiesSystemsGinsengBenchmark(benchpress::context *ctx,
-                                               size_t nentities) {
-  Application app;
-  auto &db = app.getEntityManager();
-
-  init_entities(db, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(GinsengBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksGinseng {
+class BenchmarkGinseng
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Entity, Application,
+                                          TimeDelta> {
 public:
-  static const std::vector<int> ENTITIES;
+  BenchmarkGinseng(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000,
+                       5'000'000, 10'000'000, 20'000'000}) {}
+  ~BenchmarkGinseng() override = default;
 
-  static inline void makeBenchmarks(const std::string &name) {
-    makeBenchmarks(name, ENTITIES);
+  auto createOneEntity(EntityManager &db) -> Entity override {
+    return db.create_entity();
+  }
+  void assignPositionComponent(EntityManager &db, Entity &entity) override {
+    db.add_component(entity, PositionComponent{});
+  }
+  void assignDirectionComponent(EntityManager &db, Entity &entity) override {
+    db.add_component(entity, DirectionComponent{});
+  }
+  void assignComflabulationComponent(EntityManager &db,
+                                     Entity &entity) override {
+    db.add_component(entity, ComflabulationComponent{});
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsGinsengBenchmark(ctx, nentities);
-      })
-    }
-  }
-
-  BenchmarksGinseng(const std::string &name) { makeBenchmarks(name); }
 };
-const std::vector<int> BenchmarksGinseng::ENTITIES = {
-    10,        25,        50,        100,        200,       400,     800,
-    1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
-    1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksGinseng ginsengbenchmarks("ginseng");
+BenchmarkGinseng ginsengbenchmarks("ginseng", false);
+BenchmarkGinseng ginsengbenchmarks_morecomplex("ginseng-morecomplex", true);
 
 } // namespace ginseng_benchmark

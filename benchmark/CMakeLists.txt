@@ -4,7 +4,7 @@ set(${CMAKE_PROJECT_NAME}_BENCHMARK_SOURCE "")
 # [[[cog
 #    import os, cog, glob
 #    path, file = os.path.split(cog.inFile)
-#    filepattern = os.path.join(path, '**/*.h??').lstrip('./')
+#    filepattern = os.path.join(path, '**/*.h').lstrip('./')
 #    files = glob.glob(filepattern, recursive=True)
 #    if files:
 #       cog.outl("list(APPEND ${CMAKE_PROJECT_NAME}_BENCHMARK_HEADERS ")

@@ -58,6 +58,9 @@ struct ComflabulationComponent : anax::Component {
 #endif // ANAX_VIRTUAL_DTORS_IN_COMPONENT
 };
 
+using EntityManager = anax::World;
+using Entity = anax::Entity;
+
 using TimeDelta = double;
 
 class MovementSystem
@@ -66,7 +69,16 @@ class MovementSystem
 public:
   MovementSystem() = default;
 
-  void update(TimeDelta dt);
+  void update(TimeDelta dt) {
+    auto entities = getEntities();
+    for (auto &entity : entities) {
+      auto &position = entity.getComponent<PositionComponent>();
+      auto &direction = entity.getComponent<DirectionComponent>();
+
+      position.x += direction.x * dt;
+      position.y += direction.y * dt;
+    }
+  }
 };
 
 class ComflabSystem
@@ -74,40 +86,37 @@ class ComflabSystem
 public:
   ComflabSystem() = default;
 
-  void update(TimeDelta dt);
+  void update(TimeDelta dt) {
+
+    auto entities = getEntities();
+    for (auto &entity : entities) {
+      auto &comflab = entity.getComponent<ComflabulationComponent>();
+
+      comflab.thingy *= 1.000001f;
+      comflab.mingy = !comflab.mingy;
+      comflab.dingy++;
+      // comflab.stringy = std::to_string(comflab.dingy);
+    }
+  }
 };
-
-#ifdef USE_MORECOMPLEX_SYSTEM
-class MoreComplexSystem
-    : public anax::System<anax::Requires<PositionComponent, DirectionComponent,
-                                         ComflabulationComponent>> {
-private:
-  static int random(int min, int max);
-
-public:
-  MoreComplexSystem() = default;
-
-  void update(TimeDelta dt);
-};
-#endif
 
 class Application : public anax::World {
 public:
-  Application();
+  Application() {
+    this->addSystem(this->movement_system_);
+    this->addSystem(this->comflab_system_);
+  }
 
-  void update(TimeDelta dt);
+  void update(double dt) {
+    this->refresh();
+
+    this->movement_system_.update(dt);
+    this->comflab_system_.update(dt);
+  }
 
 private:
   MovementSystem movement_system_;
   ComflabSystem comflab_system_;
-#ifdef USE_MORECOMPLEX_SYSTEM
-  MoreComplexSystem morecomplex_system_;
-#endif
-};
-
-class AnaxBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
 };
 
 } // namespace anax_benchmark

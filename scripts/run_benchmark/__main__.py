@@ -29,6 +29,9 @@ def replaceCol10Mentities(row):
     elif row[0] == '5':
         row[0] = 'Creating 10M entities at once'
         return row
+    elif row[0] == '6':
+        row[0] = 'Destroying 10M entities at once'
+        return row
 
     return None
 
@@ -52,7 +55,26 @@ def replaceColUpdate(row):
 
     return None
 
-def replaceColUpdate2(row):
+def replaceColUpdateLong(row):
+    if row[0] == '1000000':
+        row[0] = 'Update  1M entities with 2 Systems'
+        return row
+    elif row[0] == '2000000':
+        row[0] = 'Update  2M entities with 2 Systems'
+        return row
+    elif row[0] == '5000000':
+        row[0] = 'Update  5M entities with 2 Systems'
+        return row
+    elif row[0] == '10000000':
+        row[0] = 'Update 10M entities with 2 Systems'
+        return row
+    elif row[0] == '20000000':
+        row[0] = 'Update 20M entities with 2 Systems'
+        return row
+
+    return None
+
+def replaceColUpdateMoreComplex(row):
     if row[0] == '1000000':
         row[0] = 'Update  1M entities with 2 Systems'
         return row
@@ -73,19 +95,19 @@ def replaceColUpdate2(row):
 
 def replaceColEventbus(row):
     if row[0] == '20000':
-        row[0] = 'publish EventA and EventB  20k times'
+        row[0] = 'publish EventA, EventB and EventC  20k times'
         return row
     elif row[0] == '50000':
-        row[0] = 'publish EventA and EventB  50k times'
+        row[0] = 'publish EventA, EventB and EventC  50k times'
         return row
     elif row[0] == '100000':
-        row[0] = 'publish EventA and EventB 100k times'
+        row[0] = 'publish EventA, EventB and EventC 100k times'
         return row
     elif row[0] == '200000':
-        row[0] = 'publish EventA and EventB 200k times'
+        row[0] = 'publish EventA, EventB and EventC 200k times'
         return row
     elif row[0] == '500000':
-        row[0] = 'publish EventA and EventB 500k times'
+        row[0] = 'publish EventA, EventB and EventC 500k times'
         return row
 
     return None
@@ -249,17 +271,19 @@ def main(argv):
     csvfiles["updatelong"]=""
     csvfiles["eventbus"]=""
     csvfiles["10Mentities"]=""
+    csvfiles["updatemorecomplex"]=""
 
     datfiles={}
     datfiles["update"]=""
     datfiles["updatelong"]=""
     datfiles["eventbus"]=""
+    datfiles["updatemorecomplex"]=""
 
     datfiles["update"] =  os.path.abspath(doc_dir + "/data-systems-update.dat")
     cmd = ecs_benchmark_cmd
     for fname in config["update"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=update --csvunit seconds '
     csvfiles["update"] = os.path.abspath(doc_csv_dir + "/update.csv")
@@ -267,7 +291,7 @@ def main(argv):
     if config["plot"]:
         cmd = cmd + ' --plotdata > ' + datfiles["update"]
 
-    if config["benchmark"] and (config["gencsvfiles"] or config["plot"]):
+    if config["benchmark"] and ((not 'runbenchmarkupdate' in config or ('runbenchmarkupdate' in config and config["runbenchmarkupdate"])) and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -278,7 +302,7 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["updatelong"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatelong --csvunit seconds '
     csvfiles["updatelong"] = os.path.abspath(doc_csv_dir + "/updatelong.csv")
@@ -297,7 +321,7 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["eventbus"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'-eventbus\\s+.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=eventbus --csvunit seconds '
     csvfiles["eventbus"] = os.path.abspath(doc_csv_dir + "/eventbus.csv")
@@ -305,7 +329,7 @@ def main(argv):
     if config["plot"]:
         cmd = cmd + ' --plotdata > ' + datfiles["eventbus"]
 
-    if config["benchmark"] and (config["gencsvfiles"] or config["plot"]):
+    if config["benchmark"] and ((not 'runbenchmarkupdate' in config or ('runbenchmarkeventbus' in config and config["runbenchmarkeventbus"])) and (config["gencsvfiles"] or config["plot"])):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
@@ -315,18 +339,36 @@ def main(argv):
     cmd = ecs_benchmark_cmd
     for fname in config["10Mentities"]:
         cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*10M\\s+entities.*" '
-    cmd = cmd + ' --colwidth=20 '
+    cmd = cmd + ' --colwidth=30 '
     if config["gencsvfiles"]:
         cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=10Mentities --csvunit seconds '
     csvfiles["10Mentities"] = os.path.abspath(doc_csv_dir + "/10Mentities.csv")
     csvfiles["print10Mentities"] = os.path.abspath(doc_csv_dir + "/print.10Mentities.csv")
     
-    if config["benchmark"] and config["gencsvfiles"]:
+    if config["benchmark"] and ((not 'runbenchmark10Mentities' in config or ('runbenchmark10Mentities' in config and config["runbenchmark10Mentities"])) and config["gencsvfiles"]):
         print(cmd + "\n")
         os.system(cmd)
         print("\n")
         print("\n")
 
+
+    datfiles["updatemorecomplex"] =  os.path.abspath(doc_dir + "/data-systems-update-morecomplex.dat")
+    cmd = ecs_benchmark_cmd
+    for fname in config["updatemorecomplex"]:
+        cmd = cmd + ' --bench ".*\\s+'+fname+'\\s+.*update.*" '
+    cmd = cmd + ' --colwidth=30 '
+    if config["gencsvfiles"]:
+        cmd = cmd + ' --csvoutput='+doc_csv_dir+' --csvprefix=updatemorecomplex --csvunit seconds '
+    csvfiles["updatemorecomplex"] = os.path.abspath(doc_csv_dir + "/updatemorecomplex.csv")
+    csvfiles["printupdatemorecomplex"] = os.path.abspath(doc_csv_dir + "/print.updatemorecomplex.csv")
+    if config["plot"]:
+        cmd = cmd + ' --plotdata > ' + datfiles["updatemorecomplex"]
+
+    if config["benchmark"] and (config["runbenchmarkupdatemorecomplex"] and (config["gencsvfiles"] or config["plot"])):
+        print(cmd + "\n")
+        os.system(cmd)
+        print("\n")
+        print("\n")
 
     
     if config["gencsvfiles"]:
@@ -334,7 +376,7 @@ def main(argv):
             updateCSV(csvfiles["update"], "update", replaceColUpdate, csvfiles["printupdate"])
             print("CSV generate: {}".format(csvfiles["printupdate"]))
         if csvfiles["updatelong"]:
-            updateCSV(csvfiles["updatelong"], "update", replaceColUpdate2, csvfiles["printupdatelong"])
+            updateCSV(csvfiles["updatelong"], "update", replaceColUpdateLong, csvfiles["printupdatelong"])
             print("CSV generate: {}".format(csvfiles["printupdatelong"]))
         if csvfiles["eventbus"]:
             updateCSV(csvfiles["eventbus"], "-eventbus", replaceColEventbus, csvfiles["printeventbus"])
@@ -342,6 +384,9 @@ def main(argv):
         if csvfiles["10Mentities"]:
             updateCSV(csvfiles["10Mentities"], "10Mentities", replaceCol10Mentities, csvfiles["print10Mentities"])
             print("CSV generate: {}".format(csvfiles["print10Mentities"]))
+        if csvfiles["updatemorecomplex"]:
+            updateCSV(csvfiles["updatemorecomplex"], "-morecomplexupdate", replaceColUpdateMoreComplex, csvfiles["printupdatemorecomplex"])
+            print("CSV generate: {}".format(csvfiles["printupdatemorecomplex"]))
 
 
     if config["plot"]:
@@ -350,8 +395,9 @@ def main(argv):
         pltfiles['update'] = makePlotScriptFromCSV('update', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, datfiles["update"], csvfiles["printupdate"])
         if config["runbenchmarkupdatelong"]:
             pltfiles['updatelong'] = makePlotScriptFromCSV('updatelong', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, datfiles["updatelong"], csvfiles["printupdatelong"])
-
         pltfiles['eventbus'] = makePlotScriptFromCSV('eventbus', 'ECS Benchmark Eventbus', thispath, scripts_dir, doc_dir, datfiles["eventbus"], csvfiles["printeventbus"])
+        if config["runbenchmarkupdatemorecomplex"]:
+            pltfiles['updatemorecomplex'] = makePlotScriptFromCSV('updatemorecomplex', 'ECS Benchmark System Updates', thispath, scripts_dir, doc_dir, datfiles["updatemorecomplex"], csvfiles["printupdatemorecomplex"])
 
         os.chdir(doc_dir)
         for frameworkname, pltfile in pltfiles.items():
@@ -386,6 +432,12 @@ def main(argv):
                 tableEventbus = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
                 mdTableEventbus = md_table(tableEventbus)
 
+        mdTableUpdateMoreComplex = ''
+        if os.path.exists(csvfiles['printupdatemorecomplex']):
+            with open(csvfiles['printupdatemorecomplex'], 'r') as f:
+                tableUpdateMoreComplex = csv_to_table(f, CSV_DELIMITER, CSV_QUOTECHAR)
+                mdTableUpdateMoreComplex = md_table(tableUpdateMoreComplex)
+        
         mdTableResult = ''
         if config["runbenchmarkupdatelong"]:
             mdTableResult = mdTableUpdateLong
@@ -400,6 +452,8 @@ def main(argv):
             pngs['results'] = pngs['updatelong']
         else:
             pngs['results'] = pngs['update']
+        if config["runbenchmarkupdatemorecomplex"]:
+            pngs['updatemorecomplex'] = git_doc_dir + "{}.png".format('updatemorecomplex')
         pngs['eventbus'] = git_doc_dir + "{}.png".format('eventbus')
 
         renderinfo = []
@@ -425,6 +479,7 @@ def main(argv):
             'tableUpdateLong': mdTableUpdateLong,
             'tableEventbus': mdTableEventbus,
             'tableResult': mdTableResult,
+            'tableUpdateMoreComplex': mdTableUpdateMoreComplex,
             'config': config,
             'info': renderinfo,
             'pngs': pngs

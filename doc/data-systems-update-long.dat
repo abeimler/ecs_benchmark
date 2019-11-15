@@ -1,190 +1,209 @@
-##         [10] anax                 10 entities component systems update              10000000         159 ns/op
-##         [25] anax                 25 entities component systems update               5000000         313 ns/op
-##         [50] anax                 50 entities component systems update               2000000         611 ns/op
-##        [100] anax                100 entities component systems update               1000000        1185 ns/op
-##        [200] anax                200 entities component systems update                500000        2315 ns/op
-##        [400] anax                400 entities component systems update                500000        3966 ns/op
-##        [800] anax                800 entities component systems update                200000        8162 ns/op
-##       [1600] anax               1600 entities component systems update                100000       16364 ns/op
-##       [3200] anax               3200 entities component systems update                 50000       36451 ns/op
-##       [5000] anax               5000 entities component systems update                 20000       78451 ns/op
-##      [10000] anax              10000 entities component systems update                 10000      151682 ns/op
-##      [30000] anax              30000 entities component systems update                  1000     1043977 ns/op             1 ms/op
-##     [100000] anax             100000 entities component systems update                   200     8143495 ns/op             8 ms/op
-##     [500000] anax             500000 entities component systems update                    20    53107654 ns/op            53 ms/op          0.05 s/op
-##    [1000000] anax            1000000 entities component systems update                    10   114210260 ns/op           114 ms/op          0.11 s/op
-##    [2000000] anax            2000000 entities component systems update                     5   253233661 ns/op           253 ms/op          0.25 s/op
-##         [10] artemis              10 entities component systems update               2000000         572 ns/op
-##         [25] artemis              25 entities component systems update               1000000        1380 ns/op
-##         [50] artemis              50 entities component systems update                500000        2755 ns/op
-##        [100] artemis             100 entities component systems update                200000        5504 ns/op
-##        [200] artemis             200 entities component systems update                100000       11163 ns/op
-##        [400] artemis             400 entities component systems update                 50000       22449 ns/op
-##        [800] artemis             800 entities component systems update                 50000       43953 ns/op
-##       [1600] artemis            1600 entities component systems update                 20000       88049 ns/op
-##       [3200] artemis            3200 entities component systems update                 10000      177038 ns/op
-##       [5000] artemis            5000 entities component systems update                  5000      277604 ns/op
-##      [10000] artemis           10000 entities component systems update                  2000      559945 ns/op
-##      [30000] artemis           30000 entities component systems update                  1000     1745639 ns/op             1 ms/op
-##     [100000] artemis          100000 entities component systems update                    50    22993814 ns/op            22 ms/op          0.02 s/op
-##     [500000] artemis          500000 entities component systems update                     1 36451168020 ns/op         36451 ms/op         36.45 s/op
-##    [1000000] artemis         1000000 entities component systems update                     1 91216035756 ns/op         91216 ms/op         91.22 s/op
-##         [10] entityx1             10 entities component systems update               5000000         432 ns/op
-##         [25] entityx1             25 entities component systems update               1000000        1048 ns/op
-##         [50] entityx1             50 entities component systems update                500000        2103 ns/op
-##        [100] entityx1            100 entities component systems update                500000        4031 ns/op
-##        [200] entityx1            200 entities component systems update                200000        7742 ns/op
-##        [400] entityx1            400 entities component systems update                100000       15081 ns/op
-##        [800] entityx1            800 entities component systems update                 50000       29634 ns/op
-##       [1600] entityx1           1600 entities component systems update                 20000       58662 ns/op
-##       [3200] entityx1           3200 entities component systems update                 10000      116551 ns/op
-##       [5000] entityx1           5000 entities component systems update                 10000      182204 ns/op
-##      [10000] entityx1          10000 entities component systems update                  5000      363690 ns/op
-##      [30000] entityx1          30000 entities component systems update                  1000     1092195 ns/op             1 ms/op
-##     [100000] entityx1         100000 entities component systems update                   500     3778750 ns/op             3 ms/op
-##     [500000] entityx1         500000 entities component systems update                   100    19780838 ns/op            19 ms/op          0.02 s/op
-##    [1000000] entityx1        1000000 entities component systems update                    50    40668559 ns/op            40 ms/op          0.04 s/op
-##    [2000000] entityx1        2000000 entities component systems update                    20    83442131 ns/op            83 ms/op          0.08 s/op
-##    [5000000] entityx1        5000000 entities component systems update                     5   230299339 ns/op           230 ms/op          0.23 s/op
-##   [10000000] entityx1       10000000 entities component systems update                     5   472388024 ns/op           472 ms/op          0.47 s/op
-##   [20000000] entityx1       20000000 entities component systems update                     1  1295028116 ns/op          1295 ms/op          1.30 s/op
-##         [10] entityx2             10 entities component systems update              50000000          43 ns/op
-##         [25] entityx2             25 entities component systems update              10000000         107 ns/op
-##         [50] entityx2             50 entities component systems update               5000000         211 ns/op
-##        [100] entityx2            100 entities component systems update               5000000         405 ns/op
-##        [200] entityx2            200 entities component systems update               2000000         797 ns/op
-##        [400] entityx2            400 entities component systems update               1000000        1641 ns/op
-##        [800] entityx2            800 entities component systems update                500000        3432 ns/op
-##       [1600] entityx2           1600 entities component systems update                200000        6842 ns/op
-##       [3200] entityx2           3200 entities component systems update                100000       13985 ns/op
-##       [5000] entityx2           5000 entities component systems update                 50000       26189 ns/op
-##      [10000] entityx2          10000 entities component systems update                 20000       67194 ns/op
-##      [30000] entityx2          30000 entities component systems update                 10000      158482 ns/op
-##     [100000] entityx2         100000 entities component systems update                  1000     1113620 ns/op             1 ms/op
-##     [500000] entityx2         500000 entities component systems update                   200     8764564 ns/op             8 ms/op
-##    [1000000] entityx2        1000000 entities component systems update                   100    17227153 ns/op            17 ms/op          0.02 s/op
-##    [2000000] entityx2        2000000 entities component systems update                    50    34762273 ns/op            34 ms/op          0.03 s/op
-##    [5000000] entityx2        5000000 entities component systems update                    20    90076159 ns/op            90 ms/op          0.09 s/op
-##   [10000000] entityx2       10000000 entities component systems update                    10   186609975 ns/op           186 ms/op          0.19 s/op
-##   [20000000] entityx2       20000000 entities component systems update                     5   397495234 ns/op           397 ms/op          0.40 s/op
-##         [10] enttlegacy           10 entities component systems update              50000000          33 ns/op
-##         [25] enttlegacy           25 entities component systems update              20000000          79 ns/op
-##         [50] enttlegacy           50 entities component systems update              10000000         150 ns/op
-##        [100] enttlegacy          100 entities component systems update               5000000         296 ns/op
-##        [200] enttlegacy          200 entities component systems update               2000000         577 ns/op
-##        [400] enttlegacy          400 entities component systems update               1000000        1152 ns/op
-##        [800] enttlegacy          800 entities component systems update                500000        2359 ns/op
-##       [1600] enttlegacy         1600 entities component systems update                500000        4674 ns/op
-##       [3200] enttlegacy         3200 entities component systems update                200000        9308 ns/op
-##       [5000] enttlegacy         5000 entities component systems update                100000       18709 ns/op
-##      [10000] enttlegacy        10000 entities component systems update                 50000       29243 ns/op
-##      [30000] enttlegacy        30000 entities component systems update                 20000       88962 ns/op
-##     [100000] enttlegacy       100000 entities component systems update                  2000      574586 ns/op
-##     [500000] enttlegacy       500000 entities component systems update                   500     2768041 ns/op             2 ms/op
-##    [1000000] enttlegacy      1000000 entities component systems update                   200     6926998 ns/op             6 ms/op
-##    [2000000] enttlegacy      2000000 entities component systems update                   100    13694701 ns/op            13 ms/op          0.01 s/op
-##    [5000000] enttlegacy      5000000 entities component systems update                    50    35700802 ns/op            35 ms/op          0.04 s/op
-##   [10000000] enttlegacy     10000000 entities component systems update                    20    80127168 ns/op            80 ms/op          0.08 s/op
-##   [20000000] enttlegacy     20000000 entities component systems update                    10   149457814 ns/op           149 ms/op          0.15 s/op
-##         [10] ginseng              10 entities component systems update              50000000          47 ns/op
-##         [25] ginseng              25 entities component systems update              10000000         109 ns/op
-##         [50] ginseng              50 entities component systems update               5000000         207 ns/op
-##        [100] ginseng             100 entities component systems update               5000000         405 ns/op
-##        [200] ginseng             200 entities component systems update               2000000         792 ns/op
-##        [400] ginseng             400 entities component systems update               1000000        1595 ns/op
-##        [800] ginseng             800 entities component systems update                500000        3233 ns/op
-##       [1600] ginseng            1600 entities component systems update                200000        6417 ns/op
-##       [3200] ginseng            3200 entities component systems update                100000       12764 ns/op
-##       [5000] ginseng            5000 entities component systems update                 50000       20019 ns/op
-##      [10000] ginseng           10000 entities component systems update                 50000       51484 ns/op
-##      [30000] ginseng           30000 entities component systems update                 10000      159404 ns/op
-##     [100000] ginseng          100000 entities component systems update                  2000      542234 ns/op
-##     [500000] ginseng          500000 entities component systems update                   500     3553108 ns/op             3 ms/op
-##    [1000000] ginseng         1000000 entities component systems update                   200     7355947 ns/op             7 ms/op
-##    [2000000] ginseng         2000000 entities component systems update                   100    15001843 ns/op            15 ms/op          0.02 s/op
-##    [5000000] ginseng         5000000 entities component systems update                    50    38091257 ns/op            38 ms/op          0.04 s/op
-##   [10000000] ginseng        10000000 entities component systems update                    20    78419910 ns/op            78 ms/op          0.08 s/op
-##   [20000000] ginseng        20000000 entities component systems update                    10   162595280 ns/op           162 ms/op          0.16 s/op
-##         [10] entt                 10 entities component systems update              50000000          45 ns/op
-##         [25] entt                 25 entities component systems update              20000000          84 ns/op
-##         [50] entt                 50 entities component systems update              10000000         156 ns/op
-##        [100] entt                100 entities component systems update               5000000         295 ns/op
-##        [200] entt                200 entities component systems update               2000000         562 ns/op
-##        [400] entt                400 entities component systems update               1000000        1097 ns/op
-##        [800] entt                800 entities component systems update                500000        2318 ns/op
-##       [1600] entt               1600 entities component systems update                200000        5006 ns/op
-##       [3200] entt               3200 entities component systems update                200000        9212 ns/op
-##       [5000] entt               5000 entities component systems update                100000       14367 ns/op
-##      [10000] entt              10000 entities component systems update                 50000       31114 ns/op
-##      [30000] entt              30000 entities component systems update                 20000       86573 ns/op
-##     [100000] entt             100000 entities component systems update                  5000      292499 ns/op
-##     [500000] entt             500000 entities component systems update                   500     2572840 ns/op             2 ms/op
-##    [1000000] entt            1000000 entities component systems update                   200     5321630 ns/op             5 ms/op
-##    [2000000] entt            2000000 entities component systems update                   100    11004865 ns/op            11 ms/op          0.01 s/op
-##    [5000000] entt            5000000 entities component systems update                    50    27920790 ns/op            27 ms/op          0.03 s/op
-##   [10000000] entt           10000000 entities component systems update                    20    56526059 ns/op            56 ms/op          0.06 s/op
-##   [20000000] entt           20000000 entities component systems update                    10   116550750 ns/op           116 ms/op          0.12 s/op
-##         [10] entt-group           10 entities component systems update              50000000          43 ns/op
-##         [25] entt-group           25 entities component systems update              20000000          78 ns/op
-##         [50] entt-group           50 entities component systems update              10000000         141 ns/op
-##        [100] entt-group          100 entities component systems update               5000000         264 ns/op
-##        [200] entt-group          200 entities component systems update               5000000         497 ns/op
-##        [400] entt-group          400 entities component systems update               2000000         971 ns/op
-##        [800] entt-group          800 entities component systems update                500000        2045 ns/op
-##       [1600] entt-group         1600 entities component systems update                500000        4039 ns/op
-##       [3200] entt-group         3200 entities component systems update                200000        8008 ns/op
-##       [5000] entt-group         5000 entities component systems update                100000       12523 ns/op
-##      [10000] entt-group        10000 entities component systems update                 50000       25110 ns/op
-##      [30000] entt-group        30000 entities component systems update                 20000       75789 ns/op
-##     [100000] entt-group       100000 entities component systems update                  5000      255811 ns/op
-##     [500000] entt-group       500000 entities component systems update                   500     2302764 ns/op             2 ms/op
-##    [1000000] entt-group      1000000 entities component systems update                   500     4618763 ns/op             4 ms/op
-##    [2000000] entt-group      2000000 entities component systems update                   200     9658830 ns/op             9 ms/op
-##    [5000000] entt-group      5000000 entities component systems update                    50    25319006 ns/op            25 ms/op          0.03 s/op
-##   [10000000] entt-group     10000000 entities component systems update                    20    54184118 ns/op            54 ms/op          0.05 s/op
-##   [20000000] entt-group     20000000 entities component systems update                    10   123513931 ns/op           123 ms/op          0.12 s/op
-##         [10] entt-runtime           10 entities component systems update            10000000         182 ns/op
-##         [25] entt-runtime           25 entities component systems update             5000000         334 ns/op
-##         [50] entt-runtime           50 entities component systems update             2000000         580 ns/op
-##        [100] entt-runtime          100 entities component systems update             1000000        1070 ns/op
-##        [200] entt-runtime          200 entities component systems update              500000        2063 ns/op
-##        [400] entt-runtime          400 entities component systems update              500000        4005 ns/op
-##        [800] entt-runtime          800 entities component systems update              200000        9207 ns/op
-##       [1600] entt-runtime         1600 entities component systems update              100000       15870 ns/op
-##       [3200] entt-runtime         3200 entities component systems update               50000       31617 ns/op
-##       [5000] entt-runtime         5000 entities component systems update               50000       49407 ns/op
-##      [10000] entt-runtime        10000 entities component systems update               10000      115329 ns/op
-##      [30000] entt-runtime        30000 entities component systems update                5000      332714 ns/op
-##     [100000] entt-runtime       100000 entities component systems update                1000     1223834 ns/op             1 ms/op
-##     [500000] entt-runtime       500000 entities component systems update                 200     5645638 ns/op             5 ms/op
-##    [1000000] entt-runtime      1000000 entities component systems update                 100    12175000 ns/op            12 ms/op          0.01 s/op
-##    [2000000] entt-runtime      2000000 entities component systems update                  50    25198601 ns/op            25 ms/op          0.03 s/op
-##    [5000000] entt-runtime      5000000 entities component systems update                  20    65841149 ns/op            65 ms/op          0.07 s/op
-##   [10000000] entt-runtime     10000000 entities component systems update                  10   139403408 ns/op           139 ms/op          0.14 s/op
-##   [20000000] entt-runtime     20000000 entities component systems update                   5   277799761 ns/op           277 ms/op          0.28 s/op
+##         [10] anax                 10 entities component systems update                                                      10000000         166 ns/op
+##         [25] anax                 25 entities component systems update                                                       5000000         324 ns/op
+##         [50] anax                 50 entities component systems update                                                       2000000         635 ns/op
+##        [100] anax                100 entities component systems update                                                       1000000        1211 ns/op
+##        [200] anax                200 entities component systems update                                                        500000        2399 ns/op
+##        [400] anax                400 entities component systems update                                                        200000        5186 ns/op
+##        [800] anax                800 entities component systems update                                                        200000        8164 ns/op
+##       [1600] anax               1600 entities component systems update                                                         50000       20671 ns/op
+##       [3200] anax               3200 entities component systems update                                                         20000       57086 ns/op
+##       [5000] anax               5000 entities component systems update                                                         20000       81772 ns/op
+##      [10000] anax              10000 entities component systems update                                                         10000      149865 ns/op
+##      [30000] anax              30000 entities component systems update                                                          1000     1363429 ns/op             1 ms/op
+##     [100000] anax             100000 entities component systems update                                                           100    10660590 ns/op            10 ms/op          0.01 s/op
+##     [500000] anax             500000 entities component systems update                                                            20    54631527 ns/op            54 ms/op          0.05 s/op
+##    [1000000] anax            1000000 entities component systems update                                                            10   117985580 ns/op           117 ms/op          0.12 s/op
+##    [2000000] anax            2000000 entities component systems update                                                             5   299294149 ns/op           299 ms/op          0.30 s/op
+##         [10] artemis              10 entities component systems update                                                       2000000         562 ns/op
+##         [25] artemis              25 entities component systems update                                                       1000000        1353 ns/op
+##         [50] artemis              50 entities component systems update                                                        500000        2709 ns/op
+##        [100] artemis             100 entities component systems update                                                        200000        5358 ns/op
+##        [200] artemis             200 entities component systems update                                                        100000       10931 ns/op
+##        [400] artemis             400 entities component systems update                                                         50000       21674 ns/op
+##        [800] artemis             800 entities component systems update                                                         50000       44578 ns/op
+##       [1600] artemis            1600 entities component systems update                                                         20000       86786 ns/op
+##       [3200] artemis            3200 entities component systems update                                                         10000      176180 ns/op
+##       [5000] artemis            5000 entities component systems update                                                          5000      270518 ns/op
+##      [10000] artemis           10000 entities component systems update                                                          2000      544134 ns/op
+##      [30000] artemis           30000 entities component systems update                                                          1000     1830555 ns/op             1 ms/op
+##     [100000] artemis          100000 entities component systems update                                                            50    23745512 ns/op            23 ms/op          0.02 s/op
+##     [500000] artemis          500000 entities component systems update                                                             1 22051757545 ns/op         22051 ms/op         22.05 s/op
+##    [1000000] artemis         1000000 entities component systems update                                                             1 96159825371 ns/op         96159 ms/op         96.16 s/op
+##           [10] entityx1                   10 entities component systems update                                               5000000         310 ns/op
+##           [25] entityx1                   25 entities component systems update                                               2000000         742 ns/op
+##           [50] entityx1                   50 entities component systems update                                               1000000        1481 ns/op
+##          [100] entityx1                  100 entities component systems update                                                500000        2979 ns/op
+##          [200] entityx1                  200 entities component systems update                                                200000        5931 ns/op
+##          [400] entityx1                  400 entities component systems update                                                100000       11913 ns/op
+##          [800] entityx1                  800 entities component systems update                                                 50000       23883 ns/op
+##         [1600] entityx1                 1600 entities component systems update                                                 50000       48133 ns/op
+##         [3200] entityx1                 3200 entities component systems update                                                 20000       89597 ns/op
+##         [5000] entityx1                 5000 entities component systems update                                                 10000      137553 ns/op
+##        [10000] entityx1                10000 entities component systems update                                                  5000      278767 ns/op
+##        [30000] entityx1                30000 entities component systems update                                                  2000      890148 ns/op
+##       [100000] entityx1               100000 entities component systems update                                                   500     3159090 ns/op             3 ms/op
+##       [500000] entityx1               500000 entities component systems update                                                   100    16563245 ns/op            16 ms/op          0.02 s/op
+##      [1000000] entityx1              1000000 entities component systems update                                                    50    34100716 ns/op            34 ms/op          0.03 s/op
+##      [2000000] entityx1              2000000 entities component systems update                                                    20    69644566 ns/op            69 ms/op          0.07 s/op
+##      [5000000] entityx1              5000000 entities component systems update                                                    10   178498448 ns/op           178 ms/op          0.18 s/op
+##     [10000000] entityx1             10000000 entities component systems update                                                     5   361179019 ns/op           361 ms/op          0.36 s/op
+##     [20000000] entityx1             20000000 entities component systems update                                                     5   754406788 ns/op           754 ms/op          0.75 s/op
+##           [10] entityx2                   10 entities component systems update                                              50000000          46 ns/op
+##           [25] entityx2                   25 entities component systems update                                              10000000         113 ns/op
+##           [50] entityx2                   50 entities component systems update                                               5000000         217 ns/op
+##          [100] entityx2                  100 entities component systems update                                               5000000         417 ns/op
+##          [200] entityx2                  200 entities component systems update                                               2000000         817 ns/op
+##          [400] entityx2                  400 entities component systems update                                               1000000        1759 ns/op
+##          [800] entityx2                  800 entities component systems update                                                500000        3554 ns/op
+##         [1600] entityx2                 1600 entities component systems update                                                100000       10495 ns/op
+##         [3200] entityx2                 3200 entities component systems update                                                 50000       25400 ns/op
+##         [5000] entityx2                 5000 entities component systems update                                                 50000       39110 ns/op
+##        [10000] entityx2                10000 entities component systems update                                                 20000       78807 ns/op
+##        [30000] entityx2                30000 entities component systems update                                                  5000      235923 ns/op
+##       [100000] entityx2               100000 entities component systems update                                                  1000     1535185 ns/op             1 ms/op
+##       [500000] entityx2               500000 entities component systems update                                                   200     9711500 ns/op             9 ms/op
+##      [1000000] entityx2              1000000 entities component systems update                                                   100    19245424 ns/op            19 ms/op          0.02 s/op
+##      [2000000] entityx2              2000000 entities component systems update                                                    50    38945859 ns/op            38 ms/op          0.04 s/op
+##      [5000000] entityx2              5000000 entities component systems update                                                    20    96652213 ns/op            96 ms/op          0.10 s/op
+##     [10000000] entityx2             10000000 entities component systems update                                                    10   194565377 ns/op           194 ms/op          0.19 s/op
+##     [20000000] entityx2             20000000 entities component systems update                                                     5   389087090 ns/op           389 ms/op          0.39 s/op
+##           [10] enttlegacy                 10 entities component systems update                                              50000000          36 ns/op
+##           [25] enttlegacy                 25 entities component systems update                                              20000000          84 ns/op
+##           [50] enttlegacy                 50 entities component systems update                                              10000000         157 ns/op
+##          [100] enttlegacy                100 entities component systems update                                               5000000         307 ns/op
+##          [200] enttlegacy                200 entities component systems update                                               2000000         594 ns/op
+##          [400] enttlegacy                400 entities component systems update                                               1000000        1211 ns/op
+##          [800] enttlegacy                800 entities component systems update                                                500000        2421 ns/op
+##         [1600] enttlegacy               1600 entities component systems update                                                500000        4883 ns/op
+##         [3200] enttlegacy               3200 entities component systems update                                                200000        9596 ns/op
+##         [5000] enttlegacy               5000 entities component systems update                                                 50000       20945 ns/op
+##        [10000] enttlegacy              10000 entities component systems update                                                 50000       30445 ns/op
+##        [30000] enttlegacy              30000 entities component systems update                                                 10000      101075 ns/op
+##       [100000] enttlegacy             100000 entities component systems update                                                  2000      565810 ns/op
+##       [500000] enttlegacy             500000 entities component systems update                                                   500     3530012 ns/op             3 ms/op
+##      [1000000] enttlegacy            1000000 entities component systems update                                                   200     7138009 ns/op             7 ms/op
+##      [2000000] enttlegacy            2000000 entities component systems update                                                   100    14069843 ns/op            14 ms/op          0.01 s/op
+##      [5000000] enttlegacy            5000000 entities component systems update                                                    50    37161417 ns/op            37 ms/op          0.04 s/op
+##     [10000000] enttlegacy           10000000 entities component systems update                                                    20    83949423 ns/op            83 ms/op          0.08 s/op
+##     [20000000] enttlegacy           20000000 entities component systems update                                                    10   147748206 ns/op           147 ms/op          0.15 s/op
+##           [10] ginseng                    10 entities component systems update                                              50000000          49 ns/op
+##           [25] ginseng                    25 entities component systems update                                              10000000         122 ns/op
+##           [50] ginseng                    50 entities component systems update                                               5000000         214 ns/op
+##          [100] ginseng                   100 entities component systems update                                               5000000         420 ns/op
+##          [200] ginseng                   200 entities component systems update                                               2000000         855 ns/op
+##          [400] ginseng                   400 entities component systems update                                               1000000        1640 ns/op
+##          [800] ginseng                   800 entities component systems update                                                500000        3335 ns/op
+##         [1600] ginseng                  1600 entities component systems update                                                200000        6602 ns/op
+##         [3200] ginseng                  3200 entities component systems update                                                100000       12949 ns/op
+##         [5000] ginseng                  5000 entities component systems update                                                 50000       20640 ns/op
+##        [10000] ginseng                 10000 entities component systems update                                                 50000       41344 ns/op
+##        [30000] ginseng                 30000 entities component systems update                                                 10000      137920 ns/op
+##       [100000] ginseng                100000 entities component systems update                                                  2000      633931 ns/op
+##       [500000] ginseng                500000 entities component systems update                                                   500     3682184 ns/op             3 ms/op
+##      [1000000] ginseng               1000000 entities component systems update                                                   200     7596776 ns/op             7 ms/op
+##      [2000000] ginseng               2000000 entities component systems update                                                   100    15597894 ns/op            15 ms/op          0.02 s/op
+##      [5000000] ginseng               5000000 entities component systems update                                                    50    40991837 ns/op            40 ms/op          0.04 s/op
+##     [10000000] ginseng              10000000 entities component systems update                                                    20    80938424 ns/op            80 ms/op          0.08 s/op
+##     [20000000] ginseng              20000000 entities component systems update                                                    10   165644608 ns/op           165 ms/op          0.17 s/op
+##           [10] entt                       10 entities component systems update                                              50000000          46 ns/op
+##           [25] entt                       25 entities component systems update                                              20000000          87 ns/op
+##           [50] entt                       50 entities component systems update                                              10000000         159 ns/op
+##          [100] entt                      100 entities component systems update                                               5000000         306 ns/op
+##          [200] entt                      200 entities component systems update                                               2000000         588 ns/op
+##          [400] entt                      400 entities component systems update                                               1000000        1145 ns/op
+##          [800] entt                      800 entities component systems update                                                500000        2418 ns/op
+##         [1600] entt                     1600 entities component systems update                                                500000        4813 ns/op
+##         [3200] entt                     3200 entities component systems update                                                200000        9957 ns/op
+##         [5000] entt                     5000 entities component systems update                                                100000       14931 ns/op
+##        [10000] entt                    10000 entities component systems update                                                 50000       31128 ns/op
+##        [30000] entt                    30000 entities component systems update                                                 20000       91220 ns/op
+##       [100000] entt                   100000 entities component systems update                                                  5000      333731 ns/op
+##       [500000] entt                   500000 entities component systems update                                                   500     2892347 ns/op             2 ms/op
+##      [1000000] entt                  1000000 entities component systems update                                                   200     5881441 ns/op             5 ms/op
+##      [2000000] entt                  2000000 entities component systems update                                                   100    12081318 ns/op            12 ms/op          0.01 s/op
+##      [5000000] entt                  5000000 entities component systems update                                                    50    31413825 ns/op            31 ms/op          0.03 s/op
+##     [10000000] entt                 10000000 entities component systems update                                                    20    61381035 ns/op            61 ms/op          0.06 s/op
+##     [20000000] entt                 20000000 entities component systems update                                                    10   121922530 ns/op           121 ms/op          0.12 s/op
+##           [10] entt-group                 10 entities component systems update                                              50000000          47 ns/op
+##           [25] entt-group                 25 entities component systems update                                              20000000          81 ns/op
+##           [50] entt-group                 50 entities component systems update                                              10000000         153 ns/op
+##          [100] entt-group                100 entities component systems update                                               5000000         274 ns/op
+##          [200] entt-group                200 entities component systems update                                               2000000         513 ns/op
+##          [400] entt-group                400 entities component systems update                                               2000000         998 ns/op
+##          [800] entt-group                800 entities component systems update                                                500000        2069 ns/op
+##         [1600] entt-group               1600 entities component systems update                                                500000        4156 ns/op
+##         [3200] entt-group               3200 entities component systems update                                                200000        8185 ns/op
+##         [5000] entt-group               5000 entities component systems update                                                100000       12822 ns/op
+##        [10000] entt-group              10000 entities component systems update                                                 50000       27405 ns/op
+##        [30000] entt-group              30000 entities component systems update                                                 20000       79927 ns/op
+##       [100000] entt-group             100000 entities component systems update                                                  5000      275723 ns/op
+##       [500000] entt-group             500000 entities component systems update                                                   500     2586240 ns/op             2 ms/op
+##      [1000000] entt-group            1000000 entities component systems update                                                   200     5339463 ns/op             5 ms/op
+##      [2000000] entt-group            2000000 entities component systems update                                                   100    10735324 ns/op            10 ms/op          0.01 s/op
+##      [5000000] entt-group            5000000 entities component systems update                                                    50    27907025 ns/op            27 ms/op          0.03 s/op
+##     [10000000] entt-group           10000000 entities component systems update                                                    20    58680344 ns/op            58 ms/op          0.06 s/op
+##     [20000000] entt-group           20000000 entities component systems update                                                    10   126441326 ns/op           126 ms/op          0.13 s/op
+##           [10] entt-runtime               10 entities component systems update                                              10000000         187 ns/op
+##           [25] entt-runtime               25 entities component systems update                                               5000000         359 ns/op
+##           [50] entt-runtime               50 entities component systems update                                               2000000         627 ns/op
+##          [100] entt-runtime              100 entities component systems update                                               1000000        1151 ns/op
+##          [200] entt-runtime              200 entities component systems update                                                500000        2268 ns/op
+##          [400] entt-runtime              400 entities component systems update                                                500000        4416 ns/op
+##          [800] entt-runtime              800 entities component systems update                                                200000        8855 ns/op
+##         [1600] entt-runtime             1600 entities component systems update                                                100000       17197 ns/op
+##         [3200] entt-runtime             3200 entities component systems update                                                 50000       35542 ns/op
+##         [5000] entt-runtime             5000 entities component systems update                                                 20000       53806 ns/op
+##        [10000] entt-runtime            10000 entities component systems update                                                 10000      107326 ns/op
+##        [30000] entt-runtime            30000 entities component systems update                                                  5000      332927 ns/op
+##       [100000] entt-runtime           100000 entities component systems update                                                  1000     1179732 ns/op             1 ms/op
+##       [500000] entt-runtime           500000 entities component systems update                                                   200     6206545 ns/op             6 ms/op
+##      [1000000] entt-runtime          1000000 entities component systems update                                                   100    12789710 ns/op            12 ms/op          0.01 s/op
+##      [2000000] entt-runtime          2000000 entities component systems update                                                    50    27795046 ns/op            27 ms/op          0.03 s/op
+##      [5000000] entt-runtime          5000000 entities component systems update                                                    20    71182290 ns/op            71 ms/op          0.07 s/op
+##     [10000000] entt-runtime         10000000 entities component systems update                                                    10   152975262 ns/op           152 ms/op          0.15 s/op
+##     [20000000] entt-runtime         20000000 entities component systems update                                                     5   297396112 ns/op           297 ms/op          0.30 s/op
+##           [10] ecs                        10 entities component systems update                                               5000000         283 ns/op
+##           [25] ecs                        25 entities component systems update                                               2000000         622 ns/op
+##           [50] ecs                        50 entities component systems update                                               1000000        1175 ns/op
+##          [100] ecs                       100 entities component systems update                                                500000        2414 ns/op
+##          [200] ecs                       200 entities component systems update                                                200000        5201 ns/op
+##          [400] ecs                       400 entities component systems update                                                200000        9842 ns/op
+##          [800] ecs                       800 entities component systems update                                                100000       19417 ns/op
+##         [1600] ecs                      1600 entities component systems update                                                 50000       43144 ns/op
+##         [3200] ecs                      3200 entities component systems update                                                 20000       80838 ns/op
+##         [5000] ecs                      5000 entities component systems update                                                 10000      124031 ns/op
+##        [10000] ecs                     10000 entities component systems update                                                  5000      279282 ns/op
+##        [30000] ecs                     30000 entities component systems update                                                  1000     1855219 ns/op             1 ms/op
+##       [100000] ecs                    100000 entities component systems update                                                   200     7905667 ns/op             7 ms/op
+##       [500000] ecs                    500000 entities component systems update                                                    50    39738492 ns/op            39 ms/op          0.04 s/op
+##      [1000000] ecs                   1000000 entities component systems update                                                    20    83782978 ns/op            83 ms/op          0.08 s/op
+##      [2000000] ecs                   2000000 entities component systems update                                                    10   165762800 ns/op           165 ms/op          0.17 s/op
+##      [5000000] ecs                   5000000 entities component systems update                                                     5   435470105 ns/op           435 ms/op          0.44 s/op
+##     [10000000] ecs                  10000000 entities component systems update                                                     5   862593274 ns/op           862 ms/op          0.86 s/op
+##     [20000000] ecs                  20000000 entities component systems update                                                     1  1695134122 ns/op          1695 ms/op          1.70 s/op
 
 # plot data
-                               anaxupdate          enttupdate       artemisupdate       ginsengupdate      entityx1update      entityx2update    entt-groupupdate    enttlegacyupdate  entt-runtimeupdate
-                   10                 159                  45                 572                  47                 432                  43                  43                  33                 182
-                   25                 313                  84                1380                 109                1048                 107                  78                  79                 334
-                   50                 611                 156                2755                 207                2103                 211                 141                 150                 580
-                  100                1185                 295                5504                 405                4031                 405                 264                 296                1070
-                  200                2315                 562               11163                 792                7742                 797                 497                 577                2063
-                  400                3966                1097               22449                1595               15081                1641                 971                1152                4005
-                  800                8162                2318               43953                3233               29634                3432                2045                2359                9207
-                 1600               16364                5006               88049                6417               58662                6842                4039                4674               15870
-                 3200               36451                9212              177038               12764              116551               13985                8008                9308               31617
-                 5000               78451               14367              277604               20019              182204               26189               12523               18709               49407
-                10000              151682               31114              559945               51484              363690               67194               25110               29243              115329
-                30000             1043977               86573             1745639              159404             1092195              158482               75789               88962              332714
-               100000             8143495              292499            22993814              542234             3778750             1113620              255811              574586             1223834
-               500000            53107654             2572840         36451168020             3553108            19780838             8764564             2302764             2768041             5645638
-              1000000           114210260             5321630         91216035756             7355947            40668559            17227153             4618763             6926998            12175000
-              2000000           253233661            11004865                   ?            15001843            83442131            34762273             9658830            13694701            25198601
-              5000000                   ?            27920790                   ?            38091257           230299339            90076159            25319006            35700802            65841149
-             10000000                   ?            56526059                   ?            78419910           472388024           186609975            54184118            80127168           139403408
-             20000000                   ?           116550750                   ?           162595280          1295028116           397495234           123513931           149457814           277799761
+                                                    ecsupdate                    anaxupdate                    enttupdate                 artemisupdate                 ginsengupdate                entityx1update                entityx2update              entt-groupupdate              enttlegacyupdate            entt-runtimeupdate
+                             10                           283                           166                            46                           562                            49                           310                            46                            47                            36                           187
+                             25                           622                           324                            87                          1353                           122                           742                           113                            81                            84                           359
+                             50                          1175                           635                           159                          2709                           214                          1481                           217                           153                           157                           627
+                            100                          2414                          1211                           306                          5358                           420                          2979                           417                           274                           307                          1151
+                            200                          5201                          2399                           588                         10931                           855                          5931                           817                           513                           594                          2268
+                            400                          9842                          5186                          1145                         21674                          1640                         11913                          1759                           998                          1211                          4416
+                            800                         19417                          8164                          2418                         44578                          3335                         23883                          3554                          2069                          2421                          8855
+                           1600                         43144                         20671                          4813                         86786                          6602                         48133                         10495                          4156                          4883                         17197
+                           3200                         80838                         57086                          9957                        176180                         12949                         89597                         25400                          8185                          9596                         35542
+                           5000                        124031                         81772                         14931                        270518                         20640                        137553                         39110                         12822                         20945                         53806
+                          10000                        279282                        149865                         31128                        544134                         41344                        278767                         78807                         27405                         30445                        107326
+                          30000                       1855219                       1363429                         91220                       1830555                        137920                        890148                        235923                         79927                        101075                        332927
+                         100000                       7905667                      10660590                        333731                      23745512                        633931                       3159090                       1535185                        275723                        565810                       1179732
+                         500000                      39738492                      54631527                       2892347                   22051757545                       3682184                      16563245                       9711500                       2586240                       3530012                       6206545
+                        1000000                      83782978                     117985580                       5881441                   96159825371                       7596776                      34100716                      19245424                       5339463                       7138009                      12789710
+                        2000000                     165762800                     299294149                      12081318                             ?                      15597894                      69644566                      38945859                      10735324                      14069843                      27795046
+                        5000000                     435470105                             ?                      31413825                             ?                      40991837                     178498448                      96652213                      27907025                      37161417                      71182290
+                       10000000                     862593274                             ?                      61381035                             ?                      80938424                     361179019                     194565377                      58680344                      83949423                     152975262
+                       20000000                    1695134122                             ?                     121922530                             ?                     165644608                     754406788                     389087090                     126441326                     147748206                     297396112
 
 
 
-## /home/abeimler/Dokumente/Projects/ecs_benchmark_2/build/app/ecs_benchmark 760.03s
+## /home/abeimler/Dokumente/Projects/ecs_benchmark_2/build/app/ecs_benchmark 872.15s

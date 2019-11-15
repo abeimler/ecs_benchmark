@@ -21,7 +21,6 @@ void ComflabSystem::update(EntityManager &es, TimeDelta dt) {
       });
 }
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 int MoreComplexSystem::random(int min, int max) {
   // Seed with a real random value, if available
   static std::random_device r;
@@ -35,40 +34,39 @@ int MoreComplexSystem::random(int min, int max) {
 }
 
 void MoreComplexSystem::update(EntityManager &es, TimeDelta dt) {
-  entities
-      .for_each<PositionComponent, DirectionComponent, ComflabulationComponent>(
-          [&](Entity entity, PositionComponent &position,
-              DirectionComponent &direction, ComflabulationComponent &comflab) {
-            std::vector<double> vec;
-            for (size_t i = 0; i < comflab.dingy && i < 100; i++) {
-              vec.push_back(i * comflab.thingy);
-            }
+  es.for_each<PositionComponent, DirectionComponent, ComflabulationComponent>(
+      [&](Entity entity, PositionComponent &position,
+          DirectionComponent &direction, ComflabulationComponent &comflab) {
+        std::vector<double> vec;
+        for (size_t i = 0; i < comflab.dingy && i < 100; i++) {
+          vec.push_back(i * comflab.thingy);
+        }
 
-            int sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
-            int product = std::accumulate(std::begin(vec), std::end(vec), 1,
-                                          std::multiplies<double>());
+        int sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
+        int product = std::accumulate(std::begin(vec), std::end(vec), 1,
+                                      std::multiplies<double>());
 
-            comflab.stringy = std::to_string(comflab.dingy);
+        comflab.stringy = std::to_string(comflab.dingy);
 
-            if (position && direction && comflab.dingy % 10000 == 0) {
-              if (position.x > position.y) {
-                direction.x = random(0, 5);
-                direction.y = random(0, 10);
-              } else {
-                direction.x = random(0, 10);
-                direction.y = random(0, 5);
-              }
-            }
-          });
+        if (comflab.dingy % 10000 == 0) {
+          if (position.x > position.y) {
+            direction.x = random(0, 5);
+            direction.y = random(0, 10);
+          } else {
+            direction.x = random(0, 10);
+            direction.y = random(0, 5);
+          }
+        }
+      });
 }
-#endif
 
-Application::Application() {
+Application::Application(bool addmorecomplexsystem)
+    : addmorecomplexsystem_(addmorecomplexsystem) {
   this->systems_.emplace_back(std::make_unique<MovementSystem>());
   this->systems_.emplace_back(std::make_unique<ComflabSystem>());
-#ifdef USE_MORECOMPLEX_SYSTEM
-  this->systems_.emplace_back(std::make_unique<MoreComplexSystem>());
-#endif
+  if (this->addmorecomplexsystem_) {
+    this->systems_.emplace_back(std::make_unique<MoreComplexSystem>());
+  }
 }
 
 void Application::update(TimeDelta dt) {

@@ -4,7 +4,7 @@ set(LIB${CMAKE_PROJECT_NAME}_SOURCE "")
 # [[[cog
 #    import os, cog, glob
 #    path, file = os.path.split(cog.inFile)
-#    filepattern = os.path.join(path, '**/*.h??').lstrip('./')
+#    filepattern = os.path.join(path, '**/*.h').lstrip('./')
 #    files = glob.glob(filepattern, recursive=True)
 #    if files:
 #       cog.outl("list(APPEND LIB${CMAKE_PROJECT_NAME}_HEADERS ")
@@ -14,7 +14,16 @@ set(LIB${CMAKE_PROJECT_NAME}_SOURCE "")
 #       cog.outl(")")
 # ]]]
 list(APPEND LIB${CMAKE_PROJECT_NAME}_HEADERS 
-    ${CMAKE_CURRENT_SOURCE_DIR}/anax/Config.hpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/GinsengBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ECSBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttGroupBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttRuntimeBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/anax/AnaxBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/artemis/ArtemisBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entityx/EntityXBenchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/entityx2/EntityX2Benchmark.h 
+    ${CMAKE_CURRENT_SOURCE_DIR}/enttlegacy/EnttLegacyBenchmark.h 
 )
 # [[[end]]]
 
@@ -32,6 +41,7 @@ list(APPEND LIB${CMAKE_PROJECT_NAME}_HEADERS
 # ]]]
 list(APPEND LIB${CMAKE_PROJECT_NAME}_SOURCE 
     ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/GinsengBenchmark.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ECSBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttGroupBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/EnttRuntimeBenchmark.cpp 
@@ -62,6 +72,7 @@ target_include_directories(lib${CMAKE_PROJECT_NAME} PUBLIC
     ${enttlegacy_SOURCE_DIR}/src
     ${eventpp_SOURCE_DIR}/src
     ${ginseng_SOURCE_DIR}/include
+    ${ecs_SOURCE_DIR}
 )
 target_link_libraries(lib${CMAKE_PROJECT_NAME} PUBLIC anax ArtemisCpp entityx)
 

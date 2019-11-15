@@ -56,7 +56,6 @@ public:
               entityx::TimeDelta dt) override;
 };
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 class MoreComplexSystem : public System<MoreComplexSystem> {
 private:
   static int random(int min, int max);
@@ -67,17 +66,18 @@ public:
   void update(entityx::EntityManager &es, entityx::EventManager &events,
               entityx::TimeDelta dt) override;
 };
-#endif
 
 class Application : public entityx::EntityX {
 public:
-  Application();
+  Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt);
-};
-class EntityXBenchmark {
-public:
-  static constexpr double fakeDeltaTime = 1.0 / 60;
+
+  EntityManager &getEntityManager() { return this->entities; }
+  const EntityManager &getEntityManager() const { return this->entities; }
+
+private:
+  bool addmorecomplexsystem_;
 };
 
 } // namespace entityx1_benchmark

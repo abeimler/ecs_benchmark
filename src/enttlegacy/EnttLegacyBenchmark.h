@@ -67,7 +67,6 @@ public:
   void update(EntityManager &registry, TimeDelta dt) override;
 };
 
-#ifdef USE_MORECOMPLEX_SYSTEM
 class MoreComplexSystem : public System {
 private:
   static int random(int min, int max);
@@ -77,11 +76,10 @@ public:
 
   void update(EntityManager &registry, TimeDelta dt) override;
 };
-#endif
 
 class Application {
 public:
-  Application();
+  Application(bool addmorecomplexsystem = false);
 
   void update(TimeDelta dt);
 
@@ -91,12 +89,9 @@ public:
 private:
   EntityManager entities_;
   std::vector<std::unique_ptr<System>> systems_;
+  bool addmorecomplexsystem_;
 };
 
-class EnttLegacyBenchmark {
-public:
-  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
-};
 
 } // namespace enttlegacy_benchmark
 

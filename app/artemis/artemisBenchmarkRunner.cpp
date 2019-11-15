@@ -1,11 +1,8 @@
-#include <Artemis/Artemis.h>
 #include <artemis/ArtemisBenchmark.h>
 
 #include <benchpress/benchpress.hpp>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
+
+#include <BaseBenchmark.h>
 
 namespace artemis_benchmark {
 
@@ -41,21 +38,9 @@ inline void init_entities(artemis::EntityManager *entities, size_t nentities) {
   }
 }
 
-inline void runEntitiesSystemsArtemisBenchmark(benchpress::context *ctx,
-                                               size_t nentities) {
-  Application app;
-  auto entities = app.getEntityManager();
-
-  init_entities(entities, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(ArtemisBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksArtemis {
-public:
+class BenchmarkArtemis {
+private:
+  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
   static const std::vector<int> ENTITIES;
 
   static inline void makeBenchmarks(const std::string &name) {
@@ -70,18 +55,32 @@ public:
           fmt::format("{:>12} {:<10} {:>12} entities component systems update",
                       tag, name, nentities);
 
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsArtemisBenchmark(ctx, nentities);
-      })
+      std::function<void(benchpress::context *)> bench_func =
+          [nentities = nentities](benchpress::context *ctx) {
+            Application app;
+            auto entities = app.getEntityManager();
+
+            init_entities(entities, nentities);
+
+            ctx->reset_timer();
+            for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+              app.update(fakeDeltaTime);
+            }
+          };
+
+      BENCHMARK(benchmark_name, bench_func)
     }
   }
 
-  BenchmarksArtemis(const std::string &name) { makeBenchmarks(name); }
+public:
+  BenchmarkArtemis(const std::string &name) {
+    makeBenchmarks(name);
+  }
 };
-const std::vector<int> BenchmarksArtemis::ENTITIES = {
+const std::vector<int> BenchmarkArtemis::ENTITIES = {
     10,   25,   50,     100,    200,     400,     800,      1600,
     3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000};
 
-BenchmarksArtemis artemisbenchmarks("artemis");
+BenchmarkArtemis artemisbenchmarks("artemis");
 
 } // namespace artemis_benchmark

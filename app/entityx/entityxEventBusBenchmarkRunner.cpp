@@ -3,212 +3,209 @@
 #include <thread>
 #include <vector>
 
+#include <entityx/EntityXBenchmark.h>
+#include <entityx/entityx.h>
+
 #include <bus.hpp>
 #include <event.hpp>
 #include <signal.hpp>
 
-#include <entityx/EntityXBenchmark.h>
-#include <entityx/entityx.h>
-
-#include "benchpress/benchpress.hpp"
+#include <benchpress/benchpress.hpp>
 
 namespace eventpp_benchmark {
-  struct EventA {
-    int value;
+struct EventA {
+  int value;
 
-    EventA(int p_x, int p_y) : value(p_x + p_y) {}
-  };
+  EventA(int p_x, int p_y) : value(p_x + p_y) {}
+};
 
-  struct EventB {
-    entityx1_benchmark::Entity target;
+struct EventB {
+  entityx1_benchmark::Entity target;
 
-    EventB(entityx1_benchmark::Entity p_target) : target(p_target) {}
-  };
+  EventB(entityx1_benchmark::Entity p_target) : target(p_target) {}
+};
 
-  struct EventC {
-    EventC() = default;
-  };
+struct EventC {
+  EventC() = default;
+};
 
-  class TestListenerEventA {
-  private:
-    int a_ = 0;
+class TestListenerEventA {
+private:
+  int a_ = 0;
 
-  public:
-    TestListenerEventA() = default;
+public:
+  TestListenerEventA() = default;
 
-    void receive(const EventA &) { a_++; }
+  void receive(const EventA &) { a_++; }
 
-    void reset() { a_ = 0; }
-  };
+  void reset() { a_ = 0; }
+};
 
-  class TestListenerEventB {
-  private:
-    int b_ = 0;
+class TestListenerEventB {
+private:
+  int b_ = 0;
 
-  public:
-    TestListenerEventB() = default;
+public:
+  TestListenerEventB() = default;
 
-    void receive(const EventB &) { b_++; }
+  void receive(const EventB &) { b_++; }
 
-    void reset() { b_ = 0; }
-  };
+  void reset() { b_ = 0; }
+};
 
-  class TestListenerEventC {
-  private:
-    int c_ = 0;
+class TestListenerEventC {
+private:
+  int c_ = 0;
 
-  public:
-    TestListenerEventC() = default;
+public:
+  TestListenerEventC() = default;
 
-    void receive(const EventC &) { c_++; }
+  void receive(const EventC &) { c_++; }
 
-    void reset() { c_ = 0; }
-  };
+  void reset() { c_ = 0; }
+};
 
-  using Bus = eventpp::Bus<EventA, EventB, EventC>;
+using Bus = eventpp::Bus<EventA, EventB, EventC>;
 
-  static void runPublishEventsBenchmark(Bus &bus, entityx::Entity &entity,
-                                        size_t nemits) {
-    for (size_t i = 0; i < nemits; ++i) {
-      const int x = 40;
-      const int y = 2;
-      bus.publish<EventA>(x, y);
-      bus.publish<EventB>(entity);
-      bus.publish<EventC>();
-    }
+static void runPublishEventsBenchmark(Bus &bus, entityx::Entity &entity,
+                                      size_t nemits) {
+  for (size_t i = 0; i < nemits; ++i) {
+    const int x = 40;
+    const int y = 2;
+    bus.publish<EventA>(x, y);
+    bus.publish<EventB>(entity);
+    bus.publish<EventC>();
   }
+}
 } // namespace eventpp_benchmark
 
 namespace entityx1_benchmark {
-  struct EventA {
-    int value;
+struct EventA {
+  int value;
 
-    EventA(int p_x, int p_y) : value(p_x + p_y) {}
-  };
+  EventA(int p_x, int p_y) : value(p_x + p_y) {}
+};
 
-  struct EventB {
-    Entity target;
+struct EventB {
+  Entity target;
 
-    EventB(Entity p_target) : target(p_target) {}
-  };
+  EventB(Entity p_target) : target(p_target) {}
+};
 
-  struct EventC {
-    EventC() = default;
-  };
+struct EventC {
+  EventC() = default;
+};
 
-  class TestListenerEventA : public entityx::System<TestListenerEventA>,
-                             public entityx::Receiver<TestListenerEventA> {
-  private:
-    int a_ = 0;
+class TestListenerEventA : public entityx::System<TestListenerEventA>,
+                           public entityx::Receiver<TestListenerEventA> {
+private:
+  int a_ = 0;
 
-  public:
-    TestListenerEventA() = default;
+public:
+  TestListenerEventA() = default;
 
-    void configure(entityx::EventManager &events) override {
-      events.subscribe<EventA>(*this);
-    }
-
-    void update(entityx::EntityManager &entities, entityx::EventManager &events,
-                entityx::TimeDelta dt) override {}
-
-    void receive(const EventA &) { a_++; }
-
-    void reset() { a_ = 0; }
-  };
-
-  class TestListenerEventB : public entityx::System<TestListenerEventB>,
-                             public entityx::Receiver<TestListenerEventB> {
-  private:
-    int b_ = 0;
-
-  public:
-    TestListenerEventB() = default;
-
-    void configure(entityx::EventManager &events) override {
-      events.subscribe<EventB>(*this);
-    }
-
-    void update(entityx::EntityManager &entities, entityx::EventManager &events,
-                entityx::TimeDelta dt) override {}
-
-    void receive(const EventB &) { b_++; }
-
-    void reset() { b_ = 0; }
-  };
-
-  class TestListenerEventC : public entityx::System<TestListenerEventB>,
-                             public entityx::Receiver<TestListenerEventC> {
-  private:
-    int c_ = 0;
-
-  public:
-    TestListenerEventC() = default;
-
-    void configure(entityx::EventManager &events) override {
-      events.subscribe<EventC>(*this);
-    }
-
-    void update(entityx::EntityManager &entities, entityx::EventManager &events,
-                entityx::TimeDelta dt) override {}
-
-    void receive(const EventC &) { c_++; }
-
-    void reset() { c_ = 0; }
-  };
-
-  class ApplicationEventAEventBEventC : public entityx::EntityX {
-  public:
-    ApplicationEventAEventBEventC() {
-      systems.add<TestListenerEventA>();
-      systems.add<TestListenerEventB>();
-      systems.add<TestListenerEventC>();
-      systems.configure();
-    }
-
-    void update(entityx::TimeDelta dt) {
-      systems.update<TestListenerEventA>(dt);
-      systems.update<TestListenerEventB>(dt);
-      systems.update<TestListenerEventC>(dt);
-    }
-  };
-
-  class ApplicationEventA : public entityx::EntityX {
-  public:
-    ApplicationEventA() {
-      systems.add<TestListenerEventA>();
-      systems.configure();
-    }
-
-    void update(entityx::TimeDelta dt) {
-      systems.update<TestListenerEventA>(dt);
-    }
-  };
-
-  class ApplicationEventAEventB : public entityx::EntityX {
-  public:
-    ApplicationEventAEventB() {
-      systems.add<TestListenerEventA>();
-      systems.add<TestListenerEventB>();
-      systems.configure();
-    }
-
-    void update(entityx::TimeDelta dt) {
-      systems.update<TestListenerEventA>(dt);
-      systems.update<TestListenerEventB>(dt);
-    }
-  };
-
-  static void runPublishEventsBenchmark(entityx::EventManager &events,
-                                        entityx::Entity &entity,
-                                        size_t nemits) {
-    for (size_t i = 0; i < nemits; ++i) {
-      const int x = 42;
-      const int y = 2;
-      events.emit<EventA>(x, y);
-      events.emit<EventB>(entity);
-      events.emit<EventC>();
-    }
+  void configure(entityx::EventManager &events) override {
+    events.subscribe<EventA>(*this);
   }
+
+  void update(entityx::EntityManager &entities, entityx::EventManager &events,
+              entityx::TimeDelta dt) override {}
+
+  void receive(const EventA &) { a_++; }
+
+  void reset() { a_ = 0; }
+};
+
+class TestListenerEventB : public entityx::System<TestListenerEventB>,
+                           public entityx::Receiver<TestListenerEventB> {
+private:
+  int b_ = 0;
+
+public:
+  TestListenerEventB() = default;
+
+  void configure(entityx::EventManager &events) override {
+    events.subscribe<EventB>(*this);
+  }
+
+  void update(entityx::EntityManager &entities, entityx::EventManager &events,
+              entityx::TimeDelta dt) override {}
+
+  void receive(const EventB &) { b_++; }
+
+  void reset() { b_ = 0; }
+};
+
+class TestListenerEventC : public entityx::System<TestListenerEventB>,
+                           public entityx::Receiver<TestListenerEventC> {
+private:
+  int c_ = 0;
+
+public:
+  TestListenerEventC() = default;
+
+  void configure(entityx::EventManager &events) override {
+    events.subscribe<EventC>(*this);
+  }
+
+  void update(entityx::EntityManager &entities, entityx::EventManager &events,
+              entityx::TimeDelta dt) override {}
+
+  void receive(const EventC &) { c_++; }
+
+  void reset() { c_ = 0; }
+};
+
+class ApplicationEventAEventBEventC : public entityx::EntityX {
+public:
+  ApplicationEventAEventBEventC() {
+    systems.add<TestListenerEventA>();
+    systems.add<TestListenerEventB>();
+    systems.add<TestListenerEventC>();
+    systems.configure();
+  }
+
+  void update(entityx::TimeDelta dt) {
+    systems.update<TestListenerEventA>(dt);
+    systems.update<TestListenerEventB>(dt);
+    systems.update<TestListenerEventC>(dt);
+  }
+};
+
+class ApplicationEventA : public entityx::EntityX {
+public:
+  ApplicationEventA() {
+    systems.add<TestListenerEventA>();
+    systems.configure();
+  }
+
+  void update(entityx::TimeDelta dt) { systems.update<TestListenerEventA>(dt); }
+};
+
+class ApplicationEventAEventB : public entityx::EntityX {
+public:
+  ApplicationEventAEventB() {
+    systems.add<TestListenerEventA>();
+    systems.add<TestListenerEventB>();
+    systems.configure();
+  }
+
+  void update(entityx::TimeDelta dt) {
+    systems.update<TestListenerEventA>(dt);
+    systems.update<TestListenerEventB>(dt);
+  }
+};
+
+static void runPublishEventsBenchmark(entityx::EventManager &events,
+                                      entityx::Entity &entity, size_t nemits) {
+  for (size_t i = 0; i < nemits; ++i) {
+    const int x = 42;
+    const int y = 2;
+    events.emit<EventA>(x, y);
+    events.emit<EventB>(entity);
+    events.emit<EventC>();
+  }
+}
 
 BENCHMARK("        eventpp eventbus listen to EventA publish EventA",
           [](benchpress::context *ctx) {
@@ -248,7 +245,7 @@ BENCHMARK(
     })
 
 BENCHMARK("        eventpp eventbus listen to EventA EventB and EventC publish "
-          "EventA and EventB",
+          "EventA, EventB and EventC",
           [](benchpress::context *ctx) {
             entityx::EntityX app;
             auto &entities = app.entities;

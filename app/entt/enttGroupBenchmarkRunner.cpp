@@ -1,11 +1,8 @@
+#include <benchpress/benchpress.hpp>
+
 #include <entt/EnttGroupBenchmark.h>
 
-#include <benchpress/benchpress.hpp>
-#include <memory>
-#include <sstream>
-#include <string>
-#include <thread>
-#include <vector>
+#include <BaseBenchmark.h>
 
 namespace enttgroup_benchmark {
 
@@ -24,8 +21,7 @@ BENCHMARK(
 
       ctx->reset_timer();
       for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-        registry
-            .group<PositionComponent>(entt::get<DirectionComponent>)
+        registry.group<PositionComponent>(entt::get<DirectionComponent>)
             .each([](auto entity, auto &position, auto &velocity) {
               DISABLE_REDUNDANT_CODE_OPT();
               benchpress::escape(&entity);
@@ -35,62 +31,37 @@ BENCHMARK(
       }
     })
 
-inline void init_entities(EntityManager &registry,
-                          size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = registry.create();
-
-    registry.assign<PositionComponent>(entity);
-    registry.assign<DirectionComponent>(entity);
-
-    if (i % 2 != 0) {
-      registry.assign<ComflabulationComponent>(entity);
-    }
-  }
-}
-
-inline void runEntitiesSystemsEnttGroupBenchmark(benchpress::context *ctx,
-                                                 size_t nentities) {
-  Application app;
-  auto &registry = app.getEntityManager();
-
-  init_entities(registry, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(EnttGroupBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksEnttGroup {
+class BenchmarkEnttGroup
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Entity, Application,
+                                          TimeDelta> {
 public:
-  static const std::vector<int> ENTITIES;
+  BenchmarkEnttGroup(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000,
+                       5'000'000, 10'000'000, 20'000'000}) {}
+  ~BenchmarkEnttGroup() override = default;
 
-  static inline void makeBenchmarks(const std::string &name) {
-    makeBenchmarks(name, ENTITIES);
+  auto createOneEntity(EntityManager &registry) -> Entity override {
+    return registry.create();
+  }
+  void assignPositionComponent(EntityManager &registry,
+                               Entity &entity) override {
+    registry.assign<PositionComponent>(entity);
+  }
+  void assignDirectionComponent(EntityManager &registry,
+                                Entity &entity) override {
+    registry.assign<DirectionComponent>(entity);
+  }
+  void assignComflabulationComponent(EntityManager &registry,
+                                     Entity &entity) override {
+    registry.assign<ComflabulationComponent>(entity);
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsEnttGroupBenchmark(ctx, nentities);
-      })
-    }
-  }
-
-  BenchmarksEnttGroup(const std::string &name) { makeBenchmarks(name); }
 };
-const std::vector<int> BenchmarksEnttGroup::ENTITIES = {
-    10,        25,        50,        100,        200,       400,     800,
-    1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
-    1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksEnttGroup enttgroupbenchmarks("entt-group");
+BenchmarkEnttGroup enttgroupbenchmarks("entt-group", false);
+BenchmarkEnttGroup enttgroupbenchmarks_morecomplex("entt-group-morecomplex",
+                                                    true);
 
 } // namespace enttgroup_benchmark

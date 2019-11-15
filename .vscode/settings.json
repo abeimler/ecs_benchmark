@@ -94,7 +94,8 @@
         "stack": "cpp",
         "__functional_03": "cpp",
         "hash_set": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "*.ipp": "cpp"
     },
     "C_Cpp.default.configurationProvider": "go2sh.cmake-integration"
 }
