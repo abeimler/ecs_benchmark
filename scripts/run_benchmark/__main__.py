@@ -95,19 +95,19 @@ def replaceColUpdateMoreComplex(row):
 
 def replaceColEventbus(row):
     if row[0] == '20000':
-        row[0] = 'publish EventA and EventB  20k times'
+        row[0] = 'publish EventA, EventB and EventC  20k times'
         return row
     elif row[0] == '50000':
-        row[0] = 'publish EventA and EventB  50k times'
+        row[0] = 'publish EventA, EventB and EventC  50k times'
         return row
     elif row[0] == '100000':
-        row[0] = 'publish EventA and EventB 100k times'
+        row[0] = 'publish EventA, EventB and EventC 100k times'
         return row
     elif row[0] == '200000':
-        row[0] = 'publish EventA and EventB 200k times'
+        row[0] = 'publish EventA, EventB and EventC 200k times'
         return row
     elif row[0] == '500000':
-        row[0] = 'publish EventA and EventB 500k times'
+        row[0] = 'publish EventA, EventB and EventC 500k times'
         return row
 
     return None

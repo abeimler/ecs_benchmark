@@ -245,7 +245,7 @@ BENCHMARK(
     })
 
 BENCHMARK("        eventpp eventbus listen to EventA EventB and EventC publish "
-          "EventA and EventB",
+          "EventA, EventB and EventC",
           [](benchpress::context *ctx) {
             entityx::EntityX app;
             auto &entities = app.entities;

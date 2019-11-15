@@ -34,6 +34,7 @@ list(APPEND ${CMAKE_PROJECT_NAME}_SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/BaseBenchmark.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/ginseng/ginsengBenchmarkRunner.cpp 
+    ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ecsEventBusBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/ecs/ecsBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/enttBenchmarkRunner.cpp 
     ${CMAKE_CURRENT_SOURCE_DIR}/entt/enttGroupBenchmarkRunner.cpp 
