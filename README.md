@@ -12,16 +12,16 @@ Simple Benchmark of common Entity-Component-Systems:
 
 ### TL;DR Results
 
-![benchmark results systems update](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update")  
+![benchmark results systems update](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/update.png "Benchmark Results: Systems update")  
 _(lower is better)_
 
-|                                    |  ECS     |  Anax    |  EnTT    |  Artemis  |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
-|------------------------------------|----------|----------|----------|-----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.084s  |  0.118s  |  0.006s  |  96.160s  |  0.008s   |  0.034s   |  0.019s                               |  0.005s            |  0.007s         |  0.013s                 |
-|Update  2M entities with 2 Systems  |  0.166s  |  0.299s  |  0.012s  |  N/A      |  0.016s   |  0.070s   |  0.039s                               |  0.011s            |  0.014s         |  0.028s                 |
-|Update  5M entities with 2 Systems  |  0.435s  |  N/A     |  0.031s  |  N/A      |  0.041s   |  0.178s   |  0.097s                               |  0.028s            |  0.037s         |  0.071s                 |
-|Update 10M entities with 2 Systems  |  0.863s  |  N/A     |  0.061s  |  N/A      |  0.081s   |  0.361s   |  0.195s                               |  0.059s            |  0.084s         |  0.153s                 |
-|Update 20M entities with 2 Systems  |  1.695s  |  N/A     |  0.122s  |  N/A      |  0.166s   |  0.754s   |  0.389s                               |  0.126s            |  0.148s         |  0.297s                 |
+|                                    |  ECS     |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
+|------------------------------------|----------|----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
+|Update  1M entities with 2 Systems  |  0.083s  |  0.006s  |  0.007s   |  0.034s   |  0.019s                               |  0.005s            |  0.007s         |  0.013s                 |
+|Update  2M entities with 2 Systems  |  0.167s  |  0.012s  |  0.016s   |  0.069s   |  0.039s                               |  0.011s            |  0.015s         |  0.027s                 |
+|Update  5M entities with 2 Systems  |  0.407s  |  0.031s  |  0.039s   |  0.178s   |  0.097s                               |  0.028s            |  0.039s         |  0.074s                 |
+|Update 10M entities with 2 Systems  |  0.860s  |  0.060s  |  0.083s   |  0.366s   |  0.196s                               |  0.059s            |  0.085s         |  0.146s                 |
+|Update 20M entities with 2 Systems  |  1.844s  |  0.124s  |  0.163s   |  0.783s   |  0.387s                               |  0.127s            |  0.162s         |  0.290s                 |
 
 
 ## Candidates
@@ -158,12 +158,12 @@ Date: 15. Nov 2019
 
 |                                                       |  ECS     |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
 |-------------------------------------------------------|----------|----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Creating 10M entities                                  |  0.573s  |  0.085s  |  0.114s   |  0.274s   |  0.158s                               |  N/A               |  0.062s         |  N/A                    |
-|Destroying 10M entities                                |  0.252s  |  0.071s  |  1.473s   |  0.339s   |  0.109s                               |  N/A               |  0.085s         |  N/A                    |
-|Iterating over 10M entities, unpacking one component   |  0.158s  |  0.023s  |  0.012s   |  0.062s   |  0.029s                               |  N/A               |  0.010s         |  0.000s                 |
-|Iterating over 10M entities, unpacking two components  |  N/A     |  0.065s  |  0.032s   |  0.115s   |  0.032s                               |  0.018s            |  0.025s         |  0.000s                 |
-|Creating 10M entities at once                          |  N/A     |  0.055s  |  N/A      |  N/A      |  0.071s                               |  N/A               |  N/A            |  N/A                    |
-|Destroying 10M entities at once                        |  0.300s  |  N/A     |  N/A      |  N/A      |  0.065s                               |  N/A               |  N/A            |  N/A                    |
+|Creating 10M entities                                  |  0.562s  |  0.083s  |  0.103s   |  0.264s   |  0.145s                               |  N/A               |  0.060s         |  N/A                    |
+|Destroying 10M entities                                |  0.230s  |  0.068s  |  1.191s   |  0.336s   |  0.105s                               |  N/A               |  0.079s         |  N/A                    |
+|Iterating over 10M entities, unpacking one component   |  0.161s  |  0.023s  |  0.012s   |  0.061s   |  0.029s                               |  N/A               |  0.010s         |  0.000s                 |
+|Iterating over 10M entities, unpacking two components  |  N/A     |  0.064s  |  0.032s   |  0.114s   |  0.033s                               |  0.018s            |  0.023s         |  0.000s                 |
+|Creating 10M entities at once                          |  N/A     |  0.053s  |  N/A      |  N/A      |  0.067s                               |  N/A               |  N/A            |  N/A                    |
+|Destroying 10M entities at once                        |  0.302s  |  N/A     |  N/A      |  N/A      |  0.063s                               |  N/A               |  N/A            |  N/A                    |
 
 _I didn't benchmark Anax and Artemis, because it causes some `bad_alloc`-Errors._
 
@@ -175,33 +175,13 @@ _(lower is faster)_
 
 |                                    |  ECS     |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
 |------------------------------------|----------|----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.088s  |  0.006s  |  0.008s   |  0.034s   |  0.020s                               |  0.005s            |  0.007s         |  0.013s                 |
-|Update  2M entities with 2 Systems  |  0.168s  |  0.012s  |  0.016s   |  0.069s   |  0.038s                               |  0.011s            |  0.014s         |  0.027s                 |
-|Update  5M entities with 2 Systems  |  0.428s  |  0.031s  |  0.041s   |  0.179s   |  0.100s                               |  0.028s            |  0.040s         |  0.072s                 |
-|Update 10M entities with 2 Systems  |  0.883s  |  0.061s  |  0.083s   |  0.379s   |  0.186s                               |  0.059s            |  0.081s         |  0.143s                 |
-|Update 20M entities with 2 Systems  |  1.720s  |  0.123s  |  0.163s   |  0.754s   |  0.375s                               |  0.135s            |  0.161s         |  0.290s                 |
+|Update  1M entities with 2 Systems  |  0.083s  |  0.006s  |  0.007s   |  0.034s   |  0.019s                               |  0.005s            |  0.007s         |  0.013s                 |
+|Update  2M entities with 2 Systems  |  0.167s  |  0.012s  |  0.016s   |  0.069s   |  0.039s                               |  0.011s            |  0.015s         |  0.027s                 |
+|Update  5M entities with 2 Systems  |  0.407s  |  0.031s  |  0.039s   |  0.178s   |  0.097s                               |  0.028s            |  0.039s         |  0.074s                 |
+|Update 10M entities with 2 Systems  |  0.860s  |  0.060s  |  0.083s   |  0.366s   |  0.196s                               |  0.059s            |  0.085s         |  0.146s                 |
+|Update 20M entities with 2 Systems  |  1.844s  |  0.124s  |  0.163s   |  0.783s   |  0.387s                               |  0.127s            |  0.162s         |  0.290s                 |
 
-![benchmark results systems update 2](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatelong.png "Benchmark Results: Systems update #2")  
-_(lower is faster)_
 
-|                                    |  ECS     |  Anax    |  EnTT    |  Artemis  |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
-|------------------------------------|----------|----------|----------|-----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.084s  |  0.118s  |  0.006s  |  96.160s  |  0.008s   |  0.034s   |  0.019s                               |  0.005s            |  0.007s         |  0.013s                 |
-|Update  2M entities with 2 Systems  |  0.166s  |  0.299s  |  0.012s  |  N/A      |  0.016s   |  0.070s   |  0.039s                               |  0.011s            |  0.014s         |  0.028s                 |
-|Update  5M entities with 2 Systems  |  0.435s  |  N/A     |  0.031s  |  N/A      |  0.041s   |  0.178s   |  0.097s                               |  0.028s            |  0.037s         |  0.071s                 |
-|Update 10M entities with 2 Systems  |  0.863s  |  N/A     |  0.061s  |  N/A      |  0.081s   |  0.361s   |  0.195s                               |  0.059s            |  0.084s         |  0.153s                 |
-|Update 20M entities with 2 Systems  |  1.695s  |  N/A     |  0.122s  |  N/A      |  0.166s   |  0.754s   |  0.389s                               |  0.126s            |  0.148s         |  0.297s                 |
-
-![benchmark results systems update 3](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/updatemorecomplex.png "Benchmark Results: Systems update #3")  
-_(lower is faster)_
-
-|                                    |  ECS     |  EnTT    |  Ginseng  |  EntityX  |  EntityX (experimental/compile_time)  |  EnTT (use group)  |  EnTT (legacy)  |  EnTT (use runtime-view)|
-|------------------------------------|----------|----------|-----------|-----------|---------------------------------------|--------------------|-----------------|-------------------------|
-|Update  1M entities with 2 Systems  |  0.076s  |  0.006s  |  0.008s   |  0.034s   |  0.020s                               |  0.005s            |  0.006s         |  0.013s                 |
-|Update  2M entities with 2 Systems  |  0.151s  |  0.013s  |  0.017s   |  0.069s   |  0.039s                               |  0.011s            |  0.014s         |  0.027s                 |
-|Update  5M entities with 2 Systems  |  0.404s  |  0.030s  |  0.039s   |  0.188s   |  0.101s                               |  0.028s            |  0.036s         |  0.072s                 |
-|Update 10M entities with 2 Systems  |  0.787s  |  0.063s  |  0.080s   |  0.366s   |  0.194s                               |  0.059s            |  0.076s         |  0.155s                 |
-|Update 20M entities with 2 Systems  |  1.527s  |  0.125s  |  0.156s   |  0.749s   |  0.390s                               |  0.130s            |  0.155s         |  0.286s                 |
 
 
 
@@ -209,13 +189,13 @@ _(lower is faster)_
 
 ![benchmark results eventbus](https://raw.githubusercontent.com/abeimler/ecs_benchmark/develop/doc/eventbus.png "Benchmark Results: Eventbus")
 
-|                                      |  EntityX  |  EnTT (legacy)|
-|--------------------------------------|-----------|---------------|
-|publish EventA and EventB  20k times  |  0.001s   |  0.002s       |
-|publish EventA and EventB  50k times  |  0.002s   |  0.004s       |
-|publish EventA and EventB 100k times  |  0.004s   |  0.008s       |
-|publish EventA and EventB 200k times  |  0.008s   |  0.016s       |
-|publish EventA and EventB 500k times  |  0.019s   |  0.039s       |
+|                                              |  ECS     |  EntityX  |  EnTT (legacy)|
+|----------------------------------------------|----------|-----------|---------------|
+|publish EventA, EventB and EventC  20k times  |  0.000s  |  0.001s   |  0.002s       |
+|publish EventA, EventB and EventC  50k times  |  0.001s  |  0.002s   |  0.004s       |
+|publish EventA, EventB and EventC 100k times  |  0.001s  |  0.004s   |  0.008s       |
+|publish EventA, EventB and EventC 200k times  |  0.002s  |  0.008s   |  0.016s       |
+|publish EventA, EventB and EventC 500k times  |  0.006s  |  0.019s   |  0.039s       |
 
 _Listen to EventA EventB and EventC_
 
