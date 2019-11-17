@@ -3,8 +3,7 @@
 Simple Benchmark of common Entity-Component-Systems: 
  - [Anax](https://github.com/miguelmartin75/anax)
  - [Artemis](https://github.com/vinova/Artemis-Cpp)
- - [EntityX](Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity &#x27;objects&#x27; themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.
-EntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. It was built during the creation of a 2D space shooter.)
+ - [EntityX](https://github.com/alecthomas/entityx)
  - [EntityX (experimental/compile_time)](https://github.com/alecthomas/entityx/tree/experimental/compile_time)
  - [EnTT (legacy)](https://github.com/skypjack/entt/releases/tag/v1.1.0)
  - [EnTT](https://github.com/skypjack/entt)
