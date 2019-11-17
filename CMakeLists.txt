@@ -137,7 +137,7 @@ endif()
 
 FetchContent_Declare(
   ecs
-  GIT_REPOSITORY https://github.com/abeimler/ECS
+  GIT_REPOSITORY https://github.com/redxdev/ECS
 )
 FetchContent_GetProperties(ecs)
 if(NOT ecs_POPULATED)
