@@ -71,7 +71,7 @@
             "author": "@alecthomas",
             "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.",
             "version": "1.1.2 (Juli 2017)",
-            "link": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.\nEntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. It was built during the creation of a 2D space shooter.",
+            "link": "https://github.com/alecthomas/entityx",
             "framework": true,
             "linkedlib": true
         },
