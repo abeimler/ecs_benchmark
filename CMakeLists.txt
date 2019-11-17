@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(ecs_benchmark VERSION 3.0.0 LANGUAGES CXX)
+project(ecs_benchmark VERSION 3.1.0 LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
@@ -135,6 +135,14 @@ if(NOT ginseng_POPULATED)
   FetchContent_Populate(ginseng)
 endif()
 
+FetchContent_Declare(
+  ecs
+  GIT_REPOSITORY https://github.com/redxdev/ECS
+)
+FetchContent_GetProperties(ecs)
+if(NOT ecs_POPULATED)
+  FetchContent_Populate(ecs)
+endif()
 
 
 

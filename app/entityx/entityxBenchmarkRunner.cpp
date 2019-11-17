@@ -1,22 +1,21 @@
+#include <benchpress/benchpress.hpp>
+
 #include <entityx/EntityXBenchmark.h>
 
-#include <benchpress/benchpress.hpp>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
+#include <BaseBenchmark.h>
 
 namespace entityx1_benchmark {
 
 constexpr size_t _10M = 10'000'000L;
 
 BENCHMARK("[1] entityx1 Creating 10M entities", [](benchpress::context *ctx) {
-  EntityXBenchmark::Application app;
+  Application app;
   auto &entities = app.entities;
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    std::vector<EntityXBenchmark::Entity> created_entities(_10M);
+    ctx->stop_timer();
+    std::vector<Entity> created_entities(_10M);
 
     ctx->start_timer();
     for (size_t c = 0; c < _10M; c++) {
@@ -33,12 +32,13 @@ BENCHMARK("[1] entityx1 Creating 10M entities", [](benchpress::context *ctx) {
 })
 
 BENCHMARK("[2] entityx1 Destroying 10M entities", [](benchpress::context *ctx) {
-  EntityXBenchmark::Application app;
+  Application app;
   auto &entities = app.entities;
 
   ctx->reset_timer();
   for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    std::vector<EntityXBenchmark::Entity> created_entities(_10M);
+    ctx->stop_timer();
+    std::vector<Entity> created_entities(_10M);
 
     for (size_t c = 0; c < _10M; c++) {
       auto entity = entities.create();
@@ -55,18 +55,17 @@ BENCHMARK("[2] entityx1 Destroying 10M entities", [](benchpress::context *ctx) {
 
 BENCHMARK("[3] entityx1 Iterating over 10M entities, unpacking one component",
           [](benchpress::context *ctx) {
-            EntityXBenchmark::Application app;
+            Application app;
             auto &entities = app.entities;
 
             for (size_t c = 0; c < _10M; c++) {
               auto entity = entities.create();
-              entity.assign<EntityXBenchmark::PositionComponent>();
+              entity.assign<PositionComponent>();
             }
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              EntityXBenchmark::Component<EntityXBenchmark::PositionComponent>
-                  position;
+              Component<PositionComponent> position;
 
               for (auto entity : entities.entities_with_components(position)) {
                 DISABLE_REDUNDANT_CODE_OPT();
@@ -78,21 +77,19 @@ BENCHMARK("[3] entityx1 Iterating over 10M entities, unpacking one component",
 
 BENCHMARK("[4] entityx1 Iterating over 10M entities, unpacking two components",
           [](benchpress::context *ctx) {
-            EntityXBenchmark::Application app;
+            Application app;
             auto &entities = app.entities;
 
             for (size_t c = 0; c < _10M; c++) {
               auto entity = entities.create();
-              entity.assign<EntityXBenchmark::PositionComponent>();
-              entity.assign<EntityXBenchmark::DirectionComponent>();
+              entity.assign<PositionComponent>();
+              entity.assign<DirectionComponent>();
             }
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-              EntityXBenchmark::Component<EntityXBenchmark::PositionComponent>
-                  position;
-              EntityXBenchmark::Component<EntityXBenchmark::DirectionComponent>
-                  velocity;
+              Component<PositionComponent> position;
+              Component<DirectionComponent> velocity;
 
               for (auto entity :
                    entities.entities_with_components(position, velocity)) {
@@ -106,76 +103,51 @@ BENCHMARK("[4] entityx1 Iterating over 10M entities, unpacking two components",
 
 BENCHMARK("entityx1 create destroy entity with components",
           [](benchpress::context *ctx) {
-            entityx::EntityX app;
+            Application app;
             auto &entities = app.entities;
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               auto entity = entities.create();
 
-              entity.assign<EntityXBenchmark::PositionComponent>();
-              entity.assign<EntityXBenchmark::DirectionComponent>();
-              entity.assign<EntityXBenchmark::ComflabulationComponent>();
+              entity.assign<PositionComponent>();
+              entity.assign<DirectionComponent>();
+              entity.assign<ComflabulationComponent>();
 
               entity.destroy();
             }
           })
 
-inline void init_entities(entityx::EntityManager &entities, size_t nentities) {
-  for (size_t i = 0; i < nentities; i++) {
-    auto entity = entities.create();
-
-    entity.assign<EntityXBenchmark::PositionComponent>();
-    entity.assign<EntityXBenchmark::DirectionComponent>();
-
-    if (i % 2 != 0) {
-      entity.assign<EntityXBenchmark::ComflabulationComponent>();
-    }
-  }
-}
-
-inline void runEntitiesSystemsEntityXBenchmark(benchpress::context *ctx,
-                                               size_t nentities) {
-  EntityXBenchmark::Application app;
-  auto &entities = app.entities;
-
-  init_entities(entities, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(EntityXBenchmark::fakeDeltaTime);
-  }
-}
-
-class BenchmarksEntityX {
+class BenchmarkEntityX
+    : public ecs_benchmark::BaseBenchmark<EntityManager, Entity, Entity, Application,
+                                          TimeDelta> {
 public:
-  static const std::vector<int> ENTITIES;
+  BenchmarkEntityX(const std::string &name, bool addmorecomplexsystem)
+      : BaseBenchmark(name, addmorecomplexsystem,
+                      {10, 25, 50, 100, 200, 400, 800, 1600, 3200, 5000, 10'000,
+                       30'000, 100'000, 500'000, 1'000'000, 2'000'000,
+                       5'000'000, 10'000'000, 20'000'000}) {}
+  ~BenchmarkEntityX() override = default;
 
-  static inline void makeBenchmarks(const std::string &name) {
-    makeBenchmarks(name, ENTITIES);
+  auto createOneEntity(EntityManager &registry) -> Entity override {
+    return registry.create();
+  }
+  void assignPositionComponent(EntityManager & /*registry*/,
+                               Entity &entity) override {
+    entity.assign<PositionComponent>();
+  }
+  void assignDirectionComponent(EntityManager & /*registry*/,
+                                Entity &entity) override {
+    entity.assign<DirectionComponent>();
+  }
+  void assignComflabulationComponent(EntityManager & /*registry*/,
+                                     Entity &entity) override {
+    entity.assign<ComflabulationComponent>();
   }
 
-  static void makeBenchmarks(const std::string &name,
-                             const std::vector<int> &entities) {
-    for (int nentities : entities) {
-      std::string tag = fmt::format("[{}]", nentities);
-      std::string benchmark_name =
-          fmt::format("{:>12} {:<10} {:>12} entities component systems update",
-                      tag, name, nentities);
-
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsEntityXBenchmark(ctx, nentities);
-      })
-    }
-  }
-
-  BenchmarksEntityX(const std::string &name) { makeBenchmarks(name); }
 };
-const std::vector<int> BenchmarksEntityX::ENTITIES = {
-    10,        25,        50,        100,        200,       400,     800,
-    1600,      3200,      5000,      10'000,     30'000,    100'000, 500'000,
-    1'000'000, 2'000'000, 5'000'000, 10'000'000, 20'000'000};
 
-BenchmarksEntityX entityxbenchmarks("entityx1");
+BenchmarkEntityX entityxbenchmarks("entityx1", false);
+BenchmarkEntityX entityxbenchmarks_morecomplex("entityx1-morecomplex", true);
 
 } // namespace entityx1_benchmark

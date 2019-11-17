@@ -6,7 +6,8 @@
         "ginseng",
         "entt",
         "entt-group",
-        "entt-runtime"
+        "entt-runtime",
+        "ecs"
     ],
     "updatelong": [
         "anax",
@@ -17,11 +18,23 @@
         "ginseng",
         "entt",
         "entt-group",
-        "entt-runtime"
+        "entt-runtime",
+        "ecs"
+    ],
+    "updatemorecomplex": [
+        "entityx1-morecomplex",
+        "entityx2-morecomplex",
+        "enttlegacy-morecomplex",
+        "ginseng-morecomplex",
+        "entt-morecomplex",
+        "entt-group-morecomplex",
+        "entt-runtime-morecomplex",
+        "ecs-morecomplex"
     ],
     "eventbus": [
         "entityx",
-        "eventpp"
+        "eventpp",
+        "ecs"
     ],
     "10Mentities": [
         "entityx1",
@@ -30,14 +43,15 @@
         "ginseng",
         "entt",
         "entt-group",
-        "entt-runtime"
+        "entt-runtime",
+        "ecs"
     ],
 
     "info": {
         "anax": {
             "name": "Anax",
             "author": "@miguelmartin75",
-            "description": "anax is an open source C++ entity system designed to be portable, lightweight and easy to use. ",
+            "description": "anax is an open source C++ entity system designed to be portable, lightweight and easy to use. It is aimed toward Game Development, however it would be possible to use it for other projects.",
             "version": "2.1.0 (Januar 2017)",
             "link": "https://github.com/miguelmartin75/anax",
             "framework": true,
@@ -46,7 +60,7 @@
         "artemis": {
             "name": "Artemis",
             "author": "@vinova",
-            "description": "A C++ port of Artemis Entity System Framework.",
+            "description": "A C++ port of Artemis Entity System Framework.\nThe port was orignially written by Sidar Talei, in which he used several C++11 features such as deleted function, variadic templates, nullptr, etc… We wanted the framework to be portable, so we removed all C++11 feature usages.",
             "version": "1.x (October 2013)",
             "link": "https://github.com/vinova/Artemis-Cpp",
             "framework": true,
@@ -57,14 +71,14 @@
             "author": "@alecthomas",
             "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.",
             "version": "1.1.2 (Juli 2017)",
-            "link": "https://github.com/alecthomas/entityx",
+            "link": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.\nEntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. It was built during the creation of a 2D space shooter.",
             "framework": true,
             "linkedlib": true
         },
         "entityx2": {
             "name": "EntityX (experimental/compile_time)",
             "author": "@alecthomas",
-            "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves.",
+            "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity 'objects' themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.\nEntityX is an EC system that uses C++11 features to provide type-safe component management, event delivery, etc. It was built during the creation of a 2D space shooter.\nThis version of EntityX is header-only and utilizes a bunch of template metaprogramming to provide compile-time component access. ",
             "version": "compiler-time branch aka. Version 2.0.0 (?) (August 2017)",
             "link": "https://github.com/alecthomas/entityx/tree/experimental/compile_time",
             "framework": true,
@@ -73,7 +87,7 @@
         "enttlegacy": {
             "name": "EnTT (legacy)",
             "author": "@skypjack",
-            "description": "EnTT is a header-only, tiny and easy to use entity-component system in modern C++.",
+            "description": "EnTT is a header-only, tiny and easy to use Entity-Component System in modern C++.\nECS is an architectural pattern used mostly in game development.",
             "version": "1.1.0 (September 2017)",
             "link": "https://github.com/skypjack/entt/releases/tag/v1.1.0",
             "framework": true,
@@ -91,9 +105,18 @@
         "ginseng": {
             "name": "Ginseng",
             "author": "@apples",
-            "description": "Ginseng is an entity-component-system (ECS) library designed for use in games.",
+            "description": "Ginseng is an entity-component-system (ECS) library designed for use in games.\nThe main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.\nAny function-like object can be used as a system. The function's parameters are used to determine the required components.",
             "version": "1.1 (October 2018)",
             "link": "https://github.com/apples/ginseng",
+            "framework": true,
+            "linkedlib": false
+        },
+        "ecs": {
+            "name": "ECS",
+            "author": "@redxdev",
+            "description": "This is a simple C++ header-only type-safe entity component system library. It makes heavy use of C++11 constructs, so make sure you have an up to date compiler. It isn't meant to do absolutely everything, so please feel free to modify it when using. There's a VS2015 solution provided, but it should compile on any standard compiler with C++11 support (C++14 is more ideal, however, as it lets you use auto parameters in lambdas).\nAgain, this is meant for quick prototyping or as a starting point for a more advanced ECS toolkit. It works and it works well, but it isn't optimized for speed or anything.",
+            "version": "1.x (May 2019)",
+            "link": "https://github.com/redxdev/ECS",
             "framework": true,
             "linkedlib": false
         },
@@ -112,9 +135,10 @@
         }
     },
 
-    "simplebenchmark": true,
+    "simplebenchmark": false,
     "benchmark": true,
-    "runbenchmarkupdatelong": true,
+    "runbenchmarkupdatelong": false,
+    "runbenchmarkupdatemorecomplex": false,
     "plot": true,
     "gencsvfiles": true,
     "genreadme": true

@@ -14,4 +14,4 @@ set format x "2^{%L}"
 set format y "10^{%L}"
 
 ## the labels are in Alphabetical order
-plot  "data-eventbus.dat" using 1:2 title 'EntityX' with lines lw 3 ,   "data-eventbus.dat" using 1:3 title 'EnTT (legacy)' with lines lw 3 ,  
+plot  "data-eventbus.dat" using 1:2 title 'ECS' with lines lw 3 ,   "data-eventbus.dat" using 1:3 title 'EntityX' with lines lw 3 ,   "data-eventbus.dat" using 1:4 title 'EnTT (legacy)' with lines lw 3 ,  

@@ -1,59 +1,45 @@
+#include <benchpress/benchpress.hpp>
+
 #include <anax/AnaxBenchmark.h>
 
-#include <anax/anax.hpp>
-#include <benchpress/benchpress.hpp>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
+#include <BaseBenchmark.h>
 
 namespace anax_benchmark {
 
 BENCHMARK("anax create destroy entity with components",
           [](benchpress::context *ctx) {
-            anax::World entities;
+            EntityManager entities;
 
             ctx->reset_timer();
             for (size_t i = 0; i < ctx->num_iterations(); ++i) {
               auto entity = entities.createEntity();
 
-              entity.addComponent<AnaxBenchmark::PositionComponent>();
-              entity.addComponent<AnaxBenchmark::DirectionComponent>();
-              entity.addComponent<AnaxBenchmark::ComflabulationComponent>();
+              entity.addComponent<PositionComponent>();
+              entity.addComponent<DirectionComponent>();
+              entity.addComponent<ComflabulationComponent>();
 
               entity.kill();
             }
           })
 
-inline void init_entities(anax::World &entities, size_t nentities) {
+inline void init_entities(EntityManager &entities, size_t nentities) {
   for (size_t i = 0; i < nentities; i++) {
     auto entity = entities.createEntity();
 
-    entity.addComponent<AnaxBenchmark::PositionComponent>();
-    entity.addComponent<AnaxBenchmark::DirectionComponent>();
+    entity.addComponent<PositionComponent>();
+    entity.addComponent<DirectionComponent>();
 
     if (i % 2 != 0) {
-      entity.addComponent<AnaxBenchmark::ComflabulationComponent>();
+      entity.addComponent<ComflabulationComponent>();
     }
 
     entity.activate();
   }
 }
 
-inline void runEntitiesSystemsAnaxBenchmark(benchpress::context *ctx,
-                                            size_t nentities) {
-  AnaxBenchmark::Application app;
-
-  init_entities(app, nentities);
-
-  ctx->reset_timer();
-  for (size_t i = 0; i < ctx->num_iterations(); ++i) {
-    app.update(AnaxBenchmark::fakeDeltaTime);
-  }
-}
-
-class AnaxBenchmarks {
-public:
+class AnaxBenchmark {
+private:
+  static constexpr TimeDelta fakeDeltaTime = 1.0 / 60;
   static const std::vector<int> ENTITIES;
 
   static inline void makeBenchmarks(const std::string &name) {
@@ -68,18 +54,31 @@ public:
           fmt::format("{:>12} {:<10} {:>12} entities component systems update",
                       tag, name, nentities);
 
-      BENCHMARK(benchmark_name, [nentities](benchpress::context *ctx) {
-        runEntitiesSystemsAnaxBenchmark(ctx, nentities);
-      })
+      std::function<void(benchpress::context *)> bench_func =
+          [nentities = nentities](benchpress::context *ctx) {
+            Application app;
+
+            init_entities(app, nentities);
+
+            ctx->reset_timer();
+            for (size_t i = 0; i < ctx->num_iterations(); ++i) {
+              app.update(fakeDeltaTime);
+            }
+          };
+
+      BENCHMARK(benchmark_name, bench_func)
     }
   }
 
-  AnaxBenchmarks(const std::string &name) { makeBenchmarks(name); }
+public:
+  AnaxBenchmark(const std::string &name) {
+    makeBenchmarks(name);
+  }
 };
-const std::vector<int> AnaxBenchmarks::ENTITIES = {
+const std::vector<int> AnaxBenchmark::ENTITIES = {
     10,   25,   50,     100,    200,     400,     800,       1600,
     3200, 5000, 10'000, 30'000, 100'000, 500'000, 1'000'000, 2'000'000};
 
-AnaxBenchmarks anaxbenchmarks("anax");
+AnaxBenchmark anaxbenchmarks("anax");
 
 } // namespace anax_benchmark
