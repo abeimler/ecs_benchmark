@@ -1,0 +1,84 @@
+version: '3.4'
+
+services:
+  # gcc Debug
+  gcc-debug-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      CC: gcc
+      CXX: g++
+      TARGET: all
+      BUILD_TYPE: Debug
+      CMAKE_ARGS: -DENABLE_COVERAGE:BOOL=ON
+  gcc-debug-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    environment:
+      CC: gcc
+      CXX: g++
+      TARGET: all
+      BUILD_TYPE: Debug
+      CMAKE_ARGS: -DENABLE_COVERAGE:BOOL=ON
+  # gcc Release
+  gcc-release-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      CC: gcc
+      CXX: g++
+      TARGET: all
+      BUILD_TYPE: Release
+      CMAKE_ARGS: -DENABLE_BENCHMARKS:BOOL=ON
+
+  # clang Debug
+  clang-debug-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      CC: clang
+      CXX: clang++
+      TARGET: all
+      BUILD_TYPE: Debug
+      CMAKE_ARGS: -DENABLE_COVERAGE:BOOL=ON
+  clang-debug-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    environment:
+      CC: clang
+      CXX: clang++
+      TARGET: all
+      BUILD_TYPE: Debug
+      CMAKE_ARGS: -DENABLE_COVERAGE:BOOL=ON
+  # clang Release
+  clang-release-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      CC: clang
+      CXX: clang++
+      TARGET: all
+      BUILD_TYPE: Release
+      CMAKE_ARGS: -DENABLE_BENCHMARKS:BOOL=ON
+
+  # windows Release
+  windows-release-build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: build-windows
+    environment:
+      TARGET: all
+      BUILD_TYPE: Release

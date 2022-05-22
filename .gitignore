@@ -1,18 +1,10 @@
 /build*
 /.vscode
 /cpm_modules
-.DS_Store
-cmake-build-*/
 
 build/*
 sonar-project.properties
 .scannerwork/*
-
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json 
 
 
 # Build directories and binary files

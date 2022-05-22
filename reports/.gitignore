@@ -1,0 +1,9 @@
+*.txt
+*.xml
+*.json
+*.out
+
+!example.txt
+!example.xml
+!example.json
+!example.out

@@ -1,0 +1,26 @@
+* text=auto eol=lf
+
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
+*.{vcxproj,vcxproj.filters} text eol=crlf
+*.sh text eol=lf
+
+
+ressources/**/*.psd filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.kra filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.png filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.rgi filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.aseprite filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.ase filter=lfs diff=lfs merge=lfs -text
+ressources/**/*.bin filter=lfs diff=lfs merge=lfs -text
+
+doc/**/*.pdf filter=lfs diff=lfs merge=lfs -text
+
+assets/**/*.png filter=lfs diff=lfs merge=lfs -text
+assets/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+assets/**/*.woff2 filter=lfs diff=lfs merge=lfs -text
+assets/**/*.aseprite filter=lfs diff=lfs merge=lfs -text
+assets/**/*.ase filter=lfs diff=lfs merge=lfs -text
+
+data/**/*.bin filter=lfs diff=lfs merge=lfs -text

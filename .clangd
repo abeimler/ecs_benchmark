@@ -1,0 +1,3 @@
+If:
+    PathMatch:      [src/.*\.h, src/.*\.hpp, src/.*\.cpp]
+    PathExclude:    [include/.*\.h, libs/.*\.h]
