@@ -1,7 +1,0 @@
-[requires]
-Catch2/2.10.1@catchorg/stable
-fmt/6.0.0@bincrafters/stable
-spdlog/1.4.2@bincrafters/stable
-
-[generators]
-cmake
