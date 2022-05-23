@@ -1,13 +1,13 @@
-#include "GinsengBenchmark.h"
+#include "MustacheBenchmark.h"
 
-static ecs::benchmarks::ginseng::GinsengBenchmark ginseng_benchmark ({
-    .add_more_complex_system = true,
+static ecs::benchmarks::mustache::MustacheBenchmark mustache_benchmark ({
+        .add_more_complex_system = true,
 });
 
-static void BM_ginseng_ComplexSystemsUpdate(benchmark::State& state) {
-    ginseng_benchmark.BM_SystemsUpdate(state);
+static void BM_mustache_ComplexSystemsUpdate(benchmark::State& state) {
+    mustache_benchmark.BM_SystemsUpdate(state);
 }
-BENCHMARK(BM_ginseng_ComplexSystemsUpdate)
+BENCHMARK(BM_mustache_ComplexSystemsUpdate)
         ->Arg(10)
         ->Arg(25)
         ->Arg(50)
