@@ -15,6 +15,11 @@ namespace ecs::benchmarks::entt {
     public:
         EnttApplication() = default;
         explicit EnttApplication(bool add_more_complex_system) : Application(add_more_complex_system) {}
+        ~EnttApplication() = default;
+        EnttApplication(const EnttApplication &) = delete;
+        EnttApplication &operator=(const EnttApplication &) = delete;
+        EnttApplication(EnttApplication &&) = default;
+        EnttApplication &operator=(EnttApplication &&) = default;
     };
 }
 

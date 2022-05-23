@@ -21,9 +21,4 @@ BENCHMARK(BM_entt_ComplexSystemsUpdate)
         ->Arg(5000)
         ->Arg(10'000)
         ->Arg(30'000)
-        ->Arg(50'000)
-        ->Arg(100'000)
-        ->Arg(300'000)
-        ->Arg(500'000)
-        ->Arg(700'000)
-        ->Arg(1'000'000);
+        ->Arg(50'000);

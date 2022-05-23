@@ -30,17 +30,15 @@ namespace ecs::benchmarks::base::systems {
 
         MoreComplexSystem &operator=(MoreComplexSystem &&) = default;
 
-    protected:
-
         void
         updateComponents(PositionComponent &position, DirectionComponent &direction, ComflabulationComponent &comflab,
                          TimeDelta dt) {
-            std::vector<double> vec;
-            for (size_t i = 0; i < comflab.dingy && i < 100; i++) {
+            std::vector<int> vec;
+            for (int i = 0; i < comflab.dingy && i < 100; i++) {
                 vec.push_back(i * comflab.thingy);
             }
 
-            const auto sum = std::accumulate(std::begin(vec), std::end(vec), 0.0);
+            const auto sum = std::accumulate(std::begin(vec), std::end(vec), 0);
             const auto product = std::accumulate(std::begin(vec), std::end(vec), 1,
                                                  std::multiplies<>());
 

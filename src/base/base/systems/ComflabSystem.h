@@ -24,8 +24,7 @@ namespace ecs::benchmarks::base::systems {
 
         ComflabSystem &operator=(ComflabSystem &&) = default;
 
-    protected:
-        void updateComflabulation(ComflabulationComponent &comflab, TimeDelta dt) {
+        static void updateComflabulation(ComflabulationComponent &comflab, TimeDelta dt) {
             comflab.thingy += 0.0001F * dt;
             comflab.mingy = !comflab.mingy;
             comflab.dingy++;

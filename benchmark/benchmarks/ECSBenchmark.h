@@ -64,40 +64,42 @@ namespace ecs::benchmarks::base {
         }
 
         void BM_CreateEntities(benchmark::State& state) {
-            Application app = this->createApplication();
+            Application app;
+            this->initApplication(app);
             for (auto _ : state) {
                 state.PauseTiming();
-                entities_factory.clear(app.entities());
+                entities_factory.clear(app.getEntities());
                 state.ResumeTiming();
                 for (int i = 0; i < state.range(0); ++i) {
-                    entities_factory.createMinimal(app.entities());
+                    entities_factory.createMinimal(app.getEntities());
                 }
-                benchmark::DoNotOptimize(app.entities());
+                benchmark::DoNotOptimize(app.getEntities());
                 benchmark::ClobberMemory();
             }
             state.PauseTiming();
             state.counters["entities"] = state.range(0);
             this->uninitApplication(app);
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
 
         void BM_DestroyEntities(benchmark::State& state) {
             std::vector<Entity> entities;
-            Application app = this->createApplicationWithEntities(state.range(0), entities);
+            Application app;
+            this->initApplicationWithEntities(app, state.range(0), entities);
             for (auto _ : state) {
                 state.PauseTiming();
                 entities.clear();
                 entities.reserve(state.range(0));
                 for (size_t i = 0; i < state.range(0); i++) {
-                    entities.push_back(entities_factory.createMinimal(app.entities()));
+                    entities.push_back(entities_factory.createMinimal(app.getEntities()));
                 }
                 state.ResumeTiming();
                 for (auto& entity : entities) {
-                    entities_factory.destory(app.entities(), entity);
+                    entities_factory.destory(app.getEntities(), entity);
                 }
                 benchmark::DoNotOptimize(entities);
-                benchmark::DoNotOptimize(app.entities());
+                benchmark::DoNotOptimize(app.getEntities());
                 benchmark::ClobberMemory();
             }
             state.PauseTiming();
@@ -105,15 +107,16 @@ namespace ecs::benchmarks::base {
             this->afterBenchmark(app);
             this->uninitApplication(app);
             entities.clear();
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
         void BM_UnpackOneComponent(benchmark::State& state) {
             std::vector<Entity> entities;
-            Application app = this->createApplicationWithEntities(state.range(0), entities);
+            Application app;
+            this->initApplicationWithEntities(app, state.range(0), entities);
             for (auto _ : state) {
                 for (auto& entity : entities) {
-                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.entities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
                 }
             }
             state.PauseTiming();
@@ -121,16 +124,17 @@ namespace ecs::benchmarks::base {
             this->afterBenchmark(app);
             this->uninitApplication(app);
             entities.clear();
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
         void BM_UnpackTwoComponents(benchmark::State& state) {
             std::vector<Entity> entities;
-            Application app = this->createApplicationWithEntities(state.range(0), entities);
+            Application app;
+            this->initApplicationWithEntities(app, state.range(0), entities);
             for (auto _ : state) {
                 for (auto& entity : entities) {
-                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.entities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.entities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.getEntities(), entity));
                 }
             }
             state.PauseTiming();
@@ -138,17 +142,18 @@ namespace ecs::benchmarks::base {
             this->afterBenchmark(app);
             this->uninitApplication(app);
             entities.clear();
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
         void BM_UnpackTwoComponentsFromMixedEntities(benchmark::State& state) {
             std::vector<Entity> entities;
             std::vector<Entity> entities_minimal;
-            Application app = this->createApplicationWithEntitiesAndMixedComponents(state.range(0), entities, entities_minimal);
+            Application app;
+            this->initApplicationWithEntitiesAndMixedComponents(app, state.range(0), entities, entities_minimal);
             for (auto _ : state) {
                 for (auto& entity : entities) {
-                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.entities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.entities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.getEntities(), entity));
                 }
             }
             state.PauseTiming();
@@ -158,18 +163,19 @@ namespace ecs::benchmarks::base {
             this->uninitApplication(app);
             entities.clear();
             entities_minimal.clear();
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
         void BM_UnpackThreeComponentsFromMixedEntities(benchmark::State& state) {
             std::vector<Entity> entities;
             std::vector<Entity> entities_minimal;
-            Application app = this->createApplicationWithEntitiesAndMixedComponents(state.range(0), entities, entities_minimal);
+            Application app (m_options.add_more_complex_system);
+            this->initApplicationWithEntitiesAndMixedComponents(app, state.range(0), entities, entities_minimal);
             for (auto _ : state) {
                 for (auto& entity : entities) {
-                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.entities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.entities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getOptionalComponentThree(app.entities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getOptionalComponentThree(app.getEntities(), entity));
                 }
             }
             state.PauseTiming();
@@ -179,13 +185,14 @@ namespace ecs::benchmarks::base {
             this->uninitApplication(app);
             entities.clear();
             entities_minimal.clear();
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
         void BM_SystemsUpdate(benchmark::State& state) {
             std::vector<Entity> entities;
             std::vector<Entity> entities_minimal;
-            Application app = this->createApplicationWithEntitiesAndMixedComponents(state.range(0), entities, entities_minimal);
+            Application app (m_options.add_more_complex_system);
+            this->initApplicationWithEntitiesAndMixedComponents(app, state.range(0), entities, entities_minimal);
             for (auto _ : state) {
                 app.update(this->fakeTimeDelta);
             }
@@ -196,63 +203,53 @@ namespace ecs::benchmarks::base {
             this->uninitApplication(app);
             entities.clear();
             entities_minimal.clear();
-            entities_factory.clear(app.entities());
+            entities_factory.clear(app.getEntities());
         }
 
     protected:
-        Application createApplicationWithEntitiesAndMixedComponents(size_t nentities) {
-            Application app (m_options.add_more_complex_system);
+        void initApplicationWithEntitiesAndMixedComponents(Application& app, size_t nentities) {
             for (size_t i = 0; i < nentities; i++) {
                 if (i % 2 == 0) {
-                    entities_factory.create(app.entities());
+                    entities_factory.create(app.getEntities());
                 } else {
-                    entities_factory.createMinimal(app.entities());
+                    entities_factory.createMinimal(app.getEntities());
                 }
             }
             app.init();
-            return app;
         }
-        Application createApplicationWithEntitiesAndMixedComponents(size_t nentities, std::vector<Entity>& out_all, std::vector<Entity>& out_minimal) {
-            Application app (m_options.add_more_complex_system);
+        void initApplicationWithEntitiesAndMixedComponents(Application& app, size_t nentities, std::vector<Entity>& out_all, std::vector<Entity>& out_minimal) {
             out_all.clear();
             out_minimal.clear();
             for (size_t i = 0; i < nentities; i++) {
                 if (i % 2 == 0) {
-                    out_all.push_back(entities_factory.create(app.entities()));
+                    out_all.push_back(entities_factory.create(app.getEntities()));
                 } else {
-                    const auto entity = entities_factory.createMinimal(app.entities());
+                    const auto entity = entities_factory.createMinimal(app.getEntities());
                     out_minimal.push_back(entity);
                     out_all.push_back(entity);
                 }
             }
             app.init();
-            return app;
         }
 
-        Application createApplication() {
-            Application app (m_options.add_more_complex_system);
+        void initApplication(Application& app) {
             app.init();
-            return app;
         }
 
-        Application createApplicationWithEntities(size_t nentities) {
-            Application app (m_options.add_more_complex_system);
+        void initApplicationWithEntities(Application app, size_t nentities) {
             for (size_t i = 0; i < nentities; i++) {
                 entities_factory.createMinimal(app.entities());
             }
             app.init();
-            return app;
         }
 
-        Application createApplicationWithEntities(size_t nentities, std::vector<Entity>& out) {
+        void initApplicationWithEntities(Application& app, size_t nentities, std::vector<Entity>& out) {
             out.clear();
             out.reserve(nentities);
-            Application app (m_options.add_more_complex_system);
             for (size_t i = 0; i < nentities; i++) {
-                out.push_back(entities_factory.createMinimal(app.entities()));
+                out.push_back(entities_factory.createMinimal(app.getEntities()));
             }
             app.init();
-            return app;
         }
 
         void uninitApplication(Application& app) {

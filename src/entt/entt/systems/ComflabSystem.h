@@ -9,7 +9,7 @@ namespace ecs::benchmarks::entt::systems {
 
     class ComflabSystem final : public ecs::benchmarks::base::systems::ComflabSystem<::entt::registry, float> {
     public:
-        void update(EntityManager &registry, TimeDelta dt);
+        void update(EntityManager &registry, TimeDelta dt) override;
     };
 
 }

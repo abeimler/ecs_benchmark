@@ -10,14 +10,16 @@
 
 namespace ecs::benchmarks::entt::entities {
 
-    class EntityFactory final
-            : public ecs::benchmarks::base::entities::EntityFactory<::entt::registry, ::entt::registry::entity_type, ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent> {
+    class EntityFactory {
     public:
+        using EntityManager = ::entt::registry;
+        using Entity = ::entt::registry::entity_type;
+
         Entity create(EntityManager &registry);
-        void createBulk(EntityManager &registry, std::vector<::entt::registry::entity_type> &out);
+        void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
         Entity createMinimal(EntityManager &registry);
-        void createMinimalBulk(EntityManager &registry, std::vector<::entt::registry::entity_type> &out);
+        void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
         void destory(EntityManager &registry, Entity entity);
         void destoryBulk(EntityManager &registry, std::vector<Entity> &in);

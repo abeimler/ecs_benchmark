@@ -19,7 +19,7 @@ add_library(${CMAKE_PROJECT_NAME}::example::entt ALIAS ${CMAKE_PROJECT_NAME}-exa
 
 target_include_directories(
         ${CMAKE_PROJECT_NAME}-example-entt
-        INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
+        PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(${CMAKE_PROJECT_NAME}-example-entt PUBLIC project_warnings project_options)
 target_link_libraries(${CMAKE_PROJECT_NAME}-example-entt PUBLIC ${CMAKE_PROJECT_NAME}-base)
