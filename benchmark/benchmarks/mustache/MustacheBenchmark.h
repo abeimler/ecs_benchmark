@@ -14,7 +14,8 @@ namespace ecs::benchmarks::mustache {
     class MustacheBenchmark final
             : public ecs::benchmarks::base::ESCBenchmark<"mustache", MustacheApplication, entities::EntityFactory> {
     public:
-        constexpr MustacheBenchmark() = default;
+        MustacheBenchmark() = default;
+
         explicit MustacheBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
     };
 

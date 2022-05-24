@@ -7,12 +7,15 @@
 
 namespace ecs::benchmarks::mustache::systems {
 
-    class MovementSystem final : public ::mustache::System<MovementSystem>, ecs::benchmarks::base::systems::MovementSystem<::mustache::World, float> {
+    class MovementSystem final
+            : public ::mustache::System<MovementSystem>,
+              ecs::benchmarks::base::systems::MovementSystem<::mustache::World, float> {
     public:
         using Entity = ::mustache::Entity;
 
-        void update(::mustache::World& world, TimeDelta dt) override;
-        void onUpdate(::mustache::World& world) override;
+        void update(::mustache::World &world, TimeDelta dt) override;
+
+        void onUpdate(::mustache::World &world) override;
     };
 
 }

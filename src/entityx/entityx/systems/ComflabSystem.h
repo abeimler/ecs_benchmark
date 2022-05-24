@@ -7,11 +7,13 @@
 
 namespace ecs::benchmarks::entityx::systems {
 
-    class ComflabSystem final : public ::entityx::System<ComflabSystem>, base::systems::ComflabSystem<::entityx::EntityManager, float> {
+    class ComflabSystem final
+            : public ::entityx::System<ComflabSystem>, base::systems::ComflabSystem<::entityx::EntityManager, float> {
     public:
         using EventManager = ::entityx::EventManager;
 
         void update(EntityManager &entities, EventManager &events, TimeDelta dt) override;
+
         void update(EntityManager &entities, TimeDelta dt) override;
     };
 

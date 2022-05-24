@@ -16,14 +16,22 @@ namespace ecs::benchmarks::openecs {
         using TimeDelta = float;
 
         OpenECSApplication() : m_systems(m_entities) {};
-        explicit OpenECSApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system), m_systems(m_entities)  {}
+
+        explicit OpenECSApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system),
+                                                                    m_systems(m_entities) {}
+
         ~OpenECSApplication() = default;
+
         OpenECSApplication(const OpenECSApplication &) = delete;
+
         OpenECSApplication &operator=(const OpenECSApplication &) = delete;
+
         OpenECSApplication(OpenECSApplication &&) = default;
+
         OpenECSApplication &operator=(OpenECSApplication &&) = default;
 
         inline EntityManager &getEntities() { return m_entities; }
+
         inline const EntityManager &getEntities() const { return m_entities; }
 
 
@@ -46,6 +54,7 @@ namespace ecs::benchmarks::openecs {
         void update(TimeDelta dt) {
             m_systems.update(dt);
         }
+
     private:
         bool m_add_more_complex_system;
         EntityManager m_entities;

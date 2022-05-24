@@ -7,7 +7,8 @@
 
 namespace ecs::benchmarks::ginseng::systems {
 
-    class MoreComplexSystem final : public ecs::benchmarks::base::systems::MoreComplexSystem<::ginseng::database, float> {
+    class MoreComplexSystem final
+            : public ecs::benchmarks::base::systems::MoreComplexSystem<::ginseng::database, float> {
     public:
         void update(EntityManager &registry, TimeDelta dt) override;
     };

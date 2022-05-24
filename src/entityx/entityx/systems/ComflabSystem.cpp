@@ -3,14 +3,14 @@
 
 namespace ecs::benchmarks::entityx::systems {
 
-    void ComflabSystem::update(EntityManager& entities, EventManager& /*events*/, TimeDelta dt) {
-        entities.each<ecs::benchmarks::base::components::ComflabulationComponent>([dt](auto /*entity*/, auto& comflab){
+    void ComflabSystem::update(EntityManager &entities, EventManager & /*events*/, TimeDelta dt) {
+        entities.each<ecs::benchmarks::base::components::ComflabulationComponent>([dt](auto /*entity*/, auto &comflab) {
             updateComflabulation(comflab, dt);
         });
     }
 
     void ComflabSystem::update(EntityManager &entities, TimeDelta dt) {
-        entities.each<ecs::benchmarks::base::components::ComflabulationComponent>([dt](auto /*entity*/, auto& comflab){
+        entities.each<ecs::benchmarks::base::components::ComflabulationComponent>([dt](auto /*entity*/, auto &comflab) {
             updateComflabulation(comflab, dt);
         });
     }

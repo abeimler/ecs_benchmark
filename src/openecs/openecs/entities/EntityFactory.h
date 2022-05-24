@@ -18,27 +18,36 @@ namespace ecs::benchmarks::openecs::entities {
         auto create(EntityManager &entities) {
             return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>();
         }
+
         void createBulk(EntityManager &entities, std::vector<Entity> &out);
 
         auto createMinimal(EntityManager &entities) {
             return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>();
         }
+
         void createMinimalBulk(EntityManager &entities, std::vector<Entity> &out);
 
         void destory(EntityManager &entities, Entity entity);
+
         void destoryBulk(EntityManager &entities, std::vector<Entity> &in);
 
         void clear(EntityManager &entities);
 
 
-        inline ecs::benchmarks::base::components::PositionComponent& getComponentOne(EntityManager &/*entities*/, Entity entity) {
+        inline ecs::benchmarks::base::components::PositionComponent &
+        getComponentOne(EntityManager &/*entities*/, Entity entity) {
             return entity.get<ecs::benchmarks::base::components::PositionComponent>();
         }
-        inline ecs::benchmarks::base::components::DirectionComponent& getComponentTwo(EntityManager &/*entities*/, Entity entity) {
+
+        inline ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwo(EntityManager &/*entities*/, Entity entity) {
             return entity.get<ecs::benchmarks::base::components::DirectionComponent>();
         }
-        inline ecs::benchmarks::base::components::ComflabulationComponent* getOptionalComponentThree(EntityManager &/*entities*/, Entity entity) {
-            return entity.has<ecs::benchmarks::base::components::ComflabulationComponent>() ? &entity.get<ecs::benchmarks::base::components::ComflabulationComponent>() : nullptr;
+
+        inline ecs::benchmarks::base::components::ComflabulationComponent *
+        getOptionalComponentThree(EntityManager &/*entities*/, Entity entity) {
+            return entity.has<ecs::benchmarks::base::components::ComflabulationComponent>()
+                   ? &entity.get<ecs::benchmarks::base::components::ComflabulationComponent>() : nullptr;
         }
     };
 

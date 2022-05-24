@@ -7,11 +7,14 @@
 
 namespace ecs::benchmarks::entityx::systems {
 
-    class MoreComplexSystem final : public ::entityx::System<MoreComplexSystem>, ecs::benchmarks::base::systems::MoreComplexSystem<::entityx::EntityManager, float> {
+    class MoreComplexSystem final
+            : public ::entityx::System<MoreComplexSystem>,
+              ecs::benchmarks::base::systems::MoreComplexSystem<::entityx::EntityManager, float> {
     public:
         using EventManager = ::entityx::EventManager;
 
         void update(EntityManager &entities, EventManager &events, TimeDelta dt) override;
+
         void update(EntityManager &entities, TimeDelta dt) override;
     };
 

@@ -14,11 +14,17 @@ namespace ecs::benchmarks::ginseng {
             : public ecs::benchmarks::base::Application<::ginseng::database, float, systems::MovementSystem, systems::ComflabSystem, systems::MoreComplexSystem> {
     public:
         GinsengApplication() = default;
+
         explicit GinsengApplication(bool add_more_complex_system) : Application(add_more_complex_system) {}
+
         ~GinsengApplication() = default;
+
         GinsengApplication(const GinsengApplication &) = delete;
+
         GinsengApplication &operator=(const GinsengApplication &) = delete;
+
         GinsengApplication(GinsengApplication &&) = default;
+
         GinsengApplication &operator=(GinsengApplication &&) = default;
     };
 }

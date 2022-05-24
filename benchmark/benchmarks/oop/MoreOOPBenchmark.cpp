@@ -1,12 +1,13 @@
 #include "OOPBenchmark.h"
 
 static ecs::benchmarks::oop::OOPBenchmark oop_benchmark({
-    .add_more_complex_system = true,
-});
+                                                                .add_more_complex_system = true,
+                                                        });
 
-static void BM_oop_ComplexSystemsUpdate(benchmark::State& state) {
-  oop_benchmark.BM_SystemsUpdate(state);
+static void BM_oop_ComplexSystemsUpdate(benchmark::State &state) {
+    oop_benchmark.BM_SystemsUpdate(state);
 }
+
 BENCHMARK(BM_oop_ComplexSystemsUpdate)
         ->Arg(10)
         ->Arg(25)

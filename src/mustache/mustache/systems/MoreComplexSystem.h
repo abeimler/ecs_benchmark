@@ -7,12 +7,15 @@
 
 namespace ecs::benchmarks::mustache::systems {
 
-    class MoreComplexSystem final : public ::mustache::System<MoreComplexSystem>, ecs::benchmarks::base::systems::MoreComplexSystem<::mustache::World, float> {
+    class MoreComplexSystem final
+            : public ::mustache::System<MoreComplexSystem>,
+              ecs::benchmarks::base::systems::MoreComplexSystem<::mustache::World, float> {
     public:
         using Entity = ::mustache::Entity;
 
-        void update(::mustache::World& world, TimeDelta dt) override;
-        void onUpdate(::mustache::World& world) override;
+        void update(::mustache::World &world, TimeDelta dt) override;
+
+        void onUpdate(::mustache::World &world) override;
     };
 
 }

@@ -16,11 +16,18 @@ namespace ecs::benchmarks::mustache {
         using TimeDelta = float;
 
         MustacheApplication() = default;
-        explicit MustacheApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
+
+        explicit MustacheApplication(bool add_more_complex_system) : m_add_more_complex_system(
+                add_more_complex_system) {}
+
         ~MustacheApplication() = default;
+
         MustacheApplication(const MustacheApplication &) = delete;
+
         MustacheApplication &operator=(const MustacheApplication &) = delete;
+
         MustacheApplication(MustacheApplication &&) = default;
+
         MustacheApplication &operator=(MustacheApplication &&) = default;
 
         inline EntityManager &getEntities() { return m_world.entities(); }
@@ -49,6 +56,7 @@ namespace ecs::benchmarks::mustache {
         void update(TimeDelta /*dt*/) {
             m_world.update();
         }
+
     private:
         bool m_add_more_complex_system;
         ::mustache::World m_world;

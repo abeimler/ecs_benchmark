@@ -16,12 +16,15 @@ namespace ecs::benchmarks::entityx::entities {
         using Entity = ::entityx::Entity;
 
         Entity create(EntityManager &registry);
+
         void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
         Entity createMinimal(EntityManager &registry);
+
         void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
         void destory(EntityManager &registry, Entity entity);
+
         void destoryBulk(EntityManager &registry, std::vector<Entity> &in);
 
         void clear(EntityManager &registry);
@@ -30,9 +33,11 @@ namespace ecs::benchmarks::entityx::entities {
         inline auto getComponentOne(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::PositionComponent>(entity.id());
         }
+
         inline auto getComponentTwo(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::DirectionComponent>(entity.id());
         }
+
         inline auto getOptionalComponentThree(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::ComflabulationComponent>(entity.id());
         }

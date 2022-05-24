@@ -4,8 +4,8 @@
 
 namespace ecs::benchmarks::openecs::systems {
 
-    void MovementSystem::update(EntityManager& entities, TimeDelta dt) {
-        for(auto entity : entities.with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>()){
+    void MovementSystem::update(EntityManager &entities, TimeDelta dt) {
+        for (auto entity: entities.with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>()) {
             auto &position = entity.get<ecs::benchmarks::base::components::PositionComponent>();
             auto &direction = entity.get<ecs::benchmarks::base::components::DirectionComponent>();
             updatePosition(position, direction, dt);
@@ -13,7 +13,7 @@ namespace ecs::benchmarks::openecs::systems {
     }
 
     void MovementSystem::update(TimeDelta dt) {
-        for(auto entity : entities().with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>()){
+        for (auto entity: entities().with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>()) {
             auto &position = entity.get<ecs::benchmarks::base::components::PositionComponent>();
             auto &direction = entity.get<ecs::benchmarks::base::components::DirectionComponent>();
             updatePosition(position, direction, dt);

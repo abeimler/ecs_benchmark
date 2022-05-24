@@ -7,9 +7,9 @@
 namespace ecs::benchmarks::oop::systems {
 
     class MoreComplexSystem final
-    : public ecs::benchmarks::base::systems::MoreComplexSystem<oop::entities::EntityFactory::EntityManagerMDO, float> {
+            : public ecs::benchmarks::base::systems::MoreComplexSystem<oop::entities::EntityFactory::EntityManagerMDO, float> {
     public:
-      void update(EntityManager& registry, TimeDelta dt) override;
+        void update(EntityManager &registry, TimeDelta dt) override;
     };
 
 }

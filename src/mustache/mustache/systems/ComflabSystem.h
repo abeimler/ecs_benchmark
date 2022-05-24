@@ -7,12 +7,15 @@
 
 namespace ecs::benchmarks::mustache::systems {
 
-    class ComflabSystem final : public ::mustache::System<ComflabSystem>, ecs::benchmarks::base::systems::ComflabSystem<::mustache::World, float> {
+    class ComflabSystem final
+            : public ::mustache::System<ComflabSystem>,
+              ecs::benchmarks::base::systems::ComflabSystem<::mustache::World, float> {
     public:
         using Entity = ::mustache::Entity;
 
-        void update(::mustache::World& world, TimeDelta dt) override;
-        void onUpdate(::mustache::World& world) override;
+        void update(::mustache::World &world, TimeDelta dt) override;
+
+        void onUpdate(::mustache::World &world) override;
     };
 
 }

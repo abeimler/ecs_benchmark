@@ -15,14 +15,20 @@ namespace ecs::benchmarks::base {
         using TimeDelta = tTimeDelta;
 
         Application() = default;
+
         explicit Application(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
+
         ~Application() = default;
+
         Application(const Application &) = delete;
+
         Application &operator=(const Application &) = delete;
+
         Application(Application &&) = default;
+
         Application &operator=(Application &&) = default;
 
-        inline EntityManager& getEntities() noexcept { return m_entities; }
+        inline EntityManager &getEntities() noexcept { return m_entities; }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
         createMovementSystem(EntityManager &/*entities*/) {
@@ -52,7 +58,7 @@ namespace ecs::benchmarks::base {
         }
 
         void update(TimeDelta dt) {
-            for (auto &system : m_systems) {
+            for (auto &system: m_systems) {
                 if (system != nullptr) {
                     system->update(m_entities, dt);
                 }

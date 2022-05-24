@@ -17,34 +17,44 @@ namespace ecs::benchmarks::oop {
         using TimeDelta = float;
 
         OOPApplication() = default;
-        explicit OOPApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
-        ~OOPApplication() = default;
-        OOPApplication(const OOPApplication&) = delete;
-        OOPApplication& operator=(const OOPApplication&) = delete;
-        OOPApplication(OOPApplication&&) = default;
-        OOPApplication& operator=(OOPApplication&&) = default;
 
-        inline EntityManagerMO& getMOEntities() noexcept { return m_entities_mo; }
-        inline EntityManagerMDO& getMDOEntities() noexcept { return m_entities_mdo; }
+        explicit OOPApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
+
+        ~OOPApplication() = default;
+
+        OOPApplication(const OOPApplication &) = delete;
+
+        OOPApplication &operator=(const OOPApplication &) = delete;
+
+        OOPApplication(OOPApplication &&) = default;
+
+        OOPApplication &operator=(OOPApplication &&) = default;
+
+        inline EntityManagerMO &getMOEntities() noexcept { return m_entities_mo; }
+
+        inline EntityManagerMDO &getMDOEntities() noexcept { return m_entities_mdo; }
 
         void init();
+
         void uninit();
+
         void update(TimeDelta dt);
 
-      private:
+    private:
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMO, TimeDelta>> createMovementMOSystem() {
-          return std::make_unique<systems::MovementMOSystem>();
+            return std::make_unique<systems::MovementMOSystem>();
         }
+
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMDO, TimeDelta>> createMovementMDOSystem() {
-          return std::make_unique<systems::MovementMDOSystem>();
+            return std::make_unique<systems::MovementMDOSystem>();
         }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMDO, TimeDelta>> createComflabSystem() {
-          return std::make_unique<systems::ComflabSystem>();
+            return std::make_unique<systems::ComflabSystem>();
         }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMDO, TimeDelta>> createMoreComplexSystem() {
-          return std::make_unique<systems::MoreComplexSystem>();
+            return std::make_unique<systems::MoreComplexSystem>();
         }
 
         EntityManagerMO m_entities_mo;

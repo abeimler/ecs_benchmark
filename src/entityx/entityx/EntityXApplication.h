@@ -17,13 +17,18 @@ namespace ecs::benchmarks::entityx {
         using TimeDelta = ::entityx::TimeDelta;
 
         EntityXApplication() = default;
-        explicit EntityXApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
+
+        explicit EntityXApplication(bool add_more_complex_system) : m_add_more_complex_system(
+                add_more_complex_system) {}
 
         inline EntityManager &getEntities() { return this->entities; }
+
         inline const EntityManager &getEntities() const { return this->entities; }
 
         void init();
+
         void uninit();
+
         void update(TimeDelta dt);
 
     private:

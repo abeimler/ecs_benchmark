@@ -37,7 +37,7 @@ namespace ecs::benchmarks::openecs::entities {
 
     void EntityFactory::clear(EntityManager &entities) {
         /// @TODO: better reset
-        entities.with([](Entity entity){
+        entities.with([](Entity entity) {
             entity.destroy();
         });
     }

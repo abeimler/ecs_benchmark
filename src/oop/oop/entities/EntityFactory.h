@@ -15,36 +15,44 @@ namespace ecs::benchmarks::oop::entities {
     class EntityFactory {
     public:
         using EntityManagerMO = std::vector<MovableObject>;
-        using EntityMO = MovableObject*;
+        using EntityMO = MovableObject *;
         using EntityManagerMDO = std::vector<MovableWithDataObject>;
-        using EntityMDO = MovableWithDataObject*;
+        using EntityMDO = MovableWithDataObject *;
 
-        EntityMDO create(EntityManagerMDO& registry);
-        void createBulk(EntityManagerMDO& registry, std::vector<EntityMDO>& out);
+        EntityMDO create(EntityManagerMDO &registry);
 
-        EntityMO createMinimal(EntityManagerMO& registry);
-        void createMinimalBulk(EntityManagerMO& registry, std::vector<EntityMO>& out);
+        void createBulk(EntityManagerMDO &registry, std::vector<EntityMDO> &out);
 
-        void destory(EntityManagerMO& registry, EntityMO entity);
-        void destoryBulk(EntityManagerMO& registry, std::vector<EntityMO>& in);
-        void destory(EntityManagerMDO& registry, EntityMDO entity);
-        void destoryBulk(EntityManagerMDO& registry, std::vector<EntityMDO>& in);
+        EntityMO createMinimal(EntityManagerMO &registry);
 
-        void clear(EntityManagerMO& registry);
-        void clear(EntityManagerMDO& registry);
+        void createMinimalBulk(EntityManagerMO &registry, std::vector<EntityMO> &out);
+
+        void destory(EntityManagerMO &registry, EntityMO entity);
+
+        void destoryBulk(EntityManagerMO &registry, std::vector<EntityMO> &in);
+
+        void destory(EntityManagerMDO &registry, EntityMDO entity);
+
+        void destoryBulk(EntityManagerMDO &registry, std::vector<EntityMDO> &in);
+
+        void clear(EntityManagerMO &registry);
+
+        void clear(EntityManagerMDO &registry);
 
 
-        inline ecs::benchmarks::base::components::PositionComponent& getComponentOne(EntityManagerMO& registry,
-                                                                                     MovableObject& entity) {
-          return entity.position();
+        inline ecs::benchmarks::base::components::PositionComponent &getComponentOne(EntityManagerMO &registry,
+                                                                                     MovableObject &entity) {
+            return entity.position();
         }
-        inline ecs::benchmarks::base::components::DirectionComponent& getComponentTwo(EntityManagerMO& registry,
-                                                                                      MovableObject& entity) {
-          return entity.direction();
+
+        inline ecs::benchmarks::base::components::DirectionComponent &getComponentTwo(EntityManagerMO &registry,
+                                                                                      MovableObject &entity) {
+            return entity.direction();
         }
-        inline ecs::benchmarks::base::components::ComflabulationComponent*
-        getOptionalComponentThree(EntityManagerMDO& registry, MovableWithDataObject& entity) {
-          return &entity.comflab();
+
+        inline ecs::benchmarks::base::components::ComflabulationComponent *
+        getOptionalComponentThree(EntityManagerMDO &registry, MovableWithDataObject &entity) {
+            return &entity.comflab();
         }
     };
 

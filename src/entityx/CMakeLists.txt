@@ -10,6 +10,7 @@ CPMAddPackage(
         "ENTITYX_MAX_COMPONENTS 64"
         "ENTITYX_BUILD_SHARED OFF"
         "ENTITYX_RUN_BENCHMARKS OFF"
+        "ENTITYX_BUILD_TESTING OFF"
 )
 
 
@@ -38,6 +39,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ${CMAKE_PROJE
 
 # NOTE: add 3rd-party libs here
 target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC entityx)
-if(entityx_ADDED)
+if (entityx_ADDED)
     target_include_directories(${CMAKE_PROJECT_NAME}-example-entityx SYSTEM PUBLIC ${entityx_SOURCE_DIR})
-endif()
+endif ()

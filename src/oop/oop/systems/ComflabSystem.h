@@ -6,7 +6,8 @@
 
 namespace ecs::benchmarks::oop::systems {
 
-    class ComflabSystem final : public ecs::benchmarks::base::systems::ComflabSystem<oop::entities::EntityFactory::EntityManagerMDO, float> {
+    class ComflabSystem final
+            : public ecs::benchmarks::base::systems::ComflabSystem<oop::entities::EntityFactory::EntityManagerMDO, float> {
     public:
         void update(EntityManager &registry, TimeDelta dt) override;
     };

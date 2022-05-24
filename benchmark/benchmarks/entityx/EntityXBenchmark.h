@@ -14,7 +14,8 @@ namespace ecs::benchmarks::entityx {
     class EnttBenchmark final
             : public ecs::benchmarks::base::ESCBenchmark<"entityx", EntityXApplication, entities::EntityFactory> {
     public:
-        constexpr EnttBenchmark() = default;
+        EnttBenchmark() = default;
+
         explicit EnttBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
     };
 

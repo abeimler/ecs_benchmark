@@ -5,8 +5,8 @@
 
 namespace ecs::benchmarks::openecs::systems {
 
-    void MoreComplexSystem::update(EntityManager& entities, TimeDelta dt) {
-        for(auto entity : entities.with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>()){
+    void MoreComplexSystem::update(EntityManager &entities, TimeDelta dt) {
+        for (auto entity: entities.with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>()) {
             auto &position = entity.get<ecs::benchmarks::base::components::PositionComponent>();
             auto &direction = entity.get<ecs::benchmarks::base::components::DirectionComponent>();
             auto &comflab = entity.get<ecs::benchmarks::base::components::ComflabulationComponent>();
@@ -15,7 +15,7 @@ namespace ecs::benchmarks::openecs::systems {
     }
 
     void MoreComplexSystem::update(TimeDelta dt) {
-        for(auto entity : entities().with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>()){
+        for (auto entity: entities().with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>()) {
             auto &position = entity.get<ecs::benchmarks::base::components::PositionComponent>();
             auto &direction = entity.get<ecs::benchmarks::base::components::DirectionComponent>();
             auto &comflab = entity.get<ecs::benchmarks::base::components::ComflabulationComponent>();

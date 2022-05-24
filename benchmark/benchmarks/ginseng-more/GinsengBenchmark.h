@@ -14,7 +14,8 @@ namespace ecs::benchmarks::ginseng {
     class GinsengBenchmark final
             : public ecs::benchmarks::base::ESCBenchmark<"ginseng", GinsengApplication, entities::EntityFactory> {
     public:
-        constexpr GinsengBenchmark() = default;
+        GinsengBenchmark() = default;
+
         explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
     };
 

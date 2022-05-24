@@ -7,13 +7,15 @@
 
 namespace ecs::benchmarks::openecs::systems {
 
-    class MoreComplexSystem final : public ::ecs::System, ecs::benchmarks::base::systems::MoreComplexSystem<::ecs::EntityManager, float> {
+    class MoreComplexSystem final
+            : public ::ecs::System, ecs::benchmarks::base::systems::MoreComplexSystem<::ecs::EntityManager, float> {
     public:
         using Entity = ::ecs::Entity;
         using TimeDelta = float;
 
         void update(TimeDelta dt) override;
-        void update(EntityManager& entities, TimeDelta dt) override;
+
+        void update(EntityManager &entities, TimeDelta dt) override;
     };
 
 }

@@ -17,25 +17,33 @@ namespace ecs::benchmarks::ginseng::entities {
         using Component = ::ginseng::database::com_id;
 
         Entity create(EntityManager &registry);
+
         void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
         Entity createMinimal(EntityManager &registry);
+
         void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
         void destory(EntityManager &registry, Entity entity);
+
         void destoryBulk(EntityManager &registry, std::vector<Entity> &in);
 
         void clear(EntityManager &registry);
 
 
-        inline ecs::benchmarks::base::components::PositionComponent& getComponentOne(EntityManager &registry, Entity entity) {
+        inline ecs::benchmarks::base::components::PositionComponent &
+        getComponentOne(EntityManager &registry, Entity entity) {
             return registry.get_component<ecs::benchmarks::base::components::PositionComponent>(entity);
         }
-        inline ecs::benchmarks::base::components::DirectionComponent& getComponentTwo(EntityManager &registry, Entity entity) {
+
+        inline ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwo(EntityManager &registry, Entity entity) {
             return registry.get_component<ecs::benchmarks::base::components::DirectionComponent>(entity);
         }
-        inline ecs::benchmarks::base::components::ComflabulationComponent* getOptionalComponentThree(EntityManager &registry, Entity entity) {
-            return registry.get_component<ecs::benchmarks::base::components::ComflabulationComponent*>(entity);
+
+        inline ecs::benchmarks::base::components::ComflabulationComponent *
+        getOptionalComponentThree(EntityManager &registry, Entity entity) {
+            return registry.get_component<ecs::benchmarks::base::components::ComflabulationComponent *>(entity);
         }
     };
 

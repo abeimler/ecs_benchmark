@@ -4,8 +4,8 @@
 
 namespace ecs::benchmarks::oop::systems {
 
-    void MoreComplexSystem::update(EntityManager& registry, TimeDelta dt) {
-        std::for_each(registry.begin(), registry.end(), [dt](auto& entity) {
+    void MoreComplexSystem::update(EntityManager &registry, TimeDelta dt) {
+        std::for_each(registry.begin(), registry.end(), [dt](auto &entity) {
             entity.updateData(dt);
         });
     }
