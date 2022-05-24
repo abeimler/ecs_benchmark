@@ -1,7 +1,6 @@
 set(INCLUDE_DIR "include") # must be relative paths
 add_library(${CMAKE_PROJECT_NAME}-benchmark-base STATIC
-        ECSBenchmark.cpp ECSBenchmark.h
-        )
+        ECSBenchmark.cpp ECSBenchmark.h)
 target_include_directories(
         ${CMAKE_PROJECT_NAME}-benchmark-base
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"

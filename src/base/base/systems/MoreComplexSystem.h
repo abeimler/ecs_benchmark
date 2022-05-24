@@ -3,6 +3,7 @@
 
 #include <random>
 #include <vector>
+#include <numeric>
 
 #include "System.h"
 #include "base/components/PositionComponent.h"
@@ -32,7 +33,7 @@ namespace ecs::benchmarks::base::systems {
 
         void
         updateComponents(PositionComponent &position, DirectionComponent &direction, ComflabulationComponent &comflab,
-                         TimeDelta /*dt*/) {
+                         TimeDelta dt) {
             std::vector<int> vec;
             for (int i = 0; i < comflab.dingy && i < 100; i++) {
                 vec.push_back(i * static_cast<int>(comflab.thingy));
@@ -47,11 +48,11 @@ namespace ecs::benchmarks::base::systems {
 
             if (comflab.dingy % 10000 == 0) {
                 if (position.x > position.y) {
-                    direction.x = static_cast<float>(random(0, 5));
-                    direction.y = static_cast<float>(random(0, 10));
+                    direction.x = static_cast<float>(random(0, 5)) * dt;
+                    direction.y = static_cast<float>(random(0, 10)) * dt;
                 } else {
-                    direction.x = static_cast<float>(random(0, 10));
-                    direction.y = static_cast<float>(random(0, 5));
+                    direction.x = static_cast<float>(random(0, 10)) * dt;
+                    direction.y = static_cast<float>(random(0, 5)) * dt;
                 }
             }
         }

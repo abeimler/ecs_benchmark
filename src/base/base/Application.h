@@ -22,8 +22,7 @@ namespace ecs::benchmarks::base {
         Application(Application &&) = default;
         Application &operator=(Application &&) = default;
 
-        inline EntityManager &getEntities() { return this->m_entities; }
-        inline const EntityManager &getEntities() const { return this->m_entities; }
+        inline EntityManager& getEntities() noexcept { return m_entities; }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
         createMovementSystem(EntityManager &/*entities*/) {
@@ -40,7 +39,7 @@ namespace ecs::benchmarks::base {
             return std::make_unique<MoreComplexSystem>();
         }
 
-        void init() {
+        virtual void init() {
             m_systems.emplace_back(createMovementSystem(m_entities));
             m_systems.emplace_back(createComflabSystem(m_entities));
             if (m_add_more_complex_system) {
@@ -48,12 +47,12 @@ namespace ecs::benchmarks::base {
             }
         }
 
-        void uninit() {
+        virtual void uninit() {
             m_systems.clear();
         }
 
         void update(TimeDelta dt) {
-            for (auto &system : this->m_systems) {
+            for (auto &system : m_systems) {
                 if (system != nullptr) {
                     system->update(m_entities, dt);
                 }

@@ -65,7 +65,7 @@ namespace ecs::benchmarks::base {
 
         void BM_CreateEntities(benchmark::State& state) {
             Application app;
-            this->initApplication(app);
+            initApplication(app);
             for (auto _ : state) {
                 state.PauseTiming();
                 entities_factory.clear(app.getEntities());
@@ -78,7 +78,7 @@ namespace ecs::benchmarks::base {
             }
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(state.range(0));
-            this->uninitApplication(app);
+            uninitApplication(app);
             entities_factory.clear(app.getEntities());
         }
 
@@ -86,7 +86,7 @@ namespace ecs::benchmarks::base {
         void BM_DestroyEntities(benchmark::State& state) {
             std::vector<Entity> entities;
             Application app;
-            this->initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
+            initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
             for (auto _ : state) {
                 state.PauseTiming();
                 entities.clear();
@@ -104,8 +104,8 @@ namespace ecs::benchmarks::base {
             }
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(entities.size());
-            this->afterBenchmark(app);
-            this->uninitApplication(app);
+            afterBenchmark(app);
+            uninitApplication(app);
             entities.clear();
             entities_factory.clear(app.getEntities());
         }
@@ -113,7 +113,7 @@ namespace ecs::benchmarks::base {
         void BM_UnpackOneComponent(benchmark::State& state) {
             std::vector<Entity> entities;
             Application app;
-            this->initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
+            initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
             for (auto _ : state) {
                 for (auto& entity : entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
@@ -121,8 +121,8 @@ namespace ecs::benchmarks::base {
             }
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(entities.size());
-            this->afterBenchmark(app);
-            this->uninitApplication(app);
+            afterBenchmark(app);
+            uninitApplication(app);
             entities.clear();
             entities_factory.clear(app.getEntities());
         }
@@ -130,7 +130,7 @@ namespace ecs::benchmarks::base {
         void BM_UnpackTwoComponents(benchmark::State& state) {
             std::vector<Entity> entities;
             Application app;
-            this->initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
+            initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
             for (auto _ : state) {
                 for (auto& entity : entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
@@ -139,8 +139,8 @@ namespace ecs::benchmarks::base {
             }
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(entities.size());
-            this->afterBenchmark(app);
-            this->uninitApplication(app);
+            afterBenchmark(app);
+            uninitApplication(app);
             entities.clear();
             entities_factory.clear(app.getEntities());
         }
@@ -149,7 +149,7 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             std::vector<Entity> entities_minimal;
             Application app;
-            this->initApplicationWithEntitiesAndMixedComponents(app, static_cast<size_t>(state.range(0)), entities, entities_minimal);
+            initApplicationWithEntitiesAndMixedComponents(app, static_cast<size_t>(state.range(0)), entities, entities_minimal);
             for (auto _ : state) {
                 for (auto& entity : entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
@@ -159,8 +159,8 @@ namespace ecs::benchmarks::base {
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(entities.size());
             state.counters["entities_minimal"] = static_cast<double>(entities_minimal.size());
-            this->afterBenchmark(app);
-            this->uninitApplication(app);
+            afterBenchmark(app);
+            uninitApplication(app);
             entities.clear();
             entities_minimal.clear();
             entities_factory.clear(app.getEntities());
@@ -170,7 +170,7 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             std::vector<Entity> entities_minimal;
             Application app (m_options.add_more_complex_system);
-            this->initApplicationWithEntitiesAndMixedComponents(app, static_cast<size_t>(state.range(0)), entities, entities_minimal);
+            initApplicationWithEntitiesAndMixedComponents(app, static_cast<size_t>(state.range(0)), entities, entities_minimal);
             for (auto _ : state) {
                 for (auto& entity : entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
@@ -181,8 +181,8 @@ namespace ecs::benchmarks::base {
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(entities.size());
             state.counters["entities_minimal"] = static_cast<double>(entities_minimal.size());
-            this->afterBenchmark(app);
-            this->uninitApplication(app);
+            afterBenchmark(app);
+            uninitApplication(app);
             entities.clear();
             entities_minimal.clear();
             entities_factory.clear(app.getEntities());
@@ -192,15 +192,15 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             std::vector<Entity> entities_minimal;
             Application app (m_options.add_more_complex_system);
-            this->initApplicationWithEntitiesAndMixedComponents(app, static_cast<size_t>(state.range(0)), entities, entities_minimal);
+            initApplicationWithEntitiesAndMixedComponents(app, static_cast<size_t>(state.range(0)), entities, entities_minimal);
             for (auto _ : state) {
-                app.update(this->fakeTimeDelta);
+                app.update(fakeTimeDelta);
             }
             state.PauseTiming();
             state.counters["entities"] = static_cast<double>(entities.size());
             state.counters["entities_minimal"] = static_cast<double>(entities_minimal.size());
-            this->afterBenchmark(app);
-            this->uninitApplication(app);
+            afterBenchmark(app);
+            uninitApplication(app);
             entities.clear();
             entities_minimal.clear();
             entities_factory.clear(app.getEntities());
@@ -238,7 +238,7 @@ namespace ecs::benchmarks::base {
 
         void initApplicationWithEntities(Application app, size_t nentities) {
             for (size_t i = 0; i < nentities; i++) {
-                entities_factory.createMinimal(app.entities());
+                entities_factory.createMinimal(app.getEntities());
             }
             app.init();
         }
@@ -253,7 +253,7 @@ namespace ecs::benchmarks::base {
         }
 
         void uninitApplication(Application& app) {
-            this->afterBenchmark(app);
+            afterBenchmark(app);
             app.uninit();
         }
 

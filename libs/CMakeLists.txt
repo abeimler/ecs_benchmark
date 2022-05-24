@@ -18,3 +18,7 @@ if(benchmark_ADDED)
     # enable c++11 to avoid compilation errors
     set_target_properties(benchmark PROPERTIES CXX_STANDARD 11)
 endif()
+
+
+# FIXME: see src/openecs/
+add_subdirectory(${CMAKE_SOURCE_DIR}/libs/openecs)

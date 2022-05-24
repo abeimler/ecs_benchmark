@@ -1,15 +1,19 @@
 # add dependencies
-CPMAddPackage(
-        NAME OpenECS
-        GITHUB_REPOSITORY Gronis/OpenEcs
-        # TODO: set current version, use master (no release version)
-        GIT_TAG master
-        DOWNLOAD_ONLY True
-)
-if(OpenECS_ADDED)
-    add_library(OpenECS INTERFACE)
-    target_include_directories(OpenECS SYSTEM INTERFACE ${OpenECS_SOURCE_DIR}/include)
-endif()
+# FIXME: Failed to unstash changes ... Encountered 2 file(s) that should have been pointers, but weren't: img/component_memory_pool.png img/componentmask_version_vector.png
+#CPMAddPackage(
+#        NAME OpenECS
+#        VERSION 0.1.101
+#        GITHUB_REPOSITORY Gronis/OpenEcs
+#        # TODO: set current version, use master (no release version)
+#        GIT_TAG master
+#        DOWNLOAD_ONLY True
+#)
+#if(OpenECS_ADDED)
+#    add_library(OpenEcs INTERFACE)
+#    target_include_directories(OpenEcs SYSTEM INTERFACE ${OpenECS_SOURCE_DIR}/include)
+#endif()
+# workaround: use local files, see libs/
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
@@ -35,4 +39,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC project_warni
 target_link_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC ${CMAKE_PROJECT_NAME}-base)
 
 # NOTE: add 3rd-party libs here
-target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC OpenECS)
+target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC OpenEcs)
