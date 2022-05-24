@@ -2,8 +2,10 @@
 *.xml
 *.json
 *.out
+*.png
 
-!example.txt
-!example.xml
-!example.json
-!example.out
+!example.*.txt
+!example.*.xml
+!example.*.json
+!example.*.out
+!example.*.png
