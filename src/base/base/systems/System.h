@@ -18,11 +18,11 @@ namespace ecs::benchmarks::base::systems {
 
         System &operator=(const System &) = delete;
 
-        System(System &&) = default;
+        System(System &&) noexcept = default;
 
-        System &operator=(System &&) = default;
+        System &operator=(System &&) noexcept = default;
 
-        virtual void update(EntityManager &es, TimeDelta dt) = 0;
+        virtual void update(EntityManager &registry, TimeDelta dt) = 0;
     };
 
 }

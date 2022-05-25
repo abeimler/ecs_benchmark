@@ -2,6 +2,7 @@
 
 static ecs::benchmarks::oop::OOPBenchmark oop_benchmark({
                                                                 .add_more_complex_system = true,
+                                                                .version{},
                                                         });
 
 static void BM_oop_ComplexSystemsUpdate(benchmark::State &state) {

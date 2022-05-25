@@ -1,6 +1,4 @@
 #include "MovableObject.h"
-#include "base/systems/MovementSystem.h"
-
 
 namespace ecs::benchmarks::oop::entities {
     void MovableObject::update(float dt) {

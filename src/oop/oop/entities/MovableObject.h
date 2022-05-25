@@ -10,15 +10,13 @@ namespace ecs::benchmarks::oop::entities {
     public:
         void update(float dt);
 
-        inline ecs::benchmarks::base::components::PositionComponent &position() noexcept { return m_position; }
-
+        [[nodiscard]] inline ecs::benchmarks::base::components::PositionComponent &position() noexcept { return m_position; }
         inline const ecs::benchmarks::base::components::PositionComponent &position() const noexcept {
             return m_position;
         }
 
-        inline ecs::benchmarks::base::components::DirectionComponent &direction() noexcept { return m_direction; }
-
-        inline const ecs::benchmarks::base::components::DirectionComponent &direction() const noexcept {
+        [[nodiscard]] inline ecs::benchmarks::base::components::DirectionComponent &direction() noexcept { return m_direction; }
+        [[nodiscard]] inline const ecs::benchmarks::base::components::DirectionComponent &direction() const noexcept {
             return m_direction;
         }
 

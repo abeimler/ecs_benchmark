@@ -20,9 +20,9 @@ namespace ecs::benchmarks::base::systems {
 
         DataSystem &operator=(const DataSystem &) = delete;
 
-        DataSystem(DataSystem &&) = default;
+        DataSystem(DataSystem &&) noexcept = default;
 
-        DataSystem &operator=(DataSystem &&) = default;
+        DataSystem &operator=(DataSystem &&) noexcept = default;
 
         static void updateData(DataComponent &data, TimeDelta dt) {
             data.thingy += 0.0001F * dt;

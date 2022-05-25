@@ -1,6 +1,8 @@
 #ifndef ECS_BENCHMARKS_MUSTACHEBENCHMARK_H_
 #define ECS_BENCHMARKS_MUSTACHEBENCHMARK_H_
 
+#include <utility>
+
 #include "ECSBenchmark.h"
 
 #include "mustache/systems/DataSystem.h"
@@ -16,7 +18,7 @@ namespace ecs::benchmarks::mustache {
     public:
         MustacheBenchmark() = default;
 
-        explicit MustacheBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
+        explicit MustacheBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
     };
 
 }

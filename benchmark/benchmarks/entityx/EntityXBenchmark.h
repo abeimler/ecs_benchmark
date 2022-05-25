@@ -1,6 +1,8 @@
 #ifndef ECS_BENCHMARKS_ENTITYXBENCHMARK_H_
 #define ECS_BENCHMARKS_ENTITYXBENCHMARK_H_
 
+#include <utility>
+
 #include "ECSBenchmark.h"
 
 #include "entityx/systems/DataSystem.h"
@@ -16,7 +18,7 @@ namespace ecs::benchmarks::entityx {
     public:
         EnttBenchmark() = default;
 
-        explicit EnttBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
+        explicit EnttBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
     };
 
 }

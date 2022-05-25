@@ -32,7 +32,7 @@ namespace ecs::benchmarks::entityx {
         void update(TimeDelta dt);
 
     private:
-        bool m_add_more_complex_system;
+        bool m_add_more_complex_system{false};
     };
 
 }

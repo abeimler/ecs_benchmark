@@ -15,32 +15,32 @@ namespace ecs::benchmarks::entt::entities {
         using EntityManager = ::entt::registry;
         using Entity = ::entt::registry::entity_type;
 
-        Entity create(EntityManager &registry);
+        static Entity create(EntityManager &registry);
 
-        void createBulk(EntityManager &registry, std::vector<Entity> &out);
+        static void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
-        Entity createMinimal(EntityManager &registry);
+        static Entity createMinimal(EntityManager &registry);
 
-        void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
+        static void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
-        void destory(EntityManager &registry, Entity entity);
+        static void destroy(EntityManager &registry, Entity entity);
 
-        void destoryBulk(EntityManager &registry, std::vector<Entity> &in);
+        static void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
 
-        void clear(EntityManager &registry);
+        static void clear(EntityManager &registry);
 
 
-        inline ecs::benchmarks::base::components::PositionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &registry, Entity entity) {
             return registry.get<ecs::benchmarks::base::components::PositionComponent>(entity);
         }
 
-        inline ecs::benchmarks::base::components::DirectionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
         getComponentTwo(EntityManager &registry, Entity entity) {
             return registry.get<ecs::benchmarks::base::components::DirectionComponent>(entity);
         }
 
-        inline ecs::benchmarks::base::components::DataComponent *
+        [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *
         getOptionalComponentThree(EntityManager &registry, Entity entity) {
             return registry.try_get<ecs::benchmarks::base::components::DataComponent>(entity);
         }

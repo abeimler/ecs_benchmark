@@ -25,19 +25,19 @@ namespace ecs::benchmarks::oop::entities {
         }
     }
 
-    void EntityFactory::destory(EntityManagerMO &registry, EntityMO entity) {
+    void EntityFactory::destroy(EntityManagerMO &registry, EntityMO entity) {
         std::remove_if(registry.begin(), registry.end(), [&](const auto &e) {
             return &e == entity;
         });
     }
 
-    void EntityFactory::destory(EntityManagerMDO &registry, EntityMDO entity) {
+    void EntityFactory::destroy(EntityManagerMDO &registry, EntityMDO entity) {
         std::remove_if(registry.begin(), registry.end(), [&](const auto &e) {
             return &e == entity;
         });
     }
 
-    void EntityFactory::destoryBulk(EntityManagerMO &registry, std::vector<EntityMO> &in) {
+    void EntityFactory::destroyBulk(EntityManagerMO &registry, std::vector<EntityMO> &in) {
         std::remove_if(registry.begin(), registry.end(), [&](const auto &e) {
             return std::any_of(in.begin(), in.end(), [&](const auto &it) {
                 return it == &e;
@@ -45,7 +45,7 @@ namespace ecs::benchmarks::oop::entities {
         });
     }
 
-    void EntityFactory::destoryBulk(EntityManagerMDO &registry, std::vector<EntityMDO> &in) {
+    void EntityFactory::destroyBulk(EntityManagerMDO &registry, std::vector<EntityMDO> &in) {
         std::remove_if(registry.begin(), registry.end(), [&](const auto &e) {
             return std::any_of(in.begin(), in.end(), [&](const auto &it) {
                 return it == &e;

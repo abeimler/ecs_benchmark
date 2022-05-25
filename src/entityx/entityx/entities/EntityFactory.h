@@ -15,30 +15,30 @@ namespace ecs::benchmarks::entityx::entities {
         using EntityManager = ::entityx::EntityManager;
         using Entity = ::entityx::Entity;
 
-        Entity create(EntityManager &registry);
+        static Entity create(EntityManager &registry);
 
-        void createBulk(EntityManager &registry, std::vector<Entity> &out);
+        static void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
-        Entity createMinimal(EntityManager &registry);
+        static Entity createMinimal(EntityManager &registry);
 
-        void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
+        static void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
-        void destory(EntityManager &registry, Entity entity);
+        static void destroy(EntityManager &registry, Entity entity);
 
-        void destoryBulk(EntityManager &registry, std::vector<Entity> &in);
+        static void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
 
-        void clear(EntityManager &registry);
+        static void clear(EntityManager &registry);
 
 
-        inline auto getComponentOne(EntityManager &entities, Entity entity) {
+        [[nodiscard]] static inline auto getComponentOne(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::PositionComponent>(entity.id());
         }
 
-        inline auto getComponentTwo(EntityManager &entities, Entity entity) {
+        [[nodiscard]] static inline auto getComponentTwo(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::DirectionComponent>(entity.id());
         }
 
-        inline auto getOptionalComponentThree(EntityManager &entities, Entity entity) {
+        [[nodiscard]] static inline auto getOptionalComponentThree(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::DataComponent>(entity.id());
         }
     };

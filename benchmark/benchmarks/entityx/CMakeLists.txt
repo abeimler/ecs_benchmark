@@ -9,7 +9,7 @@ target_include_directories(${CMAKE_PROJECT_NAME}-entityx
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(${CMAKE_PROJECT_NAME}-entityx PRIVATE project_warnings project_options)
 target_link_libraries(${CMAKE_PROJECT_NAME}-entityx PRIVATE ${CMAKE_PROJECT_NAME}-benchmark-base)
-target_compile_definitions(${CMAKE_PROJECT_NAME}-entityx PRIVATE "-DENTITYX_VERSION=${ENTITYX_VERSION}")
+target_compile_definitions(${CMAKE_PROJECT_NAME}-entityx PRIVATE "-DENTITYX_VERSION=\"${ENTITYX_VERSION}\"")
 
 
 # @NOTE: add libs for example here

@@ -27,9 +27,9 @@ namespace ecs::benchmarks::base::systems {
 
         MoreComplexSystem &operator=(const MoreComplexSystem &) = delete;
 
-        MoreComplexSystem(MoreComplexSystem &&) = default;
+        MoreComplexSystem(MoreComplexSystem &&) noexcept = default;
 
-        MoreComplexSystem &operator=(MoreComplexSystem &&) = default;
+        MoreComplexSystem &operator=(MoreComplexSystem &&) noexcept = default;
 
         void
         updateComponents(PositionComponent &position, DirectionComponent &direction, DataComponent &data,

@@ -25,11 +25,11 @@ namespace ecs::benchmarks::openecs::entities {
         }
     }
 
-    void EntityFactory::destory(EntityManager &/*entities*/, Entity entity) {
+    void EntityFactory::destroy(EntityManager &/*entities*/, Entity entity) {
         entity.destroy();
     }
 
-    void EntityFactory::destoryBulk(EntityManager &/*entities*/, std::vector<Entity> &in) {
+    void EntityFactory::destroyBulk(EntityManager &/*entities*/, std::vector<Entity> &in) {
         for (auto &entity: in) {
             entity.destroy();
         }

@@ -1,7 +1,4 @@
 #include "MovementSystem.h"
-#include "oop/entities/MovableObject.h"
-#include "oop/entities/MovableWithDataObject.h"
-#include <algorithm>
 
 namespace ecs::benchmarks::oop::systems {
 

@@ -2,6 +2,7 @@
 
 static ecs::benchmarks::openecs::OpenECSBenchmark openecs_benchmark({
                                                                             .add_more_complex_system = true,
+                                                                            .version{},
                                                                     });
 
 static void BM_openecs_CreateEntities(benchmark::State &state) {

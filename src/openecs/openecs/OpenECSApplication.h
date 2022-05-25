@@ -30,9 +30,9 @@ namespace ecs::benchmarks::openecs {
 
         OpenECSApplication &operator=(OpenECSApplication &&) = default;
 
-        inline EntityManager &getEntities() { return m_entities; }
+        [[nodiscard]] inline EntityManager &getEntities() { return m_entities; }
 
-        inline const EntityManager &getEntities() const { return m_entities; }
+        [[nodiscard]] inline const EntityManager &getEntities() const { return m_entities; }
 
 
         void init() {
@@ -56,10 +56,10 @@ namespace ecs::benchmarks::openecs {
         }
 
     private:
-        bool m_add_more_complex_system;
+        bool m_add_more_complex_system{false};
         EntityManager m_entities;
         SystemManager m_systems;
     };
 }
 
-#endif //ECS_BENCHMARKS_MUSTACHE_APPLICATION_H_
+#endif //ECS_BENCHMARKS_OPENECS_APPLICATION_H_

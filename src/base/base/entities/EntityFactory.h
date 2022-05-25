@@ -20,9 +20,9 @@ namespace ecs::benchmarks::base::entities {
 
         EntityFactory &operator=(const EntityFactory &) = default;
 
-        EntityFactory(EntityFactory &&) = default;
+        EntityFactory(EntityFactory &&) noexcept = default;
 
-        EntityFactory &operator=(EntityFactory &&) = default;
+        EntityFactory &operator=(EntityFactory &&) noexcept = default;
 
         virtual Entity create(EntityManager &registry) = 0;
 
@@ -32,9 +32,9 @@ namespace ecs::benchmarks::base::entities {
 
         virtual void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out) = 0;
 
-        virtual void destory(EntityManager &registry, Entity entity) = 0;
+        virtual void destroy(EntityManager &registry, Entity entity) = 0;
 
-        virtual void destoryBulk(EntityManager &registry, std::vector<Entity> &in) = 0;
+        virtual void destroyBulk(EntityManager &registry, std::vector<Entity> &in) = 0;
 
         virtual void clear(EntityManager &registry) = 0;
 

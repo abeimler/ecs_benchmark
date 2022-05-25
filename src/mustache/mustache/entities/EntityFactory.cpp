@@ -25,11 +25,11 @@ namespace ecs::benchmarks::mustache::entities {
         }
     }
 
-    void EntityFactory::destory(EntityManager &registry, Entity entity) {
+    void EntityFactory::destroy(EntityManager &registry, Entity entity) {
         registry.destroyNow(entity);
     }
 
-    void EntityFactory::destoryBulk(EntityManager &registry, std::vector<Entity> &in) {
+    void EntityFactory::destroyBulk(EntityManager &registry, std::vector<Entity> &in) {
         for (auto &entity: in) {
             registry.destroyNow(entity);
         }

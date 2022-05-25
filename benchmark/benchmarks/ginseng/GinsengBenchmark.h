@@ -1,6 +1,8 @@
 #ifndef ECS_BENCHMARKS_GINSENGBENCHMARK_H_
 #define ECS_BENCHMARKS_GINSENGBENCHMARK_H_
 
+#include <utility>
+
 #include "ECSBenchmark.h"
 
 #include "ginseng/systems/DataSystem.h"
@@ -16,7 +18,7 @@ namespace ecs::benchmarks::ginseng {
     public:
         GinsengBenchmark() = default;
 
-        explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
+        explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
     };
 
 }

@@ -43,9 +43,9 @@ namespace ecs::benchmarks::oop {
 
         OOPBenchmark &operator=(OOPBenchmark &&) = default;
 
-        inline const char *name() const noexcept { return m_name; }
+        [[nodiscard]] static inline const char *name() noexcept { return m_name; }
 
-        inline auto framework_version() const { return m_options.version; }
+        [[nodiscard]] inline auto framework_version() const { return m_options.version; }
 
         void BM_CreateEntities(benchmark::State &state) {
             OOPApplication app;
@@ -80,7 +80,7 @@ namespace ecs::benchmarks::oop {
                 }
                 state.ResumeTiming();
                 for (auto &entity: entities) {
-                    entities_factory.destory(app.getMOEntities(), entity);
+                    entities_factory.destroy(app.getMOEntities(), entity);
                 }
                 benchmark::DoNotOptimize(entities);
                 benchmark::DoNotOptimize(app.getMOEntities());
@@ -231,7 +231,7 @@ namespace ecs::benchmarks::oop {
             app.init();
         }
 
-        void initApplication(OOPApplication &app) { app.init(); }
+        static void initApplication(OOPApplication &app) { app.init(); }
 
         void initApplicationWithEntities(OOPApplication app, size_t nentities) {
             for (size_t i = 0; i < nentities; i++) {
@@ -270,9 +270,9 @@ namespace ecs::benchmarks::oop {
         std::vector<std::string> m_benchmark_names;
         entities::EntityFactory entities_factory;
 
-        void afterBenchmark(OOPApplication &) {}
+        void afterBenchmark(OOPApplication & /*app*/) {}
     };
 
 }
 
-#endif //ECS_BENCHMARKS_OPENECSBENCHMARK_H_
+#endif //ECS_BENCHMARKS_OOPBENCHMARK_H_

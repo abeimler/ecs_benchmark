@@ -1,9 +1,7 @@
 #include "EntityXBenchmark.h"
 
-#define STRING(a)   #a
-
 static ecs::benchmarks::entityx::EnttBenchmark entityx_benchmark({
-                                                                         .version = STRING(ENTITYX_VERSION)
+                                                                         .version = "ENTITYX_VERSION"
                                                                  });
 
 static void BM_entityx_CreateEntities(benchmark::State &state) {

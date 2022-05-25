@@ -37,11 +37,11 @@ namespace ecs::benchmarks::ginseng::entities {
         }
     }
 
-    void EntityFactory::destory(EntityManager &registry, Entity entity) {
+    void EntityFactory::destroy(EntityManager &registry, Entity entity) {
         registry.destroy_entity(entity);
     }
 
-    void EntityFactory::destoryBulk(EntityManager &registry, std::vector<Entity> &in) {
+    void EntityFactory::destroyBulk(EntityManager &registry, std::vector<Entity> &in) {
         for (auto &entity: in) {
             registry.destroy_entity(entity);
         }

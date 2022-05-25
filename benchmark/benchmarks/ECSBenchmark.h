@@ -59,15 +59,15 @@ namespace ecs::benchmarks::base {
 
         ESCBenchmark &operator=(const ESCBenchmark &) = default;
 
-        ESCBenchmark(ESCBenchmark &&) = default;
+        ESCBenchmark(ESCBenchmark &&) noexcept = default;
 
-        ESCBenchmark &operator=(ESCBenchmark &&) = default;
+        ESCBenchmark &operator=(ESCBenchmark &&) noexcept = default;
 
-        inline const char *name() const noexcept {
+        [[nodiscard]] inline const char *name() const noexcept {
             return m_name;
         }
 
-        inline auto framework_version() const {
+        [[nodiscard]] inline auto framework_version() const {
             return m_options.version;
         }
 
@@ -104,7 +104,7 @@ namespace ecs::benchmarks::base {
                 }
                 state.ResumeTiming();
                 for (auto &entity: entities) {
-                    entities_factory.destory(app.getEntities(), entity);
+                    entities_factory.destroy(app.getEntities(), entity);
                 }
                 benchmark::DoNotOptimize(entities);
                 benchmark::DoNotOptimize(app.getEntities());
@@ -276,7 +276,7 @@ namespace ecs::benchmarks::base {
         std::vector<std::string> m_benchmark_names;
         EntityFactory entities_factory;
 
-        virtual void afterBenchmark(Application &) {}
+        virtual void afterBenchmark(Application & /*app*/) {}
     };
 }
 

@@ -15,36 +15,36 @@ namespace ecs::benchmarks::openecs::entities {
         using EntityManager = ::ecs::EntityManager;
         using Entity = ::ecs::Entity;
 
-        auto create(EntityManager &entities) {
+        static auto create(EntityManager &entities) {
             return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
         }
 
-        void createBulk(EntityManager &entities, std::vector<Entity> &out);
+        static void createBulk(EntityManager &entities, std::vector<Entity> &out);
 
-        auto createMinimal(EntityManager &entities) {
+        static auto createMinimal(EntityManager &entities) {
             return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>();
         }
 
-        void createMinimalBulk(EntityManager &entities, std::vector<Entity> &out);
+        static void createMinimalBulk(EntityManager &entities, std::vector<Entity> &out);
 
-        void destory(EntityManager &entities, Entity entity);
+        static void destroy(EntityManager &entities, Entity entity);
 
-        void destoryBulk(EntityManager &entities, std::vector<Entity> &in);
+        static void destroyBulk(EntityManager &entities, std::vector<Entity> &in);
 
-        void clear(EntityManager &entities);
+        static void clear(EntityManager &entities);
 
 
-        inline ecs::benchmarks::base::components::PositionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &/*entities*/, Entity entity) {
             return entity.get<ecs::benchmarks::base::components::PositionComponent>();
         }
 
-        inline ecs::benchmarks::base::components::DirectionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
         getComponentTwo(EntityManager &/*entities*/, Entity entity) {
             return entity.get<ecs::benchmarks::base::components::DirectionComponent>();
         }
 
-        inline ecs::benchmarks::base::components::DataComponent *
+        [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *
         getOptionalComponentThree(EntityManager &/*entities*/, Entity entity) {
             return entity.has<ecs::benchmarks::base::components::DataComponent>()
                    ? &entity.get<ecs::benchmarks::base::components::DataComponent>() : nullptr;

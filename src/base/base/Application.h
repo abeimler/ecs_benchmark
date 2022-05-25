@@ -18,15 +18,15 @@ namespace ecs::benchmarks::base {
 
         explicit Application(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
 
-        ~Application() = default;
+        virtual ~Application() = default;
 
         Application(const Application &) = delete;
 
         Application &operator=(const Application &) = delete;
 
-        Application(Application &&) = default;
+        Application(Application &&) noexcept = default;
 
-        Application &operator=(Application &&) = default;
+        Application &operator=(Application &&) noexcept = default;
 
         inline EntityManager &getEntities() noexcept { return m_entities; }
 
@@ -68,7 +68,7 @@ namespace ecs::benchmarks::base {
     protected:
         EntityManager m_entities;
         std::vector<std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>> m_systems;
-        bool m_add_more_complex_system;
+        bool m_add_more_complex_system{false};
     };
 }
 

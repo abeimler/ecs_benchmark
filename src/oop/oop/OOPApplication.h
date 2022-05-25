@@ -66,4 +66,4 @@ namespace ecs::benchmarks::oop {
 
 }
 
-#endif //ECS_BENCHMARKS_ENTT_APPLICATION_H_
+#endif //ECS_BENCHMARKS_OOP_APPLICATION_H_

@@ -19,9 +19,9 @@ namespace ecs::benchmarks::base::systems {
 
         MovementSystem &operator=(const MovementSystem &) = delete;
 
-        MovementSystem(MovementSystem &&) = default;
+        MovementSystem(MovementSystem &&) noexcept = default;
 
-        MovementSystem &operator=(MovementSystem &&) = default;
+        MovementSystem &operator=(MovementSystem &&) noexcept = default;
 
         static void updatePosition(ecs::benchmarks::base::components::PositionComponent &position,
                                    const ecs::benchmarks::base::components::DirectionComponent &direction, TimeDelta dt) {

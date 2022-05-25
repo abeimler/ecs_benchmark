@@ -3,6 +3,8 @@
 
 #include "ECSBenchmark.h"
 
+#include <utility>
+
 #include "openecs/systems/DataSystem.h"
 #include "openecs/systems/MoreComplexSystem.h"
 #include "openecs/systems/MovementSystem.h"
@@ -16,7 +18,7 @@ namespace ecs::benchmarks::openecs {
     public:
         OpenECSBenchmark() = default;
 
-        explicit OpenECSBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(options) {}
+        explicit OpenECSBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
     };
 
 }
