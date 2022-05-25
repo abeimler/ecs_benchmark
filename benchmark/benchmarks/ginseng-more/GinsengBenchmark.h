@@ -18,7 +18,8 @@ namespace ecs::benchmarks::ginseng {
     public:
         GinsengBenchmark() = default;
 
-        explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
+        explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(
+                std::move(options)) {}
     };
 
 }

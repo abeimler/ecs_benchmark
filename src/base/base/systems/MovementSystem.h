@@ -24,7 +24,8 @@ namespace ecs::benchmarks::base::systems {
         MovementSystem &operator=(MovementSystem &&) noexcept = default;
 
         static void updatePosition(ecs::benchmarks::base::components::PositionComponent &position,
-                                   const ecs::benchmarks::base::components::DirectionComponent &direction, TimeDelta dt) {
+                                   const ecs::benchmarks::base::components::DirectionComponent &direction,
+                                   TimeDelta dt) {
             position.x += direction.x * dt;
             position.y += direction.y * dt;
         }

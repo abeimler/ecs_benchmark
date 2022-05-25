@@ -40,13 +40,15 @@ namespace ecs::benchmarks::oop::entities {
         static void clear(EntityManagerMDO &registry);
 
 
-        [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &getComponentOne(EntityManagerMO &/*registry*/,
-                                                                                     MovableObject &entity) {
+        [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
+        getComponentOne(EntityManagerMO &/*registry*/,
+                        MovableObject &entity) {
             return entity.position();
         }
 
-        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &getComponentTwo(EntityManagerMO &/*registry*/,
-                                                                                      MovableObject &entity) {
+        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwo(EntityManagerMO &/*registry*/,
+                        MovableObject &entity) {
             return entity.direction();
         }
 

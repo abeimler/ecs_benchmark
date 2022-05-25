@@ -18,7 +18,8 @@ namespace ecs::benchmarks::mustache {
     public:
         MustacheBenchmark() = default;
 
-        explicit MustacheBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
+        explicit MustacheBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(
+                std::move(options)) {}
     };
 
 }

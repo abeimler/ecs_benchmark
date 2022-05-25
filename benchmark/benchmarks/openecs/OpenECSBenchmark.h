@@ -18,7 +18,8 @@ namespace ecs::benchmarks::openecs {
     public:
         OpenECSBenchmark() = default;
 
-        explicit OpenECSBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
+        explicit OpenECSBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(
+                std::move(options)) {}
     };
 
 }
