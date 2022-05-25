@@ -1,0 +1,101 @@
+# Results
+
+{{#summary}}
+## TL;DR Results
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/summary}}
+
+## Details
+
+{{#candidates.0}}
+### Candidates
+
+{{#candidates}}
+#### {{name}} {{#author}}by {{author}} {{/author}}
+
+{{#description}}
+> {{& .}}
+{{/description}}
+
+{{#version}}
+Version: {{version}}
+{{/version}}
+
+{{/candidates}}
+{{/candidates.0}}
+
+{{#environment}}
+### Environment
+
+* **OS:** {{os}}
+* **CPU:** {{cpu}}
+* **RAM:** {{ram}}
+{{/environment}}
+
+{{#plots}}
+### More Results
+
+{{#CreateEntities}}
+#### Create Entities
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/CreateEntities}}
+
+
+{{#DestroyEntities}}
+#### Destroy Entities
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/DestroyEntities}}
+
+
+{{#UnpackOneComponent}}
+#### Get one component from Entity
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/UnpackOneComponent}}
+
+
+{{#UnpackTwoComponents}}
+#### Get two components from Entity
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/UnpackTwoComponents}}
+
+
+{{#UnpackThreeComponentsFromMixedEntities}}
+#### Get three components from Entity
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/UnpackThreeComponentsFromMixedEntities}}
+
+
+{{#SystemsUpdate}}
+#### System Updates (for-each entities)
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is better)_
+
+{{table}}
+{{/SystemsUpdate}}
+
+{{/plots}}

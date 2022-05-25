@@ -37,7 +37,8 @@
     },
     "oop": {
       "name": "OOP",
-      "description": "Simple OOP Solution."
+      "description": "Simple OOP Solution.",
+      "skip_candidate": true
     }
   }
 }
