@@ -1,4 +1,4 @@
-"""Generate benchmarks graphs and README with benchmark results.
+"""Generate benchmarks graphs and RESULTS.md with benchmark results.
 
 Usage:
   gen-benchmark-report [-i config.json] [--reports-dir=TEMPLATES_DIR] gen-plots <REPORTS>...
@@ -7,13 +7,14 @@ Usage:
   gen-benchmark-report --version
 
 Commands:
-  gen-plots                     generate plots from reports
+  gen-plots                     plot graphs from reports
   gen-results-md                generate RESULTS.md from reports
 
 Arguments:
   -i info.json                 .json config with framework infos [default: ./info.yml]
   --reports-dir=REPORTS_DIR    reports directory [default: ./reports/]
   --img-dir=IMG_DIR            images directory [default: img/]
+  <REPORTS>...                 list of .json files from google benchmark
 
 Options:
   -h, --help            show help
@@ -199,6 +200,20 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                         df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
                     elif edata['entities'] == 1000000:
                         df_index[ek].append('Update   1M entities with 2 Systems')
+                        df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
+            elif ek == 'ComplexSystemsUpdate':
+                for edata in entries_data:
+                    if edata['entities'] == 10000:
+                        df_index[ek].append('Update  10k entities with 3 Systems')
+                        df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 100000:
+                        df_index[ek].append('Update 100k entities with 3 Systems')
+                        df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 500000:
+                        df_index[ek].append('Update 500k entities with 3 Systems')
+                        df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 1000000:
+                        df_index[ek].append('Update   1M entities with 3 Systems')
                         df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
 
     summary_df = pd.DataFrame(summary_df_data, index=summary_df_index)
