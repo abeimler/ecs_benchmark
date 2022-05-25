@@ -5,7 +5,7 @@
 
 #include "base/Application.h"
 
-#include "systems/ComflabSystem.h"
+#include "systems/DataSystem.h"
 #include "systems/MoreComplexSystem.h"
 #include "systems/MovementSystem.h"
 
@@ -37,7 +37,7 @@ namespace ecs::benchmarks::openecs {
 
         void init() {
             m_systems.add<systems::MovementSystem>();
-            m_systems.add<systems::ComflabSystem>();
+            m_systems.add<systems::DataSystem>();
             if (m_add_more_complex_system) {
                 m_systems.add<systems::MoreComplexSystem>();
             }
@@ -47,7 +47,7 @@ namespace ecs::benchmarks::openecs {
             if (m_add_more_complex_system) {
                 m_systems.remove<systems::MoreComplexSystem>();
             }
-            m_systems.remove<systems::ComflabSystem>();
+            m_systems.remove<systems::DataSystem>();
             m_systems.remove<systems::MovementSystem>();
         }
 

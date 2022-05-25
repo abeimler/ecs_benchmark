@@ -8,7 +8,7 @@
 
 namespace ecs::benchmarks::base {
 
-    template<class tEntityManager, typename tTimeDelta, class MovementSystem, class ComflabSystem, class MoreComplexSystem>
+    template<class tEntityManager, typename tTimeDelta, class MovementSystem, class DataSystem, class MoreComplexSystem>
     class Application {
     public:
         using EntityManager = tEntityManager;
@@ -36,8 +36,8 @@ namespace ecs::benchmarks::base {
         }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
-        createComflabSystem(EntityManager &/*entities*/) {
-            return std::make_unique<ComflabSystem>();
+        createDataSystem(EntityManager &/*entities*/) {
+            return std::make_unique<DataSystem>();
         }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
@@ -47,7 +47,7 @@ namespace ecs::benchmarks::base {
 
         virtual void init() {
             m_systems.emplace_back(createMovementSystem(m_entities));
-            m_systems.emplace_back(createComflabSystem(m_entities));
+            m_systems.emplace_back(createDataSystem(m_entities));
             if (m_add_more_complex_system) {
                 m_systems.emplace_back(createMoreComplexSystem(m_entities));
             }

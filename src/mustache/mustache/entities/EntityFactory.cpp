@@ -1,17 +1,17 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::mustache::entities {
 
     EntityFactory::Entity EntityFactory::create(EntityManager &registry) {
-        return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>();
+        return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
     }
 
     void EntityFactory::createBulk(EntityManager &registry, std::vector<Entity> &out) {
         for (auto &entity: out) {
-            entity = registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>();
+            entity = registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
         }
     }
 

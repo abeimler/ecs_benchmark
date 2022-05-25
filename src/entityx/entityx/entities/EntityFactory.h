@@ -6,7 +6,7 @@
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::entityx::entities {
 
@@ -39,7 +39,7 @@ namespace ecs::benchmarks::entityx::entities {
         }
 
         inline auto getOptionalComponentThree(EntityManager &entities, Entity entity) {
-            return entities.component<ecs::benchmarks::base::components::ComflabulationComponent>(entity.id());
+            return entities.component<ecs::benchmarks::base::components::DataComponent>(entity.id());
         }
     };
 

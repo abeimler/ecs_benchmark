@@ -15,8 +15,8 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
 add_library(${CMAKE_PROJECT_NAME}-example-mustache STATIC
         # NOTE: add source files here
-        mustache/systems/ComflabSystem.h
-        mustache/systems/ComflabSystem.cpp
+        mustache/systems/DataSystem.h
+        mustache/systems/DataSystem.cpp
         mustache/systems/MoreComplexSystem.h
         mustache/systems/MoreComplexSystem.cpp
         mustache/systems/MovementSystem.h

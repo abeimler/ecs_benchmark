@@ -18,8 +18,8 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
 add_library(${CMAKE_PROJECT_NAME}-example-entityx STATIC
         # NOTE: add source files here
-        entityx/systems/ComflabSystem.h
-        entityx/systems/ComflabSystem.cpp
+        entityx/systems/DataSystem.h
+        entityx/systems/DataSystem.cpp
         entityx/systems/MoreComplexSystem.h
         entityx/systems/MoreComplexSystem.cpp
         entityx/systems/MovementSystem.h

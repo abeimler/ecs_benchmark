@@ -1,7 +1,7 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::ginseng::entities {
 
@@ -9,7 +9,7 @@ namespace ecs::benchmarks::ginseng::entities {
         auto ret = registry.create_entity();
         registry.add_component(ret, ecs::benchmarks::base::components::PositionComponent{});
         registry.add_component(ret, ecs::benchmarks::base::components::DirectionComponent{});
-        registry.add_component(ret, ecs::benchmarks::base::components::ComflabulationComponent{});
+        registry.add_component(ret, ecs::benchmarks::base::components::DataComponent{});
         return ret;
     }
 
@@ -18,7 +18,7 @@ namespace ecs::benchmarks::ginseng::entities {
             entity = registry.create_entity();
             registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
             registry.add_component(entity, ecs::benchmarks::base::components::DirectionComponent{});
-            registry.add_component(entity, ecs::benchmarks::base::components::ComflabulationComponent{});
+            registry.add_component(entity, ecs::benchmarks::base::components::DataComponent{});
         }
     }
 

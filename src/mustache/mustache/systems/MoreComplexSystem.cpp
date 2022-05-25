@@ -1,7 +1,7 @@
 #include "MoreComplexSystem.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::mustache::systems {
 
@@ -10,8 +10,8 @@ namespace ecs::benchmarks::mustache::systems {
         world.entities().forEach(
                 [this, dt](Entity /*entity*/, ecs::benchmarks::base::components::PositionComponent &position,
                            ecs::benchmarks::base::components::DirectionComponent &direction,
-                           ecs::benchmarks::base::components::ComflabulationComponent &comflab) {
-                    updateComponents(position, direction, comflab, dt);
+                           ecs::benchmarks::base::components::DataComponent &data) {
+                    updateComponents(position, direction, data, dt);
                 }, run_mode);
     }
 
@@ -20,9 +20,9 @@ namespace ecs::benchmarks::mustache::systems {
         world.entities().forEach(
                 [this](Entity /*entity*/, ecs::benchmarks::base::components::PositionComponent &position,
                        ecs::benchmarks::base::components::DirectionComponent &direction,
-                       ecs::benchmarks::base::components::ComflabulationComponent &comflab) {
+                       ecs::benchmarks::base::components::DataComponent &data) {
                     constexpr float dt = 1.0F / 60.0F;
-                    updateComponents(position, direction, comflab, dt);
+                    updateComponents(position, direction, data, dt);
                 }, run_mode);
     }
 }

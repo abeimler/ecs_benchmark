@@ -5,8 +5,8 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
 add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         # NOTE: add source files here
-        entt/systems/ComflabSystem.h
-        entt/systems/ComflabSystem.cpp
+        entt/systems/DataSystem.h
+        entt/systems/DataSystem.cpp
         entt/systems/MoreComplexSystem.h
         entt/systems/MoreComplexSystem.cpp
         entt/systems/MovementSystem.h

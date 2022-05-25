@@ -3,7 +3,7 @@
 
 #include "ECSBenchmark.h"
 
-#include "ginseng/systems/ComflabSystem.h"
+#include "ginseng/systems/DataSystem.h"
 #include "ginseng/systems/MoreComplexSystem.h"
 #include "ginseng/systems/MovementSystem.h"
 #include "ginseng/entities/EntityFactory.h"

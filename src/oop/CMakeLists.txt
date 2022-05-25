@@ -1,8 +1,8 @@
 set(INCLUDE_DIR "include") # must be relative paths
 add_library(${CMAKE_PROJECT_NAME}-example-oop STATIC
         # NOTE: add source files here
-        oop/systems/ComflabSystem.h
-        oop/systems/ComflabSystem.cpp
+        oop/systems/DataSystem.h
+        oop/systems/DataSystem.cpp
         oop/systems/MoreComplexSystem.h
         oop/systems/MoreComplexSystem.cpp
         oop/systems/MovementSystem.h

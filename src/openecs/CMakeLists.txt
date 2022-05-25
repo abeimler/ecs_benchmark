@@ -19,8 +19,8 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
 add_library(${CMAKE_PROJECT_NAME}-example-openecs STATIC
         # NOTE: add source files here
-        openecs/systems/ComflabSystem.h
-        openecs/systems/ComflabSystem.cpp
+        openecs/systems/DataSystem.h
+        openecs/systems/DataSystem.cpp
         openecs/systems/MoreComplexSystem.h
         openecs/systems/MoreComplexSystem.cpp
         openecs/systems/MovementSystem.h

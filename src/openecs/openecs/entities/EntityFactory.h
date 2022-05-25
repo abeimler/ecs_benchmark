@@ -6,7 +6,7 @@
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::openecs::entities {
 
@@ -16,7 +16,7 @@ namespace ecs::benchmarks::openecs::entities {
         using Entity = ::ecs::Entity;
 
         auto create(EntityManager &entities) {
-            return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::ComflabulationComponent>();
+            return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
         }
 
         void createBulk(EntityManager &entities, std::vector<Entity> &out);
@@ -44,10 +44,10 @@ namespace ecs::benchmarks::openecs::entities {
             return entity.get<ecs::benchmarks::base::components::DirectionComponent>();
         }
 
-        inline ecs::benchmarks::base::components::ComflabulationComponent *
+        inline ecs::benchmarks::base::components::DataComponent *
         getOptionalComponentThree(EntityManager &/*entities*/, Entity entity) {
-            return entity.has<ecs::benchmarks::base::components::ComflabulationComponent>()
-                   ? &entity.get<ecs::benchmarks::base::components::ComflabulationComponent>() : nullptr;
+            return entity.has<ecs::benchmarks::base::components::DataComponent>()
+                   ? &entity.get<ecs::benchmarks::base::components::DataComponent>() : nullptr;
         }
     };
 

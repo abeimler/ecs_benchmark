@@ -1,14 +1,14 @@
-#ifndef ECS_BENCHMARKS_ENTITYX_COMFLABSYSTEM_H_
-#define ECS_BENCHMARKS_ENTITYX_COMFLABSYSTEM_H_
+#ifndef ECS_BENCHMARKS_ENTITYX_DATASYSTEM_H_
+#define ECS_BENCHMARKS_ENTITYX_DATASYSTEM_H_
 
 #include <entityx/entityx.h>
 
-#include "base/systems/ComflabSystem.h"
+#include "base/systems/DataSystem.h"
 
 namespace ecs::benchmarks::entityx::systems {
 
-    class ComflabSystem final
-            : public ::entityx::System<ComflabSystem>, base::systems::ComflabSystem<::entityx::EntityManager, float> {
+    class DataSystem final
+            : public ::entityx::System<DataSystem>, base::systems::DataSystem<::entityx::EntityManager, float> {
     public:
         using EventManager = ::entityx::EventManager;
 

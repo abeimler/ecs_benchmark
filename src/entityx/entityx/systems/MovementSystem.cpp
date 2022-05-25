@@ -5,15 +5,15 @@
 namespace ecs::benchmarks::entityx::systems {
 
     void MovementSystem::update(EntityManager &entities, EventManager & /*events*/, TimeDelta dt) {
-        entities.each<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>(
-                [dt](auto /*entity*/, auto &position, auto &direction) {
+        entities.each<ecs::benchmarks::base::components::PositionComponent, const ecs::benchmarks::base::components::DirectionComponent>(
+                [dt](auto /*entity*/, auto &position, const auto &direction) {
                     updatePosition(position, direction, dt);
                 });
     }
 
     void MovementSystem::update(EntityManager &entities, TimeDelta dt) {
-        entities.each<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>(
-                [dt](auto /*entity*/, auto &position, auto &direction) {
+        entities.each<ecs::benchmarks::base::components::PositionComponent, const ecs::benchmarks::base::components::DirectionComponent>(
+                [dt](auto /*entity*/, auto &position, const auto &direction) {
                     updatePosition(position, direction, dt);
                 });
     }

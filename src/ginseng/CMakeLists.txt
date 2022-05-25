@@ -11,8 +11,8 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
 add_library(${CMAKE_PROJECT_NAME}-example-ginseng STATIC
         # NOTE: add source files here
-        ginseng/systems/ComflabSystem.h
-        ginseng/systems/ComflabSystem.cpp
+        ginseng/systems/DataSystem.h
+        ginseng/systems/DataSystem.cpp
         ginseng/systems/MoreComplexSystem.h
         ginseng/systems/MoreComplexSystem.cpp
         ginseng/systems/MovementSystem.h

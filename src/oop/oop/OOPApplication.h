@@ -4,7 +4,7 @@
 #include "base/Application.h"
 
 #include "entities/EntityFactory.h"
-#include "systems/ComflabSystem.h"
+#include "systems/DataSystem.h"
 #include "systems/MoreComplexSystem.h"
 #include "systems/MovementSystem.h"
 
@@ -49,8 +49,8 @@ namespace ecs::benchmarks::oop {
             return std::make_unique<systems::MovementMDOSystem>();
         }
 
-        std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMDO, TimeDelta>> createComflabSystem() {
-            return std::make_unique<systems::ComflabSystem>();
+        std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMDO, TimeDelta>> createDataSystem() {
+            return std::make_unique<systems::DataSystem>();
         }
 
         std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManagerMDO, TimeDelta>> createMoreComplexSystem() {

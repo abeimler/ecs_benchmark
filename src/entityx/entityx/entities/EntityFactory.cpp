@@ -1,7 +1,7 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::entityx::entities {
 
@@ -9,7 +9,7 @@ namespace ecs::benchmarks::entityx::entities {
         auto ret = entities.create();
         ret.assign<ecs::benchmarks::base::components::PositionComponent>();
         ret.assign<ecs::benchmarks::base::components::DirectionComponent>();
-        ret.assign<ecs::benchmarks::base::components::ComflabulationComponent>();
+        ret.assign<ecs::benchmarks::base::components::DataComponent>();
         return ret;
     }
 
@@ -18,7 +18,7 @@ namespace ecs::benchmarks::entityx::entities {
             entity = entities.create();
             entity.assign<ecs::benchmarks::base::components::PositionComponent>();
             entity.assign<ecs::benchmarks::base::components::DirectionComponent>();
-            entity.assign<ecs::benchmarks::base::components::ComflabulationComponent>();
+            entity.assign<ecs::benchmarks::base::components::DataComponent>();
         }
     }
 

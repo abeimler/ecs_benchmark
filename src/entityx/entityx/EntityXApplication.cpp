@@ -3,7 +3,7 @@
 namespace ecs::benchmarks::entityx {
     void EntityXApplication::init() {
         systems.add<systems::MovementSystem>();
-        systems.add<systems::ComflabSystem>();
+        systems.add<systems::DataSystem>();
         if (m_add_more_complex_system) {
             systems.add<systems::MoreComplexSystem>();
         }
@@ -15,7 +15,7 @@ namespace ecs::benchmarks::entityx {
 
     void EntityXApplication::update(TimeDelta dt) {
         systems.update<systems::MovementSystem>(dt);
-        systems.update<systems::ComflabSystem>(dt);
+        systems.update<systems::DataSystem>(dt);
         if (m_add_more_complex_system) {
             systems.update<systems::MoreComplexSystem>(dt);
         }

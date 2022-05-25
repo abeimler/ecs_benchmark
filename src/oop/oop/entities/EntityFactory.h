@@ -6,7 +6,7 @@
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 #include "MovableObject.h"
 #include "MovableWithDataObject.h"
 
@@ -50,9 +50,9 @@ namespace ecs::benchmarks::oop::entities {
             return entity.direction();
         }
 
-        inline ecs::benchmarks::base::components::ComflabulationComponent *
+        inline ecs::benchmarks::base::components::DataComponent *
         getOptionalComponentThree(EntityManagerMDO &registry, MovableWithDataObject &entity) {
-            return &entity.comflab();
+            return &entity.data();
         }
     };
 

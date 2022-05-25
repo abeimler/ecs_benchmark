@@ -3,7 +3,7 @@
 
 #include "ECSBenchmark.h"
 
-#include "entityx/systems/ComflabSystem.h"
+#include "entityx/systems/DataSystem.h"
 #include "entityx/systems/MoreComplexSystem.h"
 #include "entityx/systems/MovementSystem.h"
 #include "entityx/entities/EntityFactory.h"

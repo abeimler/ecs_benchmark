@@ -6,7 +6,7 @@
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::mustache::entities {
 
@@ -40,9 +40,9 @@ namespace ecs::benchmarks::mustache::entities {
             return *registry.getComponent<ecs::benchmarks::base::components::DirectionComponent>(entity);
         }
 
-        inline ecs::benchmarks::base::components::ComflabulationComponent *
+        inline ecs::benchmarks::base::components::DataComponent *
         getOptionalComponentThree(EntityManager &registry, Entity entity) {
-            return registry.getComponent<ecs::benchmarks::base::components::ComflabulationComponent>(entity);
+            return registry.getComponent<ecs::benchmarks::base::components::DataComponent>(entity);
         }
     };
 

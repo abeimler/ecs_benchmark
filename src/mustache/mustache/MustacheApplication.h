@@ -5,7 +5,7 @@
 
 #include "base/Application.h"
 
-#include "systems/ComflabSystem.h"
+#include "systems/DataSystem.h"
 #include "systems/MoreComplexSystem.h"
 #include "systems/MovementSystem.h"
 
@@ -35,7 +35,7 @@ namespace ecs::benchmarks::mustache {
 
         void init() {
             m_world.systems().addSystem<systems::MovementSystem>();
-            m_world.systems().addSystem<systems::ComflabSystem>();
+            m_world.systems().addSystem<systems::DataSystem>();
             if (m_add_more_complex_system) {
                 m_world.systems().addSystem<systems::MoreComplexSystem>();
             }
@@ -48,7 +48,7 @@ namespace ecs::benchmarks::mustache {
             if (m_add_more_complex_system) {
                 m_world.systems().removeSystem<systems::MoreComplexSystem>();
             }
-            m_world.systems().removeSystem<systems::ComflabSystem>();
+            m_world.systems().removeSystem<systems::DataSystem>();
             m_world.systems().removeSystem<systems::MovementSystem>();
              */
         }

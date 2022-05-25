@@ -5,8 +5,8 @@
 namespace ecs::benchmarks::entt::systems {
 
     void MovementSystem::update(EntityManager &registry, TimeDelta dt) {
-        registry.view<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>()
-                .each([dt](auto /*entity*/, auto &position, auto &direction) {
+        registry.view<ecs::benchmarks::base::components::PositionComponent, const ecs::benchmarks::base::components::DirectionComponent>()
+                .each([dt](auto /*entity*/, auto &position, const auto &direction) {
                     updatePosition(position, direction, dt);
                 });
     }

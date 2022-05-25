@@ -5,7 +5,7 @@
 
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::oop::entities {
 
@@ -13,9 +13,9 @@ namespace ecs::benchmarks::oop::entities {
     public:
         void updatePosition(float dt);
 
-        void updateComflab(float dt);
-
         void updateData(float dt);
+
+        void updateComplexData(float dt);
 
         inline ecs::benchmarks::base::components::PositionComponent &position() noexcept { return m_position; }
 
@@ -29,16 +29,16 @@ namespace ecs::benchmarks::oop::entities {
             return m_direction;
         }
 
-        inline ecs::benchmarks::base::components::ComflabulationComponent &comflab() noexcept { return m_comflab; }
+        inline ecs::benchmarks::base::components::DataComponent &data() noexcept { return m_data; }
 
-        inline const ecs::benchmarks::base::components::ComflabulationComponent &comflab() const noexcept {
-            return m_comflab;
+        inline const ecs::benchmarks::base::components::DataComponent &data() const noexcept {
+            return m_data;
         }
 
     private:
         ecs::benchmarks::base::components::PositionComponent m_position;
         ecs::benchmarks::base::components::DirectionComponent m_direction;
-        ecs::benchmarks::base::components::ComflabulationComponent m_comflab;
+        ecs::benchmarks::base::components::DataComponent m_data;
 
         static int random(int min, int max) {
             std::uniform_int_distribution<int> distr(min, max);

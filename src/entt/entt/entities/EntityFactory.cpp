@@ -1,7 +1,7 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
-#include "base/components/ComflabulationComponent.h"
+#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::entt::entities {
 
@@ -9,7 +9,7 @@ namespace ecs::benchmarks::entt::entities {
         auto ret = registry.create();
         registry.emplace<ecs::benchmarks::base::components::PositionComponent>(ret);
         registry.emplace<ecs::benchmarks::base::components::DirectionComponent>(ret);
-        registry.emplace<ecs::benchmarks::base::components::ComflabulationComponent>(ret);
+        registry.emplace<ecs::benchmarks::base::components::DataComponent>(ret);
         return ret;
     }
 
@@ -18,7 +18,7 @@ namespace ecs::benchmarks::entt::entities {
         for (auto &entity: out) {
             registry.emplace<ecs::benchmarks::base::components::PositionComponent>(entity);
             registry.emplace<ecs::benchmarks::base::components::DirectionComponent>(entity);
-            registry.emplace<ecs::benchmarks::base::components::ComflabulationComponent>(entity);
+            registry.emplace<ecs::benchmarks::base::components::DataComponent>(entity);
         }
     }
 

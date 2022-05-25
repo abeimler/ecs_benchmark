@@ -3,7 +3,7 @@
 
 #include "ECSBenchmark.h"
 
-#include "mustache/systems/ComflabSystem.h"
+#include "mustache/systems/DataSystem.h"
 #include "mustache/systems/MoreComplexSystem.h"
 #include "mustache/systems/MovementSystem.h"
 #include "mustache/entities/EntityFactory.h"
