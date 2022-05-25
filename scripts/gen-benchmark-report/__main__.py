@@ -21,6 +21,8 @@ Options:
   -v, --version         show version
 
 """
+import sys
+
 from docopt import docopt
 import plotly.express as px
 import psutil as psu
@@ -31,14 +33,16 @@ import os
 import json
 import re
 
+# from pprint import pprint
+
 RESULTS_MD_MUSTACHE_FILENAME = os.path.join(os.path.dirname(__file__), 'RESULTS.md.mustache')
 
 
 def format_bytes(byte):
-  for x in ['B', 'KB', 'MB', 'GB', 'TB']:
-    if byte < 1024:
-      return f"{byte:.2f}{x}"
-    byte = byte/1024
+    for x in ['B', 'KB', 'MB', 'GB', 'TB']:
+        if byte < 1024:
+            return f"{byte:.2f}{x}"
+        byte = byte / 1024
 
 
 def get_total_memory():
@@ -51,7 +55,7 @@ def genPlots(frameworks_info, results):
     for framework, result in results.items():
         if '_meta' != framework:
             for ek in result['entries'].keys():
-                x = list(result['entries'][ek].keys())
+                x = list(result['plot_data_keys'])
                 y = result['plot_data'][ek]
                 output_png_filename = result['entries_data'][ek][0]['output_png_filename']
                 unit = result['unit']
@@ -71,10 +75,18 @@ def genPlots(frameworks_info, results):
     for key, data in plot_data.items():
         y = list(data['df'].keys())
         y.remove('entities')
+
+        # workaround for "All arrays must be of the same length", lazy fix, resize arrays
+        l = sys.maxsize
+        for f, d in data['df'].items():
+            l = min(l, len(d))
+        for f, d in data['df'].items():
+            data['df'][f] = d[slice(0, l - 1, 1)]
+
         fig = px.line(data['df'], x="entities", y=y, labels={
-             "value": "time ({})".format(data['unit']),
-             "variable": "Frameworks",
-         }, title=key, log_y=True)
+            "value": "time ({})".format(data['unit']),
+            "variable": "Frameworks",
+        }, title=key, log_y=True)
         fig.write_image(data['output_png_filename'])
 
 
@@ -82,7 +94,10 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
     results_md_filename = os.path.join(output_dir, 'RESULTS.md')
     data = {'candidates': [candidate for candidate in frameworks_info.values() if
                            'skip_candidate' not in candidate or not candidate['skip_candidate']],
-            'environment': {'os': results['_meta']['os'], 'cpu': "{:.2f}GHz@{:d}Cores".format(results['_meta']['ghz_per_cpu'], results['_meta']['num_cpus']), 'ram': results['_meta']['ram']}}
+            'environment': {'os': results['_meta']['os'],
+                            'cpu': "{:.2f}GHz@{:d}Cores".format(results['_meta']['ghz_per_cpu'],
+                                                                results['_meta']['num_cpus']),
+                            'ram': results['_meta']['ram']}}
 
     summary_df_data = {}
     df_data = {}
@@ -143,7 +158,7 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                         df_index[ek].append('Destroy 500k entities with two Components')
                         df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
                     elif edata['entities'] == 1000000:
-                        df_index[ek].add('Destroy   1M entities with two Components')
+                        df_index[ek].append('Destroy   1M entities with two Components')
                         df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
             elif ek == 'UnpackOneComponent':
                 for edata in entries_data:
@@ -216,21 +231,29 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                         df_index[ek].append('Update   1M entities with 3 Systems')
                         df_data[ek][name].append("{:.4f}s".format(edata['time_s']))
 
-    summary_df = pd.DataFrame(summary_df_data, index=summary_df_index)
-    data['summary'] = {'table': summary_df.to_markdown(), 'figure_img_src': os.path.join(img_dir, 'SystemsUpdate.png'), 'figure_img_alt': 'Summary SystemsUpdate Plot'}
+    if len(summary_df_index) > 0:
+        summary_df = pd.DataFrame(summary_df_data, index=summary_df_index)
+        data['summary'] = {'table': summary_df.to_markdown(),
+                           'figure_img_src': os.path.join(img_dir, 'SystemsUpdate.png'),
+                           'figure_img_alt': 'Summary SystemsUpdate Plot'}
 
     data['plots'] = {}
     for ek, dfd in df_data.items():
-        df = pd.DataFrame(dfd, index=list(dict.fromkeys((df_index[ek]))))
-        data['plots'][ek] = {'table': df.to_markdown(), 'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)), 'figure_img_alt': "{:s} Plot".format(ek)}
+        index = list(dict.fromkeys((df_index[ek])))
+        if len(index) > 0:
+            df = pd.DataFrame(dfd, index=index)
+            data['plots'][ek] = {'table': df.to_markdown(),
+                                 'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)),
+                                 'figure_img_alt': "{:s} Plot".format(ek)}
 
     with open(RESULTS_MD_MUSTACHE_FILENAME, 'r') as results_file:
         results_md_template = results_file.read()
         with open(results_md_filename, 'w') as results_md_file:
             results_md_file.write(pystache.render(results_md_template, data))
 
+
 def main(args):
-    #print(args)
+    # print(args)
 
     frameworks_info = {}
     if args['-i']:
@@ -240,7 +263,7 @@ def main(args):
 
     output_dir = os.path.abspath(args['--reports-dir']) if args['--reports-dir'] else os.path.abspath('.')
 
-    #print(frameworks_info)
+    # print(frameworks_info)
 
     reports = {}
     if args['<REPORTS>']:
@@ -297,15 +320,15 @@ def main(args):
                 entities = int(benchmark['entities'])
                 entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
                 entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_UnpackTwoComponents\/', name):
-                key = 'UnpackTwoComponents'
-                entities = int(benchmark['entities'])
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
             elif re.search(r'^BM_(.*)_UnpackTwoComponentsFromMixedEntities\/', name):
                 key = 'UnpackTwoComponentsFromMixedEntities'
                 entities = int(benchmark['entities'])
                 entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
+                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
+            elif re.search(r'^BM_(.*)_UnpackTwoComponents\/', name):
+                key = 'UnpackTwoComponents'
+                entities = int(benchmark['entities'])
                 entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
                 entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
             elif re.search(r'^BM_(.*)_UnpackThreeComponentsFromMixedEntities\/', name):
@@ -314,14 +337,14 @@ def main(args):
                 entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
                 entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
                 entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_SystemsUpdate\/', name):
-                key = 'SystemsUpdate'
+            elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
+                key = 'ComplexSystemsUpdate'
                 entities = int(benchmark['entities'])
                 entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
                 entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
                 entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
-                key = 'ComplexSystemsUpdate'
+            elif re.search(r'^BM_(.*)_SystemsUpdate\/', name):
+                key = 'SystemsUpdate'
                 entities = int(benchmark['entities'])
                 entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
                 entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
@@ -335,7 +358,10 @@ def main(args):
                 output_png_filename = os.path.join(output_dir, "{:s}.png".format(key))
                 if key not in entries_data:
                     entries_data[key] = []
-                entries_data[key].append({'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s, 'entities': entities, 'entities_minimal': entities_minimal, 'entities_mo': entities_mo, 'entities_mdo': entities_mdo, 'output_png_filename': output_png_filename})
+                entries_data[key].append(
+                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s,
+                     'entities': entities, 'entities_minimal': entities_minimal, 'entities_mo': entities_mo,
+                     'entities_mdo': entities_mdo, 'output_png_filename': output_png_filename})
 
         result_plot_data = {}
         for k in entries.keys():
@@ -344,9 +370,12 @@ def main(args):
             for m in sorted(entries[k].keys()):
                 result_plot_data[k].append(entries[k][m])
         name = frameworks_info[framework]['name']
-        results[framework] = {'entries': entries, 'entries_data': entries_data, 'plot_data': result_plot_data, 'unit': entries_unit, 'framework': framework, 'label': name, 'version': version}
+        results[framework] = {'entries': entries, 'entries_data': entries_data, 'plot_data': result_plot_data,
+                              'plot_data_keys': entries[k].keys(), 'unit': entries_unit, 'framework': framework,
+                              'label': name, 'version': version}
 
-    results['_meta'] = {'ghz_per_cpu': mhz_per_cpu / 1000.0, 'mhz_per_cpu': mhz_per_cpu, 'num_cpus': num_cpus, 'os': platform.system(), 'ram': get_total_memory()}
+    results['_meta'] = {'ghz_per_cpu': mhz_per_cpu / 1000.0, 'mhz_per_cpu': mhz_per_cpu, 'num_cpus': num_cpus,
+                        'os': platform.system(), 'ram': get_total_memory()}
 
     if args['gen-plots']:
         genPlots(frameworks_info, results)
@@ -357,4 +386,3 @@ def main(args):
 if __name__ == '__main__':
     args = docopt(__doc__)
     main(args)
-
