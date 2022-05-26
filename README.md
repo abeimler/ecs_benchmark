@@ -154,7 +154,6 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 
 _You need python and some dependencies to run [gen-benchmark-report](scripts/gen-benchmark-report)_
 
-
 ## More Details
 
  * [Dependency Setup](doc/README_dependencies.md)
