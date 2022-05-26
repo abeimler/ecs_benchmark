@@ -1,29 +1,15 @@
-#include "MovableWithDataObject.h"
+#include "ComplexMovableDataObject.h"
 #include <string>
 #include <vector>
 #include <numeric>
 
 
 namespace ecs::benchmarks::oop::entities {
+    std::random_device ComplexMovableDataObject::m_rd;
 
-    std::random_device MovableWithDataObject::m_rd;
-    std::mt19937 MovableWithDataObject::m_eng(MovableWithDataObject::m_rd());
+    void ComplexMovableDataObject::update(float dt) {
+        MovableDataObject::update(dt);
 
-    void MovableWithDataObject::updatePosition(float dt) {
-        // NOTE: copy-paste from MovementSystem
-        m_position.x += m_direction.x * dt;
-        m_position.y += m_direction.y * dt;
-    }
-
-    void MovableWithDataObject::updateData(float dt) {
-        // NOTE: copy-paste from DataSystem
-        m_data.thingy += 0.0001F * dt;
-        m_data.mingy = !m_data.mingy;
-        m_data.dingy++;
-        m_data.stringy = std::to_string(m_data.dingy);
-    }
-
-    void MovableWithDataObject::updateComplexData(float dt) {
         // NOTE: copy-paste from MoreComplexSystem
         std::vector<int> vec;
         for (int i = 0; i < m_data.dingy && i < 100; i++) {
@@ -45,6 +31,11 @@ namespace ecs::benchmarks::oop::entities {
                 m_direction.y = static_cast<float>(random(0, 5)) * dt;
             }
         }
+    }
+
+    int ComplexMovableDataObject::random(int min, int max) {
+        std::uniform_int_distribution<int> distr(min, max);
+        return distr(m_eng);
     }
 
 } // namespace ecs::benchmarks::oop::entities

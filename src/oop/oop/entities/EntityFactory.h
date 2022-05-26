@@ -2,60 +2,57 @@
 #define ECS_BENCHMARKS_OOP_ENTITYFACTORY_H_
 
 #include <vector>
+#include <memory>
 
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
 #include "base/components/DataComponent.h"
+#include "GameObject.h"
 #include "MovableObject.h"
-#include "MovableWithDataObject.h"
+#include "MovableDataObject.h"
 
 namespace ecs::benchmarks::oop::entities {
 
     class EntityFactory {
     public:
-        using EntityManagerMO = std::vector<MovableObject>;
-        using EntityMO = MovableObject *;
-        using EntityManagerMDO = std::vector<MovableWithDataObject>;
-        using EntityMDO = MovableWithDataObject *;
+        using EntityManager = std::vector<std::unique_ptr<GameObject>>;
+        using Entity = GameObject*;
 
-        static EntityMDO create(EntityManagerMDO &registry);
+        bool add_more_complex_system{false};
 
-        static void createBulk(EntityManagerMDO &registry, std::vector<EntityMDO> &out);
+        Entity create(EntityManager &registry);
 
-        static EntityMO createMinimal(EntityManagerMO &registry);
+        void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
-        static void createMinimalBulk(EntityManagerMO &registry, std::vector<EntityMO> &out);
+        Entity createMinimal(EntityManager &registry);
 
-        static void destroy(EntityManagerMO &registry, EntityMO entity);
+        void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
-        static void destroyBulk(EntityManagerMO &registry, std::vector<EntityMO> &in);
+        void destroy(EntityManager &registry, Entity entity);
 
-        static void destroy(EntityManagerMDO &registry, EntityMDO entity);
+        void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
 
-        static void destroyBulk(EntityManagerMDO &registry, std::vector<EntityMDO> &in);
-
-        static void clear(EntityManagerMO &registry);
-
-        static void clear(EntityManagerMDO &registry);
+        void clear(EntityManager &registry);
 
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
-        getComponentOne(EntityManagerMO &/*registry*/,
+        getComponentOne(EntityManager &/*registry*/,
                         MovableObject &entity) {
             return entity.position();
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
-        getComponentTwo(EntityManagerMO &/*registry*/,
+        getComponentTwo(EntityManager &/*registry*/,
                         MovableObject &entity) {
             return entity.direction();
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *
-        getOptionalComponentThree(EntityManagerMDO &/*registry*/, MovableWithDataObject &entity) {
+        getOptionalComponentThree(EntityManager &/*registry*/, MovableDataObject &entity) {
             return &entity.data();
         }
+
     };
 
 }

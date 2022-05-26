@@ -1,18 +1,14 @@
 set(INCLUDE_DIR "include") # must be relative paths
 add_library(${CMAKE_PROJECT_NAME}-example-oop STATIC
         # NOTE: add source files here
-        oop/systems/DataSystem.h
-        oop/systems/DataSystem.cpp
-        oop/systems/MoreComplexSystem.h
-        oop/systems/MoreComplexSystem.cpp
-        oop/systems/MovementSystem.h
-        oop/systems/MovementSystem.cpp
         oop/entities/EntityFactory.h
         oop/entities/EntityFactory.cpp
         oop/entities/MovableObject.h
         oop/entities/MovableObject.cpp
-        oop/entities/MovableWithDataObject.h
-        oop/entities/MovableWithDataObject.cpp
+        oop/entities/MovableDataObject.h
+        oop/entities/MovableDataObject.cpp
+        oop/entities/ComplexMovableDataObject.h
+        oop/entities/ComplexMovableDataObject.cpp
         oop/OOPApplication.h
         oop/OOPApplication.cpp)
 add_library(${CMAKE_PROJECT_NAME}::example::OOP ALIAS ${CMAKE_PROJECT_NAME}-example-oop)

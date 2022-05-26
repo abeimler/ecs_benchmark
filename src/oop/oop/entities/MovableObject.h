@@ -1,14 +1,22 @@
 #ifndef ECS_BENCHMARKS_OOP_MOVABLEOBJECT_H_
 #define ECS_BENCHMARKS_OOP_MOVABLEOBJECT_H_
 
+#include "GameObject.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/DirectionComponent.h"
 
 namespace ecs::benchmarks::oop::entities {
 
-    class MovableObject {
+    class MovableObject : public GameObject {
     public:
-        void update(float dt);
+        MovableObject() = default;
+        MovableObject(const MovableObject&) = default;
+        MovableObject(MovableObject&&) = default;
+        MovableObject& operator=(const MovableObject&) = default;
+        MovableObject& operator=(MovableObject&&) = default;
+        virtual ~MovableObject() = default;
+
+        virtual void update(float dt) override;
 
         [[nodiscard]] inline ecs::benchmarks::base::components::PositionComponent &
         position() noexcept { return m_position; }
@@ -24,7 +32,7 @@ namespace ecs::benchmarks::oop::entities {
             return m_direction;
         }
 
-    private:
+    protected:
         ecs::benchmarks::base::components::PositionComponent m_position;
         ecs::benchmarks::base::components::DirectionComponent m_direction;
     };
