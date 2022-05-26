@@ -1,0 +1,18 @@
+image:
+  - Visual Studio 2022
+clone_folder: c:\projects\source
+
+environment:
+    PYTHON: "C:\\Python38-x64\\python.exe"
+
+build_script:
+- cmd: >-
+    mkdir build
+    cd build
+    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Python38\Scripts
+    "%PYTHON%" -m pip install --user conan cogapp
+    cmake c:\projects\source -G "Visual Studio 17 2022" -D CMAKE_BUILD_TYPE:STRING=Release -D ENABLE_DEVELOPER_MODE:BOOL=FALSE
+    cmake --build . --config "Release"
+
+test_script:
+- cmd: cd build && ctest -C Debug

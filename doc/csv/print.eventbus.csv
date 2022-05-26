@@ -1,6 +1,0 @@
-,ECS,EntityX,EnTT (legacy)
-"publish EventA, EventB and EventC  20k times",0.000s,0.001s,0.002s
-"publish EventA, EventB and EventC  50k times",0.001s,0.002s,0.004s
-"publish EventA, EventB and EventC 100k times",0.001s,0.005s,0.008s
-"publish EventA, EventB and EventC 200k times",0.002s,0.008s,0.016s
-"publish EventA, EventB and EventC 500k times",0.006s,0.024s,0.039s

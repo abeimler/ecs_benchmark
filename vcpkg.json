@@ -1,0 +1,8 @@
+{
+  "name": "ecs-benchmark",
+  "version-string": "4.0.0",
+  "dependencies": [
+    "catch2",
+    "fmt"
+  ]
+}

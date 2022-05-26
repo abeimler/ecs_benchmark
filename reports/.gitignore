@@ -1,0 +1,13 @@
+*.txt
+*.xml
+*.json
+*.out
+*.png
+RESULTS.md
+
+!example.*.txt
+!example.*.xml
+!example.*.json
+!example.*.out
+!example.*.png
+!example.RESULTS.md
