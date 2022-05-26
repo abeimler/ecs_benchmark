@@ -10,7 +10,7 @@ Simple Benchmark of common Entity-Component-Systems:
 
 ## TL;DR Results
 
-![Summary SystemsUpdate Plot](img/SystemsUpdate.png)
+![Summary SystemsUpdate Plot](img/SystemsUpdate.png)  
 _(lower is better)_
 
 |                                     | EntityX   | EnTT        | Ginseng     | mustache   | OOP     |
@@ -50,7 +50,7 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 
 ### Create Entities
 
-![CreateEntities Plot](img/CreateEntities.png)
+![CreateEntities Plot](img/CreateEntities.png)  
 _(lower is better)_
 
 |                                          | EntityX   | EnTT    | Ginseng   | mustache   | OOP         |
@@ -63,7 +63,7 @@ _(lower is better)_
 
 ### Destroy Entities
 
-![DestroyEntities Plot](img/DestroyEntities.png)
+![DestroyEntities Plot](img/DestroyEntities.png)  
 _(lower is better)_
 
 |                                           | EntityX   | EnTT    | Ginseng   | mustache    | OOP       |
@@ -75,7 +75,7 @@ _(lower is better)_
 
 ### Get one component from Entity
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)
+![UnpackOneComponent Plot](img/UnpackOneComponent.png)  
 _(lower is better)_
 
 |                                       | EntityX   | EnTT    | Ginseng     | mustache   | OOP     |
@@ -88,7 +88,7 @@ _(lower is better)_
 
 ### Get two components from Entity
 
-![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)
+![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)  
 _(lower is better)_
 
 |                                        | EntityX   | EnTT    | Ginseng     | mustache   | OOP     |
@@ -101,7 +101,7 @@ _(lower is better)_
 
 ### Get three components from Entity
 
-![UnpackThreeComponentsFromMixedEntities Plot](img/UnpackThreeComponentsFromMixedEntities.png)
+![UnpackThreeComponentsFromMixedEntities Plot](img/UnpackThreeComponentsFromMixedEntities.png)  
 _(lower is better)_
 
 |                                          | EntityX   | EnTT    | Ginseng     | mustache   | OOP     |
@@ -114,7 +114,7 @@ _(lower is better)_
 
 ### System Updates (for-each entities with 2 Systems)
 
-![SystemsUpdate Plot](img/SystemsUpdate.png)
+![SystemsUpdate Plot](img/SystemsUpdate.png)  
 _(lower is better)_
 
 |                                     | EntityX   | EnTT        | Ginseng     | mustache   | OOP     |
