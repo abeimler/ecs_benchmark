@@ -15,9 +15,9 @@ _(lower is better)_
 
 |                                     | EntityX   | EnTT        | Ginseng     | mustache   | OOP     |
 |:------------------------------------|:----------|:------------|:------------|:-----------|:--------|
-| Update  10k entities with 2 Systems | 0.0010s   | **0.0002s** | **0.0002s** | 0.0007s    | 0.0002s |
-| Update 100k entities with 2 Systems | 0.0096s   | 0.0026s     | **0.0025s** | 0.0069s    | 0.0022s |
-| Update 500k entities with 2 Systems | 0.0472s   | 0.0125s     | **0.0122s** | 0.0340s    | 0.0117s |
+| Update  10k entities with 2 Systems | 0.0010s   | **0.0002s** | **0.0002s** | 0.0007s    | **0.0002s** |
+| Update 100k entities with 2 Systems | 0.0096s   | 0.0026s     | 0.0025s | 0.0069s    | **0.0022s** |
+| Update 500k entities with 2 Systems | 0.0472s   | 0.0125s     | 0.0122s | 0.0340s    | **0.0117s** |
 | Update   1M entities with 2 Systems | 0.0924s   | **0.0218s** | 0.0243s     | 0.0645s    | 0.0242s |
 
 ### Environment
@@ -119,10 +119,10 @@ _(lower is better)_
 
 |                                     | EntityX   | EnTT        | Ginseng     | mustache   | OOP     |
 |:------------------------------------|:----------|:------------|:------------|:-----------|:--------|
-| Update  10k entities with 2 Systems | 0.0010s   | **0.0002s** | **0.0002s** | 0.0007s    | 0.0002s |
-| Update 100k entities with 2 Systems | 0.0096s   | 0.0026s     | **0.0025s** | 0.0069s    | 0.0022s |
-| Update 500k entities with 2 Systems | 0.0472s   | 0.0125s     | **0.0122s** | 0.0340s    | 0.0117s |
-| Update   1M entities with 2 Systems | 0.0924s   | **0.0218s** | 0.0243s     | 0.0645s    | 0.0242s |
+| Update  10k entities with 2 Systems | 0.0010s   | **0.0002s** | **0.0002s** | 0.0007s    | **0.0002s** |
+| Update 100k entities with 2 Systems | 0.0096s   | 0.0026s | 0.0025s | 0.0069s    | **0.0022s** |
+| Update 500k entities with 2 Systems | 0.0472s   | 0.0125s | 0.0122s | 0.0340s    | **0.0117s** |
+| Update   1M entities with 2 Systems | 0.0924s   | **0.0218s** | 0.0243s | 0.0645s    | 0.0242s |
 
 
 
