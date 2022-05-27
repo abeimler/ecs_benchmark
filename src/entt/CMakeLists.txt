@@ -1,5 +1,12 @@
 # add dependencies
-cpmaddpackage("gh:skypjack/entt@3.10.1")
+CPMAddPackage(
+        NAME EnTT
+        VERSION 3.10.1
+        GITHUB_REPOSITORY skypjack/entt
+        OPTIONS
+        "ENTT_BUILD_TESTING OFF"
+        "ENTT_BUILD_DOCS OFF"
+)
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
@@ -14,7 +21,8 @@ add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         entt/entities/EntityFactory.h
         entt/entities/EntityFactory.cpp
         entt/EnttApplication.h
-        entt/EnttApplication.cpp)
+        entt/EnttApplication.cpp
+        entt/entt.h)
 add_library(${CMAKE_PROJECT_NAME}::example::entt ALIAS ${CMAKE_PROJECT_NAME}-example-entt)
 
 target_include_directories(

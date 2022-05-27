@@ -1,7 +1,7 @@
 #ifndef ECS_BENCHMARKS_ENTT_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_ENTT_MORECOMPLEXSYSTEM_H_
 
-#include <entt/entt.hpp>
+#include "entt/entt.h"
 
 #include "base/systems/MoreComplexSystem.h"
 

@@ -1,7 +1,7 @@
 #ifndef ECS_BENCHMARKS_ENTT_ENTITYFACTORY_H_
 #define ECS_BENCHMARKS_ENTT_ENTITYFACTORY_H_
 
-#include <entt/entt.hpp>
+#include "entt/entt.h"
 
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"

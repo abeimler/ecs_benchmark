@@ -33,7 +33,8 @@ import os
 import json
 import re
 
-# from pprint import pprint
+from pprint import pprint
+
 
 RESULTS_MD_MUSTACHE_FILENAME = os.path.join(os.path.dirname(__file__), 'RESULTS.md.mustache')
 
@@ -50,40 +51,197 @@ def get_total_memory():
     return format_bytes(mem.total)
 
 
-def genPlots(frameworks_info, results):
-    plot_data = {}
+def genResults(frameworks_info, output_dir, reports):
+    num_cpus = 0
+    mhz_per_cpu = 0
+
+    results = {}
+    for framework, report in reports.items():
+        num_cpus = report['context']['num_cpus']
+        mhz_per_cpu = report['context']['mhz_per_cpu']
+        version = report['context']['framework.version'] if 'framework.version' in report['context'] else None
+
+        entries = {}
+        entries_unit = None
+        entries_data = {}
+        for benchmark in report['benchmarks']:
+            name = benchmark['name']
+            time = benchmark['real_time']
+            time_ns = None
+            time_ms = None
+            time_s = None
+            time_min = None
+            entities = None
+            entities_minimal = None
+            key = ''
+            unit = benchmark['time_unit']
+            if benchmark['time_unit'] == 'ns':
+                time_ns = int(time)
+                time_ms = time_ns / 1000000.0
+                time_s = time_ms / 1000.0
+                time_min = time_s / 60.0
+            elif benchmark['time_unit'] == 'ms':
+                time_ns = int(time * 1000000.0)
+                time_ms = time
+                time_s = time_ms / 1000.0
+                time_min = time_s / 60.0
+
+            if re.search(r'^BM_(.*)_CreateEntities\/', name):
+                key = 'CreateEntities'
+                entities = int(benchmark['entities'])
+            elif re.search(r'^BM_(.*)_DestroyEntities\/', name):
+                key = 'DestroyEntities'
+                entities = int(benchmark['entities'])
+            elif re.search(r'^BM_(.*)_UnpackOneComponent\/', name):
+                key = 'UnpackOneComponent'
+                entities = int(benchmark['entities'])
+            elif re.search(r'^BM_(.*)_UnpackTwoComponentsFromMixedEntities\/', name):
+                key = 'UnpackTwoComponentsFromMixedEntities'
+                entities = int(benchmark['entities'])
+                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+            elif re.search(r'^BM_(.*)_UnpackTwoComponents\/', name):
+                key = 'UnpackTwoComponents'
+                entities = int(benchmark['entities'])
+            elif re.search(r'^BM_(.*)_UnpackThreeComponentsFromMixedEntities\/', name):
+                key = 'UnpackThreeComponentsFromMixedEntities'
+                entities = int(benchmark['entities'])
+                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+            elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
+                key = 'ComplexSystemsUpdate'
+                entities = int(benchmark['entities'])
+                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+            elif re.search(r'^BM_(.*)_SystemsUpdate\/', name):
+                key = 'SystemsUpdate'
+                entities = int(benchmark['entities'])
+                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+
+            if key:
+                if key not in entries:
+                    entries[key] = {}
+                entries[key][entities] = time_ms
+                entries_unit = 'ms'
+                output_png_filename = os.path.join(output_dir, "{:s}.png".format(key))
+                if key not in entries_data:
+                    entries_data[key] = []
+                entries_data[key].append(
+                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s, 'time_min': time_min,
+                     'entities': entities, 'entities_minimal': entities_minimal, 'output_png_filename': output_png_filename})
+
+        result_plot_data = {}
+        for k in entries.keys():
+            sorted(entries_data[k], key=lambda e: e['entities'])
+            result_plot_data[k] = {'data': [], 'index': sorted(entries[k].keys())}
+            for m in result_plot_data[k]['index']:
+                result_plot_data[k]['data'].append(entries[k][m])
+        name = frameworks_info[framework]['name']
+        results[framework] = {'entries': entries, 'entries_data': entries_data, 'plot_data': result_plot_data,
+                              'unit': entries_unit, 'framework': framework,
+                              'label': name, 'version': version}
+
+    results['_meta'] = {'ghz_per_cpu': mhz_per_cpu / 1000.0, 'mhz_per_cpu': mhz_per_cpu, 'num_cpus': num_cpus,
+                        'os': platform.system(), 'ram': get_total_memory()}
+
+    x = []
+    for framework, result in results.items():
+        if '_meta' != framework:
+            for ek, data in result['plot_data'].items():
+                x.extend(list(data['index']))
+    x = list(dict.fromkeys(x))
+    x.sort()
+
+    units = {}
     for framework, result in results.items():
         if '_meta' != framework:
             for ek in result['entries'].keys():
-                x = list(result['plot_data_keys'])
-                y = result['plot_data'][ek]
+                units[ek] = 'ns'
+                for e in x:
+                    for ed in result['entries_data'][ek]:
+                        if ed['entities'] == e:
+                            if ed['time_s'] >= 3*60.0:
+                                units[ek] = 'min'
+                                break
+                            elif ed['time_ms'] >= 100.0:
+                                if units[ek] != 'min':
+                                    units[ek] = 's'
+                                    break
+                            elif ed['time_ms'] >= 10.0:
+                                if units[ek] != 's' and unit != 'min':
+                                    units[ek] = 'ms'
+                                    break
+
+    for framework, result in results.items():
+        if '_meta' != framework:
+            results[framework]['plot_data']['df'] = {}
+            results[framework]['plot_data']['df_index'] = x
+            for ek in result['entries'].keys():
+                unit = units[ek]
+                y = []
+                for e in x:
+                    find = False
+                    for ed in result['entries_data'][ek]:
+                        if ed['entities'] == e:
+                            if unit == 'ns':
+                                y.append(ed['time_ns'])
+                            elif unit == 'ms':
+                                y.append(ed['time_ms'])
+                            elif unit == 's':
+                                y.append(ed['time_s'])
+                            elif unit == 'min':
+                                y.append(ed['time_min'])
+                            find = True
+                    if not find:
+                        y.append(None)
+
+                name = frameworks_info[framework]['name']
+                data_frame = {name: y}
+                results[framework]['plot_data']['df'][ek] = pd.DataFrame(data_frame, index=x)
+
+    results['_data_frame_data'] = {}
+    for framework, result in results.items():
+        if framework != '_meta' and framework != '_data_frame_data':
+            for ek in result['entries_data'].keys():
+                unit = units[ek]
+                y = []
+                for e in x:
+                    find = False
+                    for ed in result['entries_data'][ek]:
+                        if ed['entities'] == e:
+                            if unit == 'ns':
+                                y.append(ed['time_ns'])
+                            elif unit == 'ms':
+                                y.append(ed['time_ms'])
+                            elif unit == 's':
+                                y.append(ed['time_s'])
+                            elif unit == 'min':
+                                y.append(ed['time_min'])
+                            find = True
+                    if not find:
+                        y.append(None)
+
                 output_png_filename = result['entries_data'][ek][0]['output_png_filename']
-                unit = result['unit']
                 name = frameworks_info[framework]['name']
 
-                if ek not in plot_data:
-                    plot_data[ek] = {}
-                if 'df' not in plot_data[ek]:
-                    plot_data[ek]['df'] = {}
+                if ek not in results['_data_frame_data']:
+                    results['_data_frame_data'][ek] = {}
+                if 'df' not in results['_data_frame_data'][ek]:
+                    results['_data_frame_data'][ek]['df'] = {}
+                if 'y' not in results['_data_frame_data'][ek]:
+                    results['_data_frame_data'][ek]['y'] = []
 
-                plot_data[ek]['df'][name] = y
-                plot_data[ek]['df']['entities'] = x
-                plot_data[ek]['output_png_filename'] = output_png_filename
-                plot_data[ek]['unit'] = unit
-                plot_data[ek]['name'] = name
+                results['_data_frame_data'][ek]['df'][name] = y
+                results['_data_frame_data'][ek]['df']['entities'] = x
+                results['_data_frame_data'][ek]['output_png_filename'] = output_png_filename
+                results['_data_frame_data'][ek]['unit'] = unit
+                results['_data_frame_data'][ek]['name'] = name
+                results['_data_frame_data'][ek]['y'].append(name)
 
-    for key, data in plot_data.items():
-        y = list(data['df'].keys())
-        y.remove('entities')
+    return results
 
-        # workaround for "All arrays must be of the same length", lazy fix, resize arrays
-        l = sys.maxsize
-        for f, d in data['df'].items():
-            l = min(l, len(d))
-        for f, d in data['df'].items():
-            data['df'][f] = d[slice(0, l - 1, 1)]
+def genPlots(frameworks_info, results):
+    plot_data = {}
 
-        fig = px.line(data['df'], x="entities", y=y, labels={
+    for key, data in results['_data_frame_data'].items():
+        fig = px.line(data['df'], x='entities', y=data['y'], labels={
             "value": "time ({})".format(data['unit']),
             "variable": "Frameworks",
         }, title=key, log_y=True)
@@ -103,7 +261,7 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
     df_data = {}
     df_index = {}
     for framework, result in results.items():
-        if framework == '_meta':
+        if framework == '_meta' or framework == '_data_frame_data':
             continue
 
         name = frameworks_info[framework]['name']
@@ -120,17 +278,31 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
             if ek == 'SystemsUpdate':
                 for edata in entries_data:
                     if edata['entities'] == 10000:
-                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
                         summary_df_index.append('Update  10k entities with 2 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
                     elif edata['entities'] == 100000:
-                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
                         summary_df_index.append('Update 100k entities with 2 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
                     elif edata['entities'] == 500000:
-                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
                         summary_df_index.append('Update 500k entities with 2 Systems')
-                    elif edata['entities'] == 1000000:
                         summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 1000000:
                         summary_df_index.append('Update   1M entities with 2 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
+            elif ek == 'ComplexSystemsUpdate':
+                for edata in entries_data:
+                    if edata['entities'] == 10000:
+                        summary_df_index.append('Update  10k entities with 3 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 100000:
+                        summary_df_index.append('Update 100k entities with 3 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 500000:
+                        summary_df_index.append('Update 500k entities with 3 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
+                    elif edata['entities'] == 1000000:
+                        summary_df_index.append('Update   1M entities with 3 Systems')
+                        summary_df_data[name].append("{:.4f}s".format(edata['time_s']))
 
             if ek == 'CreateEntities':
                 for edata in entries_data:
@@ -272,110 +444,7 @@ def main(args):
                 report_data = json.load(report_file)
                 reports[report_data['context']['framework.name']] = report_data
 
-    num_cpus = 0
-    mhz_per_cpu = 0
-
-    results = {}
-    for framework, report in reports.items():
-        num_cpus = report['context']['num_cpus']
-        mhz_per_cpu = report['context']['mhz_per_cpu']
-        version = report['context']['framework.version'] if 'framework.version' in report['context'] else None
-
-        entries = {}
-        entries_unit = None
-        entries_data = {}
-        for benchmark in report['benchmarks']:
-            name = benchmark['name']
-            time = benchmark['real_time']
-            time_ns = None
-            time_ms = None
-            time_s = None
-            entities = None
-            entities_minimal = None
-            entities_mo = None
-            entities_mdo = None
-            key = ''
-            unit = benchmark['time_unit']
-            if benchmark['time_unit'] == 'ns':
-                time_ns = int(time)
-                time_ms = time_ns / 1000000.0
-                time_s = time_ms / 1000.0
-            elif benchmark['time_unit'] == 'ms':
-                time_ns = int(time * 1000000.0)
-                time_ms = time
-                time_s = time_ms / 1000.0
-
-            if re.search(r'^BM_(.*)_CreateEntities\/', name):
-                key = 'CreateEntities'
-                entities = int(benchmark['entities'])
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_DestroyEntities\/', name):
-                key = 'DestroyEntities'
-                entities = int(benchmark['entities'])
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_UnpackOneComponent\/', name):
-                key = 'UnpackOneComponent'
-                entities = int(benchmark['entities'])
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_UnpackTwoComponentsFromMixedEntities\/', name):
-                key = 'UnpackTwoComponentsFromMixedEntities'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_UnpackTwoComponents\/', name):
-                key = 'UnpackTwoComponents'
-                entities = int(benchmark['entities'])
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_UnpackThreeComponentsFromMixedEntities\/', name):
-                key = 'UnpackThreeComponentsFromMixedEntities'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
-                key = 'ComplexSystemsUpdate'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-            elif re.search(r'^BM_(.*)_SystemsUpdate\/', name):
-                key = 'SystemsUpdate'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-                entities_mo = int(benchmark['entities_mo']) if 'entities_mo' in benchmark else None
-                entities_mdo = int(benchmark['entities_mdo']) if 'entities_mdo' in benchmark else None
-
-            if key:
-                if key not in entries:
-                    entries[key] = {}
-                entries[key][entities] = time_ms
-                entries_unit = 'ms'
-                output_png_filename = os.path.join(output_dir, "{:s}.png".format(key))
-                if key not in entries_data:
-                    entries_data[key] = []
-                entries_data[key].append(
-                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s,
-                     'entities': entities, 'entities_minimal': entities_minimal, 'entities_mo': entities_mo,
-                     'entities_mdo': entities_mdo, 'output_png_filename': output_png_filename})
-
-        result_plot_data = {}
-        for k in entries.keys():
-            sorted(entries_data[k], key=lambda e: e['entities'])
-            result_plot_data[k] = []
-            for m in sorted(entries[k].keys()):
-                result_plot_data[k].append(entries[k][m])
-        name = frameworks_info[framework]['name']
-        results[framework] = {'entries': entries, 'entries_data': entries_data, 'plot_data': result_plot_data,
-                              'plot_data_keys': entries[k].keys(), 'unit': entries_unit, 'framework': framework,
-                              'label': name, 'version': version}
-
-    results['_meta'] = {'ghz_per_cpu': mhz_per_cpu / 1000.0, 'mhz_per_cpu': mhz_per_cpu, 'num_cpus': num_cpus,
-                        'os': platform.system(), 'ram': get_total_memory()}
+    results = genResults(frameworks_info, output_dir, reports)
 
     if args['gen-plots']:
         genPlots(frameworks_info, results)

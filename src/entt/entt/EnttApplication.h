@@ -1,7 +1,7 @@
 #ifndef ECS_BENCHMARKS_ENTT_APPLICATION_H_
 #define ECS_BENCHMARKS_ENTT_APPLICATION_H_
 
-#include <entt/entt.hpp>
+#include "entt.h"
 
 #include "base/Application.h"
 
