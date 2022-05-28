@@ -179,7 +179,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_
-3. Plot Reports, after generating json reports, see (`plot-results.sh`)[plot-results.sh]:
+3. Plot Reports, after generating json reports, see [`plot-results.sh`](plot-results.sh):
    1. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
    2. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
 
