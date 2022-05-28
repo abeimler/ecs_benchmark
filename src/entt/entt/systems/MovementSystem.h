@@ -1,7 +1,7 @@
 #ifndef ECS_BENCHMARKS_ENTT_MOVEMENTSYSTEM_H_
 #define ECS_BENCHMARKS_ENTT_MOVEMENTSYSTEM_H_
 
-#include <entt/entt.hpp>
+#include "entt/entt.h"
 
 #include "base/systems/MovementSystem.h"
 

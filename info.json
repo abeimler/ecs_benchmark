@@ -35,6 +35,13 @@
       "version": "Beta (Apr 2017)",
       "link": "https://github.com/Gronis/OpenEcs"
     },
+    "flecs": {
+      "name": "Flecs",
+      "author": "@SanderMertens",
+      "description": "Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.",
+      "version": "v2.4.8 (Mai 2022)",
+      "link": "https://github.com/SanderMertens/flecs"
+    },
     "oop": {
       "name": "OOP",
       "description": "Simple OOP Solution.",

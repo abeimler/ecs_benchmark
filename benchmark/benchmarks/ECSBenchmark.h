@@ -74,11 +74,12 @@ namespace ecs::benchmarks::base {
         void BM_CreateEntities(benchmark::State &state) {
             Application app;
             initApplication(app);
+            const size_t nentities = static_cast<size_t>(state.range(0));
             for (auto _: state) {
                 state.PauseTiming();
                 entities_factory.clear(app.getEntities());
                 state.ResumeTiming();
-                for (int i = 0; i < state.range(0); ++i) {
+                for (size_t i = 0; i < nentities; ++i) {
                     entities_factory.createMinimal(app.getEntities());
                 }
                 benchmark::DoNotOptimize(app.getEntities());
@@ -99,7 +100,7 @@ namespace ecs::benchmarks::base {
                 state.PauseTiming();
                 entities.clear();
                 entities.reserve(static_cast<size_t>(state.range(0)));
-                for (size_t i = 0; i < static_cast<size_t>(state.range(0)); i++) {
+                for (int64_t i = 0; i < state.range(0); i++) {
                     entities.push_back(entities_factory.createMinimal(app.getEntities()));
                 }
                 state.ResumeTiming();
@@ -278,6 +279,11 @@ namespace ecs::benchmarks::base {
 
         virtual void afterBenchmark(Application & /*app*/) {}
     };
+
+    inline static constexpr auto MIN_ENTITIES_RANGE = 8L;
+    inline static constexpr auto MAX_ENTITIES_RANGE = 2'097'152L;
+
+    void BEDefaultArguments(benchmark::internal::Benchmark* b);
 }
 
 #endif //ECS_BENCHMARKS_ECSBENCHMARK_H_

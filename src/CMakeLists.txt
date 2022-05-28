@@ -26,6 +26,11 @@ if (ENABLE_BENCHMARK_OPENECS)
     add_subdirectory(openecs)
 endif ()
 
+option(ENABLE_BENCHMARK_FLECS "Enable flecs Benchmarks" ON)
+if (ENABLE_BENCHMARK_FLECS)
+    add_subdirectory(flecs)
+endif ()
+
 option(ENABLE_BENCHMARK_OOP "Enable OOP Benchmarks" ON)
 if (ENABLE_BENCHMARK_OOP)
     add_subdirectory(oop)
