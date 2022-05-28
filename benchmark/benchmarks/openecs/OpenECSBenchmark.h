@@ -14,7 +14,7 @@
 namespace ecs::benchmarks::openecs {
 
     class OpenECSBenchmark final
-            : public ecs::benchmarks::base::ESCBenchmark<"mustache", OpenECSApplication, entities::EntityFactory> {
+            : public ecs::benchmarks::base::ESCBenchmark<"openecs", OpenECSApplication, entities::EntityFactory> {
     public:
         OpenECSBenchmark() = default;
 
