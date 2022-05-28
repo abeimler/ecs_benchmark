@@ -11,7 +11,7 @@ Simple Benchmark of common Entity-Component-Systems:
 
 ## TL;DR Results
 
-![Summary SystemsUpdate Plot](img/SystemsUpdate.png)
+![Summary SystemsUpdate Plot](img/SystemsUpdate.png)  
 _(lower is faster)_
 
 
@@ -54,7 +54,7 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 
 ### Create Entities
 
-![CreateEntities Plot](img/CreateEntities.png)
+![CreateEntities Plot](img/CreateEntities.png)  
 _(lower is better)_
 
 |                                           | EntityX   | EnTT    | Ginseng   | mustache    | Flecs   |
@@ -69,7 +69,7 @@ _(lower is better)_
 
 ### Destroy Entities
 
-![DestroyEntities Plot](img/DestroyEntities.png)
+![DestroyEntities Plot](img/DestroyEntities.png)  
 _(lower is faster)_
 
 |                                            | EntityX   | EnTT    | Ginseng   | mustache    | Flecs   |
@@ -84,7 +84,7 @@ _(lower is faster)_
 
 ### Get one component from Entity
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)
+![UnpackOneComponent Plot](img/UnpackOneComponent.png)  
 _(lower is faster)_
 
 |                                        | EntityX     | EnTT    | Ginseng     | mustache   | Flecs   |
@@ -99,7 +99,7 @@ _(lower is faster)_
 
 ### Get two components from Entity
 
-![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)
+![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)  
 _(lower is faster)_
 
 |                                        | EntityX     | EnTT    | Ginseng   | mustache   | Flecs   |
@@ -114,7 +114,7 @@ _(lower is faster)_
 
 ### Get three components from Entity
 
-![UnpackThreeComponentsFromMixedEntities Plot](img/UnpackThreeComponentsFromMixedEntities.png)
+![UnpackThreeComponentsFromMixedEntities Plot](img/UnpackThreeComponentsFromMixedEntities.png)  
 _(lower is faster)_
 
 |                                          | EntityX     | EnTT    | Ginseng   | mustache   | Flecs   |
@@ -129,7 +129,7 @@ _(lower is faster)_
 
 ### System Updates (for-each entities with 2 Systems)
 
-![SystemsUpdate Plot](img/SystemsUpdate.png)
+![SystemsUpdate Plot](img/SystemsUpdate.png)  
 _(lower is faster)_
 
 |                                      | EntityX   | EnTT    | Ginseng   | mustache   | Flecs       |
@@ -144,7 +144,7 @@ _(lower is faster)_
 
 ### System Updates (for-each entities with 3 Systems)
 
-![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)
+![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)  
 _(lower is faster)_
 
 |                                      | EntityX   | EnTT    | Ginseng   | mustache   | Flecs       | _OOP_       |
@@ -176,12 +176,12 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
    1. `cmake -S . -B ./build`
    2. `cmake --build ./build`
-2. Run benchmarks, with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
+2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_
 3. Plot Reports, after generating json reports, see (`plot-results.sh`)[plot-results.sh]:
-   1. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/oop.json ./reports/openecs.json` _(generate graphs)_
-   2. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/oop.json ./reports/openecs.json` _(generate full report)_
+   1. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
+   2. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
 
 _You need python and some dependencies to run [gen-benchmark-report](scripts/gen-benchmark-report)_
 
