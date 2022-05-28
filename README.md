@@ -10,15 +10,17 @@ Simple Benchmark of common Entity-Component-Systems:
 
 ## TL;DR Results
 
-![Summary SystemsUpdate Plot](img/SystemsUpdate.png)  
-_(lower is better)_
+![Summary SystemsUpdate Plot](img/SystemsUpdate.png)
+_(lower is faster)_
 
-|                                     | EntityX   | EnTT        | Ginseng     | mustache   | OOP     |
-|:------------------------------------|:----------|:------------|:------------|:-----------|:--------|
-| Update  10k entities with 2 Systems | 0.0010s   | **0.0002s** | **0.0002s** | 0.0007s    | 0.0002s |
-| Update 100k entities with 2 Systems | 0.0096s   | 0.0026s     | **0.0025s** | 0.0069s    | 0.0022s |
-| Update 500k entities with 2 Systems | 0.0472s   | 0.0125s     | **0.0122s** | 0.0340s    | 0.0117s |
-| Update   1M entities with 2 Systems | 0.0924s   | **0.0218s** | 0.0243s     | 0.0645s    | 0.0242s |
+|                                      | EntityX   | EnTT    | Ginseng   | mustache   |
+|:-------------------------------------|:----------|:--------|:----------|:-----------|
+| Update   16K entities with 2 Systems | 0.0022s   | 0.0004s | 0.0017s   | 0.0011s    |
+| Update   65K entities with 2 Systems | 0.0090s   | 0.0016s | 0.0053s   | 0.0052s    |
+| Update  262K entities with 2 Systems | 0.0339s   | 0.0062s | 0.0166s   | 0.0199s    |
+| Update  524K entities with 2 Systems | 0.0681s   | 0.0132s | 0.0336s   | 0.0357s    |
+| Update    1M entities with 2 Systems | 0.1069s   | 0.0264s | 0.0579s   | 0.0683s    |
+| Update    2M entities with 2 Systems | 0.2929s   | 0.0508s | 0.1374s   | 0.1323s    |
 
 ### Environment
 
@@ -50,79 +52,93 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 
 ### Create Entities
 
-![CreateEntities Plot](img/CreateEntities.png)  
+![CreateEntities Plot](img/CreateEntities.png)
 _(lower is better)_
 
-|                                          | EntityX   | EnTT    | Ginseng   | mustache   | OOP         |
-|:-----------------------------------------|:----------|:--------|:----------|:-----------|:------------|
-| Create  10k entities with two Components | 0.0007s   | 0.0004s | 0.0009s   | 0.0003s    | **0.0001s** |
-| Create 100k entities with two Components | 0.0070s   | 0.0034s | 0.0093s   | 0.0034s    | **0.0014s** |
-| Create 500k entities with two Components | 0.0367s   | 0.0178s | 0.0502s   | 0.0164s    | **0.0081s** |
-| Create   1M entities with two Components | 0.0798s   | 0.0372s | 0.0970s   | 0.0342s    | **0.0172s** |
+|                                           | EntityX   | EnTT    | Ginseng   | mustache   | OOP     |
+|:------------------------------------------|:----------|:--------|:----------|:-----------|:--------|
+| Create   16K entities with two Components | 0.0012s   | 0.0006s | 0.0012s   | 0.0005s    | 0.0002s |
+| Create   65K entities with two Components | 0.0048s   | 0.0023s | 0.0069s   | 0.0020s    | 0.0009s |
+| Create  262K entities with two Components | 0.0200s   | 0.0089s | 0.0244s   | 0.0081s    | 0.0040s |
+| Create  524K entities with two Components | 0.0395s   | 0.0180s | 0.0502s   | 0.0161s    | 0.0082s |
+| Create    1M entities with two Components | 0.0923s   | 0.0385s | 0.1250s   | 0.0349s    | 0.0164s |
+| Create    2M entities with two Components | 0.2191s   | 0.0855s | 0.2793s   | 0.0762s    | 0.0365s |
 
 
 ### Destroy Entities
 
-![DestroyEntities Plot](img/DestroyEntities.png)  
-_(lower is better)_
+![DestroyEntities Plot](img/DestroyEntities.png)
+_(lower is faster)_
 
-|                                           | EntityX   | EnTT    | Ginseng   | mustache    | OOP       |
-|:------------------------------------------|:----------|:--------|:----------|:------------|:----------|
-| Destroy  10k entities with two Components | 0.0003s   | 0.0003s | 0.0012s   | **0.0002s** | 0.0344s   |
-| Destroy 100k entities with two Components | 0.0032s   | 0.0031s | 0.0120s   | **0.0017s** | 6.8016s   |
-| Destroy 500k entities with two Components | 0.0173s   | 0.0167s | 0.0644s   | **0.0088s** | 173.4660s |
+|                                            | EntityX   | EnTT    | Ginseng   | mustache   | OOP        |
+|:-------------------------------------------|:----------|:--------|:----------|:-----------|:-----------|
+| Destroy    4K entities with two Components | 0.0001s   | 0.0002s | 0.0004s   | 0.0001s    | 0.0056s    |
+| Destroy   16K entities with two Components | 0.0006s   | 0.0006s | 0.0020s   | 0.0003s    | 0.1028s    |
+| Destroy   65K entities with two Components | 0.0023s   | 0.0029s | 0.0070s   | 0.0011s    | 3.0647s    |
+| Destroy  262K entities with two Components | 0.0092s   | 0.0099s | 0.0308s   | 0.0046s    | 45.8033s   |
+| Destroy  524K entities with two Components | 0.0195s   | 0.0199s | 0.0660s   | 0.0093s    | 189.8928s  |
+| Destroy    1M entities with two Components | 0.0388s   | 0.0452s | 0.2165s   | 0.0193s    | 801.6220s  |
+| Destroy    2M entities with two Components | 0.0831s   | 0.1056s | 0.3556s   | 0.0396s    | 3264.5848s |
 
 
 ### Get one component from Entity
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)  
-_(lower is better)_
+![UnpackOneComponent Plot](img/UnpackOneComponent.png)
+_(lower is faster)_
 
-|                                       | EntityX   | EnTT    | Ginseng     | mustache   | OOP     |
-|:--------------------------------------|:----------|:--------|:------------|:-----------|:--------|
-| Unpack one Component in  10k entities | 0.0001s   | 0.0001s | **0.0000s** | 0.0002s    | 0.0002s |
-| Unpack one Component in 100k entities | 0.0005s   | 0.0010s | **0.0006s** | 0.0020s    | 0.0020s |
-| Unpack one Component in 500k entities | 0.0031s   | 0.0059s | **0.0034s** | 0.0103s    | 0.0103s |
-| Unpack one Component in   1M entities | 0.0061s   | 0.0095s | **0.0068s** | 0.0206s    | 0.0206s |
+|                                        | EntityX   | EnTT    | Ginseng   | mustache   | OOP     |
+|:---------------------------------------|:----------|:--------|:----------|:-----------|:--------|
+| Unpack one Component in   16K entities | 0.0001s   | 0.0002s | 0.0001s   | 0.0003s    | 0.0003s |
+| Unpack one Component in   65K entities | 0.0003s   | 0.0006s | 0.0006s   | 0.0013s    | 0.0013s |
+| Unpack one Component in  262K entities | 0.0015s   | 0.0032s | 0.0062s   | 0.0054s    | 0.0054s |
+| Unpack one Component in  524K entities | 0.0028s   | 0.0058s | 0.0109s   | 0.0108s    | 0.0117s |
+| Unpack one Component in    1M entities | 0.0061s   | 0.0108s | 0.0206s   | 0.0219s    | 0.0216s |
+| Unpack one Component in    2M entities | 0.0117s   | 0.0216s | 0.0430s   | 0.0434s    | 0.0432s |
 
 
 ### Get two components from Entity
 
-![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)  
-_(lower is better)_
+![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)
+_(lower is faster)_
 
-|                                        | EntityX   | EnTT    | Ginseng     | mustache   | OOP     |
-|:---------------------------------------|:----------|:--------|:------------|:-----------|:--------|
-| Unpack two Components in  10k entities | 0.0001s   | 0.0002s | **0.0001s** | 0.0004s    | 0.0004s |
-| Unpack two Components in 100k entities | 0.0011s   | 0.0020s | **0.0011s** | 0.0037s    | 0.0040s |
-| Unpack two Components in 500k entities | 0.0053s   | 0.0102s | **0.0061s** | 0.0189s    | 0.0198s |
-| Unpack two Components in   1M entities | 0.0105s   | 0.0206s | **0.0122s** | 0.0379s    | 0.0372s |
+|                                        | EntityX   | EnTT    | Ginseng   | mustache   | OOP     |
+|:---------------------------------------|:----------|:--------|:----------|:-----------|:--------|
+| Unpack two Component in   16K entities | 0.0003s   | 0.0003s | 0.0004s   | 0.0006s    | 0.0006s |
+| Unpack two Component in   65K entities | 0.0008s   | 0.0013s | 0.0023s   | 0.0024s    | 0.0024s |
+| Unpack two Component in  262K entities | 0.0033s   | 0.0052s | 0.0081s   | 0.0099s    | 0.0097s |
+| Unpack two Component in  524K entities | 0.0078s   | 0.0102s | 0.0185s   | 0.0201s    | 0.0194s |
+| Unpack two Component in    1M entities | 0.0137s   | 0.0216s | 0.0481s   | 0.0398s    | 0.0389s |
+| Unpack two Component in    2M entities | 0.0268s   | 0.0420s | 0.0675s   | 0.0800s    | 0.0779s |
 
 
 ### Get three components from Entity
 
-![UnpackThreeComponentsFromMixedEntities Plot](img/UnpackThreeComponentsFromMixedEntities.png)  
-_(lower is better)_
+![UnpackThreeComponentsFromMixedEntities Plot](img/UnpackThreeComponentsFromMixedEntities.png)
+_(lower is faster)_
 
-|                                          | EntityX   | EnTT    | Ginseng     | mustache   | OOP     |
-|:-----------------------------------------|:----------|:--------|:------------|:-----------|:--------|
-| Unpack three Components in  10k entities | 0.0002s   | 0.0002s | **0.0001s** | 0.0005s    | 0.0010s |
-| Unpack three Components in 100k entities | 0.0017s   | 0.0025s | **0.0018s** | 0.0054s    | 0.0103s |
-| Unpack three Components in 500k entities | 0.0088s   | 0.0130s | **0.0095s** | 0.0297s    | 0.0571s |
-| Unpack three Components in   1M entities | 0.0176s   | 0.0261s | **0.0183s** | 0.0596s    | 0.1030s |
+|                                          | EntityX   | EnTT    | Ginseng   | mustache   | OOP     |
+|:-----------------------------------------|:----------|:--------|:----------|:-----------|:--------|
+| Unpack three Component in   16K entities | 0.0004s   | 0.0005s | 0.0010s   | 0.0008s    | 0.0017s |
+| Unpack three Component in   65K entities | 0.0011s   | 0.0019s | 0.0035s   | 0.0034s    | 0.0070s |
+| Unpack three Component in  262K entities | 0.0062s   | 0.0081s | 0.0143s   | 0.0170s    | 0.0285s |
+| Unpack three Component in  524K entities | 0.0091s   | 0.0174s | 0.0268s   | 0.0324s    | 0.0722s |
+| Unpack three Component in    1M entities | 0.0199s   | 0.0318s | 0.0563s   | 0.0624s    | 0.1135s |
+| Unpack three Component in    2M entities | 0.0391s   | 0.0625s | 0.1550s   | 0.1247s    | 0.2264s |
 
 
 ### System Updates (for-each entities with 2 Systems)
 
-![SystemsUpdate Plot](img/SystemsUpdate.png)  
-_(lower is better)_
+![SystemsUpdate Plot](img/SystemsUpdate.png)
+_(lower is faster)_
 
-|                                     | EntityX   | EnTT        | Ginseng     | mustache   | OOP     |
-|:------------------------------------|:----------|:------------|:------------|:-----------|:--------|
-| Update  10k entities with 2 Systems | 0.0010s   | **0.0002s** | **0.0002s** | 0.0007s    | 0.0002s |
-| Update 100k entities with 2 Systems | 0.0096s   | 0.0026s     | **0.0025s** | 0.0069s    | 0.0022s |
-| Update 500k entities with 2 Systems | 0.0472s   | 0.0125s     | **0.0122s** | 0.0340s    | 0.0117s |
-| Update   1M entities with 2 Systems | 0.0924s   | **0.0218s** | 0.0243s     | 0.0645s    | 0.0242s |
+|                                      | EntityX   | EnTT    | Ginseng   | mustache   | OOP     |
+|:-------------------------------------|:----------|:--------|:----------|:-----------|:--------|
+| Update   16K entities with 2 Systems | 0.0022s   | 0.0004s | 0.0017s   | 0.0011s    | 0.0003s |
+| Update   65K entities with 2 Systems | 0.0090s   | 0.0016s | 0.0053s   | 0.0052s    | 0.0014s |
+| Update  262K entities with 2 Systems | 0.0339s   | 0.0062s | 0.0166s   | 0.0199s    | 0.0062s |
+| Update  524K entities with 2 Systems | 0.0681s   | 0.0132s | 0.0336s   | 0.0357s    | 0.0123s |
+| Update    1M entities with 2 Systems | 0.1069s   | 0.0264s | 0.0579s   | 0.0683s    | 0.0254s |
+| Update    2M entities with 2 Systems | 0.2929s   | 0.0508s | 0.1374s   | 0.1323s    | 0.0506s |
 
 
 
