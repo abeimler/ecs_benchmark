@@ -28,9 +28,14 @@ add_subdirectory(benchmarks/openecs)
 add_subdirectory(benchmarks/openecs-more)
 endif()
 
-if (ENABLE_BENCHMARK_FLECS)
+if (ENABLE_BENCHMARK_ENTITASPP)
 add_subdirectory(benchmarks/flecs)
 add_subdirectory(benchmarks/flecs-more)
+endif()
+
+if (ENABLE_BENCHMARK_ENTITASPP)
+    add_subdirectory(benchmarks/entitaspp)
+    add_subdirectory(benchmarks/entitaspp-more)
 endif()
 
 if (ENABLE_BENCHMARK_OOP)

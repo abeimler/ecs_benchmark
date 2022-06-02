@@ -3,7 +3,7 @@
 #define STR(arg) #arg
 #define XSTR(arg) STR(arg)
 
-static ecs::benchmarks::entityx::EnttBenchmark entityx_benchmark({
+static ecs::benchmarks::entityx::EntityXBenchmark entityx_benchmark({
                                                                          .add_more_complex_system = true,
                                                                          .version = XSTR(ENTITYX_VERSION)
                                                                  });

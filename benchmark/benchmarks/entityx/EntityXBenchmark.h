@@ -13,12 +13,12 @@
 
 namespace ecs::benchmarks::entityx {
 
-    class EnttBenchmark final
+    class EntityXBenchmark final
             : public ecs::benchmarks::base::ESCBenchmark<"entityx", EntityXApplication, entities::EntityFactory> {
     public:
-        EnttBenchmark() = default;
+        EntityXBenchmark() = default;
 
-        explicit EnttBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
+        explicit EntityXBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(std::move(options)) {}
     };
 
 }

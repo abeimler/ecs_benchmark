@@ -31,6 +31,11 @@ if (ENABLE_BENCHMARK_FLECS)
     add_subdirectory(flecs)
 endif ()
 
+option(ENABLE_BENCHMARK_ENTITASPP "Enable EntitasPP Benchmarks" ON)
+if (ENABLE_BENCHMARK_ENTITASPP)
+    add_subdirectory(entitaspp)
+endif ()
+
 option(ENABLE_BENCHMARK_OOP "Enable OOP Benchmarks" ON)
 if (ENABLE_BENCHMARK_OOP)
     add_subdirectory(oop)
