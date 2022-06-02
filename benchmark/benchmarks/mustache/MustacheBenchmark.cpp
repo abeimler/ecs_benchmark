@@ -42,3 +42,9 @@ static void BM_mustache_SystemsUpdate(benchmark::State &state) {
     mustache_benchmark.BM_SystemsUpdate(state);
 }
 BENCHMARK(BM_mustache_SystemsUpdate)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_mustache_RemoveAddComponent(benchmark::State& state) {
+    mustache_benchmark.BM_RemoveAddComponent(state);
+}
+BENCHMARK(BM_mustache_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);

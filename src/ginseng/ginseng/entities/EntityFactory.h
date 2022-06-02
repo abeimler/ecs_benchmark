@@ -45,6 +45,13 @@ namespace ecs::benchmarks::ginseng::entities {
         getOptionalComponentThree(EntityManager &registry, Entity entity) {
             return registry.get_component<ecs::benchmarks::base::components::DataComponent *>(entity);
         }
+
+        static inline void removeComponentOne(EntityManager& registry, Entity entity) {
+            registry.remove_component<ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
+        static inline auto addComponentOne(EntityManager& registry, Entity entity) {
+            return registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
+        }
     };
 
 }

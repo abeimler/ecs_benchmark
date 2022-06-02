@@ -44,6 +44,14 @@ namespace ecs::benchmarks::mustache::entities {
         getOptionalComponentThree(EntityManager &registry, Entity entity) {
             return registry.getComponent<ecs::benchmarks::base::components::DataComponent>(entity);
         }
+
+
+        static inline void removeComponentOne(EntityManager& entities, Entity entity) {
+            entities.removeComponent<ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
+        static inline auto& addComponentOne(EntityManager& entities, Entity entity) {
+            return entities.assign<ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
     };
 
 }

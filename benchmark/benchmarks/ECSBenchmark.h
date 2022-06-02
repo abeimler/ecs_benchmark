@@ -218,6 +218,23 @@ namespace ecs::benchmarks::base {
             entities_factory.clear(app.getEntities());
         }
 
+        void BM_RemoveAddComponent(benchmark::State& state) {
+          std::vector<Entity> entities;
+          Application app(m_options.add_more_complex_system);
+          initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
+          for (auto _ : state) {
+            for (auto& entity : entities) {
+              entities_factory.removeComponentOne(app.getEntities(), entity);
+              entities_factory.addComponentOne(app.getEntities(), entity);
+            }
+          }
+          state.PauseTiming();
+          state.counters["entities"] = static_cast<double>(entities.size());
+          afterBenchmark(app);
+          uninitApplication(app);
+          entities.clear();
+          entities_factory.clear(app.getEntities());
+        }
     protected:
         void initApplicationWithEntitiesAndMixedComponents(Application &app, size_t nentities) {
             for (size_t i = 0; i < nentities; i++) {

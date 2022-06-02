@@ -44,6 +44,14 @@ namespace ecs::benchmarks::entt::entities {
         getOptionalComponentThree(EntityManager &registry, Entity entity) {
             return registry.try_get<ecs::benchmarks::base::components::DataComponent>(entity);
         }
+
+
+        static inline auto removeComponentOne(EntityManager& registry, Entity entity) {
+            return registry.remove<ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
+        static inline auto& addComponentOne(EntityManager& registry, Entity entity) {
+            return registry.emplace<ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
     };
 
 }
