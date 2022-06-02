@@ -122,6 +122,9 @@ def genResults(frameworks_info, output_dir, reports):
                 key = 'UnpackThreeComponentsFromMixedEntities'
                 entities = int(benchmark['entities'])
                 entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+            elif re.search(r'^BM_(.*)_RemoveAddComponent\/', name):
+                key = 'RemoveAddComponent'
+                entities = int(benchmark['entities'])
             elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
                 key = 'ComplexSystemsUpdate'
                 entities = int(benchmark['entities'])
@@ -344,6 +347,12 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
                         df_index[ek][edata['entities']] = "Unpack three Component in {:>5s} entities".format(human_format(edata['entities']))
+                    i = i + 1
+            elif ek == 'RemoveAddComponent':
+                i = 1
+                for edata in entries_data:
+                    if i % 2 == 0 or i >= 16:
+                        df_index[ek][edata['entities']] = "Remove and Add a Component in {:>5s} entities".format(human_format(edata['entities']))
                     i = i + 1
             elif ek == 'SystemsUpdate':
                 i = 1
