@@ -191,8 +191,9 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 ## Run Benchmarks
 
 1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
-   1. `cmake -S . -B ./build`
-   2. `cmake --build ./build`
+   1. `git submodule update --init --recursive` 
+   2. `cmake -S . -B ./build`
+   3. `cmake --build ./build`
 2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_
