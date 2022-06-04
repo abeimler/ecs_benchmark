@@ -25,11 +25,18 @@ stages:
   ./setup_cpp_linux --compiler $compiler --cmake true --ninja true  --ccache true --clangtidy true --clangformat true --cppcheck true
   source ~/.profile
 
-.test: &test |
-  git submodule update --init --recursive
-  # Build and Test
+.configure: &configure |
+  git submodule update --remote --recursive
+  git submodule foreach git pull origin master
+  ./vcpkg/bootstrap-vcpkg.sh
   cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+
+.build: &build |
   cmake --build ./build --config RelWithDebInfo
+
+.test: &test |
+  cd ./build
+  ctest --build-config Debug
 
 test_linux_llvm:
   stage: test
@@ -38,6 +45,8 @@ test_linux_llvm:
   script:
     - *setup_linux
     - *setup_cpp
+    - *configure
+    - *build
     - *test
 
 test_linux_gcc:
@@ -47,4 +56,6 @@ test_linux_gcc:
   script:
     - *setup_linux
     - *setup_cpp
+    - *configure
+    - *build
     - *test
