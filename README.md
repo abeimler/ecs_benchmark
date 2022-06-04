@@ -112,12 +112,12 @@ _(lower is faster)_
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack two Component in 16.4K entities | **0.0002s**   | 0.0003s | **0.0002s**   | 0.0010s    | 0.0006s   | 0.0032s |
-| Unpack two Component in 65.5K entities | **0.0007s**   | 0.0011s | **0.0007s**   | 0.0040s    | 0.0025s   | 0.0160s |
+| Unpack two Component in   16K entities | **0.0002s**   | 0.0003s | **0.0002s**   | 0.0010s    | 0.0006s   | 0.0032s |
+| Unpack two Component in   65K entities | **0.0007s**   | 0.0011s | **0.0007s**   | 0.0040s    | 0.0025s   | 0.0160s |
 | Unpack two Component in  262K entities | **0.0029s**   | 0.0048s | 0.0032s   | 0.0162s    | 0.0100s   | 0.0528s |
 | Unpack two Component in  524K entities | **0.0058s**   | 0.0100s | 0.0064s   | 0.0379s    | 0.0202s   | 0.1054s |
-| Unpack two Component in 1.05M entities | **0.0117s**   | 0.0188s | 0.0129s   | 0.0657s    | 0.0412s   | 0.2224s |
-| Unpack two Component in  2.1M entities | **0.0235s**   | 0.0433s | 0.0259s   | 0.1309s    | 0.0809s   | 0.4178s |
+| Unpack two Component in    1M entities | **0.0117s**   | 0.0188s | 0.0129s   | 0.0657s    | 0.0412s   | 0.2224s |
+| Unpack two Component in    2M entities | **0.0235s**   | 0.0433s | 0.0259s   | 0.1309s    | 0.0809s   | 0.4178s |
 
 
 ### Get three components from Entity
