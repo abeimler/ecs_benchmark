@@ -92,7 +92,7 @@ _(lower is faster)_
 ### Get one (non-const) component from Entity
 
 ![UnpackOneComponent Plot](img/UnpackOneComponent.png)
-_(lower is faster)_
+_(lower is faster)_  
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
@@ -173,7 +173,7 @@ _(lower is faster)_
 
 #### Remove and add component from Entity
 
-![RemoveAddComponent Plot](img/RemoveAddComponent.png)
+![RemoveAddComponent Plot](img/RemoveAddComponent.png)  
 _(lower is faster)_
 
 |                                              | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
