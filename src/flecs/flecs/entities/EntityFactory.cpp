@@ -23,7 +23,7 @@ namespace ecs::benchmarks::flecs::entities {
         }
     }
 
-    void EntityFactory::destroy(EntityManager &entities, Entity entity) {
+    void EntityFactory::destroy(EntityManager &/*entities*/, Entity entity) {
         entity.destruct();
     }
 

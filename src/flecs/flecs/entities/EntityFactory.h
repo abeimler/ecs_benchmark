@@ -55,10 +55,10 @@ namespace ecs::benchmarks::flecs::entities {
         }
 
 
-        static inline auto& removeComponentOne(EntityManager& entities, Entity entity) {
+        static inline auto& removeComponentOne(EntityManager& /*entities*/, Entity entity) {
           return entity.remove<ecs::benchmarks::base::components::PositionComponent>();
         }
-        static inline auto& addComponentOne(EntityManager& entities, Entity entity) {
+        static inline auto& addComponentOne(EntityManager& /*entities*/, Entity entity) {
           return entity.add<ecs::benchmarks::base::components::PositionComponent>();
         }
     };

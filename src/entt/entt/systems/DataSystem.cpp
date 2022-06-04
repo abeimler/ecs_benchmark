@@ -5,7 +5,7 @@ namespace ecs::benchmarks::entt::systems {
 
     void DataSystem::update(EntityManager &registry, TimeDelta dt) {
         registry.view<ecs::benchmarks::base::components::DataComponent>()
-                .each([this, dt](auto /*entity*/, auto &data) {
+                .each([dt](auto /*entity*/, auto &data) {
                     updateData(data, dt);
                 });
     }

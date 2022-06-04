@@ -42,10 +42,10 @@ namespace ecs::benchmarks::entityx::entities {
             return entities.component<ecs::benchmarks::base::components::DataComponent>(entity.id());
         }
 
-        static inline void removeComponentOne(EntityManager& entities, Entity entity) {
+        static inline void removeComponentOne(EntityManager& /*entities*/, Entity entity) {
           entity.remove<ecs::benchmarks::base::components::PositionComponent>();
         }
-        static inline auto addComponentOne(EntityManager& entities, Entity entity) {
+        static inline auto addComponentOne(EntityManager& /*entities*/, Entity entity) {
           return entity.assign<ecs::benchmarks::base::components::PositionComponent>();
         }
     };
