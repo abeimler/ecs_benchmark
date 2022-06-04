@@ -89,20 +89,44 @@ _(lower is faster)_
 | Destroy    2M entities with two Components | 0.0720s   | 0.0853s | 0.3407s   | 0.0924s    | **0.0384s**   | 0.1841s |
 
 
-### Get one component from Entity
+### Get one (non-const) component from Entity
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)  
+![UnpackOneComponent Plot](img/UnpackOneComponent.png)
 _(lower is faster)_
-
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack one Component in   16K entities | **0.0001s**   | **0.0001s** | **0.0001s**   | 0.0005s    | 0.0003s   | 0.0016s |
-| Unpack one Component in   65K entities | 0.0004s   | 0.0006s | **0.0003s**   | 0.0020s    | 0.0013s   | 0.0066s |
-| Unpack one Component in  262K entities | **0.0018s**   | 0.0025s | 0.0019s   | 0.0081s    | 0.0054s   | 0.0267s |
-| Unpack one Component in  524K entities | **0.0035s**   | 0.0051s | 0.0040s   | 0.0162s    | 0.0113s   | 0.0534s |
-| Unpack one Component in    1M entities | **0.0071s**   | 0.0103s | 0.0074s   | 0.0322s    | 0.0218s   | 0.1267s |
-| Unpack one Component in    2M entities | **0.0165s**   | 0.0205s | 0.0148s   | 0.0642s    | 0.0441s   | 0.2164s |
+| Unpack one Component in   16K entities | **0.0001s**   | 0.0002s | **0.0001s**   | 0.0006s    | 0.0003s   | 0.0024s |
+| Unpack one Component in   65K entities | **0.0005s**   | 0.0010s | **0.0005s**   | 0.0029s    | 0.0014s   | 0.0099s |
+| Unpack one Component in  262K entities | **0.0022s**   | 0.0040s | 0.0023s   | 0.0095s    | 0.0068s   | 0.0360s |
+| Unpack one Component in  524K entities | **0.0041s**   | 0.0100s | 0.0049s   | 0.0189s    | 0.0116s   | 0.0705s |
+| Unpack one Component in    1M entities | **0.0088s**   | 0.0161s | 0.0093s   | 0.0374s    | 0.0232s   | 0.1405s |
+| Unpack one Component in    2M entities | **0.0170s**   | 0.0321s | 0.0274s   | 0.0747s    | 0.0467s   | 0.2755s |
+
+
+**Note:**
+* Get one CONST component
+   1. const PositionComponent
+
+
+### Get one (const) component from Entity
+
+![UnpackOneComponentConst Plot](img/UnpackOneComponentConst.png)  
+_(lower is faster)_
+
+|                                                | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
+|:-----------------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
+| Unpack one (const) Component in   16K entities | **0.0001s**   | 0.0002s | **0.0001s**   | 0.0003s    | 0.0003s   | 0.0015s |
+| Unpack one (const) Component in   65K entities | 0.0006s   | 0.0009s | **0.0005s**   | 0.0011s    | 0.0013s   | 0.0061s |
+| Unpack one (const) Component in  262K entities | **0.0023s**   | 0.0037s | **0.0023s**   | 0.0046s    | 0.0055s   | 0.0247s |
+| Unpack one (const) Component in  524K entities | **0.0042s**   | 0.0090s | 0.0048s   | 0.0092s    | 0.0141s   | 0.0554s |
+| Unpack one (const) Component in    1M entities | **0.0086s**   | 0.0148s | 0.0097s   | 0.0178s    | 0.0219s   | 0.0982s |
+| Unpack one (const) Component in    2M entities | **0.0165s**   | 0.0297s | 0.0237s   | 0.0380s    | 0.0429s   | 0.1935s |
+
+
+**Note:**
+ * Get one NON-CONST component
+   1. PositionComponent
 
 
 ### Get two components from Entity
@@ -112,13 +136,18 @@ _(lower is faster)_
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack two Component in 16.4K entities | **0.0002s**   | 0.0003s | **0.0002s**   | 0.0010s    | 0.0006s   | 0.0032s |
-| Unpack two Component in 65.5K entities | **0.0007s**   | 0.0011s | **0.0007s**   | 0.0040s    | 0.0025s   | 0.0160s |
-| Unpack two Component in  262K entities | **0.0029s**   | 0.0048s | 0.0032s   | 0.0162s    | 0.0100s   | 0.0528s |
-| Unpack two Component in  524K entities | **0.0058s**   | 0.0100s | 0.0064s   | 0.0379s    | 0.0202s   | 0.1054s |
-| Unpack two Component in 1.05M entities | **0.0117s**   | 0.0188s | 0.0129s   | 0.0657s    | 0.0412s   | 0.2224s |
-| Unpack two Component in  2.1M entities | **0.0235s**   | 0.0433s | 0.0259s   | 0.1309s    | 0.0809s   | 0.4178s |
+| Unpack two Component in   16K entities | **0.0002s**   | 0.0004s | **0.0002s**   | 0.0009s    | 0.0006s   | 0.0045s |
+| Unpack two Component in   65K entities | **0.0007s**   | 0.0016s | 0.0008s   | 0.0039s    | 0.0025s   | 0.0150s |
+| Unpack two Component in  262K entities | **0.0029s**   | 0.0066s | 0.0040s   | 0.0140s    | 0.0102s   | 0.0596s |
+| Unpack two Component in  524K entities | **0.0057s**   | 0.0139s | 0.0078s   | 0.0295s    | 0.0234s   | 0.1183s |
+| Unpack two Component in    1M entities | **0.0116s**   | 0.0272s | 0.0156s   | 0.0569s    | 0.0401s   | 0.2501s |
+| Unpack two Component in    2M entities | **0.0234s**   | 0.0529s | 0.0357s   | 0.1114s    | 0.0799s   | 0.5049s |
 
+
+**Note:**
+* Get non-const- and const- component
+   1. PositionComponent
+   2. const DirectionComponent
 
 ### Get three components from Entity
 
@@ -127,12 +156,19 @@ _(lower is faster)_
 
 |                                          | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:-----------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack three Component in   16K entities | **0.0002s**   | 0.0004s | **0.0002s**   | 0.0013s    | 0.0008s   | 0.0049s |
-| Unpack three Component in   65K entities | **0.0008s**   | 0.0017s | 0.0011s   | 0.0052s    | 0.0034s   | 0.0206s |
-| Unpack three Component in  262K entities | **0.0035s**   | 0.0069s | 0.0048s   | 0.0209s    | 0.0156s   | 0.0895s |
-| Unpack three Component in  524K entities | **0.0070s**   | 0.0142s | 0.0098s   | 0.0522s    | 0.0311s   | 0.1955s |
-| Unpack three Component in    1M entities | **0.0150s**   | 0.0282s | 0.0189s   | 0.0837s    | 0.0623s   | 0.5501s |
-| Unpack three Component in    2M entities | **0.0281s**   | 0.0563s | 0.0387s   | 0.1672s    | 0.1246s   | 1.2514s |
+| Unpack three Component in   16K entities | **0.0002s**   | 0.0005s | 0.0003s   | 0.0013s    | 0.0008s   | 0.0060s |
+| Unpack three Component in   65K entities | **0.0009s**   | 0.0023s | 0.0014s   | 0.0051s    | 0.0037s   | 0.0242s |
+| Unpack three Component in  262K entities | **0.0040s**   | 0.0097s | 0.0058s   | 0.0220s    | 0.0161s   | 0.1066s |
+| Unpack three Component in  524K entities | **0.0084s**   | 0.0182s | 0.0123s   | 0.0424s    | 0.0417s   | 0.3030s |
+| Unpack three Component in    1M entities | **0.0161s**   | 0.0462s | 0.0359s   | 0.0838s    | 0.0627s   | 0.6558s |
+| Unpack three Component in    2M entities | **0.0325s**   | 0.0740s | 0.0483s   | 0.1640s    | 0.1247s   | 1.3012s |
+
+
+**Note:**
+* Get two non-const- and const- component(s)
+   1. PositionComponent
+   2. const DirectionComponent
+   3. DataComponent (optional)
 
 
 #### Remove and add component from Entity
