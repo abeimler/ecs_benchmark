@@ -129,6 +129,21 @@ _(lower is faster)_
 | Unpack three Component in    2M entities | **0.0281s**   | 0.0563s | 0.0387s   | 0.1672s    | 0.1246s   | 1.2514s |
 
 
+#### Remove and add component from Entity
+
+![RemoveAddComponent Plot](img/RemoveAddComponent.png)
+_(lower is faster)_
+
+|                                              | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
+|:---------------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
+| Remove and Add a Component in   16K entities | 0.0010s   | 0.0010s | **0.0005s**   | 0.0057s    | **0.0005s**   | 0.0124s |
+| Remove and Add a Component in   65K entities | 0.0039s   | 0.0040s | **0.0021s**   | 0.0229s    | **0.0021s**   | 0.0494s |
+| Remove and Add a Component in  262K entities | 0.0156s   | 0.0167s | 0.0088s   | 0.0922s    | **0.0084s**   | 0.1978s |
+| Remove and Add a Component in  524K entities | 0.0319s   | 0.0328s | 0.0171s   | 0.1844s    | **0.0168s**   | 0.3955s |
+| Remove and Add a Component in    1M entities | 0.0640s   | 0.0655s | 0.0357s   | 0.3685s    | **0.0338s**   | 0.7882s |
+| Remove and Add a Component in    2M entities | 0.1280s   | 0.1320s | 0.0708s   | 0.7376s    | **0.0676s**   | 1.5826s |
+
+
 ### System Updates (for-each entities with 2 Systems)
 
 ![SystemsUpdate Plot](img/SystemsUpdate.png)  
@@ -176,8 +191,9 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 ## Run Benchmarks
 
 1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
-   1. `cmake -S . -B ./build`
-   2. `cmake --build ./build`
+   1. `git submodule update --init --recursive` 
+   2. `cmake -S . -B ./build`
+   3. `cmake --build ./build`
 2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_

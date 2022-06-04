@@ -49,6 +49,13 @@ namespace ecs::benchmarks::openecs::entities {
             return entity.has<ecs::benchmarks::base::components::DataComponent>()
                    ? &entity.get<ecs::benchmarks::base::components::DataComponent>() : nullptr;
         }
+
+        static inline void removeComponentOne(EntityManager& entities, Entity entity) {
+          entity.remove<ecs::benchmarks::base::components::PositionComponent>();
+        }
+        static inline auto& addComponentOne(EntityManager& entities, Entity entity) {
+          return entity.add<ecs::benchmarks::base::components::PositionComponent>();
+        }
     };
 
 }

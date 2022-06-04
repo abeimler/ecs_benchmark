@@ -46,3 +46,9 @@ static void BM_entityx_SystemsUpdate(benchmark::State &state) {
     entityx_benchmark.BM_SystemsUpdate(state);
 }
 BENCHMARK(BM_entityx_SystemsUpdate)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_entityx_RemoveAddComponent(benchmark::State& state) {
+    entityx_benchmark.BM_RemoveAddComponent(state);
+}
+BENCHMARK(BM_entityx_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);

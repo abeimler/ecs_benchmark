@@ -41,6 +41,13 @@ namespace ecs::benchmarks::entityx::entities {
         [[nodiscard]] static inline auto getOptionalComponentThree(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::DataComponent>(entity.id());
         }
+
+        static inline void removeComponentOne(EntityManager& /*entities*/, Entity entity) {
+          entity.remove<ecs::benchmarks::base::components::PositionComponent>();
+        }
+        static inline auto addComponentOne(EntityManager& /*entities*/, Entity entity) {
+          return entity.assign<ecs::benchmarks::base::components::PositionComponent>();
+        }
     };
 
 }
