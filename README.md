@@ -105,8 +105,8 @@ _(lower is faster)_
 
 
 **Note:**
-* Get one CONST component
-   1. const PositionComponent
+* Get one non-const component
+   1. PositionComponent
 
 
 ### Get one (const) component from Entity
@@ -125,8 +125,8 @@ _(lower is faster)_
 
 
 **Note:**
- * Get one NON-CONST component
-   1. PositionComponent
+ * Get one const component
+   1. const PositionComponent
 
 
 ### Get two components from Entity
