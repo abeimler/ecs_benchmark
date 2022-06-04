@@ -21,9 +21,12 @@ comment:
 
 ignore:
   - "thirdparty"
+  - "benchmark"
   - "tests"
   - "test"
   - "tools"
   - "vendor"
   - "fuzz_test"
   - "libs"
+  - "doc"
+  - "scripts"
