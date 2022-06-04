@@ -136,6 +136,23 @@ namespace ecs::benchmarks::base {
             entities_factory.clear(app.getEntities());
         }
 
+        void BM_UnpackOneComponentConst(benchmark::State &state) {
+            std::vector<Entity> entities;
+            Application app;
+            initApplicationWithEntities(app, static_cast<size_t>(state.range(0)), entities);
+            for (auto _: state) {
+                for (auto &entity: entities) {
+                    benchmark::DoNotOptimize(entities_factory.getComponentOneConst(app.getEntities(), entity));
+                }
+            }
+            state.PauseTiming();
+            state.counters["entities"] = static_cast<double>(entities.size());
+            afterBenchmark(app);
+            uninitApplication(app);
+            entities.clear();
+            entities_factory.clear(app.getEntities());
+        }
+
         void BM_UnpackTwoComponents(benchmark::State &state) {
             std::vector<Entity> entities;
             Application app;
@@ -143,7 +160,7 @@ namespace ecs::benchmarks::base {
             for (auto _: state) {
                 for (auto &entity: entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentTwoConst(app.getEntities(), entity));
                 }
             }
             state.PauseTiming();
@@ -163,7 +180,7 @@ namespace ecs::benchmarks::base {
             for (auto _: state) {
                 for (auto &entity: entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentTwoConst(app.getEntities(), entity));
                 }
             }
             state.PauseTiming();
@@ -185,7 +202,7 @@ namespace ecs::benchmarks::base {
             for (auto _: state) {
                 for (auto &entity: entities) {
                     benchmark::DoNotOptimize(entities_factory.getComponentOne(app.getEntities(), entity));
-                    benchmark::DoNotOptimize(entities_factory.getComponentTwo(app.getEntities(), entity));
+                    benchmark::DoNotOptimize(entities_factory.getComponentTwoConst(app.getEntities(), entity));
                     benchmark::DoNotOptimize(entities_factory.getOptionalComponentThree(app.getEntities(), entity));
                 }
             }
