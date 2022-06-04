@@ -34,6 +34,7 @@ namespace ecs::benchmarks::openecs::entities {
         static void clear(EntityManager &entities);
 
 
+        // get component as const not supported ?
         [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
         getComponentOneConst(EntityManager &/*entities*/, Entity entity) {
             return std::as_const(entity).get<ecs::benchmarks::base::components::PositionComponent>();

@@ -36,7 +36,7 @@ namespace ecs::benchmarks::oop::entities {
 
     void EntityFactory::destroy(EntityManager &registry, Entity entity) {
         if (entity != nullptr && entity->id() != 0) {
-            registry.erase( std::next( registry.begin(), entity->id()-1 ) );
+            registry.erase( std::next( registry.begin(), entity->id()-1l ) );
         }
     }
 
