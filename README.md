@@ -91,7 +91,7 @@ _(lower is faster)_
 
 ### Get one (non-const) component from Entity
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)
+![UnpackOneComponent Plot](img/UnpackOneComponent.png)  
 _(lower is faster)_  
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
