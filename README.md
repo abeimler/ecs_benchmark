@@ -206,15 +206,21 @@ _(lower is faster)_
 ![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)  
 _(lower is faster)_
 
-|                                      | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   | _OOP_     |
-|:-------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|:--------|
-| Update   16K entities with 3 Systems | 0.0032s   | 0.0013s | 0.0014s   | 0.0014s    | 0.0024s   | **0.0012s** | _**0.0003s**_ |
-| Update   65K entities with 3 Systems | 0.0129s   | 0.0056s | 0.0059s   | 0.0055s    | 0.0098s   | **0.0047s** | _**0.0014s**_ |
-| Update  262K entities with 3 Systems | 0.0479s   | 0.0236s | 0.0240s   | 0.0195s    | 0.0402s   | **0.0197s** | _**0.0061s**_ |
-| Update  524K entities with 3 Systems | 0.0909s   | 0.0527s | 0.0589s   | 0.0439s    | 0.0803s   | **0.0399s** | _**0.0130s**_ |
-| Update    1M entities with 3 Systems | 0.1805s   | 0.0922s | 0.0958s   | 0.0761s    | 0.1597s   | **0.0786s** | _**0.0250s**_ |
-| Update    2M entities with 3 Systems | 0.3582s   | 0.1800s | 0.1898s   | 0.1507s    | 0.3175s   | **0.1561s** | _**0.0500s**_ |
+|                                      | EntityX   | EnTT    | EnTT (runtime)\* | EnTT (group)\** | Ginseng   | mustache   | OpenEcs   | Flecs   | _OOP_     |
+|:-------------------------------------|:----------|:--------|:-----------------|:----------------|:----------|:-----------|:----------|:--------|:--------|
+| Update   16K entities with 3 Systems | 0.0033s   | **0.0013s** | 0.0027s          | **0.0013s**     | 0.0015s   | 0.0015s    | 0.0025s   | **0.0013s** | _**0.0004s**_ |
+| Update   65K entities with 3 Systems | 0.0135s   | 0.0057s | 0.0113s          | **0.0054s**     | 0.0066s   | 0.0058s    | 0.0105s   | 0.0055s | _**0.0018s**_ |
+| Update  262K entities with 3 Systems | 0.0538s   | 0.0232s | 0.0456s          | **0.0231s**     | 0.0264s   | 0.0220s    | 0.0440s   | 0.0288s | _**0.0077s**_ |
+| Update  524K entities with 3 Systems | 0.1060s   | 0.0467s | 0.0912s          | 0.0487s         | 0.0528s   | 0.0596s    | 0.0883s   | **0.0445s** | _**0.0179s**_ |
+| Update    1M entities with 3 Systems | 0.2542s   | 0.0922s | 0.1811s          | 0.1125s         | 0.1177s   | 0.0871s    | 0.1743s   | **0.0849s** | _**0.0318s**_ |
+| Update    2M entities with 3 Systems | 0.4243s   | 0.1828s | 0.3591s          | 0.2974s         | 0.2129s   | 0.1783s    | 0.3397s   | **0.1671s** | _**0.0624s**_ |
 
+**Notes:**
+   * \* EnTT Framework iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+   * \** EnTT Framework iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+      1. `DataSystem`: No Group, use normal `view`. _(Can't group a single component)_
+      2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const DirectionComponent>)`
+      3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, DirectionComponent, DataComponent>()`
 
 
 

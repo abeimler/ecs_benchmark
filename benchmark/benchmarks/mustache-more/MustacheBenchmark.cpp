@@ -2,7 +2,7 @@
 
 static ecs::benchmarks::mustache::MustacheBenchmark mustache_benchmark({
                                                                                .add_more_complex_system = true,
-                                                                               .version{},
+                                                                               .version = std::nullopt,
                                                                        });
 
 static void BM_mustache_ComplexSystemsUpdate(benchmark::State &state) {

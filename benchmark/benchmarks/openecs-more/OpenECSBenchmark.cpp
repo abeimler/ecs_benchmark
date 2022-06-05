@@ -2,7 +2,7 @@
 
 static ecs::benchmarks::openecs::OpenECSBenchmark openecs_benchmark({
                                                                             .add_more_complex_system = true,
-                                                                            .version{},
+                                                                            .version = std::nullopt,
                                                                     });
 
 

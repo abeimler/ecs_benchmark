@@ -11,7 +11,7 @@
 namespace ecs::benchmarks::entt {
 
     class EnttRuntimeBenchmark final
-            : public ecs::benchmarks::base::ESCBenchmark<"entt", EnttRuntimeApplication, entities::EntityFactory> {
+            : public ecs::benchmarks::base::ESCBenchmark<"entt (runtime)", EnttRuntimeApplication, entities::EntityFactory> {
     public:
         EnttRuntimeBenchmark() = default;
 

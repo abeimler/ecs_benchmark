@@ -11,7 +11,7 @@
 namespace ecs::benchmarks::entt {
 
     class EnttGroupBenchmark final
-            : public ecs::benchmarks::base::ESCBenchmark<"entt", EnttGroupApplication, entities::EntityFactory> {
+            : public ecs::benchmarks::base::ESCBenchmark<"entt (group)", EnttGroupApplication, entities::EntityFactory> {
     public:
         EnttGroupBenchmark() = default;
 
