@@ -45,15 +45,15 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 
 ### Components
 
-1. PositionComponent with `x` and `y` Coord.
-2. DirectionComponent with `x` and `y` for movement
-3. DataComponent with some non-sense data.
+1. `PositionComponent` with `x` and `y` coord.
+2. `DirectionComponent` with `x` and `y` for movement.
+3. `DataComponent` with some nonsense data.
 
 ### Systems
 
-1. MovementSystem: updates PositionComponent
-2. DataSystem: updates DataComponent
-3. MoreComplexSystem: updates Components with random data and stuff
+1. `MovementSystem`: updates `PositionComponent` with (const) `DirectionComponent`
+2. `DataSystem`: updates `DataComponent` with nonsense
+3. `MoreComplexSystem`: updates Components with random data and nonsense
 
 
 ## More Benchmarks
@@ -106,7 +106,7 @@ _(lower is faster)_
 
 **Note:**
 * Get one non-const component
-   1. PositionComponent
+   1. `PositionComponent`
 
 
 ### Get one (const) component from Entity
@@ -126,7 +126,7 @@ _(lower is faster)_
 
 **Note:**
  * Get one const component
-   1. const PositionComponent
+   1. `const PositionComponent`
 
 
 ### Get two components from Entity
@@ -146,8 +146,8 @@ _(lower is faster)_
 
 **Note:**
 * Get non-const- and const- component
-   1. PositionComponent
-   2. const DirectionComponent
+   1. `PositionComponent`
+   2. `const DirectionComponent`
 
 ### Get three components from Entity
 
@@ -166,9 +166,9 @@ _(lower is faster)_
 
 **Note:**
 * Get two non-const- and const- component(s)
-   1. PositionComponent
-   2. const DirectionComponent
-   3. DataComponent (optional)
+   1. `PositionComponent`
+   2. `const DirectionComponent`
+   3. `DataComponent` (optional)
 
 
 #### Remove and add component from Entity
@@ -206,7 +206,7 @@ _(lower is faster)_
 ![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)  
 _(lower is faster)_
 
-|                                      | EntityX   | EnTT    | EnTT (runtime)\* | EnTT (group)\** | Ginseng   | mustache   | OpenEcs   | Flecs   | _OOP_     |
+|                                      | EntityX   | EnTT\*    | EnTT (runtime)\** | EnTT (group)\*** | Ginseng   | mustache   | OpenEcs   | Flecs   | _OOP_     |
 |:-------------------------------------|:----------|:--------|:-----------------|:----------------|:----------|:-----------|:----------|:--------|:--------|
 | Update   16K entities with 3 Systems | 0.0033s   | **0.0013s** | 0.0027s          | **0.0013s**     | 0.0015s   | 0.0015s    | 0.0025s   | **0.0013s** | _**0.0004s**_ |
 | Update   65K entities with 3 Systems | 0.0135s   | 0.0057s | 0.0113s          | **0.0054s**     | 0.0066s   | 0.0058s    | 0.0105s   | 0.0055s | _**0.0018s**_ |
@@ -216,8 +216,9 @@ _(lower is faster)_
 | Update    2M entities with 3 Systems | 0.4243s   | 0.1828s | 0.3591s          | 0.2974s         | 0.2129s   | 0.1783s    | 0.3397s   | **0.1671s** | _**0.0624s**_ |
 
 **Notes:**
-   * \* EnTT Framework iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
-   * \** EnTT Framework iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+   * \*   EnTT Framework, iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
+   * \**  EnTT Framework, iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+   * \*** EnTT Framework, iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
       1. `DataSystem`: No Group, use normal `view`. _(Can't group a single component)_
       2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const DirectionComponent>)`
       3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, DirectionComponent, DataComponent>()`
