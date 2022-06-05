@@ -145,7 +145,7 @@ _(lower is faster)_
 
 
 **Note:**
-* Get non-const- and const- component
+* Get non-const- and const-component
    1. `PositionComponent`
    2. `const DirectionComponent`
 
@@ -171,7 +171,7 @@ _(lower is faster)_
    3. `DataComponent` (optional)
 
 
-#### Remove and add component from Entity
+### Remove and add component from Entity
 
 ![RemoveAddComponent Plot](img/RemoveAddComponent.png)  
 _(lower is faster)_
