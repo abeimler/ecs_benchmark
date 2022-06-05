@@ -24,6 +24,10 @@ add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         entt/systems/RuntimeMoreComplexSystem.cpp
         entt/systems/RuntimeMovementSystem.h
         entt/systems/RuntimeMovementSystem.cpp
+        entt/systems/GroupMoreComplexSystem.h
+        entt/systems/GroupMoreComplexSystem.cpp
+        entt/systems/GroupMovementSystem.h
+        entt/systems/GroupMovementSystem.cpp
         entt/entities/EntityFactory.h
         entt/entities/EntityFactory.cpp
         entt/EnttApplication.h
