@@ -18,10 +18,22 @@ add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         entt/systems/MoreComplexSystem.cpp
         entt/systems/MovementSystem.h
         entt/systems/MovementSystem.cpp
+        entt/systems/RuntimeDataSystem.h
+        entt/systems/RuntimeDataSystem.cpp
+        entt/systems/RuntimeMoreComplexSystem.h
+        entt/systems/RuntimeMoreComplexSystem.cpp
+        entt/systems/RuntimeMovementSystem.h
+        entt/systems/RuntimeMovementSystem.cpp
+        entt/systems/GroupMoreComplexSystem.h
+        entt/systems/GroupMoreComplexSystem.cpp
+        entt/systems/GroupMovementSystem.h
+        entt/systems/GroupMovementSystem.cpp
         entt/entities/EntityFactory.h
         entt/entities/EntityFactory.cpp
         entt/EnttApplication.h
         entt/EnttApplication.cpp
+        entt/EnttRuntimeApplication.h
+        entt/EnttRuntimeApplication.cpp
         entt/entt.h)
 add_library(${CMAKE_PROJECT_NAME}::example::entt ALIAS ${CMAKE_PROJECT_NAME}-example-entt)
 

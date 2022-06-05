@@ -23,6 +23,7 @@ extraction:
         - python3 -m pip install --upgrade pip setuptools
         - python3 -m pip install conan
         - python3 -m pip install cmake
+        - python3 -m pip install cogapp
         - source ~/.profile
     configure:
       command:

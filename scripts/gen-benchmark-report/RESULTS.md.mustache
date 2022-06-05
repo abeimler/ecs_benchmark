@@ -60,13 +60,23 @@ _(lower is faster)_
 
 
 {{#UnpackOneComponent}}
-#### Get one component from Entity
+#### Get one (non-const) component from Entity
 
 ![{{figure_img_alt}}]({{figure_img_src}})
 _(lower is faster)_
 
 {{table}}
 {{/UnpackOneComponent}}
+
+
+{{#UnpackOneComponentConst}}
+#### Get one (const) component from Entity
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is faster)_
+
+{{table}}
+{{/UnpackOneComponentConst}}
 
 
 {{#UnpackTwoComponents}}

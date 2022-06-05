@@ -17,8 +17,13 @@ BENCHMARK(BM_ginseng_DestroyEntities)->Apply(ecs::benchmarks::base::BEDefaultArg
 static void BM_ginseng_UnpackOneComponent(benchmark::State &state) {
     ginseng_benchmark.BM_UnpackOneComponent(state);
 }
-
 BENCHMARK(BM_ginseng_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_ginseng_UnpackOneComponentConst(benchmark::State &state) {
+    ginseng_benchmark.BM_UnpackOneComponentConst(state);
+}
+BENCHMARK(BM_ginseng_UnpackOneComponentConst)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 
 static void BM_ginseng_UnpackTwoComponents(benchmark::State &state) {

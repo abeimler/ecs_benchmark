@@ -30,6 +30,15 @@ namespace ecs::benchmarks::entt::entities {
         static void clear(EntityManager &registry);
 
 
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
+        getComponentOneConst(EntityManager &registry, Entity entity) {
+            return registry.get<const ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwoConst(EntityManager &registry, Entity entity) {
+            return registry.get<const ecs::benchmarks::base::components::DirectionComponent>(entity);
+        }
+
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &registry, Entity entity) {
             return registry.get<ecs::benchmarks::base::components::PositionComponent>(entity);

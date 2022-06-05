@@ -20,6 +20,12 @@ static void BM_mustache_UnpackOneComponent(benchmark::State &state) {
 BENCHMARK(BM_mustache_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 
+static void BM_mustache_UnpackOneComponentConst(benchmark::State &state) {
+    mustache_benchmark.BM_UnpackOneComponentConst(state);
+}
+BENCHMARK(BM_mustache_UnpackOneComponentConst)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
 static void BM_mustache_UnpackTwoComponents(benchmark::State &state) {
     mustache_benchmark.BM_UnpackTwoComponents(state);
 }

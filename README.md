@@ -45,15 +45,15 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 
 ### Components
 
-1. PositionComponent with `x` and `y` Coord.
-2. DirectionComponent with `x` and `y` for movement
-3. DataComponent with some non-sense data.
+1. `PositionComponent` with `x` and `y` coord.
+2. `DirectionComponent` with `x` and `y` for movement.
+3. `DataComponent` with some nonsense data.
 
 ### Systems
 
-1. MovementSystem: updates PositionComponent
-2. DataSystem: updates DataComponent
-3. MoreComplexSystem: updates Components with random data and stuff
+1. `MovementSystem`: updates `PositionComponent` with (const) `DirectionComponent`
+2. `DataSystem`: updates `DataComponent` with nonsense
+3. `MoreComplexSystem`: updates Components with random data and nonsense
 
 
 ## More Benchmarks
@@ -89,20 +89,44 @@ _(lower is faster)_
 | Destroy    2M entities with two Components | 0.0720s   | 0.0853s | 0.3407s   | 0.0924s    | **0.0384s**   | 0.1841s |
 
 
-### Get one component from Entity
+### Get one (non-const) component from Entity
 
 ![UnpackOneComponent Plot](img/UnpackOneComponent.png)  
-_(lower is faster)_
-
+_(lower is faster)_  
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack one Component in   16K entities | **0.0001s**   | **0.0001s** | **0.0001s**   | 0.0005s    | 0.0003s   | 0.0016s |
-| Unpack one Component in   65K entities | 0.0004s   | 0.0006s | **0.0003s**   | 0.0020s    | 0.0013s   | 0.0066s |
-| Unpack one Component in  262K entities | **0.0018s**   | 0.0025s | 0.0019s   | 0.0081s    | 0.0054s   | 0.0267s |
-| Unpack one Component in  524K entities | **0.0035s**   | 0.0051s | 0.0040s   | 0.0162s    | 0.0113s   | 0.0534s |
-| Unpack one Component in    1M entities | **0.0071s**   | 0.0103s | 0.0074s   | 0.0322s    | 0.0218s   | 0.1267s |
-| Unpack one Component in    2M entities | **0.0165s**   | 0.0205s | 0.0148s   | 0.0642s    | 0.0441s   | 0.2164s |
+| Unpack one Component in   16K entities | **0.0001s**   | 0.0002s | **0.0001s**   | 0.0006s    | 0.0003s   | 0.0024s |
+| Unpack one Component in   65K entities | **0.0005s**   | 0.0010s | **0.0005s**   | 0.0029s    | 0.0014s   | 0.0099s |
+| Unpack one Component in  262K entities | **0.0022s**   | 0.0040s | 0.0023s   | 0.0095s    | 0.0068s   | 0.0360s |
+| Unpack one Component in  524K entities | **0.0041s**   | 0.0100s | 0.0049s   | 0.0189s    | 0.0116s   | 0.0705s |
+| Unpack one Component in    1M entities | **0.0088s**   | 0.0161s | 0.0093s   | 0.0374s    | 0.0232s   | 0.1405s |
+| Unpack one Component in    2M entities | **0.0170s**   | 0.0321s | 0.0274s   | 0.0747s    | 0.0467s   | 0.2755s |
+
+
+**Note:**
+* Get one non-const component
+   1. `PositionComponent`
+
+
+### Get one (const) component from Entity
+
+![UnpackOneComponentConst Plot](img/UnpackOneComponentConst.png)  
+_(lower is faster)_
+
+|                                                | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
+|:-----------------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
+| Unpack one (const) Component in   16K entities | **0.0001s**   | 0.0002s | **0.0001s**   | 0.0003s    | 0.0003s   | 0.0015s |
+| Unpack one (const) Component in   65K entities | 0.0006s   | 0.0009s | **0.0005s**   | 0.0011s    | 0.0013s   | 0.0061s |
+| Unpack one (const) Component in  262K entities | **0.0023s**   | 0.0037s | **0.0023s**   | 0.0046s    | 0.0055s   | 0.0247s |
+| Unpack one (const) Component in  524K entities | **0.0042s**   | 0.0090s | 0.0048s   | 0.0092s    | 0.0141s   | 0.0554s |
+| Unpack one (const) Component in    1M entities | **0.0086s**   | 0.0148s | 0.0097s   | 0.0178s    | 0.0219s   | 0.0982s |
+| Unpack one (const) Component in    2M entities | **0.0165s**   | 0.0297s | 0.0237s   | 0.0380s    | 0.0429s   | 0.1935s |
+
+
+**Note:**
+ * Get one const component
+   1. `const PositionComponent`
 
 
 ### Get two components from Entity
@@ -112,13 +136,18 @@ _(lower is faster)_
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack two Component in   16K entities | **0.0002s**   | 0.0003s | **0.0002s**   | 0.0010s    | 0.0006s   | 0.0032s |
-| Unpack two Component in   65K entities | **0.0007s**   | 0.0011s | **0.0007s**   | 0.0040s    | 0.0025s   | 0.0160s |
-| Unpack two Component in  262K entities | **0.0029s**   | 0.0048s | 0.0032s   | 0.0162s    | 0.0100s   | 0.0528s |
-| Unpack two Component in  524K entities | **0.0058s**   | 0.0100s | 0.0064s   | 0.0379s    | 0.0202s   | 0.1054s |
-| Unpack two Component in    1M entities | **0.0117s**   | 0.0188s | 0.0129s   | 0.0657s    | 0.0412s   | 0.2224s |
-| Unpack two Component in    2M entities | **0.0235s**   | 0.0433s | 0.0259s   | 0.1309s    | 0.0809s   | 0.4178s |
+| Unpack two Component in   16K entities | **0.0002s**   | 0.0004s | **0.0002s**   | 0.0009s    | 0.0006s   | 0.0045s |
+| Unpack two Component in   65K entities | **0.0007s**   | 0.0016s | 0.0008s   | 0.0039s    | 0.0025s   | 0.0150s |
+| Unpack two Component in  262K entities | **0.0029s**   | 0.0066s | 0.0040s   | 0.0140s    | 0.0102s   | 0.0596s |
+| Unpack two Component in  524K entities | **0.0057s**   | 0.0139s | 0.0078s   | 0.0295s    | 0.0234s   | 0.1183s |
+| Unpack two Component in    1M entities | **0.0116s**   | 0.0272s | 0.0156s   | 0.0569s    | 0.0401s   | 0.2501s |
+| Unpack two Component in    2M entities | **0.0234s**   | 0.0529s | 0.0357s   | 0.1114s    | 0.0799s   | 0.5049s |
 
+
+**Note:**
+* Get non-const- and const- component
+   1. `PositionComponent`
+   2. `const DirectionComponent`
 
 ### Get three components from Entity
 
@@ -127,17 +156,24 @@ _(lower is faster)_
 
 |                                          | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:-----------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
-| Unpack three Component in   16K entities | **0.0002s**   | 0.0004s | **0.0002s**   | 0.0013s    | 0.0008s   | 0.0049s |
-| Unpack three Component in   65K entities | **0.0008s**   | 0.0017s | 0.0011s   | 0.0052s    | 0.0034s   | 0.0206s |
-| Unpack three Component in  262K entities | **0.0035s**   | 0.0069s | 0.0048s   | 0.0209s    | 0.0156s   | 0.0895s |
-| Unpack three Component in  524K entities | **0.0070s**   | 0.0142s | 0.0098s   | 0.0522s    | 0.0311s   | 0.1955s |
-| Unpack three Component in    1M entities | **0.0150s**   | 0.0282s | 0.0189s   | 0.0837s    | 0.0623s   | 0.5501s |
-| Unpack three Component in    2M entities | **0.0281s**   | 0.0563s | 0.0387s   | 0.1672s    | 0.1246s   | 1.2514s |
+| Unpack three Component in   16K entities | **0.0002s**   | 0.0005s | 0.0003s   | 0.0013s    | 0.0008s   | 0.0060s |
+| Unpack three Component in   65K entities | **0.0009s**   | 0.0023s | 0.0014s   | 0.0051s    | 0.0037s   | 0.0242s |
+| Unpack three Component in  262K entities | **0.0040s**   | 0.0097s | 0.0058s   | 0.0220s    | 0.0161s   | 0.1066s |
+| Unpack three Component in  524K entities | **0.0084s**   | 0.0182s | 0.0123s   | 0.0424s    | 0.0417s   | 0.3030s |
+| Unpack three Component in    1M entities | **0.0161s**   | 0.0462s | 0.0359s   | 0.0838s    | 0.0627s   | 0.6558s |
+| Unpack three Component in    2M entities | **0.0325s**   | 0.0740s | 0.0483s   | 0.1640s    | 0.1247s   | 1.3012s |
+
+
+**Note:**
+* Get two non-const- and const- component(s)
+   1. `PositionComponent`
+   2. `const DirectionComponent`
+   3. `DataComponent` (optional)
 
 
 #### Remove and add component from Entity
 
-![RemoveAddComponent Plot](img/RemoveAddComponent.png)
+![RemoveAddComponent Plot](img/RemoveAddComponent.png)  
 _(lower is faster)_
 
 |                                              | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
@@ -170,15 +206,22 @@ _(lower is faster)_
 ![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)  
 _(lower is faster)_
 
-|                                      | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   | _OOP_     |
-|:-------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|:--------|
-| Update   16K entities with 3 Systems | 0.0032s   | 0.0013s | 0.0014s   | 0.0014s    | 0.0024s   | **0.0012s** | _**0.0003s**_ |
-| Update   65K entities with 3 Systems | 0.0129s   | 0.0056s | 0.0059s   | 0.0055s    | 0.0098s   | **0.0047s** | _**0.0014s**_ |
-| Update  262K entities with 3 Systems | 0.0479s   | 0.0236s | 0.0240s   | 0.0195s    | 0.0402s   | **0.0197s** | _**0.0061s**_ |
-| Update  524K entities with 3 Systems | 0.0909s   | 0.0527s | 0.0589s   | 0.0439s    | 0.0803s   | **0.0399s** | _**0.0130s**_ |
-| Update    1M entities with 3 Systems | 0.1805s   | 0.0922s | 0.0958s   | 0.0761s    | 0.1597s   | **0.0786s** | _**0.0250s**_ |
-| Update    2M entities with 3 Systems | 0.3582s   | 0.1800s | 0.1898s   | 0.1507s    | 0.3175s   | **0.1561s** | _**0.0500s**_ |
+|                                      | EntityX   | EnTT\*    | EnTT (runtime)\** | EnTT (group)\*** | Ginseng   | mustache   | OpenEcs   | Flecs   | _OOP_     |
+|:-------------------------------------|:----------|:--------|:-----------------|:----------------|:----------|:-----------|:----------|:--------|:--------|
+| Update   16K entities with 3 Systems | 0.0033s   | **0.0013s** | 0.0027s          | **0.0013s**     | 0.0015s   | 0.0015s    | 0.0025s   | **0.0013s** | _**0.0004s**_ |
+| Update   65K entities with 3 Systems | 0.0135s   | 0.0057s | 0.0113s          | **0.0054s**     | 0.0066s   | 0.0058s    | 0.0105s   | 0.0055s | _**0.0018s**_ |
+| Update  262K entities with 3 Systems | 0.0538s   | 0.0232s | 0.0456s          | **0.0231s**     | 0.0264s   | 0.0220s    | 0.0440s   | 0.0288s | _**0.0077s**_ |
+| Update  524K entities with 3 Systems | 0.1060s   | 0.0467s | 0.0912s          | 0.0487s         | 0.0528s   | 0.0596s    | 0.0883s   | **0.0445s** | _**0.0179s**_ |
+| Update    1M entities with 3 Systems | 0.2542s   | 0.0922s | 0.1811s          | 0.1125s         | 0.1177s   | 0.0871s    | 0.1743s   | **0.0849s** | _**0.0318s**_ |
+| Update    2M entities with 3 Systems | 0.4243s   | 0.1828s | 0.3591s          | 0.2974s         | 0.2129s   | 0.1783s    | 0.3397s   | **0.1671s** | _**0.0624s**_ |
 
+**Notes:**
+   * \*   EnTT Framework, iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
+   * \**  EnTT Framework, iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+   * \*** EnTT Framework, iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+      1. `DataSystem`: No Group, use normal `view`. _(Can't group a single component)_
+      2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const DirectionComponent>)`
+      3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, DirectionComponent, DataComponent>()`
 
 
 

@@ -39,6 +39,15 @@ namespace ecs::benchmarks::flecs::entities {
         static void clear(EntityManager &entities);
 
 
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
+        getComponentOneConst(EntityManager &/*entities*/, Entity entity) {
+            return *entity.get<ecs::benchmarks::base::components::PositionComponent>();
+        }
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwoConst(EntityManager &/*entities*/, Entity entity) {
+            return *entity.get<ecs::benchmarks::base::components::DirectionComponent>();
+        }
+
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &/*entities*/, Entity entity) {
             return *entity.get_mut<ecs::benchmarks::base::components::PositionComponent>();

@@ -22,6 +22,12 @@ static void BM_entt_UnpackOneComponent(benchmark::State &state) {
 BENCHMARK(BM_entt_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 
+static void BM_entt_UnpackOneComponentConst(benchmark::State &state) {
+    entt_benchmark.BM_UnpackOneComponentConst(state);
+}
+BENCHMARK(BM_entt_UnpackOneComponentConst)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
 static void BM_entt_UnpackTwoComponents(benchmark::State &state) {
     entt_benchmark.BM_UnpackTwoComponents(state);
 }

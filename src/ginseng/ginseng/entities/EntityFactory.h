@@ -31,6 +31,16 @@ namespace ecs::benchmarks::ginseng::entities {
         static void clear(EntityManager &registry);
 
 
+        /// @FIXME: SIGSEGV (Segmentation fault), can't use const ?
+        [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
+        getComponentOneConst(EntityManager &registry, Entity entity) {
+            return registry.get_component<ecs::benchmarks::base::components::PositionComponent>(entity);
+        }
+        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwoConst(EntityManager &registry, Entity entity) {
+            return registry.get_component<ecs::benchmarks::base::components::DirectionComponent>(entity);
+        }
+
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &registry, Entity entity) {
             return registry.get_component<ecs::benchmarks::base::components::PositionComponent>(entity);

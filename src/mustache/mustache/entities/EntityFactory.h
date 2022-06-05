@@ -30,14 +30,23 @@ namespace ecs::benchmarks::mustache::entities {
         void clear(EntityManager &registry);
 
 
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
+        getComponentOneConst(EntityManager &registry, Entity entity) {
+            return *registry.getComponent<const ecs::benchmarks::base::components::PositionComponent, ::mustache::FunctionSafety::kUnsafe>(entity);
+        }
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwoConst(EntityManager &registry, Entity entity) {
+            return *registry.getComponent<const ecs::benchmarks::base::components::DirectionComponent, ::mustache::FunctionSafety::kUnsafe>(entity);
+        }
+
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &registry, Entity entity) {
-            return *registry.getComponent<ecs::benchmarks::base::components::PositionComponent>(entity);
+            return *registry.getComponent<ecs::benchmarks::base::components::PositionComponent, ::mustache::FunctionSafety::kUnsafe>(entity);
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
         getComponentTwo(EntityManager &registry, Entity entity) {
-            return *registry.getComponent<ecs::benchmarks::base::components::DirectionComponent>(entity);
+            return *registry.getComponent<ecs::benchmarks::base::components::DirectionComponent, ::mustache::FunctionSafety::kUnsafe>(entity);
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *

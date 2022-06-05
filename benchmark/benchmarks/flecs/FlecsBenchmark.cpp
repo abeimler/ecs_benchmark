@@ -20,6 +20,12 @@ static void BM_flecs_UnpackOneComponent(benchmark::State &state) {
 BENCHMARK(BM_flecs_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 
+static void BM_flecs_UnpackOneComponentConst(benchmark::State &state) {
+    flecs_benchmark.BM_UnpackOneComponentConst(state);
+}
+BENCHMARK(BM_flecs_UnpackOneComponentConst)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
 static void BM_flecs_UnpackTwoComponents(benchmark::State &state) {
     flecs_benchmark.BM_UnpackTwoComponents(state);
 }

@@ -108,6 +108,9 @@ def genResults(frameworks_info, output_dir, reports):
             elif re.search(r'^BM_(.*)_DestroyEntities\/', name):
                 key = 'DestroyEntities'
                 entities = int(benchmark['entities'])
+            elif re.search(r'^BM_(.*)_UnpackOneComponentConst\/', name):
+                key = 'UnpackOneComponentConst'
+                entities = int(benchmark['entities'])
             elif re.search(r'^BM_(.*)_UnpackOneComponent\/', name):
                 key = 'UnpackOneComponent'
                 entities = int(benchmark['entities'])
@@ -329,6 +332,12 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
                         df_index[ek][edata['entities']] = "Destroy {:>5s} entities with two Components".format(human_format(edata['entities']))
+                    i = i + 1
+            elif ek == 'UnpackOneComponentConst':
+                i = 1
+                for edata in entries_data:
+                    if i % 2 == 0 or i >= 16:
+                        df_index[ek][edata['entities']] = "Unpack one (const) Component in {:>5s} entities".format(human_format(edata['entities']))
                     i = i + 1
             elif ek == 'UnpackOneComponent':
                 i = 1

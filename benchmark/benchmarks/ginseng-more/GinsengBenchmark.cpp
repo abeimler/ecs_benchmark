@@ -2,7 +2,7 @@
 
 static ecs::benchmarks::ginseng::GinsengBenchmark ginseng_benchmark({
                                                                             .add_more_complex_system = true,
-                                                                            .version{},
+                                                                            .version = std::nullopt,
                                                                     });
 
 static void BM_ginseng_ComplexSystemsUpdate(benchmark::State &state) {

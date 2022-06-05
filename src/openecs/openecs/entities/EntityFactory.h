@@ -34,6 +34,16 @@ namespace ecs::benchmarks::openecs::entities {
         static void clear(EntityManager &entities);
 
 
+        // get component as const not supported ?
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
+        getComponentOneConst(EntityManager &/*entities*/, Entity entity) {
+            return std::as_const(entity).get<ecs::benchmarks::base::components::PositionComponent>();
+        }
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::DirectionComponent &
+        getComponentTwoConst(EntityManager &/*entities*/, Entity entity) {
+            return std::as_const(entity).get<ecs::benchmarks::base::components::DirectionComponent>();
+        }
+
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOne(EntityManager &/*entities*/, Entity entity) {
             return entity.get<ecs::benchmarks::base::components::PositionComponent>();
@@ -50,10 +60,10 @@ namespace ecs::benchmarks::openecs::entities {
                    ? &entity.get<ecs::benchmarks::base::components::DataComponent>() : nullptr;
         }
 
-        static inline void removeComponentOne(EntityManager& entities, Entity entity) {
+        static inline void removeComponentOne(EntityManager& /*entities*/, Entity entity) {
           entity.remove<ecs::benchmarks::base::components::PositionComponent>();
         }
-        static inline auto& addComponentOne(EntityManager& entities, Entity entity) {
+        static inline auto& addComponentOne(EntityManager& /*entities*/, Entity entity) {
           return entity.add<ecs::benchmarks::base::components::PositionComponent>();
         }
     };

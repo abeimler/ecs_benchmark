@@ -2,7 +2,7 @@
 
 static ecs::benchmarks::flecs::FlecsBenchmark flecs_benchmark ({
                                                                        .add_more_complex_system = true,
-                                                                       .version{},
+                                                                       .version = std::nullopt,
                                                                });
 
 static void BM_flecs_ComplexSystemsUpdate(benchmark::State &state) {

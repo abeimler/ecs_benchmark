@@ -20,6 +20,12 @@ static void BM_openecs_UnpackOneComponent(benchmark::State &state) {
 BENCHMARK(BM_openecs_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 
+static void BM_openecs_UnpackOneComponentConst(benchmark::State &state) {
+    openecs_benchmark.BM_UnpackOneComponentConst(state);
+}
+BENCHMARK(BM_openecs_UnpackOneComponentConst)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
 static void BM_openecs_UnpackTwoComponents(benchmark::State &state) {
     openecs_benchmark.BM_UnpackTwoComponents(state);
 }
