@@ -8,7 +8,7 @@ namespace ecs::benchmarks::entt::systems {
         view.iterate(registry.storage<ecs::benchmarks::base::components::DataComponent>());
 
         view.each([&registry, dt](auto entity) {
-            auto& data = registry.get<ecs::benchmarks::base::components::DataComponent>(entity);
+            auto &data = registry.get<ecs::benchmarks::base::components::DataComponent>(entity);
             updateData(data, dt);
         });
     }

@@ -5,7 +5,7 @@
 
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::ginseng::entities {
@@ -36,9 +36,10 @@ namespace ecs::benchmarks::ginseng::entities {
         getComponentOneConst(EntityManager &registry, Entity entity) {
             return registry.get_component<ecs::benchmarks::base::components::PositionComponent>(entity);
         }
-        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
+
+        [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent &
         getComponentTwoConst(EntityManager &registry, Entity entity) {
-            return registry.get_component<ecs::benchmarks::base::components::DirectionComponent>(entity);
+            return registry.get_component<ecs::benchmarks::base::components::VelocityComponent>(entity);
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
@@ -46,9 +47,9 @@ namespace ecs::benchmarks::ginseng::entities {
             return registry.get_component<ecs::benchmarks::base::components::PositionComponent>(entity);
         }
 
-        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent &
         getComponentTwo(EntityManager &registry, Entity entity) {
-            return registry.get_component<ecs::benchmarks::base::components::DirectionComponent>(entity);
+            return registry.get_component<ecs::benchmarks::base::components::VelocityComponent>(entity);
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *
@@ -56,10 +57,19 @@ namespace ecs::benchmarks::ginseng::entities {
             return registry.get_component<ecs::benchmarks::base::components::DataComponent *>(entity);
         }
 
-        static inline void removeComponentOne(EntityManager& registry, Entity entity) {
+        static inline void removeComponentOne(EntityManager &registry, Entity entity) {
             registry.remove_component<ecs::benchmarks::base::components::PositionComponent>(entity);
         }
-        static inline auto addComponentOne(EntityManager& registry, Entity entity) {
+
+        static inline void removeComponentTwo(EntityManager &registry, Entity entity) {
+            registry.remove_component<ecs::benchmarks::base::components::VelocityComponent>(entity);
+        }
+
+        static inline void removeComponentThree(EntityManager &registry, Entity entity) {
+            registry.remove_component<ecs::benchmarks::base::components::DataComponent>(entity);
+        }
+
+        static inline auto addComponentOne(EntityManager &registry, Entity entity) {
             return registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
         }
     };

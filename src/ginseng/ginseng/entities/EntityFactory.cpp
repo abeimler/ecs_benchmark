@@ -1,6 +1,6 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::ginseng::entities {
@@ -8,7 +8,7 @@ namespace ecs::benchmarks::ginseng::entities {
     EntityFactory::Entity EntityFactory::create(EntityManager &registry) {
         auto ret = registry.create_entity();
         registry.add_component(ret, ecs::benchmarks::base::components::PositionComponent{});
-        registry.add_component(ret, ecs::benchmarks::base::components::DirectionComponent{});
+        registry.add_component(ret, ecs::benchmarks::base::components::VelocityComponent{});
         registry.add_component(ret, ecs::benchmarks::base::components::DataComponent{});
         return ret;
     }
@@ -17,7 +17,7 @@ namespace ecs::benchmarks::ginseng::entities {
         for (auto &entity: out) {
             entity = registry.create_entity();
             registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
-            registry.add_component(entity, ecs::benchmarks::base::components::DirectionComponent{});
+            registry.add_component(entity, ecs::benchmarks::base::components::VelocityComponent{});
             registry.add_component(entity, ecs::benchmarks::base::components::DataComponent{});
         }
     }
@@ -25,7 +25,7 @@ namespace ecs::benchmarks::ginseng::entities {
     EntityFactory::Entity EntityFactory::createMinimal(EntityManager &registry) {
         auto ret = registry.create_entity();
         registry.add_component(ret, ecs::benchmarks::base::components::PositionComponent{});
-        registry.add_component(ret, ecs::benchmarks::base::components::DirectionComponent{});
+        registry.add_component(ret, ecs::benchmarks::base::components::VelocityComponent{});
         return ret;
     }
 
@@ -33,7 +33,7 @@ namespace ecs::benchmarks::ginseng::entities {
         for (auto &entity: out) {
             entity = registry.create_entity();
             registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
-            registry.add_component(entity, ecs::benchmarks::base::components::DirectionComponent{});
+            registry.add_component(entity, ecs::benchmarks::base::components::VelocityComponent{});
         }
     }
 

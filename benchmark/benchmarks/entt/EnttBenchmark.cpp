@@ -56,3 +56,9 @@ static void BM_entt_RemoveAddComponent(benchmark::State& state) {
     entt_benchmark.BM_RemoveAddComponent(state);
 }
 BENCHMARK(BM_entt_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_entt_SystemsUpdateMixedEntities(benchmark::State &state) {
+    entt_benchmark.BM_SystemsUpdateMixedEntities(state);
+}
+BENCHMARK(BM_entt_SystemsUpdateMixedEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);

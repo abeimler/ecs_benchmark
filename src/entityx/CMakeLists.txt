@@ -42,6 +42,6 @@ target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC entity
 if (entityx_ADDED)
     target_include_directories(${CMAKE_PROJECT_NAME}-example-entityx SYSTEM PUBLIC ${entityx_SOURCE_DIR})
 endif ()
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
+if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
     target_compile_options(${CMAKE_PROJECT_NAME}-example-entityx PRIVATE -Wno-deprecated-declarations -Wno-ambiguous-reversed-operator)
-endif()
+endif ()

@@ -1,6 +1,6 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::flecs::entities {
@@ -9,7 +9,7 @@ namespace ecs::benchmarks::flecs::entities {
         for (auto &entity: out) {
             entity = entities.entity()
                     .add<ecs::benchmarks::base::components::PositionComponent>()
-                    .add<ecs::benchmarks::base::components::DirectionComponent>()
+                    .add<ecs::benchmarks::base::components::VelocityComponent>()
                     .add<ecs::benchmarks::base::components::DataComponent>();
         }
     }
@@ -19,7 +19,7 @@ namespace ecs::benchmarks::flecs::entities {
         for (auto &entity: out) {
             entity = entities.entity()
                     .add<ecs::benchmarks::base::components::PositionComponent>()
-                    .add<ecs::benchmarks::base::components::DirectionComponent>();
+                    .add<ecs::benchmarks::base::components::VelocityComponent>();
         }
     }
 

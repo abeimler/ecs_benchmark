@@ -46,11 +46,15 @@ namespace ecs::benchmarks::base::entities {
 
         virtual ComponentTwo &getComponentTwo(EntityManager &registry, Entity entity) = 0;
 
-        virtual ComponentThree* getOptionalComponentThree(EntityManager& registry, Entity entity) = 0;
+        virtual ComponentThree *getOptionalComponentThree(EntityManager &registry, Entity entity) = 0;
 
-        virtual void removeComponentOne(EntityManager& registry, Entity entity) = 0;
+        virtual void removeComponentOne(EntityManager &registry, Entity entity) = 0;
 
-        virtual void addComponentOne(EntityManager& registry, Entity entity) = 0;
+        virtual void removeComponentTwo(EntityManager &registry, Entity entity) = 0;
+
+        virtual void removeComponentThree(EntityManager &registry, Entity entity) = 0;
+
+        virtual void addComponentOne(EntityManager &registry, Entity entity) = 0;
     };
 
 }

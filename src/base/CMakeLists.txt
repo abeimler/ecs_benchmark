@@ -1,7 +1,7 @@
 set(INCLUDE_DIR "include") # must be relative paths
 add_library(${CMAKE_PROJECT_NAME}-base INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}/base/components/DataComponent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/base/components/DirectionComponent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/base/components/VelocityComponent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/base/components/PositionComponent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/DataSystem.h
         ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/MoreComplexSystem.h

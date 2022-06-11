@@ -54,3 +54,9 @@ static void BM_openecs_RemoveAddComponent(benchmark::State& state) {
     openecs_benchmark.BM_RemoveAddComponent(state);
 }
 BENCHMARK(BM_openecs_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_openecs_SystemsUpdateMixedEntities(benchmark::State &state) {
+    openecs_benchmark.BM_SystemsUpdateMixedEntities(state);
+}
+BENCHMARK(BM_openecs_SystemsUpdateMixedEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);

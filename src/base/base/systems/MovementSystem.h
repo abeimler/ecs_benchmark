@@ -3,7 +3,7 @@
 
 #include "System.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 
 namespace ecs::benchmarks::base::systems {
 
@@ -24,7 +24,7 @@ namespace ecs::benchmarks::base::systems {
         MovementSystem &operator=(MovementSystem &&) noexcept = default;
 
         static void updatePosition(ecs::benchmarks::base::components::PositionComponent &position,
-                                   const ecs::benchmarks::base::components::DirectionComponent &direction,
+                                   const ecs::benchmarks::base::components::VelocityComponent &direction,
                                    TimeDelta dt) {
             position.x += direction.x * dt;
             position.y += direction.y * dt;

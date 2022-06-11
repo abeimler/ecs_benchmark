@@ -74,7 +74,7 @@ namespace ecs::benchmarks::base {
         void BM_CreateEntities(benchmark::State &state) {
             Application app;
             initApplication(app);
-            const size_t nentities = static_cast<size_t>(state.range(0));
+            const auto nentities = static_cast<size_t>(state.range(0));
             for (auto _: state) {
                 state.PauseTiming();
                 entities_factory.clear(app.getEntities());
@@ -252,6 +252,21 @@ namespace ecs::benchmarks::base {
           entities.clear();
           entities_factory.clear(app.getEntities());
         }
+
+        void BM_SystemsUpdateMixedEntities(benchmark::State &state) {
+            std::vector<Entity> entities;
+            Application app(m_options.add_more_complex_system);
+            initApplicationWithMixedEntities(app, static_cast<size_t>(state.range(0)), entities);
+            for (auto _: state) {
+                app.update(fakeTimeDelta);
+            }
+            state.PauseTiming();
+            state.counters["entities"] = static_cast<double>(entities.size());
+            afterBenchmark(app);
+            uninitApplication(app);
+            entities.clear();
+            entities_factory.clear(app.getEntities());
+        }
     protected:
         void initApplicationWithEntitiesAndMixedComponents(Application &app, size_t nentities) {
             for (size_t i = 0; i < nentities; i++) {
@@ -276,6 +291,26 @@ namespace ecs::benchmarks::base {
                     const auto entity = entities_factory.createMinimal(app.getEntities());
                     out_minimal.push_back(entity);
                     out_all.push_back(entity);
+                }
+            }
+            app.init();
+        }
+
+        void
+        initApplicationWithMixedEntities(Application &app, size_t nentities, std::vector<Entity> &out) {
+            out.clear();
+            // inspired from EnTT benchmark "pathological", https://github.com/skypjack/entt/blob/de0e5862dd02fa669325a0a06b7936af4d2a841d/test/benchmark/benchmark.cpp#L44
+            size_t j = 0;
+            for (size_t i = 0; i < nentities; i++) {
+                out.push_back(entities_factory.create(app.getEntities()));
+                if (i >= 2*nentities/4 && i <= 3*nentities/4) {
+                    if (j % 10 == 0U) {
+                        if ((i % 7) == 0U) { entities_factory.removeComponentOne(app.getEntities(), out.back()); }
+                        if ((i % 11) == 0U) { entities_factory.removeComponentTwo(app.getEntities(), out.back()); }
+                        if ((i % 13) == 0U) { entities_factory.removeComponentThree(app.getEntities(), out.back()); }
+                        //if(!(i % 17)) { entities_factory.destroy(out.back()); }
+                    }
+                    j++;
                 }
             }
             app.init();

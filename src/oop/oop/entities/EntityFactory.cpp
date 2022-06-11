@@ -7,7 +7,8 @@
 namespace ecs::benchmarks::oop::entities {
 
     EntityFactory::Entity EntityFactory::create(EntityManager &registry) {
-        auto& ret = (add_more_complex_system)? registry.emplace_back(std::make_unique<ComplexMovableDataObject>()) : registry.emplace_back(std::make_unique<MovableDataObject>());
+        auto &ret = (add_more_complex_system) ? registry.emplace_back(std::make_unique<ComplexMovableDataObject>())
+                                              : registry.emplace_back(std::make_unique<MovableDataObject>());
         ret->id(registry.size());
         return ret.get();
     }
@@ -15,13 +16,14 @@ namespace ecs::benchmarks::oop::entities {
     void EntityFactory::createBulk(EntityManager &registry, std::vector<Entity> &out) {
         registry.reserve(registry.size() + out.size());
         for (size_t i = 0; i < out.size(); i++) {
-            auto& ret = (add_more_complex_system)? registry.emplace_back(std::make_unique<ComplexMovableDataObject>()) : registry.emplace_back(std::make_unique<MovableDataObject>());
+            auto &ret = (add_more_complex_system) ? registry.emplace_back(std::make_unique<ComplexMovableDataObject>())
+                                                  : registry.emplace_back(std::make_unique<MovableDataObject>());
             ret->id(registry.size());
         }
     }
 
     EntityFactory::Entity EntityFactory::createMinimal(EntityManager &registry) {
-        auto& ret = registry.emplace_back(std::make_unique<MovableObject>());
+        auto &ret = registry.emplace_back(std::make_unique<MovableObject>());
         ret->id(registry.size());
         return ret.get();
     }
@@ -29,14 +31,14 @@ namespace ecs::benchmarks::oop::entities {
     void EntityFactory::createMinimalBulk(EntityManager &registry, std::vector<Entity> &out) {
         registry.reserve(registry.size() + out.size());
         for (size_t i = 0; i < out.size(); i++) {
-            auto& ret = registry.emplace_back(std::make_unique<MovableObject>());
+            auto &ret = registry.emplace_back(std::make_unique<MovableObject>());
             ret->id(registry.size());
         }
     }
 
     void EntityFactory::destroy(EntityManager &registry, Entity entity) {
         if (entity != nullptr && entity->id() != 0) {
-            registry.erase( std::next( registry.begin(), entity->id()-1l ) );
+            registry.erase(std::next(registry.begin(), entity->id() - 1l));
         }
     }
 

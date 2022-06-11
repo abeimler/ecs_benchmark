@@ -5,7 +5,7 @@
 
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::openecs::entities {
@@ -16,13 +16,13 @@ namespace ecs::benchmarks::openecs::entities {
         using Entity = ::ecs::Entity;
 
         static auto create(EntityManager &entities) {
-            return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
+            return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>();
         }
 
         static void createBulk(EntityManager &entities, std::vector<Entity> &out);
 
         static auto createMinimal(EntityManager &entities) {
-            return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>();
+            return entities.create_with<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent>();
         }
 
         static void createMinimalBulk(EntityManager &entities, std::vector<Entity> &out);
@@ -39,9 +39,10 @@ namespace ecs::benchmarks::openecs::entities {
         getComponentOneConst(EntityManager &/*entities*/, Entity entity) {
             return std::as_const(entity).get<ecs::benchmarks::base::components::PositionComponent>();
         }
-        [[nodiscard]] static inline const ecs::benchmarks::base::components::DirectionComponent &
+
+        [[nodiscard]] static inline const ecs::benchmarks::base::components::VelocityComponent &
         getComponentTwoConst(EntityManager &/*entities*/, Entity entity) {
-            return std::as_const(entity).get<ecs::benchmarks::base::components::DirectionComponent>();
+            return std::as_const(entity).get<ecs::benchmarks::base::components::VelocityComponent>();
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
@@ -49,9 +50,9 @@ namespace ecs::benchmarks::openecs::entities {
             return entity.get<ecs::benchmarks::base::components::PositionComponent>();
         }
 
-        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent &
         getComponentTwo(EntityManager &/*entities*/, Entity entity) {
-            return entity.get<ecs::benchmarks::base::components::DirectionComponent>();
+            return entity.get<ecs::benchmarks::base::components::VelocityComponent>();
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *
@@ -60,11 +61,20 @@ namespace ecs::benchmarks::openecs::entities {
                    ? &entity.get<ecs::benchmarks::base::components::DataComponent>() : nullptr;
         }
 
-        static inline void removeComponentOne(EntityManager& /*entities*/, Entity entity) {
-          entity.remove<ecs::benchmarks::base::components::PositionComponent>();
+        static inline void removeComponentOne(EntityManager & /*entities*/, Entity entity) {
+            entity.remove<ecs::benchmarks::base::components::PositionComponent>();
         }
-        static inline auto& addComponentOne(EntityManager& /*entities*/, Entity entity) {
-          return entity.add<ecs::benchmarks::base::components::PositionComponent>();
+
+        static inline void removeComponentTwo(EntityManager & /*entities*/, Entity entity) {
+            entity.remove<ecs::benchmarks::base::components::VelocityComponent>();
+        }
+
+        static inline void removeComponentThree(EntityManager & /*entities*/, Entity entity) {
+            entity.remove<ecs::benchmarks::base::components::DataComponent>();
+        }
+
+        static inline auto &addComponentOne(EntityManager & /*entities*/, Entity entity) {
+            return entity.add<ecs::benchmarks::base::components::PositionComponent>();
         }
     };
 

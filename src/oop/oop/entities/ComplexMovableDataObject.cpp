@@ -24,11 +24,11 @@ namespace ecs::benchmarks::oop::entities {
 
         if (m_data.dingy % 10000 == 0) {
             if (m_position.x > m_position.y) {
-                m_direction.x = static_cast<float>(random(0, 5)) * dt;
-                m_direction.y = static_cast<float>(random(0, 10)) * dt;
+                m_velocity.x = static_cast<float>(random(0, 5)) * dt;
+                m_velocity.y = static_cast<float>(random(0, 10)) * dt;
             } else {
-                m_direction.x = static_cast<float>(random(0, 10)) * dt;
-                m_direction.y = static_cast<float>(random(0, 5)) * dt;
+                m_velocity.x = static_cast<float>(random(0, 10)) * dt;
+                m_velocity.y = static_cast<float>(random(0, 5)) * dt;
             }
         }
     }

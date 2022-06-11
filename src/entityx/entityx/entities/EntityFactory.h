@@ -5,7 +5,7 @@
 
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::entityx::entities {
@@ -33,8 +33,9 @@ namespace ecs::benchmarks::entityx::entities {
         [[nodiscard]] static inline auto getComponentOneConst(EntityManager &entities, Entity entity) {
             return entities.component<const ecs::benchmarks::base::components::PositionComponent>(entity.id());
         }
+
         [[nodiscard]] static inline auto getComponentTwoConst(EntityManager &entities, Entity entity) {
-            return entities.component<const ecs::benchmarks::base::components::DirectionComponent>(entity.id());
+            return entities.component<const ecs::benchmarks::base::components::VelocityComponent>(entity.id());
         }
 
         [[nodiscard]] static inline auto getComponentOne(EntityManager &entities, Entity entity) {
@@ -42,18 +43,27 @@ namespace ecs::benchmarks::entityx::entities {
         }
 
         [[nodiscard]] static inline auto getComponentTwo(EntityManager &entities, Entity entity) {
-            return entities.component<ecs::benchmarks::base::components::DirectionComponent>(entity.id());
+            return entities.component<ecs::benchmarks::base::components::VelocityComponent>(entity.id());
         }
 
         [[nodiscard]] static inline auto getOptionalComponentThree(EntityManager &entities, Entity entity) {
             return entities.component<ecs::benchmarks::base::components::DataComponent>(entity.id());
         }
 
-        static inline void removeComponentOne(EntityManager& /*entities*/, Entity entity) {
-          entity.remove<ecs::benchmarks::base::components::PositionComponent>();
+        static inline void removeComponentOne(EntityManager & /*entities*/, Entity entity) {
+            entity.remove<ecs::benchmarks::base::components::PositionComponent>();
         }
-        static inline auto addComponentOne(EntityManager& /*entities*/, Entity entity) {
-          return entity.assign<ecs::benchmarks::base::components::PositionComponent>();
+
+        static inline void removeComponentTwo(EntityManager & /*entities*/, Entity entity) {
+            entity.remove<ecs::benchmarks::base::components::VelocityComponent>();
+        }
+
+        static inline void removeComponentThree(EntityManager & /*entities*/, Entity entity) {
+            entity.remove<ecs::benchmarks::base::components::DataComponent>();
+        }
+
+        static inline auto addComponentOne(EntityManager & /*entities*/, Entity entity) {
+            return entity.assign<ecs::benchmarks::base::components::PositionComponent>();
         }
     };
 

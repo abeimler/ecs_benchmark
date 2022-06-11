@@ -61,6 +61,17 @@ def human_format(num):
         num /= 1000.0
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
+def human_format_round(num):
+    num = float('{:.3g}'.format(num))
+    magnitude = 0
+    while abs(num) >= 1000:
+        magnitude += 1
+        num /= 1000.0
+    num_int = int(num)
+    num_has_decimal = (num - num_int) > 0.0
+    if num_has_decimal:
+        return '{}{}'.format('~{:f}'.format(num_int).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
+    return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
 def get_total_memory():
     mem = psu.virtual_memory()
@@ -128,10 +139,16 @@ def genResults(frameworks_info, output_dir, reports):
             elif re.search(r'^BM_(.*)_RemoveAddComponent\/', name):
                 key = 'RemoveAddComponent'
                 entities = int(benchmark['entities'])
+            elif re.search(r'^BM_(.*)_ComplexSystemsUpdateMixedEntities\/', name):
+                key = 'ComplexSystemsUpdateMixedEntities'
+                entities = int(benchmark['entities'])
             elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
                 key = 'ComplexSystemsUpdate'
                 entities = int(benchmark['entities'])
                 entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+            elif re.search(r'^BM_(.*)_SystemsUpdateMixedEntities\/', name):
+                key = 'SystemsUpdateMixedEntities'
+                entities = int(benchmark['entities'])
             elif re.search(r'^BM_(.*)_SystemsUpdate\/', name):
                 key = 'SystemsUpdate'
                 entities = int(benchmark['entities'])
@@ -262,10 +279,35 @@ def genResults(frameworks_info, output_dir, reports):
 
 def genPlots(frameworks_info, results):
     for key, data in results['_data_frame_data'].items():
+
+        title = key
+        if key == 'CreateEntities':
+            title = 'Create Entities'
+        elif key == 'DestroyEntities':
+            title = 'Destroy Entities'
+        elif key == 'UnpackOneComponentConst':
+            title = 'Get one (const) component from Entity'
+        elif key == 'UnpackOneComponent':
+            title = 'Get one (non-const) component from Entity'
+        elif key == 'UnpackTwoComponents':
+            title = 'Get two components from Entity'
+        elif key == 'UnpackThreeComponentsFromMixedEntities':
+            title = 'Get three components from Entity'
+        elif key == 'RemoveAddComponent':
+            title = 'Remove and add component from Entity'
+        elif key == 'SystemsUpdate':
+            title = 'Update Systems (2 Systems)'
+        elif key == 'SystemsUpdateMixedEntities':
+            title = 'Update Systems (2 Systems, mixed components)'
+        elif key == 'ComplexSystemsUpdate':
+            title = 'Update Systems (3 Systems)'
+        elif key == 'ComplexSystemsUpdateMixedEntities':
+            title = 'Update Systems (3 Systems, mixed components)'
+
         fig = px.line(data['df'], x='entities', y=data['y'], labels={
             "value": "time ({})".format(data['unit']),
             "variable": "Frameworks",
-        }, title=key, log_y=True)
+        }, title=title, log_y=True)
         fig.write_image(data['output_png_filename'])
 
 
@@ -300,80 +342,92 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        summary_df_index[edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format(edata['entities']))
+                        summary_df_index[edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'SystemsUpdate':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        summary_df_index[edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format(edata['entities']))
+                        summary_df_index[edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
                     i = i + 1
 
             if ek == 'SystemsUpdate':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'ComplexSystemsUpdate':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
                     i = i + 1
             if ek == 'CreateEntities':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Create {:>5s} entities with two Components".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Create {:>5s} entities with two Components".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'DestroyEntities':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Destroy {:>5s} entities with two Components".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Destroy {:>5s} entities with two Components".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'UnpackOneComponentConst':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack one (const) Component in {:>5s} entities".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Unpack one (const) Component in {:>5s} entities".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'UnpackOneComponent':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack one Component in {:>5s} entities".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Unpack one Component in {:>5s} entities".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'UnpackTwoComponents':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack two Component in {:>5s} entities".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Unpack two Component in {:>5s} entities".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'UnpackThreeComponentsFromMixedEntities':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack three Component in {:>5s} entities".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Unpack three Component in {:>5s} entities".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'RemoveAddComponent':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Remove and Add a Component in {:>5s} entities".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Remove and Add a Component in {:>5s} entities".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'SystemsUpdate':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
+                    i = i + 1
+            elif ek == 'SystemsUpdateMixedEntities':
+                i = 1
+                for edata in entries_data:
+                    if i % 2 == 0 or i >= 16:
+                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
                     i = i + 1
             elif ek == 'ComplexSystemsUpdate':
                 i = 1
                 for edata in entries_data:
                     if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format(edata['entities']))
+                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
+                    i = i + 1
+            elif ek == 'ComplexSystemsUpdateMixedEntities':
+                i = 1
+                for edata in entries_data:
+                    if i % 2 == 0 or i >= 16:
+                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
                     i = i + 1
 
         for ek, entries_data in result['entries_data'].items():
@@ -382,12 +436,12 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
             if name not in df_data[ek]:
                 df_data[ek][name] = []
 
-            if ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate':
+            if ek == 'ComplexSystemsUpdateMixedEntities' or ek == 'SystemsUpdateMixedEntities':
                 for key in summary_df_index.keys():
                     find = False
                     for ed in entries_data:
                         if ed['entities'] == key:
-                            summary_df_data[name].append("{:.4f}s".format(ed['time_s']))
+                            summary_df_data[name].append("{:>4d}ms".format(int(ed['time_ms'])))
                             find = True
                             break
                     if not find:
@@ -397,7 +451,7 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                 find = False
                 for ed in entries_data:
                     if ed['entities'] == key:
-                        df_data[ek][name].append("{:.4f}s".format(ed['time_s']))
+                        df_data[ek][name].append("{:>4d}ms".format(int(ed['time_ms'])))
                         find = True
                         break
                 if not find:

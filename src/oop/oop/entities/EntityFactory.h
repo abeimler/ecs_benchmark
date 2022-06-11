@@ -6,7 +6,7 @@
 
 #include "base/entities/EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 #include "GameObject.h"
 #include "MovableObject.h"
@@ -17,7 +17,7 @@ namespace ecs::benchmarks::oop::entities {
     class EntityFactory {
     public:
         using EntityManager = std::vector<std::unique_ptr<GameObject>>;
-        using Entity = GameObject*;
+        using Entity = GameObject *;
 
         bool add_more_complex_system{false};
 
@@ -42,10 +42,10 @@ namespace ecs::benchmarks::oop::entities {
             return entity.position();
         }
 
-        [[nodiscard]] static inline ecs::benchmarks::base::components::DirectionComponent &
+        [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent &
         getComponentTwo(EntityManager &/*registry*/,
                         MovableObject &entity) {
-            return entity.direction();
+            return entity.velocity();
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *

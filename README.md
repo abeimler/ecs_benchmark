@@ -46,12 +46,12 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 ### Components
 
 1. `PositionComponent` with `x` and `y` coord.
-2. `DirectionComponent` with `x` and `y` for movement.
+2. `VelocityComponent` with `x` and `y` for movement.
 3. `DataComponent` with some nonsense data.
 
 ### Systems
 
-1. `MovementSystem`: updates `PositionComponent` with (const) `DirectionComponent`
+1. `MovementSystem`: updates `PositionComponent` with (const) `VelocityComponent`
 2. `DataSystem`: updates `DataComponent` with nonsense
 3. `MoreComplexSystem`: updates Components with random data and nonsense
 
@@ -147,7 +147,7 @@ _(lower is faster)_
 **Note:**
 * Get non-const- and const- component
    1. `PositionComponent`
-   2. `const DirectionComponent`
+   2. `const VelocityComponent`
 
 ### Get three components from Entity
 
@@ -167,7 +167,7 @@ _(lower is faster)_
 **Note:**
 * Get two non-const- and const- component(s)
    1. `PositionComponent`
-   2. `const DirectionComponent`
+   2. `const VelocityComponent`
    3. `DataComponent` (optional)
 
 
@@ -220,8 +220,8 @@ _(lower is faster)_
    * \**  EnTT Framework, iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
    * \*** EnTT Framework, iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
       1. `DataSystem`: No Group, use normal `view`. _(Can't group a single component)_
-      2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const DirectionComponent>)`
-      3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, DirectionComponent, DataComponent>()`
+      2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const VelocityComponent>)`
+      3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 
 
 

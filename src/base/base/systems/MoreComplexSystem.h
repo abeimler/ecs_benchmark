@@ -7,14 +7,14 @@
 
 #include "System.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::base::systems {
 
     template<class EntityManager, typename TimeDelta,
             class PositionComponent = ecs::benchmarks::base::components::PositionComponent,
-            class DirectionComponent = ecs::benchmarks::base::components::DirectionComponent,
+            class DirectionComponent = ecs::benchmarks::base::components::VelocityComponent,
             class DataComponent = ecs::benchmarks::base::components::DataComponent>
     class MoreComplexSystem : public System<EntityManager, TimeDelta> {
     public:

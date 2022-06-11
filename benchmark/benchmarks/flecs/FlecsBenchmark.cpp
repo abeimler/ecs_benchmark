@@ -54,3 +54,9 @@ static void BM_flecs_RemoveAddComponent(benchmark::State& state) {
     flecs_benchmark.BM_RemoveAddComponent(state);
 }
 BENCHMARK(BM_flecs_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_flecs_SystemsUpdateMixedEntities(benchmark::State &state) {
+    flecs_benchmark.BM_SystemsUpdateMixedEntities(state);
+}
+BENCHMARK(BM_flecs_SystemsUpdateMixedEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);
