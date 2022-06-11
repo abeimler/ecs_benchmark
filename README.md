@@ -49,14 +49,6 @@ Pick and evaluate a framework you like and have a look at the examples and API d
 
 ## Details
 
-### Environment
-
-* **OS:** Linux
-* **CPU:** 3.10GHz @ 4Cores
-* **RAM:** 8 GB
-
-Run on my old Laptop :)
-
 ### Features
 
 All benchmarks are located in [`benchmark/benchmarks/`](benchmark/benchmarks/) and are written with [google/benchmark](https://github.com/google/benchmark).
@@ -89,6 +81,15 @@ Benchmarks of more common features, like "Creating entities", "Add and remove co
 * Get Component(s)
 * Remove and add component
 * Systems (for-each entities)
+
+
+### Environment
+
+* **OS:** Linux
+* **CPU:** 3.10GHz @ 4Cores
+* **RAM:** 8 GB
+
+Run on my old Laptop :)
 
 
 ### Create Entities
