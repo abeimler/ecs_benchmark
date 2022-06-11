@@ -436,7 +436,7 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
             if name not in df_data[ek]:
                 df_data[ek][name] = []
 
-            if ek == 'ComplexSystemsUpdateMixedEntities' or ek == 'SystemsUpdateMixedEntities':
+            if ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate':
                 for key in summary_df_index.keys():
                     find = False
                     for ed in entries_data:

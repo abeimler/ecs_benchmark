@@ -10,3 +10,9 @@ static void BM_mustache_ComplexSystemsUpdate(benchmark::State &state) {
 }
 
 BENCHMARK(BM_mustache_ComplexSystemsUpdate)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_mustache_ComplexSystemsUpdateMixedEntities(benchmark::State &state) {
+    mustache_benchmark.BM_SystemsUpdateMixedEntities(state);
+}
+BENCHMARK(BM_mustache_ComplexSystemsUpdateMixedEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);
