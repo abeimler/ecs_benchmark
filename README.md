@@ -6,6 +6,7 @@
 [![codecov](https://codecov.io/gh/abeimler/ecs_benchmark/branch/master/graph/badge.svg)](https://codecov.io/gh/abeimler/ecs_benchmark)
 [![CodeQL](https://github.com/abeimler/ecs_benchmark/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/abeimler/ecs_benchmark/actions/workflows/codeql-analysis.yml)
 ![License](https://img.shields.io/github/license/abeimler/ecs_benchmark)
+![Standard](https://img.shields.io/badge/c%2B%2B-20-blue)
 
 Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
@@ -22,7 +23,7 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
 ![SystemsUpdateMixedEntities Plot](img/SystemsUpdateMixedEntities.png)  
 _(lower is faster)_  
-_for-each entities (with mixed components) in 2 Systems, see [Notes]() for more details_
+_for-each entities (with mixed components) in 2 Systems, see [Note](#update-systems-for-each-entities-with-mixed-components-in-2-systems=) for more details_
 
 
 |                                      | EntityX   | EnTT    | Ginseng | mustache | OpenEcs   | Flecs    |
