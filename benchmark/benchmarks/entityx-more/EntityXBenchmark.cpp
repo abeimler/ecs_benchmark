@@ -13,3 +13,9 @@ static void BM_entityx_ComplexSystemsUpdate(benchmark::State &state) {
 }
 
 BENCHMARK(BM_entityx_ComplexSystemsUpdate)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_entityx_ComplexSystemsUpdateMixedEntities(benchmark::State &state) {
+    entityx_benchmark.BM_SystemsUpdateMixedEntities(state);
+}
+BENCHMARK(BM_entityx_ComplexSystemsUpdateMixedEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);

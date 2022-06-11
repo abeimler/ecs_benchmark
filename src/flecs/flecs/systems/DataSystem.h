@@ -12,7 +12,8 @@ namespace ecs::benchmarks::flecs::systems {
         using Entity = ::flecs::entity;
 
         using TimeDelta = float;
-        inline static auto update = [](::flecs::iter& it, size_t /*index*/, ecs::benchmarks::base::components::DataComponent &data) {
+        inline static auto update = [](::flecs::iter &it, size_t /*index*/,
+                                       ecs::benchmarks::base::components::DataComponent &data) {
             const TimeDelta dt = it.delta_time();
 
             data.thingy += 0.0001F * dt;

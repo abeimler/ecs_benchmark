@@ -1,27 +1,27 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::mustache::entities {
 
     EntityFactory::Entity EntityFactory::create(EntityManager &registry) {
-        return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
+        return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>();
     }
 
     void EntityFactory::createBulk(EntityManager &registry, std::vector<Entity> &out) {
         for (auto &entity: out) {
-            entity = registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>();
+            entity = registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>();
         }
     }
 
     EntityFactory::Entity EntityFactory::createMinimal(EntityManager &registry) {
-        return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>();
+        return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent>();
     }
 
     void EntityFactory::createMinimalBulk(EntityManager &registry, std::vector<Entity> &out) {
         for (auto &entity: out) {
-            entity = registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent>();
+            entity = registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent>();
         }
     }
 

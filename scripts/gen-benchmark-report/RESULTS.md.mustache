@@ -11,7 +11,6 @@ _(lower is faster)_
 
 ## Details
 
-{{#candidates.0}}
 ### Candidates
 
 {{#candidates}}
@@ -26,7 +25,6 @@ Version: {{version}}
 {{/version}}
 
 {{/candidates}}
-{{/candidates.0}}
 
 {{#environment}}
 ### Environment
@@ -35,6 +33,7 @@ Version: {{version}}
 * **CPU:** {{cpu}}
 * **RAM:** {{ram}}
 {{/environment}}
+
 
 {{#plots}}
 ### More Results
@@ -57,6 +56,7 @@ _(lower is faster)_
 
 {{table}}
 {{/DestroyEntities}}
+
 
 
 {{#UnpackOneComponent}}
@@ -109,8 +109,9 @@ _(lower is faster)_
 {{/RemoveAddComponent}}
 
 
+
 {{#SystemsUpdate}}
-#### System Updates (for-each entities with 2 Systems)
+#### Update Systems (for-each entities in 2 Systems)
 
 ![{{figure_img_alt}}]({{figure_img_src}})
 _(lower is faster)_
@@ -119,13 +120,34 @@ _(lower is faster)_
 {{/SystemsUpdate}}
 
 
+{{#SystemsUpdateMixedEntities}}
+#### Update Systems (for-each entities (with mixed components) in 2 Systems)
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is faster)_
+
+{{table}}
+{{/SystemsUpdateMixedEntities}}
+
+
+
 {{#ComplexSystemsUpdate}}
-#### System Updates (for-each entities with 3 Systems)
+#### Update Systems (for-each entities in 3 Systems)
 
 ![{{figure_img_alt}}]({{figure_img_src}})
 _(lower is faster)_
 
 {{table}}
 {{/ComplexSystemsUpdate}}
+
+
+{{#ComplexSystemsUpdateMixedEntities}}
+#### Update Systems (for-each entities (with mixed components) in 3 Systems)
+
+![{{figure_img_alt}}]({{figure_img_src}})
+_(lower is faster)_
+
+{{table}}
+{{/ComplexSystemsUpdateMixedEntities}}
 
 {{/plots}}

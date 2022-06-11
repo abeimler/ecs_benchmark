@@ -34,6 +34,8 @@ add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         entt/EnttApplication.cpp
         entt/EnttRuntimeApplication.h
         entt/EnttRuntimeApplication.cpp
+        entt/EnttGroupApplication.h
+        entt/EnttGroupApplication.cpp
         entt/entt.h)
 add_library(${CMAKE_PROJECT_NAME}::example::entt ALIAS ${CMAKE_PROJECT_NAME}-example-entt)
 

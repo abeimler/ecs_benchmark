@@ -1,6 +1,6 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::entityx::entities {
@@ -8,7 +8,7 @@ namespace ecs::benchmarks::entityx::entities {
     EntityFactory::Entity EntityFactory::create(EntityManager &entities) {
         auto ret = entities.create();
         ret.assign<ecs::benchmarks::base::components::PositionComponent>();
-        ret.assign<ecs::benchmarks::base::components::DirectionComponent>();
+        ret.assign<ecs::benchmarks::base::components::VelocityComponent>();
         ret.assign<ecs::benchmarks::base::components::DataComponent>();
         return ret;
     }
@@ -17,7 +17,7 @@ namespace ecs::benchmarks::entityx::entities {
         for (auto &entity: out) {
             entity = entities.create();
             entity.assign<ecs::benchmarks::base::components::PositionComponent>();
-            entity.assign<ecs::benchmarks::base::components::DirectionComponent>();
+            entity.assign<ecs::benchmarks::base::components::VelocityComponent>();
             entity.assign<ecs::benchmarks::base::components::DataComponent>();
         }
     }
@@ -25,7 +25,7 @@ namespace ecs::benchmarks::entityx::entities {
     EntityFactory::Entity EntityFactory::createMinimal(EntityManager &entities) {
         auto ret = entities.create();
         ret.assign<ecs::benchmarks::base::components::PositionComponent>();
-        ret.assign<ecs::benchmarks::base::components::DirectionComponent>();
+        ret.assign<ecs::benchmarks::base::components::VelocityComponent>();
         return ret;
     }
 
@@ -33,7 +33,7 @@ namespace ecs::benchmarks::entityx::entities {
         for (auto &entity: out) {
             entity = entities.create();
             entity.assign<ecs::benchmarks::base::components::PositionComponent>();
-            entity.assign<ecs::benchmarks::base::components::DirectionComponent>();
+            entity.assign<ecs::benchmarks::base::components::VelocityComponent>();
         }
     }
 

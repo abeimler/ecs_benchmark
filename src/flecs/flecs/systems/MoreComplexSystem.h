@@ -17,8 +17,10 @@ namespace ecs::benchmarks::flecs::systems {
             return distr(m_eng);
         }
 
-        inline static auto update = [](::flecs::iter& it, size_t /*index*/, ecs::benchmarks::base::components::PositionComponent &position,
-                                       ecs::benchmarks::base::components::DirectionComponent &direction, ecs::benchmarks::base::components::DataComponent &data) {
+        inline static auto update = [](::flecs::iter &it, size_t /*index*/,
+                                       ecs::benchmarks::base::components::PositionComponent &position,
+                                       ecs::benchmarks::base::components::VelocityComponent &direction,
+                                       ecs::benchmarks::base::components::DataComponent &data) {
             const TimeDelta dt = it.delta_time();
 
             std::vector<int> vec;

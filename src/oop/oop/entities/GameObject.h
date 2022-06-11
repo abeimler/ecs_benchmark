@@ -11,10 +11,15 @@ namespace ecs::benchmarks::oop::entities {
         using game_object_id_t = std::size_t;
 
         GameObject() = default;
-        GameObject(const GameObject&) = default;
-        GameObject(GameObject&&) = default;
-        GameObject& operator=(const GameObject&) = default;
-        GameObject& operator=(GameObject&&) = default;
+
+        GameObject(const GameObject &) = default;
+
+        GameObject(GameObject &&) = default;
+
+        GameObject &operator=(const GameObject &) = default;
+
+        GameObject &operator=(GameObject &&) = default;
+
         virtual ~GameObject() = default;
 
         virtual void update(float dt) = 0;
@@ -23,6 +28,7 @@ namespace ecs::benchmarks::oop::entities {
 
     protected:
         GameObject(game_object_id_t id) : m_id(id) {}
+
         inline void id(game_object_id_t id) noexcept { m_id = id; }
 
         friend class EntityFactory;

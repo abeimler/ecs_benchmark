@@ -11,7 +11,7 @@ namespace ecs::benchmarks::oop {
     }
 
     void OOPApplication::update(TimeDelta dt) {
-        std::for_each(m_entities.begin(), m_entities.end(), [dt](auto& entity) {
+        std::for_each(m_entities.begin(), m_entities.end(), [dt](auto &entity) {
             if (entity != nullptr) {
                 entity->update(dt);
             }

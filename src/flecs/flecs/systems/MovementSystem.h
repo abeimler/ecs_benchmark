@@ -7,13 +7,14 @@
 
 namespace ecs::benchmarks::flecs::systems {
 
-class MovementSystem {
+    class MovementSystem {
     public:
-    using TimeDelta = float;
+        using TimeDelta = float;
         using Entity = ::flecs::entity;
 
-        inline static auto update = [](::flecs::iter& it, size_t /*index*/, ecs::benchmarks::base::components::PositionComponent &position,
-                                       const ecs::benchmarks::base::components::DirectionComponent &direction){
+        inline static auto update = [](::flecs::iter &it, size_t /*index*/,
+                                       ecs::benchmarks::base::components::PositionComponent &position,
+                                       const ecs::benchmarks::base::components::VelocityComponent &direction) {
             const TimeDelta dt = it.delta_time();
             position.x += direction.x * dt;
             position.y += direction.y * dt;

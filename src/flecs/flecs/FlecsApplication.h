@@ -33,12 +33,12 @@ namespace ecs::benchmarks::flecs {
 
 
         void init() {
-            m_world.system<ecs::benchmarks::base::components::PositionComponent, const ecs::benchmarks::base::components::DirectionComponent>()
+            m_world.system<ecs::benchmarks::base::components::PositionComponent, const ecs::benchmarks::base::components::VelocityComponent>()
                     .each(systems::MovementSystem::update);
             m_world.system<ecs::benchmarks::base::components::DataComponent>()
                     .each(systems::DataSystem::update);
             if (m_add_more_complex_system) {
-                m_world.system<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::DirectionComponent, ecs::benchmarks::base::components::DataComponent>()
+                m_world.system<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>()
                         .each(systems::MoreComplexSystem::update);
             }
         }

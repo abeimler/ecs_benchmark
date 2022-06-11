@@ -1,6 +1,6 @@
 #include "EntityFactory.h"
 #include "base/components/PositionComponent.h"
-#include "base/components/DirectionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::openecs::entities {
@@ -10,7 +10,7 @@ namespace ecs::benchmarks::openecs::entities {
         out = entities.create(out.size());
         for (auto &entity: out) {
             entity.add<ecs::benchmarks::base::components::PositionComponent>();
-            entity.add<ecs::benchmarks::base::components::DirectionComponent>();
+            entity.add<ecs::benchmarks::base::components::VelocityComponent>();
             entity.add<ecs::benchmarks::base::components::DataComponent>();
         }
     }
@@ -20,7 +20,7 @@ namespace ecs::benchmarks::openecs::entities {
         out = entities.create(out.size());
         for (auto &entity: out) {
             entity.add<ecs::benchmarks::base::components::PositionComponent>();
-            entity.add<ecs::benchmarks::base::components::DirectionComponent>();
+            entity.add<ecs::benchmarks::base::components::VelocityComponent>();
             entity.add<ecs::benchmarks::base::components::DataComponent>();
         }
     }

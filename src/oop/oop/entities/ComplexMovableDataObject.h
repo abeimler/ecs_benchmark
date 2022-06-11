@@ -7,11 +7,16 @@ namespace ecs::benchmarks::oop::entities {
 
     class ComplexMovableDataObject : public MovableDataObject {
     public:
-        ComplexMovableDataObject() : m_eng(m_rd()) { }
-        ComplexMovableDataObject(const ComplexMovableDataObject&) = default;
-        ComplexMovableDataObject(ComplexMovableDataObject&&) = default;
-        ComplexMovableDataObject& operator=(const ComplexMovableDataObject&) = default;
-        ComplexMovableDataObject& operator=(ComplexMovableDataObject&&) = default;
+        ComplexMovableDataObject() : m_eng(m_rd()) {}
+
+        ComplexMovableDataObject(const ComplexMovableDataObject &) = default;
+
+        ComplexMovableDataObject(ComplexMovableDataObject &&) = default;
+
+        ComplexMovableDataObject &operator=(const ComplexMovableDataObject &) = default;
+
+        ComplexMovableDataObject &operator=(ComplexMovableDataObject &&) = default;
+
         virtual ~ComplexMovableDataObject() = default;
 
         virtual void update(float dt) override;

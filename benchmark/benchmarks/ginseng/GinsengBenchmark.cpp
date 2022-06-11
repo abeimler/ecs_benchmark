@@ -54,3 +54,9 @@ static void BM_ginseng_RemoveAddComponent(benchmark::State& state) {
     ginseng_benchmark.BM_RemoveAddComponent(state);
 }
 BENCHMARK(BM_ginseng_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+
+static void BM_ginseng_SystemsUpdateMixedEntities(benchmark::State &state) {
+    ginseng_benchmark.BM_SystemsUpdateMixedEntities(state);
+}
+BENCHMARK(BM_ginseng_SystemsUpdateMixedEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);
