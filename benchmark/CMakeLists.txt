@@ -33,6 +33,11 @@ add_subdirectory(benchmarks/flecs)
 add_subdirectory(benchmarks/flecs-more)
 endif()
 
+if (ENABLE_BENCHMARK_ENTITYPLUS)
+    add_subdirectory(benchmarks/entityplus)
+    add_subdirectory(benchmarks/entityplus-more)
+endif()
+
 if (ENABLE_BENCHMARK_OOP)
 add_subdirectory(benchmarks/oop)
 endif()
