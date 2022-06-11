@@ -1,4 +1,4 @@
-# Entity-Component-Systems Benchmark
+# Entity-Component-System Benchmarks
 
 [![Actions Status](https://github.com/abeimler/ecs_benchmark/workflows/MacOS/badge.svg)](https://github.com/abeimler/ecs_benchmark/actions)
 [![Actions Status](https://github.com/abeimler/ecs_benchmark/workflows/Windows/badge.svg)](https://github.com/abeimler/ecs_benchmark/actions)
@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/abeimler/ecs_benchmark/branch/master/graph/badge.svg)](https://codecov.io/gh/abeimler/ecs_benchmark)
 [![CodeQL](https://github.com/abeimler/ecs_benchmark/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/abeimler/ecs_benchmark/actions/workflows/codeql-analysis.yml)
 
-Simple Benchmark of common Entity-Component-Systems:
+Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
 * [EntityX](https://github.com/alecthomas/entityx)
 * [EnTT](https://github.com/skypjack/entt)
@@ -58,10 +58,12 @@ Each framework has a sub-project in [`src/`](src) and must implement certain fea
 
 ## More Benchmarks
 
+Benchmarks of more common features, like "Creating entities", "Add and remove components", etc.
+
 ### Create Entities
 
 ![CreateEntities Plot](img/CreateEntities.png)  
-_(lower is better)_
+_(lower is faster)_
 
 |                                           | EntityX   | EnTT    | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:------------------------------------------|:----------|:--------|:----------|:-----------|:----------|:--------|
@@ -145,7 +147,7 @@ _(lower is faster)_
 
 
 **Note:**
-* Get non-const- and const- component
+* Get non-const- and const-component
    1. `PositionComponent`
    2. `const VelocityComponent`
 
@@ -171,7 +173,7 @@ _(lower is faster)_
    3. `DataComponent` (optional)
 
 
-#### Remove and add component from Entity
+### Remove and add component from Entity
 
 ![RemoveAddComponent Plot](img/RemoveAddComponent.png)  
 _(lower is faster)_
