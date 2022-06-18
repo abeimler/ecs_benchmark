@@ -24,10 +24,10 @@ namespace ecs::benchmarks::base::systems {
 
         DataSystem &operator=(DataSystem &&) noexcept = default;
 
-        static void updateData(DataComponent &data, TimeDelta dt) {
-            data.thingy += 0.0001F * dt;
+        static void updateData(DataComponent& data, TimeDelta dt) {
+            data.thingy++;
+            data.dingy += 0.0001 * dt;
             data.mingy = !data.mingy;
-            data.dingy++;
             data.stringy = std::to_string(data.dingy);
         }
     };

@@ -2,7 +2,7 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-myecs"
 add_executable(${CMAKE_PROJECT_NAME}-openecs
         # NOTE: add new benchmarks here
-        OpenECSBenchmark.cpp OpenECSBenchmark.h
+        OpenECSBenchmarkSuite.cpp OpenECSBenchmarkSuite.h
         )
 target_include_directories(${CMAKE_PROJECT_NAME}-openecs
         PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"

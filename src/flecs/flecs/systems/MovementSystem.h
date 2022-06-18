@@ -12,7 +12,7 @@ namespace ecs::benchmarks::flecs::systems {
         using TimeDelta = float;
         using Entity = ::flecs::entity;
 
-        inline static auto update = [](::flecs::iter &it, size_t /*index*/,
+        inline static const auto update = [](::flecs::iter &it, size_t /*index*/,
                                        ecs::benchmarks::base::components::PositionComponent &position,
                                        const ecs::benchmarks::base::components::VelocityComponent &direction) {
             const TimeDelta dt = it.delta_time();

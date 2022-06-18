@@ -11,7 +11,7 @@ namespace ecs::benchmarks::mustache::systems {
                 [this, dt](Entity /*entity*/, ecs::benchmarks::base::components::PositionComponent &position,
                            ecs::benchmarks::base::components::VelocityComponent &direction,
                            ecs::benchmarks::base::components::DataComponent &data) {
-                    updateComponents(position, direction, data, dt);
+                    updateComponents(position, direction, data);
                 }, run_mode);
     }
 
@@ -21,8 +21,8 @@ namespace ecs::benchmarks::mustache::systems {
                 [this](Entity /*entity*/, ecs::benchmarks::base::components::PositionComponent &position,
                        ecs::benchmarks::base::components::VelocityComponent &direction,
                        ecs::benchmarks::base::components::DataComponent &data) {
-                    constexpr float dt = 1.0F / 60.0F;
-                    updateComponents(position, direction, data, dt);
+                    //constexpr float dt = 1.0F / 60.0F;
+                    updateComponents(position, direction, data);
                 }, run_mode);
     }
 }

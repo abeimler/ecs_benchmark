@@ -13,15 +13,6 @@ namespace ecs::benchmarks::ginseng::entities {
         return ret;
     }
 
-    void EntityFactory::createBulk(EntityManager &registry, std::vector<Entity> &out) {
-        for (auto &entity: out) {
-            entity = registry.create_entity();
-            registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
-            registry.add_component(entity, ecs::benchmarks::base::components::VelocityComponent{});
-            registry.add_component(entity, ecs::benchmarks::base::components::DataComponent{});
-        }
-    }
-
     EntityFactory::Entity EntityFactory::createMinimal(EntityManager &registry) {
         auto ret = registry.create_entity();
         registry.add_component(ret, ecs::benchmarks::base::components::PositionComponent{});
@@ -29,26 +20,17 @@ namespace ecs::benchmarks::ginseng::entities {
         return ret;
     }
 
-    void EntityFactory::createMinimalBulk(EntityManager &registry, std::vector<Entity> &out) {
-        for (auto &entity: out) {
-            entity = registry.create_entity();
-            registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
-            registry.add_component(entity, ecs::benchmarks::base::components::VelocityComponent{});
-        }
+    EntityFactory::Entity EntityFactory::createEmpty(EntityManager &registry) {
+        return registry.create_entity();
+    }
+
+    EntityFactory::Entity EntityFactory::createSingle(EntityManager &registry) {
+        auto ret = registry.create_entity();
+        registry.add_component(ret, ecs::benchmarks::base::components::PositionComponent{});
+        return ret;
     }
 
     void EntityFactory::destroy(EntityManager &registry, Entity entity) {
         registry.destroy_entity(entity);
-    }
-
-    void EntityFactory::destroyBulk(EntityManager &registry, std::vector<Entity> &in) {
-        for (auto &entity: in) {
-            registry.destroy_entity(entity);
-        }
-    }
-
-    void EntityFactory::clear(EntityManager &registry) {
-        /// TODO: better reset
-        registry = ::ginseng::database();
     }
 }

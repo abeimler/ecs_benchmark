@@ -4,6 +4,7 @@
 *.out
 *.png
 RESULTS.md
+*.RESULTS.md
 
 !example.*.txt
 !example.*.xml

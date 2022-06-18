@@ -15,19 +15,20 @@ namespace ecs::benchmarks::entt::entities {
         using EntityManager = ::entt::registry;
         using Entity = ::entt::registry::entity_type;
 
-        static Entity create(EntityManager &registry);
+        static Entity createEmpty(EntityManager &registry);
+        static void createEmptyBulk(EntityManager &registry, std::vector<Entity> &out);
 
+        static Entity createSingle(EntityManager &registry);
+        static void createSingleBulk(EntityManager &registry, std::vector<Entity> &out);
+
+        static Entity create(EntityManager &registry);
         static void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
         static Entity createMinimal(EntityManager &registry);
-
         static void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
         static void destroy(EntityManager &registry, Entity entity);
-
-        static void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
-
-        static void clear(EntityManager &registry);
+        static void destroyBulk(EntityManager &registry, std::vector<Entity> &entities);
 
 
         [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &

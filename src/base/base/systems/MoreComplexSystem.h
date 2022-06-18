@@ -32,27 +32,14 @@ namespace ecs::benchmarks::base::systems {
         MoreComplexSystem &operator=(MoreComplexSystem &&) noexcept = default;
 
         void
-        updateComponents(PositionComponent &position, DirectionComponent &direction, DataComponent &data,
-                         TimeDelta dt) {
-            std::vector<int> vec;
-            for (int i = 0; i < data.dingy && i < 100; i++) {
-                vec.push_back(i * static_cast<int>(data.thingy));
-            }
-
-            const auto sum = std::accumulate(std::begin(vec), std::end(vec), 0);
-            const auto product = std::accumulate(std::begin(vec), std::end(vec), 1,
-                                                 std::multiplies<>());
-
-            data.dingy = sum + product;
-            data.stringy = std::to_string(data.dingy);
-
-            if (data.dingy % 10000 == 0) {
+        updateComponents(PositionComponent &position, DirectionComponent &direction, DataComponent &data) {
+            if ((data.thingy % 10) == 0) {
                 if (position.x > position.y) {
-                    direction.x = static_cast<float>(random(0, 5)) * dt;
-                    direction.y = static_cast<float>(random(0, 10)) * dt;
+                    direction.x = static_cast<float>(random(-5, 5));
+                    direction.y = static_cast<float>(random(-10, 10));
                 } else {
-                    direction.x = static_cast<float>(random(0, 10)) * dt;
-                    direction.y = static_cast<float>(random(0, 5)) * dt;
+                    direction.x = static_cast<float>(random(-10, 10));
+                    direction.y = static_cast<float>(random(-5, 5));
                 }
             }
         }

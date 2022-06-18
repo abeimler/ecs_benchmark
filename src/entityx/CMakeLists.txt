@@ -37,6 +37,10 @@ target_include_directories(
 target_link_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC project_warnings project_options)
 target_link_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ${CMAKE_PROJECT_NAME}-base)
 
+target_compile_definitions(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ENTITYX_MAJOR_VERSION=${ENTITYX_MAJOR_VERSION})
+target_compile_definitions(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ENTITYX_MINOR_VERSION=${ENTITYX_MINOR_VERSION})
+target_compile_definitions(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ENTITYX_PATCH_VERSION=${ENTITYX_PATCH_VERSION})
+
 # NOTE: add 3rd-party libs here
 target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC entityx)
 if (entityx_ADDED)

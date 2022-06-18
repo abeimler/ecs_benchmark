@@ -1,8 +1,8 @@
 """Generate benchmarks graphs and RESULTS.md with benchmark results.
 
 Usage:
-  gen-benchmark-report [-i config.json] [--reports-dir=TEMPLATES_DIR] gen-plots <REPORTS>...
-  gen-benchmark-report [-i config.json] [--reports-dir=TEMPLATES_DIR] [--img-dir=IMG_DIR] gen-results-md <REPORTS>...
+  gen-benchmark-report [-c plot.config.json] [--reports-dir=TEMPLATES_DIR] gen-plots <REPORTS>...
+  gen-benchmark-report [-c plot.config.json] [--reports-dir=TEMPLATES_DIR] [-o RESULTS.md] [--img-dir=IMG_DIR] [--skip=N] gen-results-md <REPORTS>...
   gen-benchmark-report -h | --help
   gen-benchmark-report --version
 
@@ -11,10 +11,12 @@ Commands:
   gen-results-md                generate RESULTS.md from reports
 
 Arguments:
-  -i info.json                 .json config with framework infos [default: ./info.yml]
-  --reports-dir=REPORTS_DIR    reports directory [default: ./reports/]
-  --img-dir=IMG_DIR            images directory [default: img/]
-  <REPORTS>...                 list of .json files from google benchmark
+  -c plot.config.json           .json config with framework infos [default: ./plot.config.json]
+  -o RESULTS.md                 output filename for RESULTS.md [default: RESULTS.md]
+  --reports-dir=REPORTS_DIR     reports directory [default: ./reports/]
+  --img-dir=IMG_DIR             images directory [default: img/]
+  --skip=N                      skip N first entries from results (table)
+  <REPORTS>...                  list of .json files from google benchmark
 
 Options:
   -h, --help            show help
@@ -78,7 +80,9 @@ def get_total_memory():
     return format_bytes(mem.total)
 
 
-def genResults(frameworks_info, output_dir, reports):
+def genResults(config, output_dir, reports):
+    frameworks_info = config['frameworks']
+
     num_cpus = 0
     mhz_per_cpu = 0
 
@@ -99,7 +103,9 @@ def genResults(frameworks_info, output_dir, reports):
             time_s = None
             time_min = None
             entities = None
-            entities_minimal = None
+            components_one = None
+            components_two = None
+            components_three = None
             key = ''
             unit = benchmark['time_unit']
             if benchmark['time_unit'] == 'ns':
@@ -113,46 +119,18 @@ def genResults(frameworks_info, output_dir, reports):
                 time_s = time_ms / 1000.0
                 time_min = time_s / 60.0
 
-            if re.search(r'^BM_(.*)_CreateEntities\/', name):
-                key = 'CreateEntities'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_DestroyEntities\/', name):
-                key = 'DestroyEntities'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_UnpackOneComponentConst\/', name):
-                key = 'UnpackOneComponentConst'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_UnpackOneComponent\/', name):
-                key = 'UnpackOneComponent'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_UnpackTwoComponentsFromMixedEntities\/', name):
-                key = 'UnpackTwoComponentsFromMixedEntities'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-            elif re.search(r'^BM_(.*)_UnpackTwoComponents\/', name):
-                key = 'UnpackTwoComponents'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_UnpackThreeComponentsFromMixedEntities\/', name):
-                key = 'UnpackThreeComponentsFromMixedEntities'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-            elif re.search(r'^BM_(.*)_RemoveAddComponent\/', name):
-                key = 'RemoveAddComponent'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_ComplexSystemsUpdateMixedEntities\/', name):
-                key = 'ComplexSystemsUpdateMixedEntities'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_ComplexSystemsUpdate\/', name):
-                key = 'ComplexSystemsUpdate'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
-            elif re.search(r'^BM_(.*)_SystemsUpdateMixedEntities\/', name):
-                key = 'SystemsUpdateMixedEntities'
-                entities = int(benchmark['entities'])
-            elif re.search(r'^BM_(.*)_SystemsUpdate\/', name):
-                key = 'SystemsUpdate'
-                entities = int(benchmark['entities'])
-                entities_minimal = int(benchmark['entities_minimal']) if 'entities_minimal' in benchmark else None
+            key = None
+            for k, data in config['data'].items():
+                if re.search(data['regex'], name):
+                    key = k
+                    break
+            if not key:
+                print("WARN: can find key for {:s}".format(name))
+
+            entities = int(benchmark['entities'])
+            components_one = int(benchmark['components_one']) if 'components_one' in benchmark else None
+            components_two = int(benchmark['components_two']) if 'components_two' in benchmark else None
+            components_three = int(benchmark['components_three']) if 'components_three' in benchmark else None
 
             if key:
                 if key not in entries:
@@ -164,7 +142,8 @@ def genResults(frameworks_info, output_dir, reports):
                     entries_data[key] = []
                 entries_data[key].append(
                     {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s, 'time_min': time_min,
-                     'entities': entities, 'entities_minimal': entities_minimal, 'output_png_filename': output_png_filename})
+                     'entities': entities, 'components_one': components_one, 'components_two': components_two, 'components_three': components_three,
+                     'output_png_filename': output_png_filename})
 
         result_plot_data = {}
         for k in entries.keys():
@@ -277,32 +256,15 @@ def genResults(frameworks_info, output_dir, reports):
 
     return results
 
-def genPlots(frameworks_info, results):
+def genPlots(config, results):
+    frameworks_info = config['frameworks']
     for key, data in results['_data_frame_data'].items():
 
-        title = key
-        if key == 'CreateEntities':
-            title = 'Create Entities'
-        elif key == 'DestroyEntities':
-            title = 'Destroy Entities'
-        elif key == 'UnpackOneComponentConst':
-            title = 'Get one (const) component from Entity'
-        elif key == 'UnpackOneComponent':
-            title = 'Get one (non-const) component from Entity'
-        elif key == 'UnpackTwoComponents':
-            title = 'Get two components from Entity'
-        elif key == 'UnpackThreeComponentsFromMixedEntities':
-            title = 'Get three components from Entity'
-        elif key == 'RemoveAddComponent':
-            title = 'Remove and add component from Entity'
-        elif key == 'SystemsUpdate':
-            title = 'Update Systems (2 Systems)'
-        elif key == 'SystemsUpdateMixedEntities':
-            title = 'Update Systems (2 Systems, mixed components)'
-        elif key == 'ComplexSystemsUpdate':
-            title = 'Update Systems (3 Systems)'
-        elif key == 'ComplexSystemsUpdateMixedEntities':
-            title = 'Update Systems (3 Systems, mixed components)'
+        title = config['data'][key]['title']
+        if not title:
+            print("WARN: no plot title for {:s}".format(key))
+        else:
+            title = key
 
         fig = px.line(data['df'], x='entities', y=data['y'], labels={
             "value": "time ({})".format(data['unit']),
@@ -311,8 +273,10 @@ def genPlots(frameworks_info, results):
         fig.write_image(data['output_png_filename'])
 
 
-def genResultsMd(output_dir, frameworks_info, results, img_dir):
-    results_md_filename = os.path.join(output_dir, 'RESULTS.md')
+def genResultsMd(config, output_dir, results_filename, results, img_dir):
+    frameworks_info = config['frameworks']
+
+    results_md_filename = os.path.join(output_dir, results_filename)
     data = {'candidates': [candidate for candidate in frameworks_info.values() if
                            'skip_candidate' not in candidate or not candidate['skip_candidate']],
             'environment': {'os': results['_meta']['os'],
@@ -320,9 +284,15 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                                                                   results['_meta']['num_cpus']),
                             'ram': results['_meta']['ram']}}
 
+    config_data = config['data']
+
     summary_df_data = {}
     df_data = {}
     df_index = {}
+    small_summary_df_data = {}
+    small_df_data = {}
+    small_df_index = {}
+    skip = int(config['args']['--skip']) if '--skip' in config['args'] and config['args']['--skip'] else None
     for framework, result in results.items():
         if framework == '_meta' or framework == '_data_frame_data':
             continue
@@ -330,113 +300,63 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
         name = frameworks_info[framework]['name']
         summary_df_data[name] = []
         summary_df_index = {}
+        small_summary_df_data[name] = []
+        small_summary_df_index = {}
 
+        fill_summary = False
         for ek, entries_data in result['entries_data'].items():
             if ek == '_df' or ek == '_df_index':
                 continue
 
             if ek not in df_index:
                 df_index[ek] = {}
+                small_df_index[ek] = {}
 
-            if ek == 'ComplexSystemsUpdate':
+            if not fill_summary and (ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate'):
                 i = 1
+                j = 0
                 for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        summary_df_index[edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
+                    if (i % 2) == 0 or i == len(entries_data):
+                        if i < 12:
+                            if not skip or j >= skip:
+                                small_summary_df_index[edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                            j = j + 1
+                        else:
+                            if not skip or j >= skip:
+                                summary_df_index[edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                            j = j + 1
                     i = i + 1
-            elif ek == 'SystemsUpdate':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        summary_df_index[edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
-                    i = i + 1
+                fill_summary = True
 
-            if ek == 'SystemsUpdate':
+            if ek in config_data:
                 i = 1
+                j = 0
                 for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
+                    if (i % 2) == 0 or i == len(entries_data):
+                        if i < 12:
+                            if not skip or j >= skip:
+                                small_df_index[ek][edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                            j = j + 1
+                        else:
+                            if not skip or j >= skip:
+                                df_index[ek][edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                            j = j + 1
                     i = i + 1
-            elif ek == 'ComplexSystemsUpdate':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
-                    i = i + 1
-            if ek == 'CreateEntities':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Create {:>5s} entities with two Components".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'DestroyEntities':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Destroy {:>5s} entities with two Components".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'UnpackOneComponentConst':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack one (const) Component in {:>5s} entities".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'UnpackOneComponent':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack one Component in {:>5s} entities".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'UnpackTwoComponents':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack two Component in {:>5s} entities".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'UnpackThreeComponentsFromMixedEntities':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Unpack three Component in {:>5s} entities".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'RemoveAddComponent':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Remove and Add a Component in {:>5s} entities".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'SystemsUpdate':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'SystemsUpdateMixedEntities':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 2 Systems".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'ComplexSystemsUpdate':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
-                    i = i + 1
-            elif ek == 'ComplexSystemsUpdateMixedEntities':
-                i = 1
-                for edata in entries_data:
-                    if i % 2 == 0 or i >= 16:
-                        df_index[ek][edata['entities']] = "Update {:>5s} entities with 3 Systems".format(human_format_round(edata['entities']))
-                    i = i + 1
+            else:
+                print("WARN: no info data for {:s}".format(ek))
 
+        fill_summary = False
         for ek, entries_data in result['entries_data'].items():
             if ek not in df_data:
                 df_data[ek] = {}
             if name not in df_data[ek]:
                 df_data[ek][name] = []
+            if ek not in small_df_data:
+                small_df_data[ek] = {}
+            if name not in small_df_data[ek]:
+                small_df_data[ek][name] = []
 
-            if ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate':
+            if not fill_summary and (ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate'):
                 for key in summary_df_index.keys():
                     find = False
                     for ed in entries_data:
@@ -446,6 +366,16 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                             break
                     if not find:
                         summary_df_data[name].append(None)
+                for key in small_summary_df_index.keys():
+                    find = False
+                    for ed in entries_data:
+                        if ed['entities'] == key:
+                            small_summary_df_data[name].append("{:>8d}ns".format(int(ed['time_ns'])))
+                            find = True
+                            break
+                    if not find:
+                        small_summary_df_data[name].append(None)
+                fill_summary = True
 
             for key in df_index[ek].keys():
                 find = False
@@ -457,21 +387,73 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
                 if not find:
                     df_data[ek][name].append(None)
 
+            for key in small_df_index[ek].keys():
+                find = False
+                for ed in entries_data:
+                    if ed['entities'] == key:
+                        small_df_data[ek][name].append("{:>6d}ns".format(int(ed['time_ns'])))
+                        find = True
+                        break
+                if not find:
+                    small_df_data[ek][name].append(None)
+
+            if name in df_data[ek] and len(df_data[ek][name]) == 0:
+                #print("WARN: no data for {:s} {:s}".format(ek, name))
+                del df_data[ek][name]
+            if name in small_df_data[ek] and len(small_df_data[ek][name]) == 0:
+                #print("WARN: no data for {:s} {:s}".format(ek, name))
+                del small_df_data[ek][name]
+
+        if name in summary_df_data and len(summary_df_data[name]) == 0:
+            #print("WARN: no (summary) data for {:s}".format(name))
+            del summary_df_data[name]
+        if name in small_summary_df_data and len(small_summary_df_data[name]) == 0:
+            #print("WARN: no (summary) data for {:s}".format(name))
+            del small_summary_df_data[name]
+
+    summary_df = None
     if len(summary_df_index) > 0:
         index = summary_df_index.values()
         summary_df = pd.DataFrame(summary_df_data, index=index)
-        data['summary'] = {'table': summary_df.to_markdown(),
-                           'figure_img_src': os.path.join(img_dir, 'SystemsUpdate.png'),
-                           'figure_img_alt': 'Summary SystemsUpdate Plot'}
+
+    small_summary_df = None
+    if len(small_summary_df_index) > 0:
+        index = summary_df_index.values()
+        small_summary_df = pd.DataFrame(small_summary_df_data, index=index)
+
+    data['summary'] = {'table': summary_df.to_markdown() if summary_df is not None else None,
+                       'small_table': small_summary_df.to_markdown() if small_summary_df is not None else None,
+                       'figure_img_src': os.path.join(img_dir, 'SystemsUpdate.png'),
+                       'figure_img_alt': 'Summary SystemsUpdate Plot'}
 
     data['plots'] = {}
+    data['results'] = []
+    for ek in df_data.keys():
+        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)),
+                             'figure_img_alt': "{:s} Plot".format(ek),
+                             'key': ek, 'header': config_data[ek]['header']}
+    for ek in small_df_data.keys():
+        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)),
+                             'figure_img_alt': "{:s} Plot".format(ek),
+                             'key': ek, 'header': config_data[ek]['header']}
+
     for ek, dfd in df_data.items():
-        index = df_index[ek].values()
-        if len(index) > 0:
+        df = None
+        if len(df_index[ek]) > 0:
+            index = df_index[ek].values()
             df = pd.DataFrame(dfd, index=index)
-            data['plots'][ek] = {'table': df.to_markdown(),
-                                 'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)),
-                                 'figure_img_alt': "{:s} Plot".format(ek)}
+        if df is not None:
+            data['plots'][ek]['table'] =  df.to_markdown()
+    for ek, small_dfd in small_df_data.items():
+        small_df = None
+        if len(small_df_index[ek]) > 0:
+            index = small_df_index[ek].values()
+            small_df = pd.DataFrame(small_dfd, index=index)
+        if small_df is not None:
+            data['plots'][ek]['small_table'] =  small_df.to_markdown()
+
+    for ek, dat in data['plots'].items():
+        data['results'].append(data['plots'][ek])
 
     with open(RESULTS_MD_MUSTACHE_FILENAME, 'r') as results_file:
         results_md_template = results_file.read()
@@ -482,11 +464,11 @@ def genResultsMd(output_dir, frameworks_info, results, img_dir):
 def main(args):
     # print(args)
 
-    frameworks_info = {}
-    if args['-i']:
-        with open(args['-i'], 'r') as info_file:
-            info_data = json.load(info_file)
-            frameworks_info = info_data['frameworks']
+    config = {}
+    if args['-c']:
+        with open(args['-c'], 'r') as info_file:
+            config = json.load(info_file)
+    config['args'] = args
 
     output_dir = os.path.abspath(args['--reports-dir']) if args['--reports-dir'] else os.path.abspath('.')
 
@@ -499,12 +481,12 @@ def main(args):
                 report_data = json.load(report_file)
                 reports[report_data['context']['framework.name']] = report_data
 
-    results = genResults(frameworks_info, output_dir, reports)
+    results = genResults(config, output_dir, reports)
 
     if args['gen-plots']:
-        genPlots(frameworks_info, results)
+        genPlots(config, results)
     elif args['gen-results-md']:
-        genResultsMd(output_dir, frameworks_info, results, args['--img-dir'])
+        genResultsMd(config, output_dir, args['-o'], results, args['--img-dir'])
 
 
 if __name__ == '__main__':

@@ -13,15 +13,14 @@
 
 namespace ecs::benchmarks::ginseng {
 
-    class GinsengBenchmark final
-            : public ecs::benchmarks::base::ESCBenchmark<"ginseng", GinsengApplication, entities::EntityFactory> {
+    class GinsengBenchmarkSuite final
+            : public ecs::benchmarks::base::ECSBenchmark<"ginseng", GinsengApplication, entities::EntityFactory> {
     public:
-        GinsengBenchmark() = default;
+        GinsengBenchmarkSuite() = default;
 
-        explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ESCBenchmark(
-                std::move(options)) {}
+        explicit GinsengBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options) : ECSBenchmark(std::move(options)) {}
     };
 
 }
 
-#endif //ECS_BENCHMARKS_ENTTBENCHMARK_H_
+#endif //ECS_BENCHMARKS_GINSENGBENCHMARK_H_

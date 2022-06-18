@@ -20,6 +20,6 @@
 
 
 ./build/benchmark/benchmarks/oop/ecs-benchmark-oop-more --benchmark_format=json > ./reports/oop-more.json
-#./build/benchmark/benchmarks/oop/ecs-benchmark-oop --benchmark_format=json > ./reports/oop.json
+./build/benchmark/benchmarks/oop/ecs-benchmark-oop --benchmark_format=json > ./reports/oop.json
 
 

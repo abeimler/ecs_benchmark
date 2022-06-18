@@ -1,0 +1,42 @@
+#ifndef ECS_BENCHMARKS_ENTTPARTIALOWNINGGROUPBENCHMARK_H_
+#define ECS_BENCHMARKS_ENTTPARTIALOWNINGGROUPBENCHMARK_H_
+
+#include <utility>
+
+#include "entt/entities/EntityFactory.h"
+#include "entt/EnttGroupApplication.h"
+
+#include "ExtendedECSBenchmark.h"
+
+namespace ecs::benchmarks::entt {
+
+    class EnttPartialOwningGroupBenchmarkSuite final
+            : public ecs::benchmarks::base::ExtendedECSBenchmark<"entt (group, partial-owning)", EnttGroupApplication, entities::EntityFactory> {
+    public:
+        EnttPartialOwningGroupBenchmarkSuite() = default;
+
+        explicit EnttPartialOwningGroupBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options) : ExtendedECSBenchmark(std::move(options)) {}
+
+        void BM_IterateTwoComponents(benchmark::State& state) {
+            using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
+            using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
+
+            BM_IterateTwoComponentsWithPreCreatedView(state, [](auto& registry) {
+                return registry.template group<ComponentOne>(::entt::get<ComponentTwo>);
+            });
+        }
+
+        void BM_IterateThreeComponentsWithMixedEntities(benchmark::State& state) {
+            using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
+            using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
+            using ComponentThree = ecs::benchmarks::base::components::DataComponent;
+
+            BM_IterateThreeComponentsWithMixedEntitiesAndPreCreatedView(state, [](auto& registry) {
+                return registry.template group<ComponentOne, ComponentTwo>(::entt::get<ComponentThree>);
+            });
+        }
+    };
+
+}
+
+#endif //ECS_BENCHMARKS_ENTTFULLOWNINGGROUPBENCHMARK_H_

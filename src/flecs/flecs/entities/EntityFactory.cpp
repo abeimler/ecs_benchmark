@@ -5,38 +5,29 @@
 
 namespace ecs::benchmarks::flecs::entities {
 
-    void EntityFactory::createBulk(EntityManager &entities, std::vector<Entity> &out) {
-        for (auto &entity: out) {
-            entity = entities.entity()
-                    .add<ecs::benchmarks::base::components::PositionComponent>()
-                    .add<ecs::benchmarks::base::components::VelocityComponent>()
-                    .add<ecs::benchmarks::base::components::DataComponent>();
-        }
+    EntityFactory::Entity EntityFactory::create(EntityManager &entities) {
+        return entities.entity()
+                .add<ecs::benchmarks::base::components::PositionComponent>()
+                .add<ecs::benchmarks::base::components::VelocityComponent>()
+                .add<ecs::benchmarks::base::components::DataComponent>();
     }
 
+    EntityFactory::Entity EntityFactory::createSingle(EntityManager &entities) {
+        return entities.entity()
+                .add<ecs::benchmarks::base::components::PositionComponent>();
+    }
 
-    void EntityFactory::createMinimalBulk(EntityManager &entities, std::vector<Entity> &out) {
-        for (auto &entity: out) {
-            entity = entities.entity()
-                    .add<ecs::benchmarks::base::components::PositionComponent>()
-                    .add<ecs::benchmarks::base::components::VelocityComponent>();
-        }
+    EntityFactory::Entity EntityFactory::createMinimal(EntityManager &entities) {
+        return entities.entity()
+                .add<ecs::benchmarks::base::components::PositionComponent>()
+                .add<ecs::benchmarks::base::components::VelocityComponent>();
+    }
+
+    EntityFactory::Entity EntityFactory::createEmpty(EntityManager &entities) {
+        return entities.entity();
     }
 
     void EntityFactory::destroy(EntityManager &/*entities*/, Entity entity) {
         entity.destruct();
-    }
-
-    void EntityFactory::destroyBulk(EntityManager &/*entities*/, std::vector<Entity> &in) {
-        for (auto &entity: in) {
-            entity.destruct();
-        }
-    }
-
-    void EntityFactory::clear(EntityManager &entities) {
-        /// @TODO: better reset
-        entities.each([](Entity entity) {
-            entity.destruct();
-        });
     }
 }

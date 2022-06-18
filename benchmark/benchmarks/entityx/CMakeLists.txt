@@ -2,7 +2,7 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-myecs"
 add_executable(${CMAKE_PROJECT_NAME}-entityx
         # NOTE: add new benchmarks here
-        EntityXBenchmark.cpp EntityXBenchmark.h
+        EntityXBenchmarkSuite.cpp EntityXBenchmarkSuite.h
         )
 target_include_directories(${CMAKE_PROJECT_NAME}-entityx
         PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"

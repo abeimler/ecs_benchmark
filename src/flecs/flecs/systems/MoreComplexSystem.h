@@ -17,31 +17,18 @@ namespace ecs::benchmarks::flecs::systems {
             return distr(m_eng);
         }
 
-        inline static auto update = [](::flecs::iter &it, size_t /*index*/,
+        inline static const auto update = [](::flecs::iter &/*it*/, size_t /*index*/,
                                        ecs::benchmarks::base::components::PositionComponent &position,
                                        ecs::benchmarks::base::components::VelocityComponent &direction,
                                        ecs::benchmarks::base::components::DataComponent &data) {
-            const TimeDelta dt = it.delta_time();
-
-            std::vector<int> vec;
-            for (int i = 0; i < data.dingy && i < 100; i++) {
-                vec.push_back(i * static_cast<int>(data.thingy));
-            }
-
-            const auto sum = std::accumulate(std::begin(vec), std::end(vec), 0);
-            const auto product = std::accumulate(std::begin(vec), std::end(vec), 1,
-                                                 std::multiplies<>());
-
-            data.dingy = sum + product;
-            data.stringy = std::to_string(data.dingy);
-
-            if (data.dingy % 10000 == 0) {
+            //const TimeDelta dt = it.delta_time();
+            if ((data.thingy % 10) == 0) {
                 if (position.x > position.y) {
-                    direction.x = static_cast<float>(MoreComplexSystem::random(0, 5)) * dt;
-                    direction.y = static_cast<float>(MoreComplexSystem::random(0, 10)) * dt;
+                    direction.x = static_cast<float>(random(-5, 5));
+                    direction.y = static_cast<float>(random(-10, 10));
                 } else {
-                    direction.x = static_cast<float>(MoreComplexSystem::random(0, 10)) * dt;
-                    direction.y = static_cast<float>(MoreComplexSystem::random(0, 5)) * dt;
+                    direction.x = static_cast<float>(random(-10, 10));
+                    direction.y = static_cast<float>(random(-5, 5));
                 }
             }
         };

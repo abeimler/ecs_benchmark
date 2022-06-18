@@ -15,28 +15,12 @@ namespace ecs::benchmarks::flecs::entities {
         using EntityManager = ::flecs::world;
         using Entity = ::flecs::entity;
 
-        static auto create(EntityManager &entities) {
-            return entities.entity()
-                    .add<ecs::benchmarks::base::components::PositionComponent>()
-                    .add<ecs::benchmarks::base::components::VelocityComponent>()
-                    .add<ecs::benchmarks::base::components::DataComponent>();
-        }
-
-        static void createBulk(EntityManager &entities, std::vector<Entity> &out);
-
-        static auto createMinimal(EntityManager &entities) {
-            return entities.entity()
-                    .add<ecs::benchmarks::base::components::PositionComponent>()
-                    .add<ecs::benchmarks::base::components::VelocityComponent>();
-        }
-
-        static void createMinimalBulk(EntityManager &entities, std::vector<Entity> &out);
+        static Entity create(EntityManager &entities);
+        static Entity createSingle(EntityManager &entities);
+        static Entity createMinimal(EntityManager &entities);
+        static Entity createEmpty(EntityManager &entities);
 
         static void destroy(EntityManager &entities, Entity entity);
-
-        static void destroyBulk(EntityManager &entities, std::vector<Entity> &in);
-
-        static void clear(EntityManager &entities);
 
 
         [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &

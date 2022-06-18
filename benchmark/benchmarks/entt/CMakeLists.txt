@@ -2,7 +2,7 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-myecs"
 add_executable(${CMAKE_PROJECT_NAME}-entt
         # NOTE: add new benchmarks here
-        EnttBenchmark.cpp EnttBenchmark.h
+        EnttBenchmarkSuite.cpp EnttBenchmarkSuite.h
         )
 target_include_directories(${CMAKE_PROJECT_NAME}-entt
         PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"

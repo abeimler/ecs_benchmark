@@ -6,8 +6,8 @@
 namespace ecs::benchmarks::base::components {
 
     struct DataComponent {
-        float thingy{0.0F};
-        int dingy{0};
+        int thingy{0};
+        double dingy{0.0F};
         bool mingy{false};
         std::string stringy;
     };

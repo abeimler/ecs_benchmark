@@ -17,21 +17,14 @@ namespace ecs::benchmarks::ginseng::entities {
         using Component = ::ginseng::database::com_id;
 
         static Entity create(EntityManager &registry);
-
-        static void createBulk(EntityManager &registry, std::vector<Entity> &out);
-
         static Entity createMinimal(EntityManager &registry);
-
-        static void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
+        static Entity createEmpty(EntityManager &registry);
+        static Entity createSingle(EntityManager &registry);
 
         static void destroy(EntityManager &registry, Entity entity);
 
-        static void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
 
-        static void clear(EntityManager &registry);
-
-
-        /// @FIXME: SIGSEGV (Segmentation fault), can't use const ?
+        /// @FIXME: SIGSEGV (Segmentation fault), can't use const ? (std::as_const(registry))
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
         getComponentOneConst(EntityManager &registry, Entity entity) {
             return registry.get_component<ecs::benchmarks::base::components::PositionComponent>(entity);
