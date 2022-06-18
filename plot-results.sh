@@ -17,7 +17,8 @@ python3 ./scripts/gen-benchmark-report -c ./plot.config.json gen-results-md -o e
                                                                                                    ./reports/entt-extended-stable.json ./reports/ginseng-extended.json ./reports/mustache-extended.json ./reports/openecs-extended.json ./reports/flecs-extended.json
 
 
-python3 ./scripts/gen-benchmark-report -c ./plot.config.json gen-plots ./reports/entityx-complex.json ./reports/entt-complex.json ./reports/entt-complex-runtime.json ./reports/entt-complex-group.json \
-                                                                       ./reports/entt-complex-stable.json ./reports/ginseng-complex.json ./reports/mustache-complex.json ./reports/flecs-complex.json
-python3 ./scripts/gen-benchmark-report -c ./plot.config.json gen-results-md -o extended.oop.RESULTS.md ./reports/entityx-complex.json ./reports/entt-complex.json ./reports/entt-complex-runtime.json ./reports/entt-complex-group.json \
-                                                                       ./reports/entt-complex-stable.json ./reports/ginseng-complex.json ./reports/mustache-complex.json ./reports/flecs-complex.json
+#python3 ./scripts/gen-benchmark-report -c ./plot.config.json gen-plots ./reports/entityx-complex.json ./reports/entt-complex.json ./reports/entt-complex-runtime.json ./reports/entt-complex-group.json \
+#                                                                       ./reports/entt-complex-stable.json ./reports/ginseng-complex.json ./reports/mustache-complex.json ./reports/flecs-complex.json
+#python3 ./scripts/gen-benchmark-report -c ./plot.config.json gen-results-md -o extended.oop.RESULTS.md ./reports/entityx-complex.json ./reports/entt-complex.json ./reports/entt-complex-runtime.json ./reports/entt-complex-group.json \
+#                                                                       ./reports/entt-complex-stable.json ./reports/ginseng-complex.json ./reports/mustache-complex.json ./reports/flecs-complex.json
+#                                                                       ./reports/oop-complex.json

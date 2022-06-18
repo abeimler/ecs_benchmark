@@ -14,7 +14,6 @@ sleep 1
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entt-extended/ecs-benchmark-entt-extended-non-owning-group --benchmark_format=json > ./reports/entt-extended-non-owning-group.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entt-extended/ecs-benchmark-entt-extended-full-owning-group --benchmark_format=json > ./reports/entt-extended-full-owning-group.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entt-extended/ecs-benchmark-entt-extended-partial-owning-group --benchmark_format=json > ./reports/entt-extended-partial-owning-group.json
-
 sleep 1
 
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entityx-entities/ecs-benchmark-entityx-entities --benchmark_format=json > ./reports/entityx-entities.json
