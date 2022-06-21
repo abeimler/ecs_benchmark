@@ -10,16 +10,25 @@
 
 namespace ecs::benchmarks::openecs::entities {
 
-
-    struct FullEntity : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent> {
-
+    struct FullEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent> {
+        FullEntity() {
+            add<ecs::benchmarks::base::components::PositionComponent>();
+            add<ecs::benchmarks::base::components::VelocityComponent>();
+            add<ecs::benchmarks::base::components::DataComponent>();
+        }
     };
-    struct MinimalEntity : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent> {
-
+    struct MinimalEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent> {
+        MinimalEntity() {
+            add<ecs::benchmarks::base::components::PositionComponent>();
+            add<ecs::benchmarks::base::components::VelocityComponent>();
+        }
     };
-    struct SingleEntity : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PositionComponent> {
-
+    struct SingleEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PositionComponent> {
+        SingleEntity() {
+            add<ecs::benchmarks::base::components::PositionComponent>();
+        }
     };
+
 
     class EntityFactory {
     public:

@@ -35,6 +35,34 @@ namespace ecs::benchmarks::base {
             state.counters["components_three"] = static_cast<double>(components_counter.component_three_count);
         }
 
+
+
+
+        ComponentsCounter createEntities(EntityManager &registry, size_t nentities) {
+            ComponentsCounter components_counter;
+            for (size_t i = 0; i < nentities; i++) {
+                m_entities_factory.create(registry);
+                components_counter.component_one_count++;
+                components_counter.component_two_count++;
+                components_counter.component_three_count++;
+            }
+            return components_counter;
+        }
+
+        ComponentsCounter createEntities(EntityManager &registry, size_t nentities, std::vector<Entity> &out) {
+            ComponentsCounter components_counter;
+            out.clear();
+            out.reserve(nentities);
+            for (size_t i = 0; i < nentities; i++) {
+                out.template emplace_back(m_entities_factory.create(registry));
+                components_counter.component_one_count++;
+                components_counter.component_two_count++;
+                components_counter.component_three_count++;
+            }
+            return components_counter;
+        }
+
+
         ComponentsCounter createEntitiesWithHalfComponents(EntityManager &registry, size_t nentities) {
             ComponentsCounter components_counter;
             for (size_t i = 0; i < nentities; i++) {
@@ -58,7 +86,7 @@ namespace ecs::benchmarks::base {
             out.reserve(nentities);
             for (size_t i = 0; i < nentities; i++) {
                 if ((i % 2) == 0) {
-                    out.push_back(m_entities_factory.create(registry));
+                    out.template emplace_back(m_entities_factory.create(registry));
                     components_counter.component_one_count++;
                     components_counter.component_two_count++;
                     components_counter.component_three_count++;
@@ -70,7 +98,8 @@ namespace ecs::benchmarks::base {
             }
             return components_counter;
         }
-        
+
+
         ComponentsCounter
         createEntitiesWithMixedComponents(EntityManager &registry, size_t nentities, std::vector<Entity> &out) {
             ComponentsCounter components_counter;
@@ -78,7 +107,7 @@ namespace ecs::benchmarks::base {
             out.reserve(nentities);
             // inspired from EnTT benchmark "pathological", https://github.com/skypjack/entt/blob/de0e5862dd02fa669325a0a06b7936af4d2a841d/test/benchmark/benchmark.cpp#L44
             for (size_t i = 0, j = 0; i < nentities; i++) {
-                out.push_back(m_entities_factory.create(registry));
+                out.template emplace_back(m_entities_factory.create(registry));
                 components_counter.component_one_count++;
                 components_counter.component_two_count++;
                 components_counter.component_three_count++;
@@ -106,12 +135,63 @@ namespace ecs::benchmarks::base {
             return components_counter;
         }
 
+        ComponentsCounter
+        createEntitiesWithMixedComponentsFromEmpty(EntityManager &registry, size_t nentities, std::vector<Entity> &out) {
+            ComponentsCounter components_counter;
+            out.clear();
+            out.reserve(nentities);
+            // inspired from EnTT benchmark "pathological", https://github.com/skypjack/entt/blob/de0e5862dd02fa669325a0a06b7936af4d2a841d/test/benchmark/benchmark.cpp#L44
+            for (size_t i = 0, j = 0; i < nentities; i++) {
+                out.template emplace_back(m_entities_factory.createEmpty(registry));
+                bool added = false;
+                if (nentities < 100 || (i >= 2*nentities/4 && i <= 3*nentities/4)) {
+                    if (nentities < 100 || (j % 10) == 0U) {
+                        if ((i % 7) == 0U) {
+                            m_entities_factory.addComponentTwo(registry, out.back());
+                            m_entities_factory.addComponentThree(registry, out.back());
+                            components_counter.component_one_count++;
+                            components_counter.component_three_count++;
+                            added = true;
+                        }
+                        if ((i % 11) == 0U) {
+                            m_entities_factory.addComponentOne(registry, out.back());
+                            m_entities_factory.addComponentThree(registry, out.back());
+                            components_counter.component_one_count++;
+                            components_counter.component_three_count++;
+                            added = true;
+                        }
+                        if ((i % 13) == 0U) {
+                            m_entities_factory.addComponentOne(registry, out.back());
+                            m_entities_factory.addComponentTwo(registry, out.back());
+                            components_counter.component_one_count++;
+                            components_counter.component_two_count++;
+                            added = true;
+                        }
+                        //if ((i % 17) == 0U) {
+                        //    m_entities_factory.destroy(registry, out.back());
+                        //    added = true;
+                        //}
+                    }
+                    j++;
+                }
+                if (!added) {
+                    m_entities_factory.addComponentOne(registry, out.back());
+                    m_entities_factory.addComponentTwo(registry, out.back());
+                    m_entities_factory.addComponentThree(registry, out.back());
+                    components_counter.component_one_count++;
+                    components_counter.component_two_count++;
+                    components_counter.component_three_count++;
+                }
+            }
+            return components_counter;
+        }
+
         ComponentsCounter createEntitiesWithMinimalComponents(EntityManager &registry, size_t nentities, std::vector<Entity> &out) {
             ComponentsCounter components_counter;
             out.clear();
             out.reserve(nentities);
             for (size_t i = 0; i < nentities; i++) {
-                out.push_back(m_entities_factory.createMinimal(registry));
+                out.template emplace_back(m_entities_factory.createMinimal(registry));
                 components_counter.component_one_count++;
                 components_counter.component_two_count++;
             }
@@ -123,7 +203,7 @@ namespace ecs::benchmarks::base {
             out.clear();
             out.reserve(nentities);
             for (size_t i = 0; i < nentities; i++) {
-                out.push_back(m_entities_factory.createSingle(registry));
+                out.template emplace_back(m_entities_factory.createSingle(registry));
                 components_counter.component_one_count++;
             }
             return components_counter;

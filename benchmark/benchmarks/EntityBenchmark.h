@@ -102,7 +102,6 @@ namespace ecs::benchmarks::base {
                 }
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
 
@@ -120,7 +119,6 @@ namespace ecs::benchmarks::base {
                 this->m_entities_factory.createEmptyBulk(registry, entities);
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
         template<class tEntityFactory = EntityFactory>
@@ -135,7 +133,6 @@ namespace ecs::benchmarks::base {
                 this->m_entities_factory.createEmptyBulk(registry, nentities);
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
 
@@ -153,7 +150,6 @@ namespace ecs::benchmarks::base {
                 }
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
 
@@ -171,7 +167,6 @@ namespace ecs::benchmarks::base {
                 this->m_entities_factory.createMinimalBulk(registry, entities);
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
         template<class tEntityFactory = EntityFactory>
@@ -186,7 +181,6 @@ namespace ecs::benchmarks::base {
                 this->m_entities_factory.createMinimalBulk(registry, nentities);
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
 
@@ -212,7 +206,6 @@ namespace ecs::benchmarks::base {
                 }
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
         template<class tEntityFactory = EntityFactory>
@@ -230,7 +223,6 @@ namespace ecs::benchmarks::base {
                 this->m_entities_factory.destroyBulk(registry, entities);
                 state.PauseTiming();
             }
-            state.PauseTiming();
             state.counters["entities"] = static_cast<double>(nentities);
         }
 
@@ -252,7 +244,6 @@ namespace ecs::benchmarks::base {
                     state.PauseTiming();
                 }
             }
-            state.PauseTiming();
             this->setCounters(state, entities, components_counter);
         }
 
@@ -272,7 +263,6 @@ namespace ecs::benchmarks::base {
                     state.PauseTiming();
                 }
             }
-            state.PauseTiming();
             this->setCounters(state, entities, components_counter);
         }
 
@@ -293,7 +283,6 @@ namespace ecs::benchmarks::base {
                     state.PauseTiming();
                 }
             }
-            state.PauseTiming();
             this->setCounters(state, entities, components_counter);
         }
 
@@ -315,7 +304,6 @@ namespace ecs::benchmarks::base {
                     state.PauseTiming();
                 }
             }
-            state.PauseTiming();
             this->setCounters(state, entities, components_counter);
         }
 
@@ -334,7 +322,6 @@ namespace ecs::benchmarks::base {
                     state.PauseTiming();
                 }
             }
-            state.PauseTiming();
             this->setCounters(state, entities, components_counter);
         }
 

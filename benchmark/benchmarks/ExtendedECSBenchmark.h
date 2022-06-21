@@ -255,7 +255,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     generic_each(view, func);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             } else {
                 Application app(this->m_options.add_more_complex_system);
@@ -266,7 +265,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     generic_each(view, func);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             }
         }
@@ -288,7 +286,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             } else {
                 Application app(this->m_options.add_more_complex_system);
@@ -298,7 +295,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             }
         }
@@ -330,7 +326,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry, view);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             } else {
                 Application app(this->m_options.add_more_complex_system);
@@ -341,7 +336,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry, view);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             }
         }
@@ -358,7 +352,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry, view);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             } else {
                 Application app(this->m_options.add_more_complex_system);
@@ -369,7 +362,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry, view);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             }
         }
@@ -386,7 +378,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry, view);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             } else {
                 Application app(this->m_options.add_more_complex_system);
@@ -397,7 +388,6 @@ namespace ecs::benchmarks::base {
                 for (auto _: state) {
                     func(registry, view);
                 }
-                state.PauseTiming();
                 this->setCounters(state, entities, components_counter);
             }
         }
