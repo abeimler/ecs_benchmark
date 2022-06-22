@@ -4,10 +4,10 @@
 namespace ecs::benchmarks::entt::systems {
 
     void DataSystem::update(EntityManager &registry, TimeDelta dt) {
-        registry.view<ecs::benchmarks::base::components::DataComponent>()
-                .each([dt](auto /*entity*/, auto &data) {
-                    updateData(data, dt);
-                });
+        auto& storage = registry.storage<ecs::benchmarks::base::components::DataComponent>();
+        std::for_each(storage.begin(), storage.end(), [dt](auto& data) {
+            updateData(data, dt);
+        });
     }
 
 }

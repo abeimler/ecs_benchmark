@@ -7,8 +7,8 @@ namespace ecs::benchmarks::entt::systems {
 
     void MoreComplexSystem::update(EntityManager &registry, TimeDelta dt) {
         registry.view<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>()
-                .each([this, dt](auto /*entity*/, auto &position, auto &direction, auto &data) {
-                    updateComponents(position, direction, data, dt);
+                .each([this, dt](auto &position, auto &direction, auto &data) {
+                    updateComponents(position, direction, data);
                 });
     }
 

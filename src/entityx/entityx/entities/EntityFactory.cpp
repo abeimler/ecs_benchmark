@@ -13,15 +13,6 @@ namespace ecs::benchmarks::entityx::entities {
         return ret;
     }
 
-    void EntityFactory::createBulk(EntityManager &entities, std::vector<Entity> &out) {
-        for (auto &entity: out) {
-            entity = entities.create();
-            entity.assign<ecs::benchmarks::base::components::PositionComponent>();
-            entity.assign<ecs::benchmarks::base::components::VelocityComponent>();
-            entity.assign<ecs::benchmarks::base::components::DataComponent>();
-        }
-    }
-
     EntityFactory::Entity EntityFactory::createMinimal(EntityManager &entities) {
         auto ret = entities.create();
         ret.assign<ecs::benchmarks::base::components::PositionComponent>();
@@ -29,22 +20,18 @@ namespace ecs::benchmarks::entityx::entities {
         return ret;
     }
 
-    void EntityFactory::createMinimalBulk(EntityManager &entities, std::vector<Entity> &out) {
-        for (auto &entity: out) {
-            entity = entities.create();
-            entity.assign<ecs::benchmarks::base::components::PositionComponent>();
-            entity.assign<ecs::benchmarks::base::components::VelocityComponent>();
-        }
+    EntityFactory::Entity EntityFactory::createSingle(EntityManager &entities) {
+        auto ret = entities.create();
+        ret.assign<ecs::benchmarks::base::components::PositionComponent>();
+        return ret;
+    }
+
+    EntityFactory::Entity EntityFactory::createEmpty(EntityManager &entities) {
+        return entities.create();
     }
 
     void EntityFactory::destroy(EntityManager &entities, Entity entity) {
         entities.destroy(entity.id());
-    }
-
-    void EntityFactory::destroyBulk(EntityManager &entities, std::vector<Entity> &in) {
-        for (auto &entity: in) {
-            entities.destroy(entity.id());
-        }
     }
 
     void EntityFactory::clear(EntityManager &entities) {

@@ -4,12 +4,33 @@
 ## TL;DR Results
 
 ![{{figure_img_alt}}]({{figure_img_src}})
+
 _(lower is faster)_
 
+{{small_table}}
+
 {{table}}
+
 {{/summary}}
 
-## Details
+
+## Benchmarks
+{{#results}}
+
+### {{header}}
+
+![{{figure_img_alt}}]({{figure_img_src}})
+
+_(lower is better)_
+
+{{small_table}}
+
+{{table}}
+
+{{/results}}
+
+
+
 
 ### Candidates
 
@@ -26,6 +47,8 @@ Version: {{version}}
 
 {{/candidates}}
 
+
+
 {{#environment}}
 ### Environment
 
@@ -34,120 +57,3 @@ Version: {{version}}
 * **RAM:** {{ram}}
 {{/environment}}
 
-
-{{#plots}}
-### More Results
-
-{{#CreateEntities}}
-#### Create Entities
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is better)_
-
-{{table}}
-{{/CreateEntities}}
-
-
-{{#DestroyEntities}}
-#### Destroy Entities
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/DestroyEntities}}
-
-
-
-{{#UnpackOneComponent}}
-#### Get one (non-const) component from Entity
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/UnpackOneComponent}}
-
-
-{{#UnpackOneComponentConst}}
-#### Get one (const) component from Entity
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/UnpackOneComponentConst}}
-
-
-{{#UnpackTwoComponents}}
-#### Get two components from Entity
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/UnpackTwoComponents}}
-
-
-{{#UnpackThreeComponentsFromMixedEntities}}
-#### Get three components from Entity
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/UnpackThreeComponentsFromMixedEntities}}
-
-
-{{#RemoveAddComponent}}
-#### Remove and add component from Entity
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/RemoveAddComponent}}
-
-
-
-{{#SystemsUpdate}}
-#### Update Systems (for-each entities in 2 Systems)
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/SystemsUpdate}}
-
-
-{{#SystemsUpdateMixedEntities}}
-#### Update Systems (for-each entities (with mixed components) in 2 Systems)
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/SystemsUpdateMixedEntities}}
-
-
-
-{{#ComplexSystemsUpdate}}
-#### Update Systems (for-each entities in 3 Systems)
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/ComplexSystemsUpdate}}
-
-
-{{#ComplexSystemsUpdateMixedEntities}}
-#### Update Systems (for-each entities (with mixed components) in 3 Systems)
-
-![{{figure_img_alt}}]({{figure_img_src}})
-_(lower is faster)_
-
-{{table}}
-{{/ComplexSystemsUpdateMixedEntities}}
-
-{{/plots}}

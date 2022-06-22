@@ -1,0 +1,227 @@
+{
+  "data": {
+    "ComplexSystemsUpdateMixedEntities": {
+      "index": "Update {:>5s} entities with 3 Systems",
+      "title": "Update systems (3 systems, mixed components)",
+      "regex": "^BM_(.*_)?ComplexSystemsUpdateMixedEntities\\/[0-9]+$",
+      "header": "Update systems (for-each entities (with mixed components) in 3 systems)"
+    },
+    "ComplexSystemsUpdate": {
+      "index": "Update {:>5s} entities with 3 systems",
+      "title": "Update Systems (3 Systems)",
+      "regex": "^BM_(.*_)?ComplexSystemsUpdate\\/[0-9]+$",
+      "header": "Update systems (for-each entities in 3 systems)"
+    },
+    "SystemsUpdateMixedEntities": {
+      "index": "Update {:>5s} entities with 2 systems",
+      "title": "Update systems (2 systems, mixed components)",
+      "regex": "^BM_(.*_)?SystemsUpdateMixedEntities\\/[0-9]+$",
+      "header": "Update systems (for-each entities (with mixed components) in 2 systems)"
+    },
+    "SystemsUpdate": {
+      "index": "Update {:>5s} entities with 2 systems",
+      "title": "Update systems (2 systems)",
+      "regex": "^BM_(.*_)?SystemsUpdate\\/[0-9]+$",
+      "header": "Update systems (for-each entities in 2 systems)"
+    },
+    "CreateEntitiesInBulk": {
+      "index": "Create {:>5s} entities with two components at once",
+      "title": "Create entities at once",
+      "regex": "^BM_(.*_)?CreateEntitiesInBulk\\/[0-9]+$",
+      "header": "Create entities at once"
+    },
+    "CreateEntities": {
+      "index": "Create {:>5s} entities with two Components",
+      "title": "Create entities",
+      "regex": "^BM_(.*_)?CreateEntities\\/[0-9]+$",
+      "header": "Create entities"
+    },
+    "CreateEmptyEntitiesInBulk": {
+      "index": "Create {:>5s} (empty) entities at once",
+      "title": "Create (empty) entities at once",
+      "regex": "^BM_(.*_)?CreateEmptyEntitiesInBulk\\/[0-9]+$",
+      "header": "Create empty entities at once"
+    },
+    "CreateEmptyEntities": {
+      "index": "Create {:>5s} (empty) entities",
+      "title": "Create (empty) entities",
+      "regex": "^BM_(.*_)?CreateEmptyEntities\\/",
+      "header": "Create empty entities"
+    },
+    "DestroyEntitiesInBulk": {
+      "index": "Destroy {:>5s} entities with two components at once",
+      "title": "Destroy entities at once",
+      "regex": "^BM_(.*_)?DestroyEntitiesInBulk\\/",
+      "header": "Destroy entities at once"
+    },
+    "DestroyEntities": {
+      "index": "Destroy {:>5s} entities with two components",
+      "title": "Destroy entities",
+      "regex": "^BM_(.*_)?DestroyEntities\\/[0-9]+$",
+      "header": "Destroy entities"
+    },
+    "UnpackOneComponentConst": {
+      "index": "Get one (const) component in {:>5s} entities",
+      "title": "Get one (const) component from Entity",
+      "regex": "^BM_(.*_)?UnpackOneConstComponent\\/[0-9]+$",
+      "header": "Get one (const) component from Entity"
+    },
+    "UnpackOneComponent": {
+      "index": "Unpack one component in {:>5s} entities",
+      "title": "Get one component from Entity",
+      "regex": "^BM_(.*_)?UnpackOneComponent\\/[0-9]+$",
+      "header": "Get one (non-const) component from Entity"
+    },
+    "UnpackTwoComponentsFromMixedEntities": {
+      "index": "Unpack two components in {:>5s} entities",
+      "title": "Get two components from entity",
+      "regex": "^BM_(.*_)?UnpackTwoComponentsFromMixedEntities\\/[0-9]+$",
+      "header": "Get two components from entity"
+    },
+    "UnpackTwoComponents": {
+      "index": "Unpack two components in {:>5s} entities",
+      "title": "Get two components from entity",
+      "regex": "^BM_(.*_)?UnpackTwoComponents\\/[0-9]+$",
+      "header": "Get two components from entity"
+    },
+    "UnpackThreeComponentsFromMixedEntities": {
+      "index": "Unpack three components in {:>5s} entities",
+      "title": "Get three components from Entity",
+      "regex": "^BM_(.*_)?UnpackThreeComponentsFromMixedEntities\\/[0-9]+$",
+      "header": "Get three components from entity"
+    },
+    "UnpackThreeComponents": {
+      "index": "Unpack three components in {:>5s} entities",
+      "title": "Get three components from Entity",
+      "regex": "^BM_(.*_)?UnpackThreeComponents\\/[0-9]+$",
+      "header": "Get three components from entity"
+    },
+    "RemoveAddComponent": {
+      "index": "Remove and Add a Component in {:>5s} entities",
+      "title": "Remove and add component from Entity",
+      "regex": "^BM_(.*_)?RemoveAddComponent\\/[0-9]+$",
+      "header": "Remove and add component"
+    },
+    "IterateSingleComponent": {
+      "index": "Iterate over {:>5s} entities with one component",
+      "title": "Iterate over entities with one component",
+      "regex": "^BM_(.*_)?IterateSingleComponent\\/[0-9]+$",
+      "header": "Iterate over entities with one component"
+    },
+    "IterateTwoComponents": {
+      "index": "Iterate over {:>5s} entities with two components",
+      "title": "Iterate over entities with two components",
+      "regex": "^BM_(.*_)?IterateTwoComponents\\/[0-9]+$",
+      "header": "Iterate over entities with two components"
+    },
+    "IterateThreeComponentsWithMixedEntities": {
+      "index": "Iterate over {:>5s} entities with three components",
+      "title": "Iterate over entities with three components",
+      "regex": "^BM_(.*_)?IterateThreeComponentsWithMixedEntities\\/[0-9]+$",
+      "header": "Iterate over entities with three components"
+    },
+    "IterateThreeComponents": {
+      "index": "Iterate over {:>5s} entities with three components",
+      "title": "Iterate over entities with three components",
+      "regex": "^BM_(.*_)?IterateThreeComponents\\/[0-9]+$",
+      "header": "Iterate over entities with three components"
+    }
+  },
+  "frameworks": {
+    "entityx": {
+      "name": "EntityX",
+      "author": "@alecthomas",
+      "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity \"objects\" themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.",
+      "version": "1.1.2 (Dec 2021)",
+      "link": "https://github.com/alecthomas/entityx"
+    },
+    "entt": {
+      "name": "EnTT",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt"
+    },
+    "entt (runtime)": {
+      "name": "EnTT (runtime)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true
+    },
+    "entt (group)": {
+      "name": "EnTT (group)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true
+    },
+    "entt (group, non-owning)": {
+      "name": "EnTT (non-owning group)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true
+    },
+    "entt (group, full-owning)": {
+      "name": "EnTT (full-owning group)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true
+    },
+    "entt (group, partial-owning)": {
+      "name": "EnTT (partial-owning group)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true
+    },
+    "entt (stable)": {
+      "name": "EnTT (stable)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "3.10.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true
+    },
+    "ginseng": {
+      "name": "Ginseng",
+      "author": "@apples",
+      "description": "Ginseng is an entity-component-system (ECS) library designed for use in games.\n\nThe main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.\n\nAny function-like object can be used as a system. The function's parameters are used to determine the required components.",
+      "version": "1.1 (Dec 2021)",
+      "link": "https://github.com/apples/ginseng"
+    },
+    "mustache": {
+      "name": "mustache",
+      "author": "@kirillochnev",
+      "description": "A fast, modern C++ Entity Component System",
+      "version": "0.2 (Feb 2022)",
+      "link": "https://github.com/kirillochnev/mustache"
+    },
+    "openecs": {
+      "name": "OpenEcs",
+      "author": "@Gronis",
+      "description": "Open Ecs is an Entity Component System that uses metaprogramming, cache coherency, and other useful tricks to maximize performance and configurability. It is written in c++11 without further dependencies.",
+      "version": "Beta (Apr 2017)",
+      "link": "https://github.com/Gronis/OpenEcs"
+    },
+    "flecs": {
+      "name": "Flecs",
+      "author": "@SanderMertens",
+      "description": "Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.",
+      "version": "v2.4.8 (Mai 2022)",
+      "link": "https://github.com/SanderMertens/flecs"
+    },
+    "oop": {
+      "name": "OOP",
+      "description": "Simple OOP Solution.",
+      "skip_candidate": true
+    }
+  }
+}

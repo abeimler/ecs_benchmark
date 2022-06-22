@@ -16,16 +16,11 @@ namespace ecs::benchmarks::entityx::entities {
         using Entity = ::entityx::Entity;
 
         static Entity create(EntityManager &registry);
-
-        static void createBulk(EntityManager &registry, std::vector<Entity> &out);
-
         static Entity createMinimal(EntityManager &registry);
-
-        static void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
+        static Entity createSingle(EntityManager &registry);
+        static Entity createEmpty(EntityManager &registry);
 
         static void destroy(EntityManager &registry, Entity entity);
-
-        static void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
 
         static void clear(EntityManager &registry);
 

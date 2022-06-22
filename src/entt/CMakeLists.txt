@@ -12,11 +12,14 @@ set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
 add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         # NOTE: add source files here
+        entt/components/StablePositionComponent.h
         entt/systems/DataSystem.h
         entt/systems/DataSystem.cpp
         entt/systems/MoreComplexSystem.h
         entt/systems/MoreComplexSystem.cpp
         entt/systems/MovementSystem.h
+        entt/systems/StableMovementSystem.cpp
+        entt/systems/StableMovementSystem.h
         entt/systems/MovementSystem.cpp
         entt/systems/RuntimeDataSystem.h
         entt/systems/RuntimeDataSystem.cpp
@@ -24,18 +27,28 @@ add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         entt/systems/RuntimeMoreComplexSystem.cpp
         entt/systems/RuntimeMovementSystem.h
         entt/systems/RuntimeMovementSystem.cpp
+        entt/systems/StableRuntimeMovementSystem.h
+        entt/systems/StableRuntimeMovementSystem.cpp
+        entt/systems/StableRuntimeMovementSystem.h
+        entt/systems/StableRuntimeMovementSystem.cpp
         entt/systems/GroupMoreComplexSystem.h
         entt/systems/GroupMoreComplexSystem.cpp
         entt/systems/GroupMovementSystem.h
         entt/systems/GroupMovementSystem.cpp
         entt/entities/EntityFactory.h
         entt/entities/EntityFactory.cpp
+        entt/entities/StableEntityFactory.h
+        entt/entities/StableEntityFactory.cpp
         entt/EnttApplication.h
         entt/EnttApplication.cpp
-        entt/EnttRuntimeApplication.h
-        entt/EnttRuntimeApplication.cpp
         entt/EnttGroupApplication.h
         entt/EnttGroupApplication.cpp
+        entt/EnttRuntimeApplication.h
+        entt/EnttRuntimeApplication.cpp
+        entt/StableEnttApplication.h
+        entt/StableEnttApplication.cpp
+        entt/StableEnttRuntimeApplication.h
+        entt/StableEnttRuntimeApplication.cpp
         entt/entt.h)
 add_library(${CMAKE_PROJECT_NAME}::example::entt ALIAS ${CMAKE_PROJECT_NAME}-example-entt)
 

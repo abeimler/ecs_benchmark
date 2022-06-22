@@ -5,10 +5,10 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    void GroupMoreComplexSystem::update(EntityManager &registry, TimeDelta dt) {
+    void GroupMoreComplexSystem::update(EntityManager &registry, TimeDelta /*dt*/) {
         registry.group<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>()
-                .each([this, dt](auto /*entity*/, auto &position, auto &direction, auto &data) {
-                    updateComponents(position, direction, data, dt);
+                .each([this](auto &position, auto &direction, auto &data) {
+                    updateComponents(position, direction, data);
                 });
     }
 

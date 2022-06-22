@@ -3,11 +3,12 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    void RuntimeDataSystem::update(EntityManager &registry, TimeDelta dt) {
-        ::entt::runtime_view view{};
-        view.iterate(registry.storage<ecs::benchmarks::base::components::DataComponent>());
+    void RuntimeDataSystem::init(EntityManager &registry) {
+        m_view.iterate(registry.storage<ecs::benchmarks::base::components::DataComponent>());
+    }
 
-        view.each([&registry, dt](auto entity) {
+    void RuntimeDataSystem::update(EntityManager &registry, TimeDelta dt) {
+        m_view.each([&registry, dt](auto entity) {
             auto &data = registry.get<ecs::benchmarks::base::components::DataComponent>(entity);
             updateData(data, dt);
         });

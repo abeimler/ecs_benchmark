@@ -26,7 +26,7 @@ namespace ecs::benchmarks::oop::entities {
         [[nodiscard]] inline ecs::benchmarks::base::components::PositionComponent &
         position() noexcept { return m_position; }
 
-        inline const ecs::benchmarks::base::components::PositionComponent &position() const noexcept {
+        [[nodiscard]] inline const ecs::benchmarks::base::components::PositionComponent &position() const noexcept {
             return m_position;
         }
 

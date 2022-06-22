@@ -51,6 +51,10 @@ namespace ecs::benchmarks::base {
             if (m_add_more_complex_system) {
                 m_systems.emplace_back(createMoreComplexSystem(m_entities));
             }
+
+            for (auto &system: m_systems) {
+                system->init(m_entities);
+            }
         }
 
         virtual void uninit() {

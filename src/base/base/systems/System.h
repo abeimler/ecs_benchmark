@@ -9,6 +9,8 @@ namespace ecs::benchmarks::base::systems {
         using TimeDelta = tTimeDelta;
         using EntityManager = tEntityManager;
 
+        virtual void init(EntityManager& /*entities*/){}
+
         // virtual dtor and the rule of 6
         System() = default;
 

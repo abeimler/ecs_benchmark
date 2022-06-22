@@ -10,24 +10,41 @@
 
 namespace ecs::benchmarks::mustache::entities {
 
-    class EntityFactory {
+    template<bool tdestroy_now = true>
+    class EntityFactoryImpl {
+    private:
+        inline static constexpr bool destroy_now = tdestroy_now;
     public:
         using EntityManager = ::mustache::EntityManager;
         using Entity = ::mustache::Entity;
 
-        Entity create(EntityManager &registry);
+        auto create(EntityManager &registry) {
+            return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>();
+        }
 
-        void createBulk(EntityManager &registry, std::vector<Entity> &out);
+        auto createMinimal(EntityManager &registry) {
+            return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent>();
+        }
 
-        Entity createMinimal(EntityManager &registry);
+        auto createEmpty(EntityManager &registry) {
+            return registry.create();
+        }
 
-        void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
+        auto createSingle(EntityManager &registry) {
+            return registry.create<ecs::benchmarks::base::components::PositionComponent>();
+        }
 
-        void destroy(EntityManager &registry, Entity entity);
+        void destroy(EntityManager &registry, Entity entity) {
+            if constexpr (destroy_now) {
+                registry.destroyNow(entity);
+            } else {
+                registry.destroy(entity);
+            }
+        }
 
-        void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
-
-        void clear(EntityManager &registry);
+        void clear(EntityManager &registry) {
+            registry.clear();
+        }
 
 
         [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
@@ -77,6 +94,7 @@ namespace ecs::benchmarks::mustache::entities {
         }
     };
 
+    using EntityFactory = EntityFactoryImpl<true>;
 }
 
 #endif

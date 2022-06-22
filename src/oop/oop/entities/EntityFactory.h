@@ -21,17 +21,20 @@ namespace ecs::benchmarks::oop::entities {
 
         bool add_more_complex_system{false};
 
-        Entity create(EntityManager &registry);
+        Entity createEmpty(EntityManager &registry);
+        void createEmptyBulk(EntityManager &registry, std::vector<Entity> &out);
 
+        Entity create(EntityManager &registry);
         void createBulk(EntityManager &registry, std::vector<Entity> &out);
 
         Entity createMinimal(EntityManager &registry);
-
         void createMinimalBulk(EntityManager &registry, std::vector<Entity> &out);
 
         void destroy(EntityManager &registry, Entity entity);
-
         void destroyBulk(EntityManager &registry, std::vector<Entity> &in);
+
+        void remove(EntityManager &registry, Entity entity);
+        void removeBulk(EntityManager &registry, std::vector<Entity> &in);
 
         void clear(EntityManager &registry);
 

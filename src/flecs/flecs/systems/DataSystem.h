@@ -12,13 +12,13 @@ namespace ecs::benchmarks::flecs::systems {
         using Entity = ::flecs::entity;
 
         using TimeDelta = float;
-        inline static auto update = [](::flecs::iter &it, size_t /*index*/,
+        inline static const auto update = [](::flecs::iter &it, size_t /*index*/,
                                        ecs::benchmarks::base::components::DataComponent &data) {
             const TimeDelta dt = it.delta_time();
 
-            data.thingy += 0.0001F * dt;
+            data.dingy += 0.0001 * static_cast<double>(dt);
             data.mingy = !data.mingy;
-            data.dingy++;
+            data.thingy++;
             data.stringy = std::to_string(data.dingy);
         };
     };
