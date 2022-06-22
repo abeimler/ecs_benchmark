@@ -25,21 +25,21 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT      | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs     |
-|:-------------------------------------|:----------|:----------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|
-| Update    16 entities with 3 Systems | 8586ns    | 6586ns    | 8285ns           | 6563ns         | 6405ns          | 6525ns    | 84141ns    | 11723ns   |
-| Update    64 entities with 3 Systems | 35123ns   | 26920ns   | 34249ns          | 26802ns        | 26332ns         | 27058ns   | 100132ns   | 31898ns   |
-| Update   256 entities with 3 Systems | 158071ns  | 118369ns  | 152283ns         | 118809ns       | 115493ns        | 119424ns  | 185986ns   | 121469ns  |
-| Update   ~1K entities with 3 Systems | 634442ns  | 473035ns  | 608478ns         | 475103ns       | 461509ns        | 476499ns  | 552646ns   | 469061ns  |
-| Update   ~4K entities with 3 Systems | 2438552ns | 1801611ns | 2346543ns        | 1810703ns      | 1751117ns       | 1812692ns | 1875480ns  | 1764723ns |
+|                                      | EntityX   | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs    |
+|:-------------------------------------|:----------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|:---------|
+| Update    16 entities with 3 Systems | 4274ns    | 3282ns   | 4062ns           | 3245ns         | 3154ns          | 3209ns    | 41744ns    | 4129ns    | 5816ns   |
+| Update    64 entities with 3 Systems | 17792ns   | 13568ns  | 17198ns          | 13302ns        | 13150ns         | 13408ns   | 50824ns    | 17388ns   | 15810ns  |
+| Update   256 entities with 3 Systems | 79447ns   | 59144ns  | 76381ns          | 58076ns        | 57455ns         | 59005ns   | 93836ns    | 73503ns   | 59708ns  |
+| Update   ~1K entities with 3 Systems | 319297ns  | 239432ns | 305845ns         | 233838ns       | 232607ns        | 236416ns  | 269476ns   | 293784ns  | 233532ns |
+| Update   ~4K entities with 3 Systems | 1226840ns | 930325ns | 1170713ns        | 907876ns       | 906957ns        | 920749ns  | 958945ns   | 1263079ns | 896467ns |
 
-|                                      | EntityX   | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:----------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 Systems | 9ms       | 7ms    | 9ms              | 7ms            | 7ms             | 7ms       | 7ms        | 7ms     |
-| Update  ~65K entities with 3 Systems | 39ms      | 30ms   | 38ms             | 30ms           | 29ms            | 30ms      | 28ms       | 29ms    |
-| Update  262K entities with 3 Systems | 161ms     | 124ms  | 155ms            | 132ms          | 119ms           | 122ms     | 117ms      | 118ms   |
-| Update   ~1M entities with 3 Systems | 649ms     | 487ms  | 626ms            | 679ms          | 477ms           | 488ms     | 467ms      | 473ms   |
-| Update   ~2M entities with 3 Systems | 1299ms    | 981ms  | 1255ms           | 1414ms         | 959ms           | 983ms     | 939ms      | 953ms   |
+|                                      | EntityX   | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs   |
+|:-------------------------------------|:----------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|:--------|
+| Update  ~16K entities with 3 Systems | 4ms       | 3ms    | 4ms              | 3ms            | 3ms             | 3ms       | 3ms        | 5ms       | 3ms     |
+| Update  ~65K entities with 3 Systems | 20ms      | 15ms   | 19ms             | 14ms           | 14ms            | 14ms      | 14ms       | 18ms      | 14ms    |
+| Update  262K entities with 3 Systems | 80ms      | 60ms   | 78ms             | 61ms           | 59ms            | 60ms      | 58ms       | 75ms      | 59ms    |
+| Update   ~1M entities with 3 Systems | 324ms     | 243ms  | 310ms            | 285ms          | 238ms           | 243ms     | 234ms      | 300ms     | 233ms   |
+| Update   ~2M entities with 3 Systems | 651ms     | 486ms  | 623ms            | 692ms          | 476ms           | 490ms     | 468ms      | 602ms     | 468ms   |
 
 
 
@@ -109,19 +109,20 @@ _(lower is better)_
 
 |                                           | EntityX   | EnTT      | Ginseng   | mustache   | OpenEcs   | Flecs     |
 |:------------------------------------------|:----------|:----------|:----------|:-----------|:----------|:----------|
-| Create    16 entities with two Components | 13006ns   | 12102ns   | 23301ns   | 12038ns    | 11786ns   | 652181ns  |
-| Create    64 entities with two Components | 44540ns   | 41674ns   | 52939ns   | 41594ns    | 41278ns   | 683784ns  |
-| Create   256 entities with two Components | 170629ns  | 160067ns  | 171832ns  | 159999ns   | 159984ns  | 809708ns  |
-| Create   ~1K entities with two Components | 672915ns  | 632360ns  | 643963ns  | 632419ns   | 630455ns  | 1299762ns |
-| Create   ~4K entities with two Components | 2683714ns | 2528196ns | 2534059ns | 2524609ns  | 2515605ns | 3277625ns |
+| Create    16 entities with two Components | 13919ns   | 11302ns   | 24235ns   | 13262ns    | 1621ns    | 649481ns  |
+| Create    64 entities with two Components | 46918ns   | 38903ns   | 50100ns   | 44407ns    | 3653ns    | 677302ns  |
+| Create   256 entities with two Components | 179018ns  | 148982ns  | 160061ns  | 168635ns   | 11951ns   | 791177ns  |
+| Create   ~1K entities with two Components | 708318ns  | 590356ns  | 600614ns  | 663253ns   | 44587ns   | 1248612ns |
+| Create   ~4K entities with two Components | 2822313ns | 2364613ns | 2362153ns | 2735906ns  | 174945ns  | 3083582ns |
 
 |                                           | EntityX   | EnTT   | Ginseng   | mustache   | OpenEcs   | Flecs   |
 |:------------------------------------------|:----------|:-------|:----------|:-----------|:----------|:--------|
-| Create  ~16K entities with two Components | 10ms      | 10ms   | 10ms      | 10ms       | 10ms      | 11ms    |
-| Create  ~65K entities with two Components | 43ms      | 40ms   | 40ms      | 40ms       | 40ms      | 42ms    |
-| Create  262K entities with two Components | 176ms     | 162ms  | 164ms     | 162ms      | 161ms     | 169ms   |
-| Create   ~1M entities with two Components | 741ms     | 654ms  | 660ms     | 655ms      | 645ms     | 691ms   |
-| Create   ~2M entities with two Components | 1484ms    | 1308ms | 1320ms    | 1312ms     | 1291ms    | 1382ms  |
+| Create  ~16K entities with two Components | 11ms      | 9ms    | 9ms       | 10ms       | 0ms       | 10ms    |
+| Create  ~65K entities with two Components | 45ms      | 37ms   | 37ms      | 43ms       | 3ms       | 39ms    |
+| Create  262K entities with two Components | 184ms     | 151ms  | 151ms     | 173ms      | 13ms      | 157ms   |
+| Create   ~1M entities with two Components | 739ms     | 606ms  | 607ms     | 698ms      | 57ms      | 630ms   |
+| Create   ~2M entities with two Components | 1480ms    | 1212ms | 1216ms    | 1396ms     | 116ms     | 1251ms  |
+
 
 
 ### Destroy entities
@@ -132,19 +133,19 @@ _(lower is better)_
 
 |                                            | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
 |:-------------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Destroy    16 entities with two components | 12067ns   | 12047ns   | 12180ns   | 12071ns    | 642948ns  |
-| Destroy    64 entities with two components | 41990ns   | 41462ns   | 41851ns   | 41613ns    | 672059ns  |
-| Destroy   256 entities with two components | 161906ns  | 159222ns  | 161033ns  | 159803ns   | 795062ns  |
-| Destroy   ~1K entities with two components | 641562ns  | 630017ns  | 634055ns  | 632040ns   | 1273045ns |
-| Destroy   ~4K entities with two components | 2573603ns | 2513973ns | 2523474ns | 2519646ns  | 3196579ns |
+| Destroy    16 entities with two components | 11638ns   | 11204ns   | 11369ns   | 10597ns    | 635739ns  |
+| Destroy    64 entities with two components | 41243ns   | 38576ns   | 38923ns   | 38024ns    | 661900ns  |
+| Destroy   256 entities with two components | 159754ns  | 147788ns  | 149181ns  | 147871ns   | 778528ns  |
+| Destroy   ~1K entities with two components | 634945ns  | 584661ns  | 589152ns  | 586676ns   | 1221695ns |
+| Destroy   ~4K entities with two components | 2539944ns | 2332564ns | 2350744ns | 2341885ns  | 3009417ns |
 
 |                                            | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:-------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Destroy  ~16K entities with two components | 10ms      | 10ms   | 10ms      | 10ms       | 10ms    |
-| Destroy  ~65K entities with two components | 41ms      | 40ms   | 40ms      | 40ms       | 41ms    |
-| Destroy  262K entities with two components | 167ms     | 160ms  | 161ms     | 161ms      | 162ms   |
-| Destroy   ~1M entities with two components | 697ms     | 650ms  | 662ms     | 654ms      | 658ms   |
-| Destroy   ~2M entities with two components | 1402ms    | 1302ms | 1325ms    | 1310ms     | 1318ms  |
+| Destroy  ~16K entities with two components | 10ms      | 9ms    | 9ms       | 9ms        | 10ms    |
+| Destroy  ~65K entities with two components | 41ms      | 37ms   | 37ms      | 37ms       | 38ms    |
+| Destroy  262K entities with two components | 164ms     | 149ms  | 150ms     | 149ms      | 150ms   |
+| Destroy   ~1M entities with two components | 664ms     | 601ms  | 610ms     | 603ms      | 606ms   |
+| Destroy   ~2M entities with two components | 1332ms    | 1202ms | 1217ms    | 1205ms     | 1217ms  |
 
 
 ### Get one (non-const) component from Entity
@@ -155,19 +156,19 @@ _(lower is better)_
 
 |                                        | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
 |:---------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Unpack one component in    16 entities | 11114ns   | 11511ns   | 11358ns   | 11663ns    | 12638ns   |
-| Unpack one component in    64 entities | 40704ns   | 42265ns   | 41855ns   | 42862ns    | 46476ns   |
-| Unpack one component in   256 entities | 159268ns  | 165013ns  | 163619ns  | 167209ns   | 182628ns  |
-| Unpack one component in   ~1K entities | 633151ns  | 657450ns  | 654271ns  | 668318ns   | 720513ns  |
-| Unpack one component in   ~4K entities | 2530240ns | 2638923ns | 2602483ns | 2659691ns  | 2938959ns |
+| Unpack one component in    16 entities | 10305ns   | 10734ns   | 10614ns   | 10786ns    | 11817ns   |
+| Unpack one component in    64 entities | 37810ns   | 39362ns   | 39021ns   | 39637ns    | 43498ns   |
+| Unpack one component in   256 entities | 147952ns  | 154519ns  | 152646ns  | 155335ns   | 171063ns  |
+| Unpack one component in   ~1K entities | 586569ns  | 614978ns  | 607748ns  | 620660ns   | 680071ns  |
+| Unpack one component in   ~4K entities | 2347617ns | 2463321ns | 2429126ns | 2482790ns  | 2733253ns |
 
 |                                        | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:---------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Unpack one component in  ~16K entities | 10ms      | 10ms   | 10ms      | 10ms       | 11ms    |
-| Unpack one component in  ~65K entities | 40ms      | 42ms   | 42ms      | 42ms       | 46ms    |
-| Unpack one component in  262K entities | 161ms     | 169ms  | 167ms     | 170ms      | 184ms   |
-| Unpack one component in   ~1M entities | 646ms     | 678ms  | 715ms     | 684ms      | 740ms   |
-| Unpack one component in   ~2M entities | 1295ms    | 1359ms | 1391ms    | 1369ms     | 1479ms  |
+| Unpack one component in  ~16K entities | 9ms       | 9ms    | 9ms       | 9ms        | 10ms    |
+| Unpack one component in  ~65K entities | 37ms      | 39ms   | 38ms      | 39ms       | 43ms    |
+| Unpack one component in  262K entities | 150ms     | 159ms  | 155ms     | 159ms      | 172ms   |
+| Unpack one component in   ~1M entities | 600ms     | 633ms  | 621ms     | 637ms      | 696ms   |
+| Unpack one component in   ~2M entities | 1200ms    | 1266ms | 1246ms    | 1269ms     | 1395ms  |
 
 
 **Note:**
@@ -183,19 +184,20 @@ _(lower is better)_
 
 |                                             | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
 |:--------------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Get one (const) component in    16 entities | 11102ns   | 11461ns   | 11262ns   | 11581ns    | 12350ns   |
-| Get one (const) component in    64 entities | 40682ns   | 42088ns   | 41537ns   | 42675ns    | 45364ns   |
-| Get one (const) component in   256 entities | 159006ns  | 164376ns  | 162836ns  | 166805ns   | 179065ns  |
-| Get one (const) component in   ~1K entities | 632262ns  | 654474ns  | 648663ns  | 661041ns   | 706422ns  |
-| Get one (const) component in   ~4K entities | 2525134ns | 2626935ns | 2598877ns | 2652876ns  | 2828398ns |
+| Get one (const) component in    16 entities | 10335ns   | 10735ns   | 10579ns   | 10710ns    | 11540ns   |
+| Get one (const) component in    64 entities | 37803ns   | 39157ns   | 38778ns   | 39481ns    | 42897ns   |
+| Get one (const) component in   256 entities | 148004ns  | 153322ns  | 152469ns  | 154377ns   | 166226ns  |
+| Get one (const) component in   ~1K entities | 587645ns  | 609628ns  | 604958ns  | 614991ns   | 662006ns  |
+| Get one (const) component in   ~4K entities | 2346169ns | 2447390ns | 2416922ns | 2472758ns  | 2671755ns |
 
 |                                             | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:--------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Get one (const) component in  ~16K entities | 10ms      | 10ms   | 10ms      | 10ms       | 11ms    |
-| Get one (const) component in  ~65K entities | 40ms      | 42ms   | 41ms      | 42ms       | 45ms    |
-| Get one (const) component in  262K entities | 161ms     | 169ms  | 165ms     | 170ms      | 182ms   |
-| Get one (const) component in   ~1M entities | 647ms     | 676ms  | 666ms     | 682ms      | 725ms   |
-| Get one (const) component in   ~2M entities | 1294ms    | 1354ms | 1328ms    | 1359ms     | 1449ms  |
+| Get one (const) component in  ~16K entities | 9ms       | 9ms    | 9ms       | 9ms        | 10ms    |
+| Get one (const) component in  ~65K entities | 37ms      | 39ms   | 38ms      | 39ms       | 42ms    |
+| Get one (const) component in  262K entities | 156ms     | 157ms  | 155ms     | 158ms      | 170ms   |
+| Get one (const) component in   ~1M entities | 665ms     | 629ms  | 622ms     | 634ms      | 677ms   |
+| Get one (const) component in   ~2M entities | 1250ms    | 1260ms | 1239ms    | 1270ms     | 1355ms  |
+
 
 **Note:**
 * Get one const component
@@ -210,24 +212,27 @@ _(lower is better)_
 
 |                                         | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
 |:----------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Unpack two components in    16 entities | 11228ns   | 11551ns   | 11435ns   | 11756ns    | 13336ns   |
-| Unpack two components in    64 entities | 40891ns   | 42480ns   | 42151ns   | 43023ns    | 49935ns   |
-| Unpack two components in   256 entities | 160015ns  | 165549ns  | 164856ns  | 168450ns   | 194230ns  |
-| Unpack two components in   ~1K entities | 636329ns  | 660741ns  | 656741ns  | 671063ns   | 770197ns  |
-| Unpack two components in   ~4K entities | 2542753ns | 2640515ns | 2632686ns | 2680369ns  | 3073637ns |
+| Unpack two components in    16 entities | 10356ns   | 10763ns   | 10664ns   | 10927ns    | 12674ns   |
+| Unpack two components in    64 entities | 37941ns   | 39496ns   | 39243ns   | 40217ns    | 46844ns   |
+| Unpack two components in   256 entities | 148237ns  | 154188ns  | 153401ns  | 157160ns   | 182601ns  |
+| Unpack two components in   ~1K entities | 590308ns  | 613959ns  | 611197ns  | 625335ns   | 729631ns  |
+| Unpack two components in   ~4K entities | 2360328ns | 2464637ns | 2440950ns | 2498859ns  | 2911928ns |
 
 |                                         | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:----------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Unpack two components in  ~16K entities | 10ms      | 10ms   | 10ms      | 10ms       | 12ms    |
-| Unpack two components in  ~65K entities | 40ms      | 42ms   | 42ms      | 43ms       | 49ms    |
-| Unpack two components in  262K entities | 162ms     | 170ms  | 167ms     | 172ms      | 197ms   |
-| Unpack two components in   ~1M entities | 650ms     | 681ms  | 673ms     | 689ms      | 787ms   |
-| Unpack two components in   ~2M entities | 1300ms    | 1362ms | 1347ms    | 1378ms     | 1577ms  |
+| Unpack two components in  ~16K entities | 9ms       | 9ms    | 9ms       | 9ms        | 11ms    |
+| Unpack two components in  ~65K entities | 37ms      | 39ms   | 39ms      | 39ms       | 46ms    |
+| Unpack two components in  262K entities | 150ms     | 158ms  | 156ms     | 160ms      | 186ms   |
+| Unpack two components in   ~1M entities | 604ms     | 635ms  | 625ms     | 643ms      | 745ms   |
+| Unpack two components in   ~2M entities | 1207ms    | 1270ms | 1258ms    | 1280ms     | 1501ms  |
+
 
 **Note:**
 * Get non-const- and const-component
    1. `PositionComponent`
    2. `const VelocityComponent`
+
+
 
 ### Get three components from entity
 
@@ -237,19 +242,20 @@ _(lower is better)_
 
 |                                           | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
 |:------------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Unpack three components in     8 entities | 6230ns    | 6447ns    | 6373ns    | 6547ns     | 7967ns    |
-| Unpack three components in    32 entities | 21174ns   | 21995ns   | 21768ns   | 22194ns    | 27629ns   |
-| Unpack three components in   128 entities | 80917ns   | 83656ns   | 83393ns   | 84752ns    | 106585ns  |
-| Unpack three components in   512 entities | 320050ns  | 333084ns  | 330237ns  | 336205ns   | 421421ns  |
-| Unpack three components in   ~2K entities | 1277032ns | 1326582ns | 1318451ns | 1343089ns  | 1667907ns |
+| Unpack three components in     8 entities | 5802ns    | 6027ns    | 6154ns    | 6035ns     | 7616ns    |
+| Unpack three components in    32 entities | 19710ns   | 20448ns   | 20929ns   | 20623ns    | 26366ns   |
+| Unpack three components in   128 entities | 75339ns   | 78210ns   | 79140ns   | 78894ns    | 101274ns  |
+| Unpack three components in   512 entities | 297517ns  | 314218ns  | 319254ns  | 313672ns   | 402923ns  |
+| Unpack three components in   ~2K entities | 1186992ns | 1239589ns | 1293945ns | 1254241ns  | 1599918ns |
 
 |                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Unpack three components in   ~8K entities | 5ms       | 5ms    | 5ms       | 5ms        | 6ms     |
-| Unpack three components in  ~32K entities | 20ms      | 21ms   | 21ms      | 21ms       | 26ms    |
-| Unpack three components in  131K entities | 81ms      | 85ms   | 84ms      | 86ms       | 107ms   |
-| Unpack three components in  524K entities | 327ms     | 343ms  | 338ms     | 345ms      | 432ms   |
-| Unpack three components in   ~1M entities | 653ms     | 686ms  | 678ms     | 691ms      | 870ms   |
+| Unpack three components in   ~8K entities | 4ms       | 4ms    | 5ms       | 5ms        | 6ms     |
+| Unpack three components in  ~32K entities | 18ms      | 19ms   | 19ms      | 20ms       | 25ms    |
+| Unpack three components in  131K entities | 75ms      | 80ms   | 79ms      | 80ms       | 102ms   |
+| Unpack three components in  524K entities | 303ms     | 320ms  | 316ms     | 322ms      | 408ms   |
+| Unpack three components in   ~1M entities | 607ms     | 641ms  | 633ms     | 645ms      | 820ms   |
+
 
 **Note:**
 * Not every entity has three components, some has only two
@@ -265,26 +271,27 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                              | EntityX   | EnTT      | Ginseng   | mustache   | OpenEcs   | Flecs     |
-|:---------------------------------------------|:----------|:----------|:----------|:-----------|:----------|:----------|
-| Remove and Add a Component in    16 entities | 11691ns   | 11872ns   | 11505ns   | 12571ns    | 11630ns   | 18018ns   |
-| Remove and Add a Component in    64 entities | 42883ns   | 43683ns   | 42318ns   | 46269ns    | 42333ns   | 67061ns   |
-| Remove and Add a Component in   256 entities | 167649ns  | 170821ns  | 166372ns  | 181801ns   | 165141ns  | 263759ns  |
-| Remove and Add a Component in   ~1K entities | 669222ns  | 684469ns  | 661544ns  | 721908ns   | 661921ns  | 1050093ns |
-| Remove and Add a Component in   ~4K entities | 2670562ns | 2737008ns | 2641969ns | 2885468ns  | 2646482ns | 4194990ns |
+|                                              | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
+|:---------------------------------------------|:----------|:----------|:----------|:-----------|:----------|
+| Remove and Add a Component in    16 entities | 10896ns   | 11150ns   | 10812ns   | 11810ns    | 17211ns   |
+| Remove and Add a Component in    64 entities | 40065ns   | 40672ns   | 39677ns   | 43543ns    | 64170ns   |
+| Remove and Add a Component in   256 entities | 157284ns  | 159642ns  | 155798ns  | 171682ns   | 251848ns  |
+| Remove and Add a Component in   ~1K entities | 627263ns  | 639819ns  | 619643ns  | 679089ns   | 1002562ns |
+| Remove and Add a Component in   ~4K entities | 2513417ns | 2554435ns | 2465479ns | 2715617ns  | 4010144ns |
 
-|                                              | EntityX   | EnTT   | Ginseng   | mustache   | OpenEcs   | Flecs   |
-|:---------------------------------------------|:----------|:-------|:----------|:-----------|:----------|:--------|
-| Remove and Add a Component in  ~16K entities | 10ms      | 10ms   | 10ms      | 11ms       | 10ms      | 16ms    |
-| Remove and Add a Component in  ~65K entities | 42ms      | 43ms   | 42ms      | 46ms       | 42ms      | 67ms    |
-| Remove and Add a Component in  262K entities | 171ms     | 175ms  | 169ms     | 188ms      | 169ms     | 269ms   |
-| Remove and Add a Component in   ~1M entities | 682ms     | 703ms  | 677ms     | 790ms      | 680ms     | 1076ms  |
-| Remove and Add a Component in   ~2M entities | 1367ms    | 1410ms | 1360ms    | 1581ms     | 1361ms    | 2150ms  |
+|                                              | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
+|:---------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
+| Remove and Add a Component in  ~16K entities | 10ms      | 10ms   | 9ms       | 10ms       | 16ms    |
+| Remove and Add a Component in  ~65K entities | 40ms      | 40ms   | 39ms      | 43ms       | 64ms    |
+| Remove and Add a Component in  262K entities | 160ms     | 164ms  | 158ms     | 177ms      | 257ms   |
+| Remove and Add a Component in   ~1M entities | 639ms     | 657ms  | 634ms     | 746ms      | 1030ms  |
+| Remove and Add a Component in   ~2M entities | 1286ms    | 1319ms | 1270ms    | 1491ms     | 2058ms  |
 
 
 
 **Note:**
 * Remove and add `PositionComponent`
+
 
 
 ### Update systems (for-each entities in 2 systems)
@@ -293,21 +300,22 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
-|:-------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Update    16 entities with 2 systems | 7599ns    | 6376ns    | 6279ns    | 50403ns    | 10789ns   |
-| Update    64 entities with 2 systems | 31150ns   | 26241ns   | 26044ns   | 69031ns    | 30565ns   |
-| Update   256 entities with 2 systems | 138271ns  | 115265ns  | 114362ns  | 162771ns   | 118280ns  |
-| Update   ~1K entities with 2 systems | 552215ns  | 468684ns  | 456463ns  | 497929ns   | 457949ns  |
-| Update   ~4K entities with 2 systems | 2111391ns | 1752864ns | 1737502ns | 1806206ns  | 1714613ns |
+|                                      | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    |
+|:-------------------------------------|:----------|:---------|:----------|:-----------|:---------|
+| Update    16 entities with 2 systems | 4324ns    | 3627ns   | 3545ns    | 29655ns    | 5573ns   |
+| Update    64 entities with 2 systems | 17044ns   | 14449ns  | 14119ns   | 38810ns    | 16092ns  |
+| Update   256 entities with 2 systems | 69008ns   | 58120ns  | 56787ns   | 79995ns    | 58476ns  |
+| Update   ~1K entities with 2 systems | 276459ns  | 234939ns | 229230ns  | 249265ns   | 229374ns |
+| Update   ~4K entities with 2 systems | 1064466ns | 916344ns | 891636ns  | 967513ns   | 886033ns |
 
 |                                      | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:-------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Update  ~16K entities with 2 systems | 8ms       | 7ms    | 7ms       | 7ms        | 6ms     |
-| Update  ~65K entities with 2 systems | 34ms      | 29ms   | 28ms      | 28ms       | 28ms    |
-| Update  262K entities with 2 systems | 141ms     | 119ms  | 117ms     | 114ms      | 115ms   |
-| Update   ~1M entities with 2 systems | 566ms     | 475ms  | 469ms     | 458ms      | 460ms   |
-| Update   ~2M entities with 2 systems | 1132ms    | 949ms  | 942ms     | 922ms      | 931ms   |
+| Update  ~16K entities with 2 systems | 4ms       | 3ms    | 3ms       | 3ms        | 3ms     |
+| Update  ~65K entities with 2 systems | 17ms      | 14ms   | 14ms      | 14ms       | 14ms    |
+| Update  262K entities with 2 systems | 70ms      | 60ms   | 58ms      | 57ms       | 57ms    |
+| Update   ~1M entities with 2 systems | 282ms     | 241ms  | 237ms     | 229ms      | 230ms   |
+| Update   ~2M entities with 2 systems | 568ms     | 482ms  | 469ms     | 459ms      | 461ms   |
+
 
 **Note:**
 * Systems used
@@ -321,21 +329,23 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT      | Ginseng   | mustache   | Flecs     |
-|:-------------------------------------|:----------|:----------|:----------|:-----------|:----------|
-| Update    16 entities with 2 systems | 7598ns    | 6378ns    | 6404ns    | 46123ns    | 10772ns   |
-| Update    64 entities with 2 systems | 31158ns   | 26272ns   | 26422ns   | 64520ns    | 30553ns   |
-| Update   256 entities with 2 systems | 138243ns  | 115366ns  | 115442ns  | 161887ns   | 118415ns  |
-| Update   ~1K entities with 2 systems | 552324ns  | 462417ns  | 459979ns  | 492922ns   | 458585ns  |
-| Update   ~4K entities with 2 systems | 2108878ns | 1759468ns | 1745768ns | 1810591ns  | 1716239ns |
+|                                      | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    |
+|:-------------------------------------|:----------|:---------|:----------|:-----------|:---------|
+| Update    16 entities with 2 systems | 3729ns    | 3163ns   | 3100ns    | 26587ns    | 5405ns   |
+| Update    64 entities with 2 systems | 15438ns   | 13300ns  | 13099ns   | 33517ns    | 15250ns  |
+| Update   256 entities with 2 systems | 68250ns   | 57977ns  | 56766ns   | 80712ns    | 58618ns  |
+| Update   ~1K entities with 2 systems | 275555ns  | 234603ns | 228666ns  | 249298ns   | 229416ns |
+| Update   ~4K entities with 2 systems | 1061039ns | 914749ns | 890603ns  | 964630ns   | 885982ns |
 
 |                                      | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
 |:-------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Update  ~16K entities with 2 systems | 8ms       | 7ms    | 7ms       | 7ms        | 6ms     |
-| Update  ~65K entities with 2 systems | 34ms      | 29ms   | 28ms      | 28ms       | 28ms    |
-| Update  262K entities with 2 systems | 140ms     | 118ms  | 118ms     | 115ms      | 115ms   |
-| Update   ~1M entities with 2 systems | 565ms     | 472ms  | 469ms     | 458ms      | 460ms   |
-| Update   ~2M entities with 2 systems | 1133ms    | 955ms  | 941ms     | 923ms      | 928ms   |
+| Update  ~16K entities with 2 systems | 4ms       | 3ms    | 3ms       | 3ms        | 3ms     |
+| Update  ~65K entities with 2 systems | 17ms      | 14ms   | 14ms      | 14ms       | 14ms    |
+| Update  262K entities with 2 systems | 70ms      | 59ms   | 58ms      | 57ms       | 57ms    |
+| Update   ~1M entities with 2 systems | 282ms     | 240ms  | 233ms     | 228ms      | 230ms   |
+| Update   ~2M entities with 2 systems | 566ms     | 481ms  | 468ms     | 459ms      | 460ms   |
+
+
 
 **Note:**
 * Systems used
@@ -350,21 +360,22 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT\*    | EnTT (runtime)\** | EnTT (group)\*** | EnTT (stable)\**** | Ginseng   | mustache   | Flecs     |
-|:-------------------------------------|:----------|:----------|:------------------|:-----------------|:-------------------|:----------|:-----------|:----------|
-| Update    16 entities with 3 systems | 8602ns    | 6576ns    | 8246ns            | 6571ns           | 6436ns             | 6524ns    | 78052ns    | 11817ns   |
-| Update    64 entities with 3 systems | 35139ns   | 26877ns   | 34192ns           | 26814ns          | 26368ns            | 27038ns   | 106319ns   | 31986ns   |
-| Update   256 entities with 3 systems | 157999ns  | 118470ns  | 152658ns          | 118765ns         | 115460ns           | 119415ns  | 190452ns   | 121536ns  |
-| Update   ~1K entities with 3 systems | 633522ns  | 473762ns  | 608876ns          | 475260ns         | 461407ns           | 476465ns  | 552786ns   | 468797ns  |
-| Update   ~4K entities with 3 systems | 2437296ns | 1801906ns | 2344336ns         | 1812432ns        | 1751976ns          | 1810828ns | 1868959ns  | 1763144ns |
+|                                      | EntityX   | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs    |
+|:-------------------------------------|:----------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|:---------|
+| Update    16 entities with 3 systems | 5061ns    | 3770ns   | 4818ns           | 3706ns         | 3611ns          | 3684ns    | 40947ns    | 4566ns    | 6045ns   |
+| Update    64 entities with 3 systems | 19986ns   | 14868ns  | 19384ns          | 14509ns        | 14283ns         | 14663ns   | 51807ns    | 18235ns   | 16732ns  |
+| Update   256 entities with 3 systems | 79578ns   | 59175ns  | 77042ns          | 57971ns        | 57430ns         | 59032ns   | 94673ns    | 73033ns   | 59560ns  |
+| Update   ~1K entities with 3 systems | 319687ns  | 240287ns | 306767ns         | 234663ns       | 233339ns        | 238407ns  | 264001ns   | 292525ns  | 232612ns |
+| Update   ~4K entities with 3 systems | 1229669ns | 932327ns | 1172747ns        | 913084ns       | 907653ns        | 931217ns  | 951734ns   | 1127371ns | 897724ns |
 
-|                                      | EntityX   | EnTT\* | EnTT (runtime)\** | EnTT (group)\*** | EnTT (stable)\**** | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:----------|:-------|:------------------|:-----------------|:-------------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 systems | 9ms       | 7ms    | 9ms               | 7ms              | 7ms                | 7ms       | 7ms        | 7ms     |
-| Update  ~65K entities with 3 systems | 39ms      | 30ms   | 38ms              | 30ms             | 29ms               | 30ms      | 28ms       | 29ms    |
-| Update  262K entities with 3 systems | 161ms     | 122ms  | 155ms             | 132ms            | 120ms              | 122ms     | 117ms      | 118ms   |
-| Update   ~1M entities with 3 systems | 651ms     | 487ms  | 626ms             | 680ms            | 476ms              | 488ms     | 468ms      | 474ms   |
-| Update   ~2M entities with 3 systems | 1297ms    | 981ms  | 1253ms            | 1409ms           | 960ms              | 983ms     | 940ms      | 952ms   |
+|                                      | EntityX   | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs   |
+|:-------------------------------------|:----------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|:--------|
+| Update  ~16K entities with 3 systems | 5ms       | 3ms    | 4ms              | 3ms            | 3ms             | 3ms       | 3ms        | 4ms       | 3ms     |
+| Update  ~65K entities with 3 systems | 20ms      | 15ms   | 19ms             | 14ms           | 14ms            | 14ms      | 14ms       | 18ms      | 14ms    |
+| Update  262K entities with 3 systems | 83ms      | 61ms   | 78ms             | 61ms           | 59ms            | 60ms      | 58ms       | 74ms      | 58ms    |
+| Update   ~1M entities with 3 systems | 324ms     | 244ms  | 311ms            | 279ms          | 238ms           | 243ms     | 234ms      | 300ms     | 236ms   |
+| Update   ~2M entities with 3 systems | 653ms     | 487ms  | 625ms            | 643ms          | 478ms           | 490ms     | 469ms      | 603ms     | 473ms   |
+
 
 **Note:**
 * Systems used
@@ -388,21 +399,21 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT\*    | EnTT (runtime)\** | EnTT (group)\*** | EnTT (stable)\**** | Ginseng   | mustache   | Flecs     |
-|:-------------------------------------|:----------|:----------|:------------------|:-----------------|:-------------------|:----------|:-----------|:----------|
-| Update    16 entities with 3 Systems | 8586ns    | 6586ns    | 8285ns            | 6563ns           | 6405ns             | 6525ns    | 84141ns    | 11723ns   |
-| Update    64 entities with 3 Systems | 35123ns   | 26920ns   | 34249ns           | 26802ns          | 26332ns            | 27058ns   | 100132ns   | 31898ns   |
-| Update   256 entities with 3 Systems | 158071ns  | 118369ns  | 152283ns          | 118809ns         | 115493ns           | 119424ns  | 185986ns   | 121469ns  |
-| Update   ~1K entities with 3 Systems | 634442ns  | 473035ns  | 608478ns          | 475103ns         | 461509ns           | 476499ns  | 552646ns   | 469061ns  |
-| Update   ~4K entities with 3 Systems | 2438552ns | 1801611ns | 2346543ns         | 1810703ns        | 1751117ns          | 1812692ns | 1875480ns  | 1764723ns |
+|                                      | EntityX   | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs    |
+|:-------------------------------------|:----------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|:---------|
+| Update    16 entities with 3 Systems | 4274ns    | 3282ns   | 4062ns           | 3245ns         | 3154ns          | 3209ns    | 41744ns    | 4129ns    | 5816ns   |
+| Update    64 entities with 3 Systems | 17792ns   | 13568ns  | 17198ns          | 13302ns        | 13150ns         | 13408ns   | 50824ns    | 17388ns   | 15810ns  |
+| Update   256 entities with 3 Systems | 79447ns   | 59144ns  | 76381ns          | 58076ns        | 57455ns         | 59005ns   | 93836ns    | 73503ns   | 59708ns  |
+| Update   ~1K entities with 3 Systems | 319297ns  | 239432ns | 305845ns         | 233838ns       | 232607ns        | 236416ns  | 269476ns   | 293784ns  | 233532ns |
+| Update   ~4K entities with 3 Systems | 1226840ns | 930325ns | 1170713ns        | 907876ns       | 906957ns        | 920749ns  | 958945ns   | 1263079ns | 896467ns |
 
-|                                      | EntityX   | EnTT\* | EnTT (runtime)\** | EnTT (group)\*** | EnTT (stable)\**** | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:----------|:-------|:------------------|:-----------------|:-------------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 Systems | 9ms       | 7ms    | 9ms               | 7ms              | 7ms                | 7ms       | 7ms        | 7ms     |
-| Update  ~65K entities with 3 Systems | 39ms      | 30ms   | 38ms              | 30ms             | 29ms               | 30ms      | 28ms       | 29ms    |
-| Update  262K entities with 3 Systems | 161ms     | 124ms  | 155ms             | 132ms            | 119ms              | 122ms     | 117ms      | 118ms   |
-| Update   ~1M entities with 3 Systems | 649ms     | 487ms  | 626ms             | 679ms            | 477ms              | 488ms     | 467ms      | 473ms   |
-| Update   ~2M entities with 3 Systems | 1299ms    | 981ms  | 1255ms            | 1414ms           | 959ms              | 983ms     | 939ms      | 953ms   |
+|                                      | EntityX   | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs   |
+|:-------------------------------------|:----------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:----------|:--------|
+| Update  ~16K entities with 3 Systems | 4ms       | 3ms    | 4ms              | 3ms            | 3ms             | 3ms       | 3ms        | 5ms       | 3ms     |
+| Update  ~65K entities with 3 Systems | 20ms      | 15ms   | 19ms             | 14ms           | 14ms            | 14ms      | 14ms       | 18ms      | 14ms    |
+| Update  262K entities with 3 Systems | 80ms      | 60ms   | 78ms             | 61ms           | 59ms            | 60ms      | 58ms       | 75ms      | 59ms    |
+| Update   ~1M entities with 3 Systems | 324ms     | 243ms  | 310ms            | 285ms          | 238ms           | 243ms     | 234ms      | 300ms     | 233ms   |
+| Update   ~2M entities with 3 Systems | 651ms     | 486ms  | 623ms            | 692ms          | 476ms           | 490ms     | 468ms      | 602ms     | 468ms   |
 
 
 **Note:**
@@ -427,20 +438,21 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                                | EntityX   | EnTT   | EnTT (runtime)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs\* |
-|:-----------------------------------------------|:----------|:-------|:-----------------|:----------------|:----------|:-----------|:----------|:--------|
-| Iterate over    16 entities with one component | 525ns     | 35ns   | 432ns            | 34ns            | 34ns      | 24292ns    | 21ns      | 658ns   |
-| Iterate over    64 entities with one component | 1995ns    | 93ns   | 1681ns           | 93ns            | 127ns     | 25064ns    | 67ns      | 697ns   |
-| Iterate over   256 entities with one component | 7872ns    | 354ns  | 6699ns           | 355ns           | 519ns     | 24859ns    | 273ns     | 848ns   |
-| Iterate over   ~1K entities with one component | 31601ns   | 1348ns | 26854ns          | 1350ns          | 2070ns    | 25179ns    | 1018ns    | 1342ns  |
-| Iterate over   ~4K entities with one component | 125976ns  | 5516ns | 104402ns         | 5519ns          | 7979ns    | 19676ns    | 4004ns    | 3732ns  |
+|                                                | EntityX   | EnTT   | EnTT (runtime)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
+|:-----------------------------------------------|:----------|:-------|:-----------------|:----------------|:----------|:-----------|:--------|
+| Iterate over    16 entities with one component | 248ns     | 20ns   | 221ns            | 19ns            | 17ns      | 11652ns    | 321ns   |
+| Iterate over    64 entities with one component | 939ns     | 67ns   | 846ns            | 66ns            | 63ns      | 11979ns    | 335ns   |
+| Iterate over   256 entities with one component | 3730ns    | 261ns  | 3353ns           | 259ns           | 259ns     | 12178ns    | 415ns   |
+| Iterate over   ~1K entities with one component | 15071ns   | 1007ns | 13379ns          | 1007ns          | 1005ns    | 12073ns    | 665ns   |
+| Iterate over   ~4K entities with one component | 59668ns   | 4108ns | 53459ns          | 3996ns          | 3997ns    | 9635ns     | 1861ns  |
 
-|                                                | EntityX   | EnTT   | EnTT (runtime)   | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs\* |
-|:-----------------------------------------------|:----------|:-------|:-----------------|:----------------|:----------|:-----------|:----------|:--------|
-| Iterate over  ~65K entities with one component | 2ms       | 0ms    | 1ms              | 0ms             | 0ms       | 0ms        | 0ms       | 0ms     |
-| Iterate over  262K entities with one component | 7ms       | 0ms    | 6ms              | 0ms             | 0ms       | 0ms        | 0ms       | 0ms     |
-| Iterate over   ~1M entities with one component | 32ms      | 2ms    | 27ms             | 2ms             | 3ms       | 2ms        | 1ms       | 1ms     |
-| Iterate over   ~2M entities with one component | 64ms      | 4ms    | 56ms             | 4ms             | 7ms       | 4ms        | 2ms       | 4ms     |
+|                                                | EntityX   | EnTT   | EnTT (runtime)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
+|:-----------------------------------------------|:----------|:-------|:-----------------|:----------------|:----------|:-----------|:--------|
+| Iterate over  ~16K entities with one component | 0ms       | 0ms    | 0ms              | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over  ~65K entities with one component | 0ms       | 0ms    | 0ms              | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over  262K entities with one component | 3ms       | 0ms    | 3ms              | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over   ~1M entities with one component | 15ms      | 1ms    | 14ms             | 1ms             | 1ms       | 1ms        | 0ms     |
+| Iterate over   ~2M entities with one component | 31ms      | 2ms    | 28ms             | 2ms             | 3ms       | 2ms        | 2ms     |
 
 
 **Notes:**
@@ -454,20 +466,21 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                                 | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group)\* | EnTT (non-owning group)\** | EnTT (partial-owning group)\*** | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs\**** |
-|:------------------------------------------------|:----------|:--------|:-----------------|:---------------------------|:---------------------------|:--------------------------------|:----------------|:----------|:-----------|:----------|:-----------|
-| Iterate over    16 entities with two components | 881ns     | 66ns    | 650ns            | 21ns                       | 43ns                       | 22ns                            | 66ns            | 61ns      | 24628ns    | 22ns      | 701ns      |
-| Iterate over    64 entities with two components | 3397ns    | 252ns   | 2541ns           | 99ns                       | 169ns                      | 84ns                            | 252ns           | 242ns     | 25683ns    | 69ns      | 733ns      |
-| Iterate over   256 entities with two components | 13483ns   | 1012ns  | 10107ns          | 346ns                      | 682ns                      | 348ns                           | 1013ns          | 920ns     | 25876ns    | 272ns     | 878ns      |
-| Iterate over   ~1K entities with two components | 54824ns   | 3997ns  | 40202ns          | 1341ns                     | 2708ns                     | 1342ns                          | 3998ns          | 3596ns    | 24434ns    | 1017ns    | 1376ns     |
-| Iterate over   ~4K entities with two components | 220333ns  | 15936ns | 160682ns         | 5316ns                     | 10786ns                    | 5326ns                          | 15933ns         | 14451ns   | 19976ns    | 4003ns    | 3749ns     |
+|                                                 | EntityX   | EnTT   | EnTT (runtime)   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
+|:------------------------------------------------|:----------|:-------|:-----------------|:---------------------------|:--------------------------|:------------------------------|:----------------|:----------|:-----------|:--------|
+| Iterate over    16 entities with two components | 439ns     | 33ns   | 315ns            | 13ns                       | 21ns                      | 11ns                          | 33ns            | 29ns      | 11862ns    | 345ns   |
+| Iterate over    64 entities with two components | 1693ns    | 133ns  | 1226ns           | 45ns                       | 87ns                      | 42ns                          | 133ns           | 119ns     | 12003ns    | 362ns   |
+| Iterate over   256 entities with two components | 6720ns    | 506ns  | 4870ns           | 173ns                      | 342ns                     | 174ns                         | 506ns           | 445ns     | 12321ns    | 444ns   |
+| Iterate over   ~1K entities with two components | 26809ns   | 1998ns | 19194ns          | 671ns                      | 1355ns                    | 752ns                         | 1998ns          | 1794ns    | 12204ns    | 683ns   |
+| Iterate over   ~4K entities with two components | 107923ns  | 7965ns | 76891ns          | 2661ns                     | 5660ns                    | 2743ns                        | 7966ns          | 7005ns    | 9972ns     | 1937ns  |
 
-|                                                 | EntityX   | EnTT   | EnTT (runtime)   | EnTT (full-owning group)\* | EnTT (non-owning group)\** | EnTT (partial-owning group)\*** | EnTT (stable)   | Ginseng   | mustache   | OpenEcs   | Flecs\**** |
-|:------------------------------------------------|:----------|:-------|:-----------------|:---------------------------|:---------------------------|:--------------------------------|:----------------|:----------|:-----------|:----------|:-----------|
-| Iterate over  ~65K entities with two components | 3ms       | 0ms    | 2ms              | 0ms                        | 0ms                        | 0ms                             | 0ms             | 0ms       | 0ms        | 0ms       | 0ms        |
-| Iterate over  262K entities with two components | 14ms      | 1ms    | 10ms             | 0ms                        | 1ms                        | 0ms                             | 1ms             | 1ms       | 0ms        | 0ms       | 0ms        |
-| Iterate over   ~1M entities with two components | 56ms      | 5ms    | 42ms             | 2ms                        | 5ms                        | 2ms                             | 5ms             | 6ms       | 2ms        | 1ms       | 1ms        |
-| Iterate over   ~2M entities with two components | 112ms     | 11ms   | 84ms             | 5ms                        | 10ms                       | 5ms                             | 11ms            | 14ms      | 4ms        | 2ms       | 4ms        |
+|                                                 | EntityX   | EnTT   | EnTT (runtime)   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
+|:------------------------------------------------|:----------|:-------|:-----------------|:---------------------------|:--------------------------|:------------------------------|:----------------|:----------|:-----------|:--------|
+| Iterate over  ~16K entities with two components | 0ms       | 0ms    | 0ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over  ~65K entities with two components | 1ms       | 0ms    | 1ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over  262K entities with two components | 6ms       | 0ms    | 5ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over   ~1M entities with two components | 27ms      | 2ms    | 20ms             | 1ms                        | 2ms                       | 1ms                           | 2ms             | 3ms       | 1ms        | 0ms     |
+| Iterate over   ~2M entities with two components | 55ms      | 5ms    | 40ms             | 2ms                        | 5ms                       | 2ms                           | 5ms             | 7ms       | 2ms        | 2ms     |
 
 
 **Notes:**
@@ -485,19 +498,19 @@ _(lower is better)_
 
 |                                                   | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
 |:--------------------------------------------------|:----------|:--------|:-----------------|:---------------------------|:--------------------------|:------------------------------|:----------------|:----------|:-----------|:--------|
-| Iterate over    16 entities with three components | 859ns     | 67ns    | 555ns            | 21ns                       | 30ns                      | 17ns                          | 67ns            | 85ns      | 24947ns    | 723ns   |
-| Iterate over    64 entities with three components | 3641ns    | 267ns   | 2319ns           | 66ns                       | 118ns                     | 60ns                          | 268ns           | 318ns     | 24373ns    | 753ns   |
-| Iterate over   256 entities with three components | 19337ns   | 1340ns  | 10982ns          | 348ns                      | 677ns                     | 348ns                         | 1342ns          | 1515ns    | 25291ns    | 915ns   |
-| Iterate over   ~1K entities with three components | 79159ns   | 5353ns  | 43687ns          | 1336ns                     | 3486ns                    | 1333ns                        | 5385ns          | 6041ns    | 25168ns    | 1405ns  |
-| Iterate over   ~4K entities with three components | 306911ns  | 21666ns | 175201ns         | 5446ns                     | 11340ns                   | 5287ns                        | 21654ns         | 24202ns   | 19624ns    | 3778ns  |
+| Iterate over    16 entities with three components | 424ns     | 33ns    | 270ns            | 10ns                       | 16ns                      | 10ns                          | 33ns            | 42ns      | 12064ns    | 360ns   |
+| Iterate over    64 entities with three components | 1789ns    | 134ns   | 1169ns           | 33ns                       | 59ns                      | 33ns                          | 134ns           | 158ns     | 12379ns    | 377ns   |
+| Iterate over   256 entities with three components | 9510ns    | 671ns   | 5481ns           | 174ns                      | 340ns                     | 174ns                         | 670ns           | 775ns     | 12433ns    | 457ns   |
+| Iterate over   ~1K entities with three components | 38032ns   | 2835ns  | 21787ns          | 669ns                      | 1345ns                    | 748ns                         | 2690ns          | 3038ns    | 10458ns    | 703ns   |
+| Iterate over   ~4K entities with three components | 151512ns  | 10813ns | 87567ns          | 2643ns                     | 5710ns                    | 2803ns                        | 10768ns         | 12145ns   | 10962ns    | 1884ns  |
 
 |                                                   | EntityX   | EnTT   | EnTT (runtime)   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
 |:--------------------------------------------------|:----------|:-------|:-----------------|:---------------------------|:--------------------------|:------------------------------|:----------------|:----------|:-----------|:--------|
-| Iterate over  ~16K entities with three components | 1ms       | 0ms    | 0ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
-| Iterate over  ~65K entities with three components | 4ms       | 0ms    | 2ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
-| Iterate over  262K entities with three components | 19ms      | 1ms    | 11ms             | 0ms                        | 1ms                       | 0ms                           | 1ms             | 1ms       | 0ms        | 0ms     |
-| Iterate over   ~1M entities with three components | 79ms      | 7ms    | 45ms             | 2ms                        | 5ms                       | 2ms                           | 7ms             | 7ms       | 2ms        | 1ms     |
-| Iterate over   ~2M entities with three components | 157ms     | 14ms   | 91ms             | 5ms                        | 10ms                      | 5ms                           | 14ms            | 15ms      | 4ms        | 4ms     |
+| Iterate over  ~16K entities with three components | 0ms       | 0ms    | 0ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over  ~65K entities with three components | 2ms       | 0ms    | 1ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over  262K entities with three components | 9ms       | 0ms    | 5ms              | 0ms                        | 0ms                       | 0ms                           | 0ms             | 0ms       | 0ms        | 0ms     |
+| Iterate over   ~1M entities with three components | 39ms      | 3ms    | 22ms             | 1ms                        | 2ms                       | 1ms                           | 3ms             | 3ms       | 1ms        | 0ms     |
+| Iterate over   ~2M entities with three components | 78ms      | 7ms    | 45ms             | 2ms                        | 5ms                       | 2ms                           | 7ms             | 7ms       | 2ms        | 2ms     |
 
 
 **Notes:**

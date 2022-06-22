@@ -3,7 +3,6 @@
 #./build.sh
 
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entt-entities/ecs-benchmark-entt-entities --benchmark_format=json > ./reports/entt-entities.json
-sleep 1
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entt-extended/ecs-benchmark-entt-extended --benchmark_format=json > ./reports/entt-extended.json
 sleep 1
@@ -51,7 +50,7 @@ sleep 1
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/entityx-extended/ecs-benchmark-entityx-extended --benchmark_filter="Complex" --benchmark_format=json > ./reports/entityx-complex.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/ginseng-extended/ecs-benchmark-ginseng-extended --benchmark_filter="Complex" --benchmark_format=json > ./reports/ginseng-complex.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/mustache-extended/ecs-benchmark-mustache-extended --benchmark_filter="Complex" --benchmark_format=json > ./reports/mustache-complex.json
-#./cmake-build-relwithdebinfo/benchmark/benchmarks/openecs-extended/ecs-benchmark-openecs-extended --benchmark_filter="Complex" --benchmark_format=json > ./reports/openecs-complex.json
+./cmake-build-relwithdebinfo/benchmark/benchmarks/openecs-extended/ecs-benchmark-openecs-extended --benchmark_filter="Complex" --benchmark_format=json > ./reports/openecs-complex.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/flecs-extended/ecs-benchmark-flecs-extended --benchmark_filter="Complex" --benchmark_format=json > ./reports/flecs-complex.json
 ./cmake-build-relwithdebinfo/benchmark/benchmarks/oop/ecs-benchmark-oop-complex --benchmark_filter="Complex" --benchmark_format=json > ./reports/oop-complex.json
 sleep 1

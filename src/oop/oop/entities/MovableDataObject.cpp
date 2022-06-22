@@ -14,7 +14,7 @@ namespace ecs::benchmarks::oop::entities {
         MovableObject::update(dt);
         // NOTE: copy-paste from DataSystem
         m_data.thingy++;
-        m_data.dingy += 0.0001F * dt;
+        m_data.dingy += 0.0001 * static_cast<double>(dt);
         m_data.mingy = !m_data.mingy;
         m_data.stringy = std::to_string(m_data.dingy);
     }

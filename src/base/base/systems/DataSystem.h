@@ -26,7 +26,7 @@ namespace ecs::benchmarks::base::systems {
 
         static void updateData(DataComponent& data, TimeDelta dt) {
             data.thingy++;
-            data.dingy += 0.0001 * dt;
+            data.dingy += 0.0001 * static_cast<double>(dt);
             data.mingy = !data.mingy;
             data.stringy = std::to_string(data.dingy);
         }

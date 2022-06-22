@@ -36,7 +36,7 @@ set(OPT_WARNINGS_AS_ERRORS OFF)
 include(FetchContent)
 # Add project_options
 # https://github.com/cpp-best-practices/project_options
-FetchContent_Declare(_project_options URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.21.0.zip)
+FetchContent_Declare(_project_options URL https://github.com/cpp-best-practices/project_options/archive/refs/tags/v0.22.4.zip)
 FetchContent_MakeAvailable(_project_options)
 include(${_project_options_SOURCE_DIR}/Index.cmake)
 
@@ -85,6 +85,10 @@ include(${_project_options_SOURCE_DIR}/src/DynamicProjectOptions.cmake)
 dynamic_project_options(
   ENABLE_CACHE
   ENABLE_VS_ANALYSIS
+  ENABLE_CPPCHECK
+  #ENABLE_SANITIZER_ADDRESS
+  #ENABLE_SANITIZER_MEMORY
+  #ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
   # Note: PCH is disabled by default in developer mode because these headers become
   # globally included and they can mask other errors
   PCH_HEADERS

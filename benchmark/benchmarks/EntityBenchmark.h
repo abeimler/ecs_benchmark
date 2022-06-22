@@ -96,11 +96,8 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 for (size_t i = 0; i < nentities; ++i) {
-                    state.PauseTiming();
                     this->m_entities_factory.createEmpty(registry);
-                    state.ResumeTiming();
                 }
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -117,7 +114,6 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 this->m_entities_factory.createEmptyBulk(registry, entities);
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -131,7 +127,6 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 this->m_entities_factory.createEmptyBulk(registry, nentities);
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -144,11 +139,8 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 for (size_t i = 0; i < nentities; ++i) {
-                    state.PauseTiming();
                     this->m_entities_factory.createMinimal(registry);
-                    state.ResumeTiming();
                 }
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -165,7 +157,6 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 this->m_entities_factory.createMinimalBulk(registry, entities);
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -179,7 +170,6 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 this->m_entities_factory.createMinimalBulk(registry, nentities);
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -200,11 +190,8 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 for (auto &entity: entities) {
-                    state.PauseTiming();
                     this->m_entities_factory.destroy(registry, entity);
-                    state.ResumeTiming();
                 }
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -221,7 +208,6 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 this->m_entities_factory.destroyBulk(registry, entities);
-                state.PauseTiming();
             }
             state.counters["entities"] = static_cast<double>(nentities);
         }
@@ -236,12 +222,10 @@ namespace ecs::benchmarks::base {
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
 
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -255,12 +239,10 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOneConst(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -274,13 +256,11 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwoConst(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -294,14 +274,12 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithHalfComponents(registry, nentities,
                                                                                                 entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwoConst(registry, entity));
                     benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -313,13 +291,11 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     this->m_entities_factory.removeComponentOne(registry, entity);
                     this->m_entities_factory.addComponentOne(registry, entity);
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -340,10 +316,6 @@ namespace ecs::benchmarks::base {
         benchmark_suite.BM_CreateEmptyEntities(state);\
     }\
     BENCHMARK(BM_CreateEmptyEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);\
-    static void BM_DestroyEntities(benchmark::State &state) {\
-        benchmark_suite.BM_DestroyEntities(state);\
-    }\
-    BENCHMARK(BM_DestroyEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);\
     static void BM_UnpackOneComponent(benchmark::State &state) {\
         benchmark_suite.BM_UnpackOneComponent(state);\
     }\
@@ -363,7 +335,11 @@ namespace ecs::benchmarks::base {
     static void BM_RemoveAddComponent(benchmark::State& state) {\
         benchmark_suite.BM_RemoveAddComponent(state);\
     }\
-    BENCHMARK(BM_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+    BENCHMARK(BM_RemoveAddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);\
+    static void BM_DestroyEntities(benchmark::State &state) {\
+        benchmark_suite.BM_DestroyEntities(state);\
+    }\
+    BENCHMARK(BM_DestroyEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 
 #endif //ECS_BENCHMARKS_ENTITYBENCHMARK_H_

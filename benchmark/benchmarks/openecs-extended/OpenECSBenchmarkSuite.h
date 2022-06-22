@@ -20,13 +20,15 @@ namespace ecs::benchmarks::openecs {
 
         explicit OpenECSBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options) : ExtendedECSBenchmark(std::move(options)) {}
 
+        /*
         base::ComponentsCounter
         initApplicationWithMixedComponents(OpenECSApplication &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->createEntitiesWithMixedComponentsFromEmpty(app.getEntities(), nentities, out);
+            /// @FIXME: SIGSEGV (Segmentation fault), can remove component(s) when createEntitiesWithMixedComponents
+            const auto ret = this->template createEntitiesWithMixedComponentsFromEmpty<entities::EntityFactory>(app.getEntities(), nentities, out);
             app.init();
             return ret;
         }
-
+        */
 
         void BM_IterateSingleComponent(benchmark::State &state) {
             using ComponentOne = ecs::benchmarks::base::components::PositionComponent;

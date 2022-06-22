@@ -49,7 +49,6 @@ namespace ecs::benchmarks::base {
         [[nodiscard]] inline const char *name() const noexcept {
             return m_name;
         }
-
         [[nodiscard]] inline auto framework_version() const {
             return m_options.version;
         }
@@ -59,7 +58,7 @@ namespace ecs::benchmarks::base {
             const auto nentities = static_cast<size_t>(state.range(0));
             std::vector<Entity> entities;
             Application app(m_options.add_more_complex_system);
-            const ComponentsCounter components_counter = initApplicationWithEntities(app, nentities, entities);
+            const ComponentsCounter components_counter = this->initApplicationWithEntities(app, nentities, entities);
             for (auto _: state) {
                 app.update(fakeTimeDelta);
             }
@@ -72,7 +71,7 @@ namespace ecs::benchmarks::base {
             const auto nentities = static_cast<size_t>(state.range(0));
             std::vector<Entity> entities;
             Application app(m_options.add_more_complex_system);
-            const ComponentsCounter components_counter = initApplicationWithMixedComponents(app, nentities, entities);
+            const ComponentsCounter components_counter = this->template initApplicationWithMixedComponents<EntityFactory>(app, nentities, entities);
             for (auto _: state) {
                 app.update(fakeTimeDelta);
             }
@@ -95,10 +94,9 @@ namespace ecs::benchmarks::base {
                 Application app(m_options.add_more_complex_system);
                 EntityManager& registry = app.getEntities();
 
+                state.ResumeTiming();
                 for (size_t i = 0; i < nentities; ++i) {
-                    state.ResumeTiming();
                     this->m_entities_factory.createEmpty(registry);
-                    state.PauseTiming();
                 }
             }
             state.counters["entities"] = static_cast<double>(nentities);
@@ -130,10 +128,9 @@ namespace ecs::benchmarks::base {
                 Application app(m_options.add_more_complex_system);
                 EntityManager& registry = app.getEntities();
 
+                state.ResumeTiming();
                 for (size_t i = 0; i < nentities; ++i) {
-                    state.ResumeTiming();
                     this->m_entities_factory.createMinimal(registry);
-                    state.PauseTiming();
                 }
             }
             state.counters["entities"] = static_cast<double>(nentities);
@@ -177,9 +174,7 @@ namespace ecs::benchmarks::base {
 
                 state.ResumeTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     this->m_entities_factory.destroy(registry, entity);
-                    state.PauseTiming();
                 }
             }
             state.counters["entities"] = static_cast<double>(nentities);
@@ -215,11 +210,8 @@ namespace ecs::benchmarks::base {
                                                                                                    entities);
 
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -234,12 +226,10 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOneConst(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -254,13 +244,11 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwoConst(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -275,14 +263,12 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithHalfComponents(registry, nentities,
                                                                                                 entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
                     benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwoConst(registry, entity));
                     benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -297,13 +283,11 @@ namespace ecs::benchmarks::base {
             std::vector<Entity> entities;
             const ComponentsCounter components_counter = this->createEntitiesWithMinimalComponents(registry, nentities,
                                                                                                    entities);
+
             for (auto _: state) {
-                state.PauseTiming();
                 for (auto &entity: entities) {
-                    state.ResumeTiming();
                     this->m_entities_factory.removeComponentOne(registry, entity);
                     this->m_entities_factory.addComponentOne(registry, entity);
-                    state.PauseTiming();
                 }
             }
             this->setCounters(state, entities, components_counter);
@@ -332,17 +316,36 @@ namespace ecs::benchmarks::base {
             return ret;
         }
 
+        template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
+        requires HasRemoveComponentsFeatures<tEntityFactory>
         ComponentsCounter
         initApplicationWithMixedComponents(Application &app, size_t nentities) {
-            const auto ret = this->createEntitiesWithMixedComponents(app.getEntities(), nentities);
+            const auto ret = this->template createEntitiesWithMixedComponents<tEntityManager>(app.getEntities(), nentities);
             app.init();
             return ret;
         }
+        template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
+        requires HasRemoveComponentsFeatures<tEntityFactory>
         ComponentsCounter
         initApplicationWithMixedComponents(Application &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->createEntitiesWithMixedComponents(app.getEntities(), nentities, out);
+            const auto ret = this->template createEntitiesWithMixedComponents<tEntityFactory, tEntityManager>(app.getEntities(), nentities, out);
             app.init();
             return ret;
+        }
+
+        template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
+        requires HasAddComponentsFeatures<tEntityFactory>
+        ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities) {
+          const auto ret = this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(), nentities);
+          app.init();
+          return ret;
+        }
+        template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
+        requires HasAddComponentsFeatures<tEntityFactory>
+        ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities, std::vector<Entity>& out) {
+          const auto ret = this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(), nentities, out);
+          app.init();
+          return ret;
         }
 
         ComponentsCounter initApplicationWithMinimalComponents(Application &app, size_t nentities, std::vector<Entity> &out) {

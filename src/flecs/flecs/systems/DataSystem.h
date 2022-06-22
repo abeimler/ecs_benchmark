@@ -16,7 +16,7 @@ namespace ecs::benchmarks::flecs::systems {
                                        ecs::benchmarks::base::components::DataComponent &data) {
             const TimeDelta dt = it.delta_time();
 
-            data.dingy += 0.0001 * dt;
+            data.dingy += 0.0001 * static_cast<double>(dt);
             data.mingy = !data.mingy;
             data.thingy++;
             data.stringy = std::to_string(data.dingy);

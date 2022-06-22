@@ -81,7 +81,7 @@ namespace ecs::benchmarks::oop::entities {
 
     void EntityFactory::remove(EntityManager &registry, Entity entity) {
         if (entity != nullptr && entity->id() != 0) {
-            registry.erase(std::next(registry.begin(), entity->id() - 1l));
+            registry.erase(std::next(registry.begin(), entity->id() - 1ul));
         }
     }
 

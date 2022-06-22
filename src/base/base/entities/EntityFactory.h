@@ -5,11 +5,14 @@
 
 namespace ecs::benchmarks::base::entities {
 
-    template<class tEntityManager, typename tEntity, class ComponentOne, class ComponentTwo, class ComponentThree>
+    template <class tEntityManager, typename tEntity, class tComponentOne, class tComponentTwo, class tComponentThree>
     class EntityFactory {
     public:
         using EntityManager = tEntityManager;
         using Entity = tEntity;
+        using ComponentOne = tComponentOne;
+        using ComponentTwo = tComponentTwo;
+        using ComponentThree = tComponentThree;
 
         // virtual dtor and the rule of 6
         EntityFactory() = default;
@@ -46,7 +49,9 @@ namespace ecs::benchmarks::base::entities {
         virtual void removeComponentTwo(EntityManager &registry, Entity entity) = 0;
         virtual void removeComponentThree(EntityManager &registry, Entity entity) = 0;
 
-        virtual void addComponentOne(EntityManager &registry, Entity entity) = 0;
+        virtual void addComponentOne(EntityManager& registry, Entity entity) = 0;
+        virtual void addComponentTwo(EntityManager& registry, Entity entity) = 0;
+        virtual void addComponentThree(EntityManager& registry, Entity entity) = 0;
     };
 
 }

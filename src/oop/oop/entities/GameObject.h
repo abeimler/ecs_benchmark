@@ -8,7 +8,7 @@ namespace ecs::benchmarks::oop::entities {
 
     class GameObject {
     public:
-        using game_object_id_t = std::size_t;
+        using game_object_id_t = int64_t;
 
         GameObject() = default;
         GameObject(const GameObject &) = default;

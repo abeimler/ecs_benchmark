@@ -75,12 +75,12 @@ namespace ecs::benchmarks::openecs::entities {
         // get component as const not supported ?
         [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
         getComponentOneConst(EntityManager &/*entities*/, Entity& entity) {
-            return std::as_const(entity).get<ecs::benchmarks::base::components::PositionComponent>();
+            return entity.get<ecs::benchmarks::base::components::PositionComponent>();
         }
 
         [[nodiscard]] static inline const ecs::benchmarks::base::components::VelocityComponent &
         getComponentTwoConst(EntityManager &/*entities*/, Entity& entity) {
-            return std::as_const(entity).get<ecs::benchmarks::base::components::VelocityComponent>();
+            return entity.get<ecs::benchmarks::base::components::VelocityComponent>();
         }
 
         [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
@@ -113,6 +113,12 @@ namespace ecs::benchmarks::openecs::entities {
 
         static inline auto &addComponentOne(EntityManager & /*entities*/, Entity entity) {
             return entity.add<ecs::benchmarks::base::components::PositionComponent>();
+        }
+        static inline auto& addComponentTwo(EntityManager& /*entities*/, Entity entity) {
+          return entity.add<ecs::benchmarks::base::components::VelocityComponent>();
+        }
+        static inline auto& addComponentThree(EntityManager& /*entities*/, Entity entity) {
+          return entity.add<ecs::benchmarks::base::components::DataComponent>();
         }
     };
 
