@@ -382,13 +382,13 @@ _(lower is better)_
     1. `MovementSystem`
     2. `DataSystem`
     3. `MoreComplexSystem`
-* \*   EnTT Framework, iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
-* \**  EnTT Framework, iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
-* \*** EnTT Framework, iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
-   1. `DataSystem`: No Group, use normal `view`. _(Can't group a single component)_
-   2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const VelocityComponent>)`
+* \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
+* \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+* \*** EnTT iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+   1. `DataSystem`: No Group, use `registry.view<DataComponent>`. _(Can't group a single component)_
+   2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
    3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
-* \**** EnTT Framework, iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
+* \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
 
 
 
@@ -422,13 +422,13 @@ _(lower is better)_
     2. `DataSystem`
     3. `MoreComplexSystem`
 * Not every entity has all three components, some got removed
-* \*   EnTT Framework, iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
-* \**  EnTT Framework, iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
-* \*** EnTT Framework, iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
-    1. `DataSystem`: No Group, use normal `view`. _(Can't group a single component)_
-    2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(::entt::get<const VelocityComponent>)`
+* \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
+* \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+* \*** EnTT iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+    1. `DataSystem`: No Group, use `registry.view<DataComponent>`. _(Can't group a single component)_
+    2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
     3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
-* \**** EnTT Framework, iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
+* \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
 
 
 
@@ -438,24 +438,25 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                                | EntityX   | EnTT   | EnTT (runtime)   | EnTT (stable) | Ginseng    | mustache   | Flecs   |
-|:-----------------------------------------------|:----------|:-------|:-----------------|:--------------|:-----------|:-----------|:--------|
-| Iterate over    16 entities with one component | 248ns     | 20ns   | 221ns            | 19ns          | **17ns**   | 11652ns    | 321ns   |
-| Iterate over    64 entities with one component | 939ns     | 67ns   | 846ns            | 66ns          | **63ns**   | 11979ns    | 335ns   |
-| Iterate over   256 entities with one component | 3730ns    | 261ns  | 3353ns           | **259ns**     | **259ns**  | 12178ns    | 415ns   |
-| Iterate over   ~1K entities with one component | 15071ns   | 1007ns | 13379ns          | 1007ns        | **1005ns** | 12073ns    | 665ns   |
-| Iterate over   ~4K entities with one component | 59668ns   | 4108ns | 53459ns          | **3996ns**    | 3997ns     | 9635ns     | 1861ns  |
+|                                                | EntityX   | EnTT   | EnTT (runtime)   | EnTT (stable)\* | Ginseng    | mustache   | Flecs\**   |
+|:-----------------------------------------------|:----------|:-------|:-----------------|:----------------|:-----------|:-----------|:-----------|
+| Iterate over    16 entities with one component | 248ns     | 20ns   | 221ns            | 19ns            | **17ns**   | 11652ns    | 321ns      |
+| Iterate over    64 entities with one component | 939ns     | 67ns   | 846ns            | 66ns            | **63ns**   | 11979ns    | 335ns      |
+| Iterate over   256 entities with one component | 3730ns    | 261ns  | 3353ns           | **259ns**       | **259ns**  | 12178ns    | 415ns      |
+| Iterate over   ~1K entities with one component | 15071ns   | 1007ns | 13379ns          | 1007ns          | **1005ns** | 12073ns    | 665ns      |
+| Iterate over   ~4K entities with one component | 59668ns   | 4108ns | 53459ns          | **3996ns**      | 3997ns     | 9635ns     | 1861ns     |
 
-|                                                | EntityX   | EnTT    | EnTT (runtime)   | EnTT (stable) | Ginseng | mustache | Flecs   |
-|:-----------------------------------------------|:----------|:--------|:-----------------|:--------------|:--------|:---------|:--------|
-| Iterate over  262K entities with one component | 3ms       | **0ms** | 3ms              | **0ms**       | **0ms** | **0ms**  | **0ms** |
-| Iterate over   ~1M entities with one component | 15ms      | 1ms     | 14ms             | 1ms           | 1ms     | 1ms      | **0ms** |
-| Iterate over   ~2M entities with one component | 31ms      | 2ms     | 28ms             | **2ms**       | 3ms     | **2ms**  | **2ms** |
+|                                                | EntityX   | EnTT    | EnTT (runtime)   | EnTT (stable)\* | Ginseng | mustache | Flecs\**   |
+|:-----------------------------------------------|:----------|:--------|:-----------------|:----------------|:--------|:---------|:-----------|
+| Iterate over  262K entities with one component | 3ms       | **0ms** | 3ms              | **0ms**         | **0ms** | **0ms**  | **0ms**    |
+| Iterate over   ~1M entities with one component | 15ms      | 1ms     | 14ms             | 1ms             | 1ms     | 1ms      | **0ms**    |
+| Iterate over   ~2M entities with one component | 31ms      | 2ms     | 28ms             | **2ms**         | 3ms     | **2ms**  | **2ms**    |
 
 
 **Notes:**
 * pre create views/query when possible 
-* \* flecs Frameworks, iterate components via [queries](https://github.com/SanderMertens/flecs/blob/master/docs/Queries.md)
+* \* EnTT uses `registry.view` and a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
+* \** flecs [queries](https://github.com/SanderMertens/flecs/blob/master/docs/Queries.md)
 
 
 ### Iterate over entities with two components
@@ -464,26 +465,27 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                                 | EntityX   | EnTT   | EnTT (runtime)   | EnTT (full-owning group) | EnTT (non-owning group)   | EnTT (partial-owning group) | EnTT (stable)   | Ginseng   | mustache   | Flecs      |
-|:------------------------------------------------|:----------|:-------|:-----------------|:-------------------------|:--------------------------|:----------------------------|:----------------|:----------|:-----------|:-----------|
-| Iterate over    16 entities with two components | 439ns     | 33ns   | 315ns            | 13ns                     | 21ns                      | **11ns**                    | 33ns            | 29ns      | 11862ns    | 345ns      |
-| Iterate over    64 entities with two components | 1693ns    | 133ns  | 1226ns           | 45ns                     | 87ns                      | **42ns**                    | 133ns           | 119ns     | 12003ns    | 362ns      |
-| Iterate over   256 entities with two components | 6720ns    | 506ns  | 4870ns           | **173ns**                | 342ns                     | 174ns                       | 506ns           | 445ns     | 12321ns    | 444ns      |
-| Iterate over   ~1K entities with two components | 26809ns   | 1998ns | 19194ns          | **671ns**                | 1355ns                    | 752ns                       | 1998ns          | 1794ns    | 12204ns    | 683ns      |
-| Iterate over   ~4K entities with two components | 107923ns  | 7965ns | 76891ns          | 2661ns                   | 5660ns                    | 2743ns                      | 7966ns          | 7005ns    | 9972ns     | **1937ns** |
+|                                                 | EntityX   | EnTT   | EnTT (runtime)   | EnTT (full-owning group)\* | EnTT (non-owning group)\**   | EnTT (partial-owning group)\*** | EnTT (stable)\****   | Ginseng   | mustache   | Flecs\*****      |
+|:------------------------------------------------|:----------|:-------|:-----------------|:---------------------------|:-----------------------------|:--------------------------------|:---------------------|:----------|:-----------|:-----------------|
+| Iterate over    16 entities with two components | 439ns     | 33ns   | 315ns            | 13ns                       | 21ns                         | **11ns**                        | 33ns                 | 29ns      | 11862ns    | 345ns            |
+| Iterate over    64 entities with two components | 1693ns    | 133ns  | 1226ns           | 45ns                       | 87ns                         | **42ns**                        | 133ns                | 119ns     | 12003ns    | 362ns            |
+| Iterate over   256 entities with two components | 6720ns    | 506ns  | 4870ns           | **173ns**                  | 342ns                        | 174ns                           | 506ns                | 445ns     | 12321ns    | 444ns            |
+| Iterate over   ~1K entities with two components | 26809ns   | 1998ns | 19194ns          | **671ns**                  | 1355ns                       | 752ns                           | 1998ns               | 1794ns    | 12204ns    | 683ns            |
+| Iterate over   ~4K entities with two components | 107923ns  | 7965ns | 76891ns          | 2661ns                     | 5660ns                       | 2743ns                          | 7966ns               | 7005ns    | 9972ns     | **1937ns**       |
 
-|                                                 | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group) | EnTT (non-owning group) | EnTT (partial-owning group) | EnTT (stable) | Ginseng | mustache | Flecs   |
-|:------------------------------------------------|:----------|:--------|:-----------------|:-------------------------|:------------------------|:----------------------------|:--------------|:--------|:---------|:--------|
-| Iterate over  262K entities with two components | 6ms       | **0ms** | 5ms              | **0ms**                  | **0ms**                 | **0ms**                     | **0ms**       | **0ms** | **0ms**  | **0ms** |
-| Iterate over   ~1M entities with two components | 27ms      | 2ms     | 20ms             | 1ms                      | 2ms                     | 1ms                         | 2ms           | 3ms     | 1ms      | **0ms** |
-| Iterate over   ~2M entities with two components | 55ms      | 5ms     | 40ms             | **2ms**                  | 5ms                     | **2ms**                     | 5ms           | 7ms     | **2ms**  | **2ms** |
+|                                                 | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group)\* | EnTT (non-owning group)\** | EnTT (partial-owning group)\*** | EnTT (stable)\**** | Ginseng | mustache | Flecs\*****   |
+|:------------------------------------------------|:----------|:--------|:-----------------|:---------------------------|:---------------------------|:--------------------------------|:-------------------|:--------|:---------|:--------------|
+| Iterate over  262K entities with two components | 6ms       | **0ms** | 5ms              | **0ms**                    | **0ms**                    | **0ms**                         | **0ms**            | **0ms** | **0ms**  | **0ms**       |
+| Iterate over   ~1M entities with two components | 27ms      | 2ms     | 20ms             | 1ms                        | 2ms                        | 1ms                             | 2ms                | 3ms     | 1ms      | **0ms**       |
+| Iterate over   ~2M entities with two components | 55ms      | 5ms     | 40ms             | **2ms**                    | 5ms                        | **2ms**                         | 5ms                | 7ms     | **2ms**  | **2ms**       |
 
 
 **Notes:**
 * pre create views/query when possible
 * \* EnTT Full-owning group, `registry.group<PositionComponent, VelocityComponent>()`
 * \** EnTT Non-owning group, `registry.group(entt::get<<PositionComponent, VelocityComponent>>)`
-* \*** EnTT Partial-owning group, `registry.group<PositionComponent>(::entt::get<VelocityComponent>)`
+* \*** EnTT Partial-owning group, `registry.group<PositionComponent>(entt::get<VelocityComponent>)`
+* \**** EnTT uses `registry.view` and a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
 * \***** flecs Frameworks, iterate components via [queries](https://github.com/SanderMertens/flecs/blob/master/docs/Queries.md)
 
 ### Iterate over entities with three components
@@ -492,20 +494,20 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                                   | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group) | EnTT (non-owning group)   | EnTT (partial-owning group) | EnTT (stable)   | Ginseng   | mustache   | Flecs      |
-|:--------------------------------------------------|:----------|:--------|:-----------------|:-------------------------|:--------------------------|:----------------------------|:----------------|:----------|:-----------|:-----------|
-| Iterate over    16 entities with three components | 424ns     | 33ns    | 270ns            | **10ns**                 | 16ns                      | **10ns**                    | 33ns            | 42ns      | 12064ns    | 360ns      |
-| Iterate over    64 entities with three components | 1789ns    | 134ns   | 1169ns           | **33ns**                 | 59ns                      | **33ns**                    | 134ns           | 158ns     | 12379ns    | 377ns      |
-| Iterate over   256 entities with three components | 9510ns    | 671ns   | 5481ns           | **174ns**                | 340ns                     | **174ns**                   | 670ns           | 775ns     | 12433ns    | 457ns      |
-| Iterate over   ~1K entities with three components | 38032ns   | 2835ns  | 21787ns          | **669ns**                | 1345ns                    | 748ns                       | 2690ns          | 3038ns    | 10458ns    | 703ns      |
-| Iterate over   ~4K entities with three components | 151512ns  | 10813ns | 87567ns          | 2643ns                   | 5710ns                    | 2803ns                      | 10768ns         | 12145ns   | 10962ns    | **1884ns** |
+|                                                   | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group)\* | EnTT (non-owning group)\**   | EnTT (partial-owning group)\*** | EnTT (stable)\****   | Ginseng   | mustache   | Flecs\*****      |
+|:--------------------------------------------------|:----------|:--------|:-----------------|:---------------------------|:-----------------------------|:--------------------------------|:---------------------|:----------|:-----------|:-----------------|
+| Iterate over    16 entities with three components | 424ns     | 33ns    | 270ns            | **10ns**                   | 16ns                         | **10ns**                        | 33ns                 | 42ns      | 12064ns    | 360ns            |
+| Iterate over    64 entities with three components | 1789ns    | 134ns   | 1169ns           | **33ns**                   | 59ns                         | **33ns**                        | 134ns                | 158ns     | 12379ns    | 377ns            |
+| Iterate over   256 entities with three components | 9510ns    | 671ns   | 5481ns           | **174ns**                  | 340ns                        | **174ns**                       | 670ns                | 775ns     | 12433ns    | 457ns            |
+| Iterate over   ~1K entities with three components | 38032ns   | 2835ns  | 21787ns          | **669ns**                  | 1345ns                       | 748ns                           | 2690ns               | 3038ns    | 10458ns    | 703ns            |
+| Iterate over   ~4K entities with three components | 151512ns  | 10813ns | 87567ns          | 2643ns                     | 5710ns                       | 2803ns                          | 10768ns              | 12145ns   | 10962ns    | **1884ns**       |
 
-|                                                   | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group) | EnTT (non-owning group) | EnTT (partial-owning group) | EnTT (stable) | Ginseng | mustache | Flecs   |
-|:--------------------------------------------------|:----------|:--------|:-----------------|:-------------------------|:------------------------|:----------------------------|:--------------|:--------|:---------|:--------|
-| Iterate over  ~65K entities with three components | 2ms       | **0ms** | 1ms              | **0ms**                  | **0ms**                 | **0ms**                     | **0ms**       | **0ms** | **0ms**  | **0ms** |
-| Iterate over  262K entities with three components | 9ms       | **0ms** | 5ms              | **0ms**                  | **0ms**                 | **0ms**                     | **0ms**       | **0ms** | **0ms**  | **0ms** |
-| Iterate over   ~1M entities with three components | 39ms      | 3ms     | 22ms             | 1ms                      | 2ms                     | 1ms                         | 3ms           | 3ms     | 1ms      | **0ms** |
-| Iterate over   ~2M entities with three components | 78ms      | 7ms     | 45ms             | **2ms**                  | 5ms                     | **2ms**                     | 7ms           | 7ms     | **2ms**  | **2ms** |
+|                                                   | EntityX   | EnTT    | EnTT (runtime)   | EnTT (full-owning group)\* | EnTT (non-owning group)\** | EnTT (partial-owning group)\*** | EnTT (stable)\**** | Ginseng | mustache | Flecs\*****   |
+|:--------------------------------------------------|:----------|:--------|:-----------------|:---------------------------|:---------------------------|:--------------------------------|:-------------------|:--------|:---------|:--------------|
+| Iterate over  ~65K entities with three components | 2ms       | **0ms** | 1ms              | **0ms**                    | **0ms**                    | **0ms**                         | **0ms**            | **0ms** | **0ms**  | **0ms**       |
+| Iterate over  262K entities with three components | 9ms       | **0ms** | 5ms              | **0ms**                    | **0ms**                    | **0ms**                         | **0ms**            | **0ms** | **0ms**  | **0ms**       |
+| Iterate over   ~1M entities with three components | 39ms      | 3ms     | 22ms             | 1ms                        | 2ms                        | 1ms                             | 3ms                | 3ms     | 1ms      | **0ms**       |
+| Iterate over   ~2M entities with three components | 78ms      | 7ms     | 45ms             | **2ms**                    | 5ms                        | **2ms**                         | 7ms                | 7ms     | **2ms**  | **2ms**       |
 
 
 **Notes:**
@@ -513,7 +515,8 @@ _(lower is better)_
 * pre create views/query when possible
 * \* EnTT Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 * \** EnTT Non-owning group, `registry.group(entt::get<<PositionComponent, VelocityComponent, DataComponent>>)`
-* \*** EnTT Partial-owning group, `registry.group<PositionComponent, VelocityComponent>(::entt::get<DataComponent>)`
+* \*** EnTT Partial-owning group, `registry.group<PositionComponent, VelocityComponent>(entt::get<DataComponent>)`
+* \**** EnTT uses `registry.view` and a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
 * \***** flecs Frameworks, iterate components via [queries](https://github.com/SanderMertens/flecs/blob/master/docs/Queries.md)
 
 

@@ -69,7 +69,7 @@ namespace ecs::benchmarks::oop::entities {
 
     void EntityFactory::destroy(EntityManager &registry, Entity entity) {
         if (entity != nullptr && entity->id() != 0) {
-            registry[entity->id() - 1l]->destroy();
+            registry[entity->id() - 1ul]->destroy();
         }
     }
 
