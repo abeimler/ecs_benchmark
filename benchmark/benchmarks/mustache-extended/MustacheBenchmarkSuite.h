@@ -43,7 +43,7 @@ namespace ecs::benchmarks::mustache {
             const auto run_mode = ::mustache::JobRunMode::kCurrentThread;
             entities.forEach(
                 [](ComponentOne& comp, ComponentTwo& comp2) {
-                  dummy_each(comp, comp2);
+                    dummy_each(comp, comp2);
                 },
                 run_mode);
           });
@@ -58,7 +58,7 @@ namespace ecs::benchmarks::mustache {
             const auto run_mode = ::mustache::JobRunMode::kCurrentThread;
             entities.forEach(
                 [](ComponentOne& comp, ComponentTwo& comp2, ComponentThree& comp3) {
-                  dummy_each(comp, comp2, comp3);
+                    dummy_each(comp, comp2, comp3);
                 },
                 run_mode);
           });

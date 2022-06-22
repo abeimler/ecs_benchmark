@@ -26,7 +26,7 @@ namespace ecs::benchmarks::ginseng {
 
           BM_IterateSingleComponentCustom(state, [](auto& ent_db) {
             ent_db.visit([](ComponentOne& comp) {
-              dummy_each(comp);
+                dummy_each(comp);
             });
           });
         }

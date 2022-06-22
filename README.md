@@ -360,21 +360,21 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable) | Ginseng   | mustache   | OpenEcs   | Flecs    |
-|:-------------------------------------|:----------|:---------|:-----------------|:---------------|:--------------|:----------|:-----------|:----------|:---------|
-| Update    16 entities with 3 systems | 5061ns    | 3770ns   | 4818ns           | 3706ns         | **3611ns**    | 3684ns    | 40947ns    | 4566ns    | 6045ns   |
-| Update    64 entities with 3 systems | 19986ns   | 14868ns  | 19384ns          | 14509ns        | **14283ns**   | 14663ns   | 51807ns    | 18235ns   | 16732ns  |
-| Update   256 entities with 3 systems | 79578ns   | 59175ns  | 77042ns          | 57971ns        | **57430ns**   | 59032ns   | 94673ns    | 73033ns   | 59560ns  |
-| Update   ~1K entities with 3 systems | 319687ns  | 240287ns | 306767ns         | 234663ns       | **233339ns**  | 238407ns  | 264001ns   | 292525ns  | 232612ns |
-| Update   ~4K entities with 3 systems | 1229669ns | 932327ns | 1172747ns        | 913084ns       | **907653ns**  | 931217ns  | 951734ns   | 1127371ns | 897724ns |
+|                                      | EntityX   | EnTT\*     | EnTT (runtime)\**   | EnTT (group)\***   | EnTT (stable)\**** | Ginseng   | mustache   | OpenEcs   | Flecs    |
+|:-------------------------------------|:----------|:-----------|:--------------------|:-------------------|:-------------------|:----------|:-----------|:----------|:---------|
+| Update    16 entities with 3 systems | 5061ns    | 3770ns     | 4818ns              | 3706ns             | **3611ns**         | 3684ns    | 40947ns    | 4566ns    | 6045ns   |
+| Update    64 entities with 3 systems | 19986ns   | 14868ns    | 19384ns             | 14509ns            | **14283ns**        | 14663ns   | 51807ns    | 18235ns   | 16732ns  |
+| Update   256 entities with 3 systems | 79578ns   | 59175ns    | 77042ns             | 57971ns            | **57430ns**        | 59032ns   | 94673ns    | 73033ns   | 59560ns  |
+| Update   ~1K entities with 3 systems | 319687ns  | 240287ns   | 306767ns            | 234663ns           | **233339ns**       | 238407ns  | 264001ns   | 292525ns  | 232612ns |
+| Update   ~4K entities with 3 systems | 1229669ns | 932327ns   | 1172747ns           | 913084ns           | **907653ns**       | 931217ns  | 951734ns   | 1127371ns | 897724ns |
 
-|                                      | EntityX   | EnTT    | EnTT (runtime)   | EnTT (group) | EnTT (stable) | Ginseng  | mustache | OpenEcs   | Flecs     |
-|:-------------------------------------|:----------|:--------|:-----------------|:-------------|:--------------|:---------|:---------|:----------|:----------|
-| Update  ~16K entities with 3 systems | 5ms       | **3ms** | 4ms              | **3ms**      | **3ms**       | **3ms**  | **3ms**  | 4ms       | **3ms**   |
-| Update  ~65K entities with 3 systems | 20ms      | 15ms    | 19ms             | **14ms**     | **14ms**      | **14ms** | **14ms** | 18ms      | **14ms**  |
-| Update  262K entities with 3 systems | 83ms      | 61ms    | 78ms             | 61ms         | 59ms          | 60ms     | **58ms** | 74ms      | **58ms**  |
-| Update   ~1M entities with 3 systems | 324ms     | 244ms   | 311ms            | 279ms        | 238ms         | 243ms    | 234ms    | 300ms     | **236ms** |
-| Update   ~2M entities with 3 systems | 653ms     | 487ms   | 625ms            | 643ms        | 478ms         | 490ms    | 469ms    | 603ms     | **473ms** |
+|                                      | EntityX   | EnTT\*    | EnTT (runtime)\**   | EnTT (group)\*** | EnTT (stable)\**** | Ginseng  | mustache | OpenEcs   | Flecs     |
+|:-------------------------------------|:----------|:----------|:--------------------|:-----------------|:-------------------|:---------|:---------|:----------|:----------|
+| Update  ~16K entities with 3 systems | 5ms       | **3ms**   | 4ms                 | **3ms**          | **3ms**            | **3ms**  | **3ms**  | 4ms       | **3ms**   |
+| Update  ~65K entities with 3 systems | 20ms      | 15ms      | 19ms                | **14ms**         | **14ms**           | **14ms** | **14ms** | 18ms      | **14ms**  |
+| Update  262K entities with 3 systems | 83ms      | 61ms      | 78ms                | 61ms             | 59ms               | 60ms     | **58ms** | 74ms      | **58ms**  |
+| Update   ~1M entities with 3 systems | 324ms     | 244ms     | 311ms               | 279ms            | 238ms              | 243ms    | 234ms    | 300ms     | **236ms** |
+| Update   ~2M entities with 3 systems | 653ms     | 487ms     | 625ms               | 643ms            | 478ms              | 490ms    | 469ms    | 603ms     | **473ms** |
 
 
 **Note:**
@@ -399,21 +399,21 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable) | Ginseng   | mustache   | OpenEcs   | Flecs    |
-|:-------------------------------------|:----------|:---------|:-----------------|:---------------|:--------------|:----------|:-----------|:----------|:---------|
-| Update    16 entities with 3 Systems | 4274ns    | 3282ns   | 4062ns           | 3245ns         | **3154ns**    | 3209ns    | 41744ns    | 4129ns    | 5816ns   |
-| Update    64 entities with 3 Systems | 17792ns   | 13568ns  | 17198ns          | 13302ns        | **13150ns**   | 13408ns   | 50824ns    | 17388ns   | 15810ns  |
-| Update   256 entities with 3 Systems | 79447ns   | 59144ns  | 76381ns          | 58076ns        | **57455ns**   | 59005ns   | 93836ns    | 73503ns   | 59708ns  |
-| Update   ~1K entities with 3 Systems | 319297ns  | 239432ns | 305845ns         | 233838ns       | **232607ns**  | 236416ns  | 269476ns   | 293784ns  | 233532ns |
-| Update   ~4K entities with 3 Systems | 1226840ns | 930325ns | 1170713ns        | 907876ns       | **906957ns**  | 920749ns  | 958945ns   | 1263079ns | 896467ns |
+|                                      | EntityX   | EnTT\*     | EnTT (runtime)\**   | EnTT (group)\***   | EnTT (stable)\**** | Ginseng   | mustache   | OpenEcs   | Flecs    |
+|:-------------------------------------|:----------|:-----------|:--------------------|:-------------------|:-------------------|:----------|:-----------|:----------|:---------|
+| Update    16 entities with 3 Systems | 4274ns    | 3282ns     | 4062ns              | 3245ns             | **3154ns**         | 3209ns    | 41744ns    | 4129ns    | 5816ns   |
+| Update    64 entities with 3 Systems | 17792ns   | 13568ns    | 17198ns             | 13302ns            | **13150ns**        | 13408ns   | 50824ns    | 17388ns   | 15810ns  |
+| Update   256 entities with 3 Systems | 79447ns   | 59144ns    | 76381ns             | 58076ns            | **57455ns**        | 59005ns   | 93836ns    | 73503ns   | 59708ns  |
+| Update   ~1K entities with 3 Systems | 319297ns  | 239432ns   | 305845ns            | 233838ns           | **232607ns**       | 236416ns  | 269476ns   | 293784ns  | 233532ns |
+| Update   ~4K entities with 3 Systems | 1226840ns | 930325ns   | 1170713ns           | 907876ns           | **906957ns**       | 920749ns  | 958945ns   | 1263079ns | 896467ns |
 
-|                                      | EntityX   | EnTT    | EnTT (runtime)   | EnTT (group) | EnTT (stable) | Ginseng  | mustache  | OpenEcs   | Flecs     |
-|:-------------------------------------|:----------|:--------|:-----------------|:-------------|:--------------|:---------|:----------|:----------|:----------|
-| Update  ~16K entities with 3 Systems | 4ms       | **3ms** | 4ms              | **3ms**      | **3ms**       | **3ms**  | **3ms**   | 5ms       | **3ms**   |
-| Update  ~65K entities with 3 Systems | 20ms      | 15ms    | 19ms             | **14ms**     | **14ms**      | **14ms** | **14ms**  | 18ms      | **14ms**  |
-| Update  262K entities with 3 Systems | 80ms      | 60ms    | 78ms             | 61ms         | 59ms          | 60ms     | **58ms**  | 75ms      | 59ms      |
-| Update   ~1M entities with 3 Systems | 324ms     | 243ms   | 310ms            | 285ms        | 238ms         | 243ms    | 234ms     | 300ms     | **233ms** |
-| Update   ~2M entities with 3 Systems | 651ms     | 486ms   | 623ms            | 692ms        | 476ms         | 490ms    | **468ms** | 602ms     | **468ms** |
+|                                      | EntityX   | EnTT\*    | EnTT (runtime)\**   | EnTT (group)\*** | EnTT (stable)\**** | Ginseng  | mustache  | OpenEcs   | Flecs     |
+|:-------------------------------------|:----------|:----------|:--------------------|:-----------------|:-------------------|:---------|:----------|:----------|:----------|
+| Update  ~16K entities with 3 Systems | 4ms       | **3ms**   | 4ms                 | **3ms**          | **3ms**            | **3ms**  | **3ms**   | 5ms       | **3ms**   |
+| Update  ~65K entities with 3 Systems | 20ms      | 15ms      | 19ms                | **14ms**         | **14ms**           | **14ms** | **14ms**  | 18ms      | **14ms**  |
+| Update  262K entities with 3 Systems | 80ms      | 60ms      | 78ms                | 61ms             | 59ms               | 60ms     | **58ms**  | 75ms      | 59ms      |
+| Update   ~1M entities with 3 Systems | 324ms     | 243ms     | 310ms               | 285ms            | 238ms              | 243ms    | 234ms     | 300ms     | **233ms** |
+| Update   ~2M entities with 3 Systems | 651ms     | 486ms     | 623ms               | 692ms            | 476ms              | 490ms    | **468ms** | 602ms     | **468ms** |
 
 
 **Note:**

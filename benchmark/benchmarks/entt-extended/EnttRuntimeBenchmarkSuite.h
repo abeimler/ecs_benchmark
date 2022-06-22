@@ -68,7 +68,8 @@ namespace ecs::benchmarks::entt {
                 view.each([&](auto entity) {
                     auto& comp = registry.template get<ComponentOne>(entity);
                     auto& comp2 = registry.template get<ComponentTwo>(entity);
-                    dummy_each(comp, comp2);
+                    auto& comp3 = registry.template get<ComponentThree>(entity);
+                    dummy_each(comp, comp2, comp3);
                 });
             });
         }
