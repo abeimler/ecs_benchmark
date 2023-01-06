@@ -1,0 +1,158 @@
+version: 3
+
+includes:
+  benchmarks: ./taskfiles/Benchmark.yml
+
+vars:
+  VCPKG_ROOT: '{{.VCPKG_ROOT | default "./vcpkg"}}'
+  PROJECT_DIR: '{{.PROJECT_DIR | default "."}}'
+  TARGET: '{{.TARGET | default "all"}}'
+  CMAKE_GENERATOR: '{{.CMAKE_GENERATOR | default "Ninja Multi-Config"}}'
+  BUILD_TYPE: '{{.BUILD_TYPE | default "Release"}}'
+
+tasks:
+  configure:
+    dir: "{{.PROJECT_DIR}}"
+    cmds:
+      - >
+        cmake -S . -B build -G '{{.CMAKE_GENERATOR | default "Ninja Multi-Config"}}' -DCMAKE_BUILD_TYPE:STRING={{.CMAKE_BUILD_TYPE}} \
+          -DENABLE_TESTS:BOOL={{.FEATURE_TESTS | default "OFF"}} \
+          -DENABLE_FUZZ_TESTS:BOOL={{.FEATURE_FUZZ_TESTS | default "OFF"}} \
+          -DENABLE_CONSTEXPR_TESTS:BOOL={{.FEATURE_CONSTEXPR_TESTS | default "OFF"}} \
+          {{.CONFIGURE_FLAGS}}
+
+  build:
+    - task: configure
+      vars:
+        FEATURE_TESTS: OFF
+        CMAKE_BUILD_TYPE: Release
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Release
+
+  build:debug:
+    - task: configure
+      vars:
+        FEATURE_TESTS: OFF
+        CMAKE_BUILD_TYPE: Debug
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Debug
+
+  build:release:
+    - task: configure
+      vars:
+        FEATURE_TESTS: OFF
+        CMAKE_BUILD_TYPE: Release
+        CONFIGURE_FLAGS: -DDISABLE_SANITIZER:BOOL=ON
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Release
+
+  test:
+    - task: configure
+      vars:
+        FEATURE_TESTS: ON
+        CMAKE_BUILD_TYPE: Debug
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Debug
+    - task: test-template
+      vars:
+        CMAKE_BUILD_TYPE: Debug
+
+  test:relwithdebinfo:
+    - task: configure
+      vars:
+        FEATURE_TESTS: ON
+        CMAKE_BUILD_TYPE: RelWithDebInfo
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: RelWithDebInfo
+    - task: test-template
+      vars:
+        CMAKE_BUILD_TYPE: RelWithDebInfo
+
+  test:release:
+    - task: configure
+      vars:
+        FEATURE_TESTS: ON
+        CMAKE_BUILD_TYPE: Release
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Release
+    - task: test-template
+      vars:
+        CMAKE_BUILD_TYPE: Release
+
+  test:without-sanitizer:
+    - task: configure
+      vars:
+        FEATURE_TESTS: ON
+        CMAKE_BUILD_TYPE: Debug
+        CONFIGURE_FLAGS: -DDISABLE_SANITIZER:BOOL=ON
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Debug
+    - task: test-template
+      vars:
+        CMAKE_BUILD_TYPE: Debug
+
+  test:relwithdebinfo:without-sanitizer:
+    - task: configure
+      vars:
+        FEATURE_TESTS: ON
+        CMAKE_BUILD_TYPE: RelWithDebInfo
+        CONFIGURE_FLAGS: -DDISABLE_SANITIZER:BOOL=ON
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: RelWithDebInfo
+    - task: test-template
+      vars:
+        CMAKE_BUILD_TYPE: RelWithDebInfo
+
+  test:release:without-sanitizer:
+    - task: configure
+      vars:
+        FEATURE_TESTS: ON
+        CMAKE_BUILD_TYPE: Release
+        CONFIGURE_FLAGS: -DDISABLE_SANITIZER:BOOL=ON
+    - task: build-template
+      vars:
+        CMAKE_BUILD_TYPE: Release
+    - task: test-template
+      vars:
+        CMAKE_BUILD_TYPE: Release
+
+  # The templates called in the other tasks. The variables can be set using the `vars` parameter or by environment variables. To create global variables that are passed to the internally called templates, use `env`
+  # This template accepts the generator, build type and feature flags defined by the vars. Other flags can be passed by `CONFIGURE_FLAGS` and `BUILD_FLAGS`. For example, a specific target can be built by setting BUILD_FLAGS to "--target <NAME>"
+  build-template:
+    dir: "{{.PROJECT_DIR}}"
+    internal: true
+    cmds:
+      - cmake --build build --config {{.CMAKE_BUILD_TYPE}} {{.BUILD_FLAGS}}
+
+  # Execute the app or the tests
+  test-template:
+    dir: "{{.PROJECT_DIR}}"
+    internal: true
+    cmds:
+      - ctest --build-test --test-dir build -C {{.CMAKE_BUILD_TYPE}}
+
+  format:
+    - cmake --build build --target fix-format
+    - ~/vcpkg/vcpkg format-manifest ./vcpkg.json
+
+  lint:
+    - cmake --build build --target check-format
+    #- git ls-files --exclude-standard | grep -E '\.(cpp|hpp|c|cc|cxx|hxx|ixx)$' | xargs clang-format -i -style=file
+    #- git ls-files --exclude-standard | grep -E '(CMakeLists\.txt)|(\.(cmake))$' | xargs cmake-format --in-place | xargs cmake-lint --disabled-codes C0103 C0301 R0912 R0915 R0913 --suppress-decorations
+    #- npx -y cspell lint --no-progress --show-suggestions
+
+  clean:
+    - rm -rf ./build
+
+  default:
+    dir: "{{.PROJECT_DIR}}"
+    cmds:
+      - task: test

@@ -1,0 +1,11 @@
+version: 3
+
+tasks:
+  entt-entities:
+    - task: run-benchmark-template
+      vars:
+        BENCHMARK: benchmarks/entt-entities/ecs-benchmark-entt-entities
+        REPORT_JSON: entt-entities.json
+
+  run-benchmark-template:
+    - ./build/benchmark/benchmarks/{{.BENCHMARK}} --benchmark_format=json > ./reports/{{.REPORT_JSON | "{{.BENCHMARK_NAME}}.json"}}

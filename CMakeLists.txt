@@ -70,7 +70,6 @@ set(ENABLE_SANITIZER_ADDRESS OFF)
 set(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR OFF)
 set(ENABLE_COVERAGE OFF)
 set(ENABLE_INCLUDE_WHAT_YOU_USE OFF)
-set(ENABLE_DOXYGEN OFF)
 if(ENABLE_CHECKING)
   set(ENABLE_CLANG_TIDY "ENABLE_CLANG_TIDY")
   set(ENABLE_CPPCHECK "ENABLE_CPPCHECK")
@@ -97,9 +96,6 @@ if(FEATURE_TESTS)
     endif()
   endif()
 endif()
-if(FEATURE_DOCS)
-  set(ENABLE_DOXYGEN "ENABLE_DOXYGEN")
-endif()
 
 # Initialize project_options variable related to this project
 # This overwrites `project_options` and sets `project_warnings`
@@ -111,9 +107,9 @@ project_options(
         ${ENABLE_INCLUDE_WHAT_YOU_USE}
         ENABLE_VS_ANALYSIS
         # ENABLE_BUILD_WITH_TIME_TRACE
-        # ENABLE_INTERPROCEDURAL_OPTIMIZATION
-        # ENABLE_NATIVE_OPTIMIZATION
-        ${ENABLE_DOXYGEN}
+        ENABLE_INTERPROCEDURAL_OPTIMIZATION
+        ENABLE_NATIVE_OPTIMIZATION
+        # ENABLE_DOXYGEN
         ${ENABLE_COVERAGE}
         ${ENABLE_SANITIZER_ADDRESS}
         # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
@@ -159,7 +155,7 @@ cpmaddpackage(
         # path to exclude (optional, supports regular expressions)
         "CMAKE_FORMAT_EXCLUDE libs|resources")
 
-
+add_subdirectory(libs)
 
 # ##########################################################################################################################################
 # Project

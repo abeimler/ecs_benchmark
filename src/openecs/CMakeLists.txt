@@ -17,7 +17,7 @@
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
-add_library(${CMAKE_PROJECT_NAME}-example-openecs STATIC
+add_library(ecs-benchmark-example-openecs STATIC
         # NOTE: add source files here
         openecs/systems/DataSystem.h
         openecs/systems/DataSystem.cpp
@@ -29,14 +29,14 @@ add_library(${CMAKE_PROJECT_NAME}-example-openecs STATIC
         openecs/entities/EntityFactory.cpp
         openecs/OpenECSApplication.h
         openecs/OpenECSApplication.cpp)
-add_library(${CMAKE_PROJECT_NAME}::example::openecs ALIAS ${CMAKE_PROJECT_NAME}-example-openecs)
+add_library(ecs-benchmark::example::openecs ALIAS ecs-benchmark-example-openecs)
 
 target_include_directories(
-        ${CMAKE_PROJECT_NAME}-example-openecs
+        ecs-benchmark-example-openecs
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC project_warnings project_options)
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC ${CMAKE_PROJECT_NAME}-base)
+target_link_libraries(ecs-benchmark-example-openecs PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-example-openecs PUBLIC ecs-benchmark-base)
 
 # NOTE: add 3rd-party libs here
-target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-openecs PUBLIC OpenEcs)
+target_link_system_libraries(ecs-benchmark-example-openecs PUBLIC OpenEcs)

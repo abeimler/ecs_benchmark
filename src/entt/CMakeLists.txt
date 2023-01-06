@@ -10,7 +10,7 @@ CPMAddPackage(
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
-add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
+add_library(ecs-benchmark-example-entt STATIC
         # NOTE: add source files here
         entt/components/StablePositionComponent.h
         entt/systems/DataSystem.h
@@ -50,14 +50,14 @@ add_library(${CMAKE_PROJECT_NAME}-example-entt STATIC
         entt/StableEnttRuntimeApplication.h
         entt/StableEnttRuntimeApplication.cpp
         entt/entt.h)
-add_library(${CMAKE_PROJECT_NAME}::example::entt ALIAS ${CMAKE_PROJECT_NAME}-example-entt)
+add_library(ecs-benchmark::example::entt ALIAS ecs-benchmark-example-entt)
 
 target_include_directories(
-        ${CMAKE_PROJECT_NAME}-example-entt
+        ecs-benchmark-example-entt
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-entt PUBLIC project_warnings project_options)
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-entt PUBLIC ${CMAKE_PROJECT_NAME}-base)
+target_link_libraries(ecs-benchmark-example-entt PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-example-entt PUBLIC ecs-benchmark-base)
 
 # NOTE: add 3rd-party libs here
-target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-entt PUBLIC EnTT)
+target_link_system_libraries(ecs-benchmark-example-entt PUBLIC EnTT)

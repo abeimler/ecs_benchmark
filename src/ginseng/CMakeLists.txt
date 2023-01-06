@@ -9,7 +9,7 @@ CPMAddPackage(
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
-add_library(${CMAKE_PROJECT_NAME}-example-ginseng STATIC
+add_library(ecs-benchmark-example-ginseng STATIC
         # NOTE: add source files here
         ginseng/systems/DataSystem.h
         ginseng/systems/DataSystem.cpp
@@ -21,14 +21,14 @@ add_library(${CMAKE_PROJECT_NAME}-example-ginseng STATIC
         ginseng/entities/EntityFactory.cpp
         ginseng/GinsengApplication.h
         ginseng/GinsengApplication.cpp)
-add_library(${CMAKE_PROJECT_NAME}::example::ginseng ALIAS ${CMAKE_PROJECT_NAME}-example-ginseng)
+add_library(ecs-benchmark::example::ginseng ALIAS ecs-benchmark-example-ginseng)
 
 target_include_directories(
-        ${CMAKE_PROJECT_NAME}-example-ginseng
+        ecs-benchmark-example-ginseng
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-ginseng PUBLIC project_warnings project_options)
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-ginseng PUBLIC ${CMAKE_PROJECT_NAME}-base)
+target_link_libraries(ecs-benchmark-example-ginseng PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-example-ginseng PUBLIC ecs-benchmark-base)
 
 # NOTE: add 3rd-party libs here
-target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-ginseng PUBLIC ginseng)
+target_link_system_libraries(ecs-benchmark-example-ginseng PUBLIC ginseng)
