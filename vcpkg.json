@@ -1,8 +1,14 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
   "name": "ecs-benchmark",
-  "version-string": "4.5.0",
+  "version-string": "4.6.0",
   "dependencies": [
+    "benchmark",
     "catch2",
-    "fmt"
+    "fmt",
+    "gsl-lite",
+    "gtest",
+    "magic-enum",
+    "range-v3"
   ]
 }

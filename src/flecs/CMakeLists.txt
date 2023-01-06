@@ -1,10 +1,8 @@
 # add dependencies
 CPMAddPackage(
         NAME flecs
-        VERSION 2.4.8
+        VERSION 3.1.3
         GITHUB_REPOSITORY SanderMertens/flecs
-        # TODO: set current version, use master (release 1.1.2 is outdated)
-        GIT_TAG master
         OPTIONS
         "FLECS_STATIC_LIBS ON"
         "FLECS_SHARED_LIBS OFF"

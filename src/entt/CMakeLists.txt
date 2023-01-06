@@ -1,7 +1,7 @@
 # add dependencies
 CPMAddPackage(
         NAME EnTT
-        VERSION 3.10.1
+        VERSION 3.11.1
         GITHUB_REPOSITORY skypjack/entt
         OPTIONS
         "ENTT_BUILD_TESTING OFF"
