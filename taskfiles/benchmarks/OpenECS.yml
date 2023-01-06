@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: openecs
+        BENCHMARK_DIR: openecs
+        REPORT_NAME: openecs
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: openecs-entities
+        BENCHMARK_DIR: openecs-entities
+        REPORT_NAME: openecs-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: openecs-extended
+        BENCHMARK_DIR: openecs-extended
+        REPORT_NAME: openecs-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: openecs-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: openecs-extended
+        BENCHMARK_DIR: openecs-extended

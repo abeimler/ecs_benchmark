@@ -1,0 +1,13 @@
+version: 3
+
+tasks:
+  run-benchmark-template:
+    cmds:
+      - "{{.BENCHMARK}} {{.BENCHMARK_ARGS}} --benchmark_format=json > {{.PROJECT_DIR}}/reports/{{.REPORT_JSON}}"
+    generates:
+      - "{{.PROJECT_DIR}}/reports/{{.REPORT_JSON}}"
+    vars:
+      REPORT_NAME: "{{.BENCHMARK_NAME}}"
+      REPORT_JSON: "{{.REPORT_NAME}}.json"
+      BENCHMARK: "{{.PROJECT_DIR}}/build/benchmark/benchmarks/{{.BENCHMARK_DIR}}/Release/ecs-benchmark-{{.BENCHMARK_NAME}}"
+

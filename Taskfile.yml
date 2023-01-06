@@ -5,7 +5,8 @@ includes:
 
 vars:
   VCPKG_ROOT: '{{.VCPKG_ROOT | default "./vcpkg"}}'
-  PROJECT_DIR: '{{.PROJECT_DIR | default "."}}'
+  PROJECT_DIR:
+    sh: git rev-parse --show-toplevel
   TARGET: '{{.TARGET | default "all"}}'
   CMAKE_GENERATOR: '{{.CMAKE_GENERATOR | default "Ninja Multi-Config"}}'
   BUILD_TYPE: '{{.BUILD_TYPE | default "Release"}}'

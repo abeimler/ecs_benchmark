@@ -1,0 +1,113 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+    - task: extended-runtime
+    - task: extended-stable
+    - task: extended-group
+    - task: extended-non-owning-group
+    - task: extended-full-owning-group
+    - task: extended-partial-owning-group
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt
+        BENCHMARK_DIR: entt
+        REPORT_NAME: entt
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-entities
+        BENCHMARK_DIR: entt-entities
+        REPORT_NAME: entt-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended
+
+  extended-runtime:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended-runtime
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended-runtime
+
+  extended-stable:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended-stable
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended-stable
+
+  extended-group:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended-group
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended-group
+
+  extended-non-owning-group:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended-non-owning-group
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended-non-owning-group
+
+  extended-full-owning-group:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended-full-owning-group
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended-full-owning-group
+
+  extended-partial-owning-group:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entt-extended-partial-owning-group
+        BENCHMARK_DIR: entt-extended
+        REPORT_NAME: entt-extended-partial-owning-group
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: entt-extended
+        BENCHMARK_DIR: entt-extended
+
+  complex-runtime:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-complex-runtime
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: entt-extended-runtime
+        BENCHMARK_DIR: entt-extended
+
+  complex-stable:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-complex-stable
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: entt-extended-stable
+        BENCHMARK_DIR: entt-extended
+
+  complex-group:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-complex-group
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: entt-extended-group
+        BENCHMARK_DIR: entt-extended

@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: flecs
+        BENCHMARK_DIR: flecs
+        REPORT_NAME: flecs
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: flecs-entities
+        BENCHMARK_DIR: flecs-entities
+        REPORT_NAME: flecs-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: flecs-extended
+        BENCHMARK_DIR: flecs-extended
+        REPORT_NAME: flecs-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: flecs-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: flecs-extended
+        BENCHMARK_DIR: flecs-extended

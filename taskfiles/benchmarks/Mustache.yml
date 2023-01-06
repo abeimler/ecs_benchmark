@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: mustache
+        BENCHMARK_DIR: mustache
+        REPORT_NAME: mustache
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: mustache-entities
+        BENCHMARK_DIR: mustache-entities
+        REPORT_NAME: mustache-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: mustache-extended
+        BENCHMARK_DIR: mustache-extended
+        REPORT_NAME: mustache-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: mustache-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: mustache-extended
+        BENCHMARK_DIR: mustache-extended

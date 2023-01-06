@@ -1,5 +1,5 @@
 set(INCLUDE_DIR "include") # must be relative paths
-# NOTE: rename project in "${CMAKE_PROJECT_NAME}-myecs"
+# NOTE: rename project in "ecs-benchmark-myecs"
 add_executable(ecs-benchmark-entityx-entities
         # NOTE: add new benchmarks here
         EntityXEntityBenchmarkSuite.cpp EntityXEntityBenchmarkSuite.h

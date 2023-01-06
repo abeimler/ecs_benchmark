@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: ginseng
+        BENCHMARK_DIR: ginseng
+        REPORT_NAME: ginseng
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: ginseng-entities
+        BENCHMARK_DIR: ginseng-entities
+        REPORT_NAME: ginseng-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: ginseng-extended
+        BENCHMARK_DIR: ginseng-extended
+        REPORT_NAME: ginseng-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: ginseng-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: ginseng-extended
+        BENCHMARK_DIR: ginseng-extended

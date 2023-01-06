@@ -10,7 +10,7 @@ CPMAddPackage(
 )
 
 set(INCLUDE_DIR "include") # must be relative paths
-# NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
+# NOTE: rename project in "ecs-benchmark-example-myecs"
 add_library(ecs-benchmark-example-flecs STATIC
         # NOTE: add source files here
         flecs/systems/DataSystem.h

@@ -1,11 +1,36 @@
 version: 3
 
-tasks:
-  entt-entities:
-    - task: run-benchmark-template
-      vars:
-        BENCHMARK: benchmarks/entt-entities/ecs-benchmark-entt-entities
-        REPORT_JSON: entt-entities.json
+includes:
+  entt: ./benchmarks/Entt.yml
+  entityx: ./benchmarks/Entityx.yml
+  ginseng: ./benchmarks/Ginseng.yml
+  mustache: ./benchmarks/Mustache.yml
+  openecs: ./benchmarks/OpenECS.yml
+  flecs: ./benchmarks/Flecs.yml
+  oop: ./benchmarks/OOP.yml
 
-  run-benchmark-template:
-    - ./build/benchmark/benchmarks/{{.BENCHMARK}} --benchmark_format=json > ./reports/{{.REPORT_JSON | "{{.BENCHMARK_NAME}}.json"}}
+tasks:
+  default:
+    - task: all
+    - task: all:complex
+
+  all:
+    - task: entt:all
+    - task: entityx:all
+    - task: ginseng:all
+    - task: mustache:all
+    #- task: openecs:all
+    - task: flecs:all
+    - task: oop:all
+
+  all:complex:
+    - task: entt:complex
+    - task: entt:complex-runtime
+    - task: entt:complex-stable
+    - task: entt:complex-group
+    - task: entityx:complex
+    - task: ginseng:complex
+    - task: mustache:complex
+    #- task: openecs:complex
+    - task: flecs:complex
+    - task: oop:complex

@@ -18,7 +18,7 @@ target_compile_options(entityx PUBLIC $<$<CXX_COMPILER_ID:Clang,GNU>:-Wno-deprec
 
 
 set(INCLUDE_DIR "include") # must be relative paths
-# NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
+# NOTE: rename project in "ecs-benchmark-example-myecs"
 add_library(ecs-benchmark-example-entityx STATIC
         # NOTE: add source files here
         entityx/systems/DataSystem.h
@@ -38,7 +38,7 @@ target_include_directories(
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-example-entityx PRIVATE project_warnings project_options)
-target_link_libraries(ecs-benchmark-example-entityx PUBLIC ${CMAKE_PROJECT_NAME}-base)
+target_link_libraries(ecs-benchmark-example-entityx PUBLIC ecs-benchmark-base)
 
 target_compile_definitions(ecs-benchmark-example-entityx PUBLIC ENTITYX_MAJOR_VERSION=${ENTITYX_MAJOR_VERSION})
 target_compile_definitions(ecs-benchmark-example-entityx PUBLIC ENTITYX_MINOR_VERSION=${ENTITYX_MINOR_VERSION})
