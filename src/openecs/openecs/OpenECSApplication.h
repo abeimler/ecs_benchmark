@@ -15,7 +15,7 @@ namespace ecs::benchmarks::openecs {
         using EntityManager = ::ecs::EntityManager;
         using TimeDelta = float;
 
-        OpenECSApplication() : m_systems(m_entities) {};
+        OpenECSApplication() : m_systems(m_entities) {}
         explicit OpenECSApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system),
                                                                     m_systems(m_entities) {}
         ~OpenECSApplication() = default;

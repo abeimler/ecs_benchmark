@@ -12,11 +12,14 @@ CPMAddPackage(
         "ENTITYX_RUN_BENCHMARKS OFF"
         "ENTITYX_BUILD_TESTING OFF"
 )
+target_compile_options(entityx PUBLIC $<$<C_COMPILER_ID:Clang,GNU>:-Wno-deprecated-declarations -Wno-ambiguous-reversed-operator>)
+target_compile_options(entityx PUBLIC $<$<CXX_COMPILER_ID:Clang,GNU>:-Wno-deprecated-declarations -Wno-ambiguous-reversed-operator>)
+
 
 
 set(INCLUDE_DIR "include") # must be relative paths
-# NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
-add_library(${CMAKE_PROJECT_NAME}-example-entityx STATIC
+# NOTE: rename project in "ecs-benchmark-example-myecs"
+add_library(ecs-benchmark-example-entityx STATIC
         # NOTE: add source files here
         entityx/systems/DataSystem.h
         entityx/systems/DataSystem.cpp
@@ -28,24 +31,23 @@ add_library(${CMAKE_PROJECT_NAME}-example-entityx STATIC
         entityx/entities/EntityFactory.cpp
         entityx/EntityXApplication.h
         entityx/EntityXApplication.cpp)
-add_library(${CMAKE_PROJECT_NAME}::example::entityx ALIAS ${CMAKE_PROJECT_NAME}-example-entityx)
+add_library(ecs-benchmark::example::entityx ALIAS ecs-benchmark-example-entityx)
 
 target_include_directories(
-        ${CMAKE_PROJECT_NAME}-example-entityx
+        ecs-benchmark-example-entityx
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC project_warnings project_options)
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ${CMAKE_PROJECT_NAME}-base)
+target_link_libraries(ecs-benchmark-example-entityx PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-example-entityx PUBLIC ecs-benchmark-base)
 
-target_compile_definitions(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ENTITYX_MAJOR_VERSION=${ENTITYX_MAJOR_VERSION})
-target_compile_definitions(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ENTITYX_MINOR_VERSION=${ENTITYX_MINOR_VERSION})
-target_compile_definitions(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC ENTITYX_PATCH_VERSION=${ENTITYX_PATCH_VERSION})
+target_compile_definitions(ecs-benchmark-example-entityx PUBLIC ENTITYX_MAJOR_VERSION=${ENTITYX_MAJOR_VERSION})
+target_compile_definitions(ecs-benchmark-example-entityx PUBLIC ENTITYX_MINOR_VERSION=${ENTITYX_MINOR_VERSION})
+target_compile_definitions(ecs-benchmark-example-entityx PUBLIC ENTITYX_PATCH_VERSION=${ENTITYX_PATCH_VERSION})
 
 # NOTE: add 3rd-party libs here
-target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-entityx PUBLIC entityx)
+target_link_system_libraries(ecs-benchmark-example-entityx PUBLIC entityx)
 if (entityx_ADDED)
-    target_include_directories(${CMAKE_PROJECT_NAME}-example-entityx SYSTEM PUBLIC ${entityx_SOURCE_DIR})
+    target_include_directories(ecs-benchmark-example-entityx SYSTEM PUBLIC ${entityx_SOURCE_DIR})
 endif ()
-if (CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-    target_compile_options(${CMAKE_PROJECT_NAME}-example-entityx PRIVATE -Wno-deprecated-declarations -Wno-ambiguous-reversed-operator)
-endif ()
+
+target_compile_options(ecs-benchmark-example-entityx INTERFACE $<$<CXX_COMPILER_ID:Clang,GNU>:-Wno-deprecated-declarations -Wno-ambiguous-reversed-operator>)

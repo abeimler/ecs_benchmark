@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entityx
+        BENCHMARK_DIR: entityx
+        REPORT_NAME: entityx
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entityx-entities
+        BENCHMARK_DIR: entityx-entities
+        REPORT_NAME: entityx-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: entityx-extended
+        BENCHMARK_DIR: entityx-extended
+        REPORT_NAME: entityx-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entityx-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: entityx-extended
+        BENCHMARK_DIR: entityx-extended

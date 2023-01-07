@@ -19,7 +19,7 @@ namespace ecs::benchmarks::base::systems {
     class MoreComplexSystem : public System<EntityManager, TimeDelta> {
     public:
         // virtual dtor and the rule of 6
-        MoreComplexSystem() : m_eng(m_rd()) {};
+        MoreComplexSystem() : m_eng(m_rd()) {}
 
         virtual ~MoreComplexSystem() = default;
 

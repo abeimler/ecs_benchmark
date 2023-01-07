@@ -1,17 +1,17 @@
 set(INCLUDE_DIR "include") # must be relative paths
-# NOTE: rename project in "${CMAKE_PROJECT_NAME}-myecs"
-add_executable(${CMAKE_PROJECT_NAME}-entityx-extended
+# NOTE: rename project in "ecs-benchmark-myecs"
+add_executable(ecs-benchmark-entityx-extended
         # NOTE: add new benchmarks here
         EntityXBenchmarkSuite.cpp EntityXBenchmarkSuite.h
         )
-target_include_directories(${CMAKE_PROJECT_NAME}-entityx-extended
+target_include_directories(ecs-benchmark-entityx-extended
         PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
-target_link_libraries(${CMAKE_PROJECT_NAME}-entityx-extended PRIVATE project_warnings project_options)
-target_link_libraries(${CMAKE_PROJECT_NAME}-entityx-extended PRIVATE ${CMAKE_PROJECT_NAME}-benchmark-base)
+target_link_libraries(ecs-benchmark-entityx-extended PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-entityx-extended PRIVATE ecs-benchmark)
 
 
 # @NOTE: add libs for example here
-target_link_libraries(${CMAKE_PROJECT_NAME}-entityx-extended PRIVATE ${CMAKE_PROJECT_NAME}-example-entityx)
+target_link_libraries(ecs-benchmark-entityx-extended PRIVATE ecs-benchmark-example-entityx)
 
 

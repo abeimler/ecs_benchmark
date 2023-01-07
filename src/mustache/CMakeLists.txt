@@ -13,7 +13,7 @@ CPMAddPackage(
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "${CMAKE_PROJECT_NAME}-example-myecs"
-add_library(${CMAKE_PROJECT_NAME}-example-mustache STATIC
+add_library(ecs-benchmark-example-mustache STATIC
         # NOTE: add source files here
         mustache/systems/DataSystem.h
         mustache/systems/DataSystem.cpp
@@ -25,14 +25,14 @@ add_library(${CMAKE_PROJECT_NAME}-example-mustache STATIC
         mustache/entities/EntityFactory.cpp
         mustache/MustacheApplication.h
         mustache/MustacheApplication.cpp)
-add_library(${CMAKE_PROJECT_NAME}::example::mustache ALIAS ${CMAKE_PROJECT_NAME}-example-mustache)
+add_library(ecs-benchmark::example::mustache ALIAS ecs-benchmark-example-mustache)
 
 target_include_directories(
-        ${CMAKE_PROJECT_NAME}-example-mustache
+        ecs-benchmark-example-mustache
         PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-mustache PUBLIC project_warnings project_options)
-target_link_libraries(${CMAKE_PROJECT_NAME}-example-mustache PUBLIC ${CMAKE_PROJECT_NAME}-base)
+target_link_libraries(ecs-benchmark-example-mustache PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-example-mustache PUBLIC ecs-benchmark-base)
 
 # NOTE: add 3rd-party libs here
-target_link_system_libraries(${CMAKE_PROJECT_NAME}-example-mustache PUBLIC mustache)
+target_link_system_libraries(ecs-benchmark-example-mustache PUBLIC mustache)

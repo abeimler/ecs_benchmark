@@ -1,0 +1,72 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ./Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:gen-report-template
+      vars:
+        REPORTS: >
+          {{.PROJECT_DIR}}/reports/entityx.json 
+          {{.PROJECT_DIR}}/reports/entt.json 
+          {{.PROJECT_DIR}}/reports/ginseng.json 
+          {{.PROJECT_DIR}}/reports/mustache.json 
+          {{.PROJECT_DIR}}/reports/flecs.json
+        # TODO: add openecs
+        #  {{.PROJECT_DIR}}/reports/openecs.json
+
+  entities:
+    - task: utils:gen-report-template
+      vars:
+        OUTPUT: entities.RESULTS.md
+        REPORTS: >
+          {{.PROJECT_DIR}}/reports/entityx-entities.json 
+          {{.PROJECT_DIR}}/reports/entt-entities.json 
+          {{.PROJECT_DIR}}/reports/ginseng-entities.json 
+          {{.PROJECT_DIR}}/reports/mustache-entities.json 
+          {{.PROJECT_DIR}}/reports/flecs-entities.json
+        # TODO: add openecs
+        # {{.PROJECT_DIR}}/reports/openecs-entities.json
+
+  extended:
+    - task: utils:gen-report-template
+      vars:
+        OUTPUT: extended.RESULTS.md
+        REPORTS: >
+          {{.PROJECT_DIR}}/reports/entt-extended.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-runtime.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-group.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-full-owning-group.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-non-owning-group.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-partial-owning-group.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-stable.json 
+          {{.PROJECT_DIR}}/reports/ginseng-extended.json 
+          {{.PROJECT_DIR}}/reports/mustache-extended.json 
+          {{.PROJECT_DIR}}/reports/flecs-extended.json 
+
+        # TODO: add openecs
+        # {{.PROJECT_DIR}}/reports/openecs-extended.json
+        # {{.PROJECT_DIR}}/reports/openecs-extended.json
+
+  extended-oop:
+    - task: utils:gen-report-template
+      vars:
+        OUTPUT: extended.oop.RESULTS.md
+        REPORTS: >
+          {{.PROJECT_DIR}}/reports/entityx-complex.json 
+          {{.PROJECT_DIR}}/reports/entt-complex.json 
+          {{.PROJECT_DIR}}/reports/entt-complex-runtime.json 
+          {{.PROJECT_DIR}}/reports/entt-complex-group.json 
+          {{.PROJECT_DIR}}/reports/entt-complex-stable.json 
+          {{.PROJECT_DIR}}/reports/ginseng-complex.json 
+          {{.PROJECT_DIR}}/reports/mustache-complex.json 
+          {{.PROJECT_DIR}}/reports/flecs-complex.json
+          {{.PROJECT_DIR}}/reports/oop-complex.json

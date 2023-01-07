@@ -1,0 +1,25 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: oop
+        BENCHMARK_DIR: oop
+        REPORT_NAME: oop
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: oop-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: oop-complex
+        BENCHMARK_DIR: oop
