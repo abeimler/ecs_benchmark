@@ -8,10 +8,10 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
 * [EntityX](https://github.com/alecthomas/entityx)
 * [EnTT](https://github.com/skypjack/entt)
-* [flecs](https://github.com/SanderMertens/flecs)
 * [Ginseng](https://github.com/apples/ginseng)
 * [mustache](https://github.com/kirillochnev/mustache)
-* [OpenEcs](https://github.com/Gronis/OpenEcs)
+* [flecs](https://github.com/SanderMertens/flecs)
+* ~~TODO: [OpenEcs](https://github.com/Gronis/OpenEcs)~~
 
 ## TL;DR Results
 
@@ -21,21 +21,21 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
 _(lower is better)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|
-| Update    16 entities with 3 Systems | 3060ns   | 3511ns           | 2988ns         | 3029ns          | 3032ns    | 111552ns   | 3956ns   |
-| Update    64 entities with 3 Systems | 13060ns  | 15271ns          | 12677ns        | 13032ns         | 13179ns   | 129333ns   | 14082ns  |
-| Update   256 entities with 3 Systems | 55713ns  | 65685ns          | 54073ns        | 55158ns         | 56406ns   | 154110ns   | 55632ns  |
-| Update   ~1K entities with 3 Systems | 219349ns | 253519ns         | 215628ns       | 217068ns        | 227745ns  | 325840ns   | 225262ns |
-| Update   ~4K entities with 3 Systems | 857519ns | 980429ns         | 837731ns       | 849060ns        | 881086ns  | 971967ns   | 854226ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group) | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
+|:-------------------------------------|:---------|:-----------------|:-------------|:----------------|:----------|:-----------|:---------|
+| Update    16 entities with 3 Systems | 3060ns   | 3511ns           | **2988ns**   | 3029ns          | 3032ns    | 111552ns   | 3956ns   |
+| Update    64 entities with 3 Systems | 13060ns  | 15271ns          | **12677ns**  | 13032ns         | 13179ns   | 129333ns   | 14082ns  |
+| Update   256 entities with 3 Systems | 55713ns  | 65685ns          | **54073ns**  | 55158ns         | 56406ns   | 154110ns   | 55632ns  |
+| Update   ~1K entities with 3 Systems | 219349ns | 253519ns         | **215628ns** | 217068ns        | 227745ns  | 325840ns   | 225262ns |
+| Update   ~4K entities with 3 Systems | 857519ns | 980429ns         | **837731ns** | 849060ns        | 881086ns  | 971967ns   | 854226ns |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 Systems | 3ms    | 3ms              | 3ms            | 3ms             | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 3 Systems | 13ms   | 15ms             | 13ms           | 14ms            | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 3 Systems | 58ms   | 64ms             | 58ms           | 54ms            | 56ms      | 53ms       | 54ms    |
-| Update   ~1M entities with 3 Systems | 220ms  | 256ms            | 270ms          | 222ms           | 223ms     | 216ms      | 219ms   |
-| Update   ~2M entities with 3 Systems | 439ms  | 518ms            | 648ms          | 440ms           | 445ms     | 439ms      | 441ms   |
+|                                      | EnTT     | EnTT (runtime) | EnTT (group) | EnTT (stable) | Ginseng  | mustache  | Flecs    |
+|:-------------------------------------|:---------|:---------------|:-------------|:--------------|:---------|:----------|:---------|
+| Update  ~16K entities with 3 Systems | **3ms**  | **3ms**        | **3ms**      | **3ms**       | **3ms**  | **3ms**   | **3ms**  |
+| Update  ~65K entities with 3 Systems | **13ms** | 15ms           | **13ms**     | 14ms          | **13ms** | **13ms**  | **13ms** |
+| Update  262K entities with 3 Systems | 58ms     | 64ms           | 58ms         | 54ms          | 56ms     | **53ms**  | 54ms     |
+| Update   ~1M entities with 3 Systems | 220ms    | 256ms          | 270ms        | 222ms         | 223ms    | **216ms** | 219ms    |
+| Update   ~2M entities with 3 Systems | 439ms    | 518ms          | 648ms        | 440ms         | 445ms    | **439ms** | 441ms    |
 
 
 
@@ -88,9 +88,9 @@ Benchmarks of more common features, like "Creating entities", "Add and remove co
 
 ### Environment
 
-* **OS:** Linux
+* **OS:** Linux (Kernel: 6.1.3)
 * **CPU:** 3.13GHz @ 12Cores
-* **RAM:** 15.55GB
+* **RAM:** 16GB
 * **Compiler:** gcc (GCC) 12.2.0
 
 
@@ -421,73 +421,6 @@ _(lower is better)_
     2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
     3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 * \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
-
-
-
-### Iterate over entities with two components
-
-![IterateTwoComponents Plot](img/IterateTwoComponents.png)
-
-_(lower is better)_
-
-|                                                 | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
-|:------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
-| Iterate over    16 entities with two components | 9ns                        | 17ns                      | 9ns                           |
-| Iterate over    64 entities with two components | 45ns                       | 83ns                      | 45ns                          |
-| Iterate over   256 entities with two components | 144ns                      | 331ns                     | 145ns                         |
-| Iterate over   ~1K entities with two components | 542ns                      | 1319ns                    | 541ns                         |
-| Iterate over   ~4K entities with two components | 2126ns                     | 8393ns                    | 2125ns                        |
-
-|                                                 | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
-|:------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
-| Iterate over  ~16K entities with two components | 0ms                        | 0ms                       | 0ms                           |
-| Iterate over  ~65K entities with two components | 0ms                        | 0ms                       | 0ms                           |
-| Iterate over  262K entities with two components | 0ms                        | 1ms                       | 0ms                           |
-| Iterate over   ~1M entities with two components | 2ms                        | 7ms                       | 2ms                           |
-| Iterate over   ~2M entities with two components | 4ms                        | 14ms                      | 4ms                           |
-
-
-**Notes:**
-* pre create views/query when possible
-* \* EnTT Full-owning group, `registry.group<PositionComponent, VelocityComponent>()`
-* \** EnTT Non-owning group, `registry.group(entt::get<<PositionComponent, VelocityComponent>>)`
-* \*** EnTT Partial-owning group, `registry.group<PositionComponent>(entt::get<VelocityComponent>)`
-* \**** EnTT uses `registry.view` and a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
-* \***** flecs Frameworks, iterate components via [queries](https://github.com/SanderMertens/flecs/blob/master/docs/Queries.md)
-
-
-### Iterate over entities with three components
-
-![IterateThreeComponentsWithMixedEntities Plot](img/IterateThreeComponentsWithMixedEntities.png)
-
-_(lower is better)_
-
-|                                                   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
-|:--------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
-| Iterate over    16 entities with three components | 6ns                        | 13ns                      | 6ns                           |
-| Iterate over    64 entities with three components | 33ns                       | 51ns                      | 33ns                          |
-| Iterate over   256 entities with three components | 144ns                      | 326ns                     | 144ns                         |
-| Iterate over   ~1K entities with three components | 536ns                      | 1217ns                    | 537ns                         |
-| Iterate over   ~4K entities with three components | 2109ns                     | 4876ns                    | 2111ns                        |
-
-|                                                   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
-|:--------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
-| Iterate over  ~16K entities with three components | 0ms                        | 0ms                       | 0ms                           |
-| Iterate over  ~65K entities with three components | 0ms                        | 0ms                       | 0ms                           |
-| Iterate over  262K entities with three components | 0ms                        | 1ms                       | 0ms                           |
-| Iterate over   ~1M entities with three components | 2ms                        | 7ms                       | 2ms                           |
-| Iterate over   ~2M entities with three components | 4ms                        | 14ms                      | 4ms                           |
-
-
-**Notes:**
-* Not every entity has all three components, some got removed
-* pre create views/query when possible
-* \* EnTT Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
-* \** EnTT Non-owning group, `registry.group(entt::get<<PositionComponent, VelocityComponent, DataComponent>>)`
-* \*** EnTT Partial-owning group, `registry.group<PositionComponent, VelocityComponent>(entt::get<DataComponent>)`
-* \**** EnTT uses `registry.view` and a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
-* \***** flecs Frameworks, iterate components via [queries](https://github.com/SanderMertens/flecs/blob/master/docs/Queries.md)
-
 
 
 ## Contributing
