@@ -168,6 +168,8 @@ configure_file (
         @ONLY
 )
 
+add_subdirectory(src)
+
 if(ENABLE_TESTS)
   # This variable is set by project() in CMake 3.21+
   string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${PROJECT_SOURCE_DIR}" PROJECT_IS_TOP_LEVEL)
@@ -176,6 +178,7 @@ if(ENABLE_TESTS)
     include(CTest)
   endif()
   enable_testing()
+  add_subdirectory(test)
 endif()
 
 if(ENABLE_FUZZ_TESTS)
@@ -186,8 +189,6 @@ if(ENABLE_BENCHMARKS)
   message(AUTHOR_WARNING "Building Benchmarks.")
   add_subdirectory(benchmark)
 endif()
-
-add_subdirectory(src)
 
 # If MSVC is being used, and ASAN is enabled, we need to set the debugger environment so that it behaves well with MSVC's debugger, and we
 # can run the target from visual studio

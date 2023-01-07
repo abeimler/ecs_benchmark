@@ -31,6 +31,11 @@ if (ENABLE_BENCHMARK_FLECS)
     add_subdirectory(flecs)
 endif ()
 
+option(ENABLE_BENCHMARK_PICO_ECS "Enable pico_ecs Benchmarks" ON)
+if (ENABLE_BENCHMARK_PICO_ECS)
+    add_subdirectory(pico_ecs)
+endif ()
+
 option(ENABLE_BENCHMARK_OOP "Enable OOP Benchmarks" ON)
 if (ENABLE_BENCHMARK_OOP)
     add_subdirectory(oop)

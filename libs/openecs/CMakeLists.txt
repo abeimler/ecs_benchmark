@@ -1,3 +1,4 @@
+# https://github.com/Gronis/OpenEcs
 cmake_minimum_required(VERSION 2.8)
 
 project(OpenEcs LANGUAGES C CXX)
