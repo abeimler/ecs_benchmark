@@ -1,7 +1,7 @@
 version: 3
 
 includes:
-  benchmarks: ./taskfiles/Benchmark.yml
+  benchmark: ./taskfiles/Benchmark.yml
   plot: ./taskfiles/Plot.yml
 
 vars:
@@ -15,7 +15,7 @@ vars:
 tasks:
   generate:
     - task: build
-    - task: benchmarks
+    - task: benchmark
     - task: plot:all
 
   configure:
