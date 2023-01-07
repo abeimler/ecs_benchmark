@@ -11,3 +11,11 @@ tasks:
       REPORT_JSON: "{{.REPORT_NAME}}.json"
       BENCHMARK: "{{.PROJECT_DIR}}/build/benchmark/benchmarks/{{.BENCHMARK_DIR}}/Release/ecs-benchmark-{{.BENCHMARK_NAME}}"
 
+  gen-report-template:
+    dir: "{{.PROJECT_DIR}}"
+    cmds:
+      - python3 {{.PROJECT_DIR}}/scripts/gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-plots {{.REPORT_FILES}}
+      - python3 {{.PROJECT_DIR}}/scripts/gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-results-md -o {{.OUTPUT}} {{.REPORT_FILES}}
+    vars:
+      REPORT_FILES: "{{range $i, $file := .REPORTS | splitLines -}} {{if $file}} {{$file}} {{end}} {{end}}"
+      OUTPUT: '{{.OUTPUT | default "RESULTS.md"}}'

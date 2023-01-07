@@ -2,6 +2,7 @@ version: 3
 
 includes:
   benchmarks: ./taskfiles/Benchmark.yml
+  plot: ./taskfiles/Plot.yml
 
 vars:
   VCPKG_ROOT: '{{.VCPKG_ROOT | default "./vcpkg"}}'
@@ -12,6 +13,11 @@ vars:
   BUILD_TYPE: '{{.BUILD_TYPE | default "Release"}}'
 
 tasks:
+  generate:
+    - task: build
+    - task: benchmarks
+    - task: plot:all
+
   configure:
     dir: "{{.PROJECT_DIR}}"
     cmds:

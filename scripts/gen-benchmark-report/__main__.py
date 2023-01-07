@@ -1,8 +1,8 @@
 """Generate benchmarks graphs and RESULTS.md with benchmark results.
 
 Usage:
-  gen-benchmark-report [-c plot.config.json] [--reports-dir=TEMPLATES_DIR] gen-plots <REPORTS>...
-  gen-benchmark-report [-c plot.config.json] [--reports-dir=TEMPLATES_DIR] [-o RESULTS.md] [--img-dir=IMG_DIR] [--skip=N] gen-results-md <REPORTS>...
+  gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] gen-plots <REPORTS>...
+  gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] [-o RESULTS.md] [--img-dir=IMG_DIR] [--skip=N] gen-results-md <REPORTS>...
   gen-benchmark-report -h | --help
   gen-benchmark-report --version
 
@@ -37,7 +37,6 @@ import re
 
 from pprint import pprint
 
-
 RESULTS_MD_MUSTACHE_FILENAME = os.path.join(os.path.dirname(__file__), 'RESULTS.md.mustache')
 
 
@@ -63,6 +62,7 @@ def human_format(num):
         num /= 1000.0
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
+
 def human_format_round(num):
     num = float('{:.3g}'.format(num))
     magnitude = 0
@@ -75,12 +75,13 @@ def human_format_round(num):
         return '{}{}'.format('~{:f}'.format(num_int).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
 
+
 def get_total_memory():
     mem = psu.virtual_memory()
     return format_bytes(mem.total)
 
 
-def genResults(config, output_dir, reports):
+def gen_results(config, output_dir, reports):
     frameworks_info = config['frameworks']
 
     num_cpus = 0
@@ -141,8 +142,10 @@ def genResults(config, output_dir, reports):
                 if key not in entries_data:
                     entries_data[key] = []
                 entries_data[key].append(
-                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s, 'time_min': time_min,
-                     'entities': entities, 'components_one': components_one, 'components_two': components_two, 'components_three': components_three,
+                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s,
+                     'time_min': time_min,
+                     'entities': entities, 'components_one': components_one, 'components_two': components_two,
+                     'components_three': components_three,
                      'output_png_filename': output_png_filename})
 
         result_plot_data = {}
@@ -253,10 +256,10 @@ def genResults(config, output_dir, reports):
                 results['_data_frame_data'][ek]['name'] = name
                 results['_data_frame_data'][ek]['y'].append(name)
 
-
     return results
 
-def genPlots(config, results):
+
+def gen_plots(config, results):
     frameworks_info = config['frameworks']
     for key, data in results['_data_frame_data'].items():
 
@@ -271,9 +274,11 @@ def genPlots(config, results):
             "variable": "Frameworks",
         }, title=title, log_y=True)
         fig.write_image(data['output_png_filename'])
+        print("INFO: gen plot '{:s}': {:s}".format(title, data['output_png_filename']))
 
 
-def genResultsMd(config, output_dir, results_filename, results, img_dir):
+
+def gen_results_md(config, output_dir, results_filename, results, img_dir):
     frameworks_info = config['frameworks']
 
     results_md_filename = os.path.join(output_dir, results_filename)
@@ -319,11 +324,13 @@ def genResultsMd(config, output_dir, results_filename, results, img_dir):
                     if (i % 2) == 0 or i == len(entries_data):
                         if i < 12:
                             if not skip or j >= skip:
-                                small_summary_df_index[edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                                small_summary_df_index[edata['entities']] = config_data[ek]['index'].format(
+                                    human_format_round(edata['entities']))
                             j = j + 1
                         else:
                             if not skip or j >= skip:
-                                summary_df_index[edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                                summary_df_index[edata['entities']] = config_data[ek]['index'].format(
+                                    human_format_round(edata['entities']))
                             j = j + 1
                     i = i + 1
                 fill_summary = True
@@ -335,11 +342,13 @@ def genResultsMd(config, output_dir, results_filename, results, img_dir):
                     if (i % 2) == 0 or i == len(entries_data):
                         if i < 12:
                             if not skip or j >= skip:
-                                small_df_index[ek][edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                                small_df_index[ek][edata['entities']] = config_data[ek]['index'].format(
+                                    human_format_round(edata['entities']))
                             j = j + 1
                         else:
                             if not skip or j >= skip:
-                                df_index[ek][edata['entities']] = config_data[ek]['index'].format(human_format_round(edata['entities']))
+                                df_index[ek][edata['entities']] = config_data[ek]['index'].format(
+                                    human_format_round(edata['entities']))
                             j = j + 1
                     i = i + 1
             else:
@@ -398,17 +407,17 @@ def genResultsMd(config, output_dir, results_filename, results, img_dir):
                     small_df_data[ek][name].append(None)
 
             if name in df_data[ek] and len(df_data[ek][name]) == 0:
-                #print("WARN: no data for {:s} {:s}".format(ek, name))
+                # print("WARN: no data for {:s} {:s}".format(ek, name))
                 del df_data[ek][name]
             if name in small_df_data[ek] and len(small_df_data[ek][name]) == 0:
-                #print("WARN: no data for {:s} {:s}".format(ek, name))
+                # print("WARN: no data for {:s} {:s}".format(ek, name))
                 del small_df_data[ek][name]
 
         if name in summary_df_data and len(summary_df_data[name]) == 0:
-            #print("WARN: no (summary) data for {:s}".format(name))
+            # print("WARN: no (summary) data for {:s}".format(name))
             del summary_df_data[name]
         if name in small_summary_df_data and len(small_summary_df_data[name]) == 0:
-            #print("WARN: no (summary) data for {:s}".format(name))
+            # print("WARN: no (summary) data for {:s}".format(name))
             del small_summary_df_data[name]
 
     summary_df = None
@@ -443,14 +452,14 @@ def genResultsMd(config, output_dir, results_filename, results, img_dir):
             index = df_index[ek].values()
             df = pd.DataFrame(dfd, index=index)
         if df is not None:
-            data['plots'][ek]['table'] =  df.to_markdown()
+            data['plots'][ek]['table'] = df.to_markdown()
     for ek, small_dfd in small_df_data.items():
         small_df = None
         if len(small_df_index[ek]) > 0:
             index = small_df_index[ek].values()
             small_df = pd.DataFrame(small_dfd, index=index)
         if small_df is not None:
-            data['plots'][ek]['small_table'] =  small_df.to_markdown()
+            data['plots'][ek]['small_table'] = small_df.to_markdown()
 
     for ek, dat in data['plots'].items():
         data['results'].append(data['plots'][ek])
@@ -459,6 +468,8 @@ def genResultsMd(config, output_dir, results_filename, results, img_dir):
         results_md_template = results_file.read()
         with open(results_md_filename, 'w') as results_md_file:
             results_md_file.write(pystache.render(results_md_template, data))
+            print("INFO: gen result {:s}".format(results_md_filename))
+
 
 
 def main(args):
@@ -478,15 +489,16 @@ def main(args):
     if args['<REPORTS>']:
         for report_filename in args['<REPORTS>']:
             with open(report_filename, 'r') as report_file:
+                print("INFO: load report {:s}".format(report_filename))
                 report_data = json.load(report_file)
                 reports[report_data['context']['framework.name']] = report_data
 
-    results = genResults(config, output_dir, reports)
+    results = gen_results(config, output_dir, reports)
 
     if args['gen-plots']:
-        genPlots(config, results)
+        gen_plots(config, results)
     elif args['gen-results-md']:
-        genResultsMd(config, output_dir, args['-o'], results, args['--img-dir'])
+        gen_results_md(config, output_dir, args['-o'], results, args['--img-dir'])
 
 
 if __name__ == '__main__':
