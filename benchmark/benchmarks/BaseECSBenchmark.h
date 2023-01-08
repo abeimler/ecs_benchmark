@@ -56,6 +56,15 @@ protected:
   }
 
 
+  ComponentsCounter createNoEntities(EntityManager& /*registry*/) {
+    return {};
+  }
+
+  ComponentsCounter createNoEntities(EntityManager& /*registry*/, std::vector<Entity>& out) {
+    out.clear();
+    return {};
+  }
+
   ComponentsCounter createEntities(EntityManager& registry, size_t nentities) {
     ComponentsCounter components_counter;
     for (size_t i = 0; i < nentities; i++) {

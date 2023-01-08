@@ -89,6 +89,20 @@ public:
   [[nodiscard]] inline auto framework_version() const { return m_options.version; }
 
 
+  void BM_CreateNoEntities(benchmark::State& state) {
+    const auto nentities = 0;
+    for (auto _ : state) {
+      state.PauseTiming();
+      EntityManager registry;
+
+      state.ResumeTiming();
+      for (size_t i = 0; i < nentities; ++i) {
+        this->m_entities_factory.createEmpty(registry);
+      }
+    }
+    state.counters["entities"] = static_cast<double>(nentities);
+  }
+
   void BM_CreateEmptyEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -213,6 +227,44 @@ public:
     state.counters["entities"] = static_cast<double>(nentities);
   }
 
+  template <class tEntityFactory = EntityFactory>
+    requires HasGetComponentsFeature<tEntityFactory>
+  void BM_UnpackNoComponent(benchmark::State& state) {
+    const auto nentities = static_cast<size_t>(state.range(0));
+    EntityManager registry;
+    std::vector<Entity> entities;
+    for (size_t i = 0; i < nentities; i++) {
+      entities.push_back(this->m_entities_factory.createEmpty(registry));
+    }
+
+    for (auto _ : state) {
+      for (auto& entity : entities) {
+        benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+      }
+    }
+    this->setCounters(state, entities, {
+      .component_one_count{0},
+      .component_two_count{0},
+      .component_three_count{0},
+    });
+  }
+
+  template <class tEntityFactory = EntityFactory>
+    requires HasGetComponentsFeature<tEntityFactory>
+  void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
+    const auto nentities = 0;
+    EntityManager registry;
+    std::vector<Entity> entities;
+    const ComponentsCounter components_counter =
+        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+    for (auto _ : state) {
+      for (auto& entity : entities) {
+        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+      }
+    }
+    this->setCounters(state, entities, components_counter);
+  }
 
   template <class tEntityFactory = EntityFactory>
   requires HasGetComponentsFeature<tEntityFactory>
@@ -308,18 +360,30 @@ protected:
 } // namespace ecs::benchmarks::base
 
 #define ECS_ENTITY_BENCHMARKS(benchmark_suite)                                             \
-  static void BM_CreateEntities(benchmark::State& state) {                                 \
-    benchmark_suite.BM_CreateEntities(state);                                              \
+  static void BM_CreateNoEntities(benchmark::State& state) {                               \
+    benchmark_suite.BM_CreateNoEntities(state);                                            \
   }                                                                                        \
-  BENCHMARK(BM_CreateEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);          \
+  BENCHMARK(BM_CreateNoEntities);                                                          \
   static void BM_CreateEmptyEntities(benchmark::State& state) {                            \
     benchmark_suite.BM_CreateEmptyEntities(state);                                         \
   }                                                                                        \
   BENCHMARK(BM_CreateEmptyEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);     \
+  static void BM_UnpackNoComponent(benchmark::State& state) {                              \
+    benchmark_suite.BM_UnpackNoComponent(state);                                           \
+  }                                                                                        \
+  BENCHMARK(BM_UnpackNoComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);       \
+  static void BM_CreateEntities(benchmark::State& state) {                                 \
+    benchmark_suite.BM_CreateEntities(state);                                              \
+  }                                                                                        \
+  BENCHMARK(BM_CreateEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);          \
   static void BM_UnpackOneComponent(benchmark::State& state) {                             \
     benchmark_suite.BM_UnpackOneComponent(state);                                          \
   }                                                                                        \
   BENCHMARK(BM_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);      \
+  static void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {                  \
+    benchmark_suite.BM_UnpackOneComponent_NoEntities(state);                               \
+  }                                                                                        \
+  BENCHMARK(BM_UnpackOneComponent_NoEntities);                                             \
   static void BM_UnpackOneConstComponent(benchmark::State& state) {                        \
     benchmark_suite.BM_UnpackOneConstComponent(state);                                     \
   }                                                                                        \

@@ -6,6 +6,12 @@
       "regex": "^BM_(.*_)?ComplexSystemsUpdateMixedEntities\\/[0-9]+$",
       "header": "Update systems (for-each entities (with mixed components) in 3 systems)"
     },
+    "ComplexSystemsUpdateNoEntities": {
+      "index": "Update 0 entities with 3 systems",
+      "title": "Update Systems (3 Systems) with zero entities",
+      "regex": "^BM_(.*_)?BM_ComplexSystemsUpdate_NoEntities$",
+      "header": "Update systems (for-each entities in 3 systems) with zero entities"
+    },
     "ComplexSystemsUpdate": {
       "index": "Update {:>5s} entities with 3 systems",
       "title": "Update Systems (3 Systems)",
@@ -17,6 +23,12 @@
       "title": "Update systems (2 systems, mixed components)",
       "regex": "^BM_(.*_)?SystemsUpdateMixedEntities\\/[0-9]+$",
       "header": "Update systems (for-each entities (with mixed components) in 2 systems)"
+    },
+    "SystemsUpdateNoEntities": {
+      "index": "Update 0 entities with 2 systems",
+      "title": "Update systems (2 systems) with zero entities",
+      "regex": "^BM_(.*_)?SystemsUpdate_NoEntities$",
+      "header": "Update systems (for-each entities in 2 systems) with zero entities"
     },
     "SystemsUpdate": {
       "index": "Update {:>5s} entities with 2 systems",
@@ -42,6 +54,12 @@
       "regex": "^BM_(.*_)?CreateEmptyEntitiesInBulk\\/[0-9]+$",
       "header": "Create empty entities at once"
     },
+    "CreateNoEntities": {
+      "index": "Create No entities",
+      "title": "Create No entities",
+      "regex": "^BM_(.*_)?CreateNoEntities$",
+      "header": "Create No entities"
+    },
     "CreateEmptyEntities": {
       "index": "Create {:>5s} (empty) entities",
       "title": "Create (empty) entities",
@@ -59,6 +77,18 @@
       "title": "Destroy entities",
       "regex": "^BM_(.*_)?DestroyEntities\\/[0-9]+$",
       "header": "Destroy entities"
+    },
+    "UnpackNoComponent": {
+      "index": "Get No component in {:>5s} entities",
+      "title": "Get No component from Entity",
+      "regex": "^BM_(.*_)?UnpackNoComponent\\/[0-9]+$",
+      "header": "Get No component from Entity"
+    },
+    "UnpackOneComponentNoEntities": {
+      "index": "Unpack No entities (empty entities)",
+      "title": "Get component from No Entity",
+      "regex": "^BM_(.*_)?UnpackOneComponent_NoEntities$",
+      "header": "Get component from No Entity"
     },
     "UnpackOneComponentConst": {
       "index": "Get one (const) component in {:>5s} entities",
