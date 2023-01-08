@@ -7,20 +7,20 @@
 
 namespace ecs::benchmarks::flecs::systems {
 
-    class MovementSystem {
-    public:
-        using TimeDelta = float;
-        using Entity = ::flecs::entity;
+class MovementSystem {
+public:
+  using TimeDelta = float;
+  using Entity = ::flecs::entity;
 
-        inline static const auto update = [](::flecs::iter &it, size_t /*index*/,
-                                       ecs::benchmarks::base::components::PositionComponent &position,
-                                       const ecs::benchmarks::base::components::VelocityComponent &direction) {
-            const TimeDelta dt = it.delta_time();
-            position.x += direction.x * dt;
-            position.y += direction.y * dt;
-        };
-    };
+  inline static const auto update = [](::flecs::iter& it, size_t /*index*/,
+                                       ecs::benchmarks::base::components::PositionComponent& position,
+                                       const ecs::benchmarks::base::components::VelocityComponent& direction) {
+    const TimeDelta dt = it.delta_time();
+    position.x += direction.x * dt;
+    position.y += direction.y * dt;
+  };
+};
 
-}
+} // namespace ecs::benchmarks::flecs::systems
 
 #endif

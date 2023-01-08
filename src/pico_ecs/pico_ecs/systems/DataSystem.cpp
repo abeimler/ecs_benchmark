@@ -1,11 +1,11 @@
 #include "DataSystem.h"
+#include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include "base/components/DataComponent.h"
 
 namespace ecs::benchmarks::pico_ecs::systems {
 
-void DataSystem::init(EntityManager &registry) {
+void DataSystem::init(EntityManager& registry) {
   auto system_update = [](ecs_t* ecs, ecs_id_t* entities, int entity_count, ecs_dt_t dt, void* udata) -> ecs_ret_t {
     (void)ecs;
     (void)dt;
@@ -13,7 +13,8 @@ void DataSystem::init(EntityManager &registry) {
 
     for (int id = 0; id < entity_count; id++) {
       auto entity_id = entities[id];
-      auto& data = *reinterpret_cast<ecs::benchmarks::base::components::DataComponent*>(ecs_get(uregistry.ecs.get(), entity_id, uregistry.DataComponent));
+      auto& data = *reinterpret_cast<ecs::benchmarks::base::components::DataComponent*>(
+          ecs_get(uregistry.ecs.get(), entity_id, uregistry.DataComponent));
       DataSystem::updateData(data, dt);
     }
 
@@ -25,8 +26,8 @@ void DataSystem::init(EntityManager &registry) {
   ecs_require_component(registry.ecs.get(), m_system, registry.DataComponent);
 }
 
-void DataSystem::update(EntityManager &registry, TimeDelta dt) {
+void DataSystem::update(EntityManager& registry, TimeDelta dt) {
   ecs_update_system(registry.ecs.get(), m_system, dt);
 }
 
-}
+} // namespace ecs::benchmarks::pico_ecs::systems

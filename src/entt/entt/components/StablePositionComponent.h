@@ -5,10 +5,10 @@
 
 namespace ecs::benchmarks::entt::components {
 
-    struct StablePositionComponent : ecs::benchmarks::base::components::PositionComponent {
-        static constexpr auto in_place_delete = true;
-    };
+struct StablePositionComponent : ecs::benchmarks::base::components::PositionComponent {
+  static constexpr auto in_place_delete = true;
+};
 
-}
+} // namespace ecs::benchmarks::entt::components
 
 #endif

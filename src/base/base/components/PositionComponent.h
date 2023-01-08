@@ -3,12 +3,12 @@
 
 namespace ecs::benchmarks::base::components {
 
-    struct PositionComponent {
-        float x{0.0F};
-        float y{0.0F};
-    };
+struct PositionComponent {
+  float x{0.0F};
+  float y{0.0F};
+};
 
 
-}
+} // namespace ecs::benchmarks::base::components
 
 #endif

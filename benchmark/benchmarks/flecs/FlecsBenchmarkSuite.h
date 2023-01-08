@@ -1,27 +1,25 @@
 #ifndef ECS_BENCHMARKS_FLECSBENCHMARK_H_
 #define ECS_BENCHMARKS_FLECSBENCHMARK_H_
 
-#include <utility>
-
+#include "ECSBenchmark.h"
+#include "flecs/FlecsApplication.h"
+#include "flecs/entities/EntityFactory.h"
 #include "flecs/systems/DataSystem.h"
 #include "flecs/systems/MoreComplexSystem.h"
 #include "flecs/systems/MovementSystem.h"
-#include "flecs/entities/EntityFactory.h"
-#include "flecs/FlecsApplication.h"
-
-#include "ECSBenchmark.h"
+#include <utility>
 
 
 namespace ecs::benchmarks::flecs {
 
-    class FlecsBenchmarkSuite final
-            : public ecs::benchmarks::base::ECSBenchmark<"flecs", FlecsApplication, entities::EntityFactory> {
-    public:
-        FlecsBenchmarkSuite() = default;
+class FlecsBenchmarkSuite final
+    : public ecs::benchmarks::base::ECSBenchmark<"flecs", FlecsApplication, entities::EntityFactory> {
+public:
+  FlecsBenchmarkSuite() = default;
 
-        explicit FlecsBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options) : ECSBenchmark(std::move(options)) {}
-    };
+  explicit FlecsBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options) : ECSBenchmark(std::move(options)) {}
+};
 
-}
+} // namespace ecs::benchmarks::flecs
 
-#endif //ECS_BENCHMARKS_OPENECSBENCHMARK_H_
+#endif // ECS_BENCHMARKS_OPENECSBENCHMARK_H_

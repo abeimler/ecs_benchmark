@@ -7,17 +7,17 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    class RuntimeMoreComplexSystem final
-            : public ecs::benchmarks::base::systems::MoreComplexSystem<::entt::registry, float> {
-    public:
-        void init(EntityManager& entities) override;
+class RuntimeMoreComplexSystem final
+    : public ecs::benchmarks::base::systems::MoreComplexSystem<::entt::registry, float> {
+public:
+  void init(EntityManager& entities) override;
 
-        void update(EntityManager &registry, TimeDelta dt) override;
+  void update(EntityManager& registry, TimeDelta dt) override;
 
-    private:
-        ::entt::runtime_view m_view{};
-    };
+private:
+  ::entt::runtime_view m_view{};
+};
 
-}
+} // namespace ecs::benchmarks::entt::systems
 
 #endif

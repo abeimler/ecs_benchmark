@@ -1,100 +1,99 @@
 #ifndef ECS_BENCHMARKS_MUSTACHE_ENTITYFACTORY_H_
 #define ECS_BENCHMARKS_MUSTACHE_ENTITYFACTORY_H_
 
-#include <mustache/ecs/ecs.hpp>
-
-#include "base/entities/EntityFactory.h"
+#include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include "base/components/DataComponent.h"
+#include "base/entities/EntityFactory.h"
+#include <mustache/ecs/ecs.hpp>
 
 namespace ecs::benchmarks::mustache::entities {
 
-    template<bool tdestroy_now = true>
-    class EntityFactoryImpl {
-    private:
-        inline static constexpr bool destroy_now = tdestroy_now;
-    public:
-        using EntityManager = ::mustache::EntityManager;
-        using Entity = ::mustache::Entity;
+template <bool tdestroy_now = true>
+class EntityFactoryImpl {
+private:
+  inline static constexpr bool destroy_now = tdestroy_now;
 
-        auto create(EntityManager &registry) {
-            return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent, ecs::benchmarks::base::components::DataComponent>();
-        }
+public:
+  using EntityManager = ::mustache::EntityManager;
+  using Entity = ::mustache::Entity;
 
-        auto createMinimal(EntityManager &registry) {
-            return registry.create<ecs::benchmarks::base::components::PositionComponent, ecs::benchmarks::base::components::VelocityComponent>();
-        }
+  auto create(EntityManager& registry) {
+    return registry.create<ecs::benchmarks::base::components::PositionComponent,
+                           ecs::benchmarks::base::components::VelocityComponent,
+                           ecs::benchmarks::base::components::DataComponent>();
+  }
 
-        auto createEmpty(EntityManager &registry) {
-            return registry.create();
-        }
+  auto createMinimal(EntityManager& registry) {
+    return registry.create<ecs::benchmarks::base::components::PositionComponent,
+                           ecs::benchmarks::base::components::VelocityComponent>();
+  }
 
-        auto createSingle(EntityManager &registry) {
-            return registry.create<ecs::benchmarks::base::components::PositionComponent>();
-        }
+  auto createEmpty(EntityManager& registry) { return registry.create(); }
 
-        void destroy(EntityManager &registry, Entity entity) {
-            if constexpr (destroy_now) {
-                registry.destroyNow(entity);
-            } else {
-                registry.destroy(entity);
-            }
-        }
+  auto createSingle(EntityManager& registry) {
+    return registry.create<ecs::benchmarks::base::components::PositionComponent>();
+  }
 
-        void clear(EntityManager &registry) {
-            registry.clear();
-        }
+  void destroy(EntityManager& registry, Entity entity) {
+    if constexpr (destroy_now) {
+      registry.destroyNow(entity);
+    } else {
+      registry.destroy(entity);
+    }
+  }
 
-
-        [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent &
-        getComponentOneConst(EntityManager &registry, Entity entity) {
-            return *registry.getComponent<const ecs::benchmarks::base::components::PositionComponent, ::mustache::FunctionSafety::kUnsafe>(
-                    entity);
-        }
-
-        [[nodiscard]] static inline const ecs::benchmarks::base::components::VelocityComponent &
-        getComponentTwoConst(EntityManager &registry, Entity entity) {
-            return *registry.getComponent<const ecs::benchmarks::base::components::VelocityComponent, ::mustache::FunctionSafety::kUnsafe>(
-                    entity);
-        }
-
-        [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent &
-        getComponentOne(EntityManager &registry, Entity entity) {
-            return *registry.getComponent<ecs::benchmarks::base::components::PositionComponent, ::mustache::FunctionSafety::kUnsafe>(
-                    entity);
-        }
-
-        [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent &
-        getComponentTwo(EntityManager &registry, Entity entity) {
-            return *registry.getComponent<ecs::benchmarks::base::components::VelocityComponent, ::mustache::FunctionSafety::kUnsafe>(
-                    entity);
-        }
-
-        [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent *
-        getOptionalComponentThree(EntityManager &registry, Entity entity) {
-            return registry.getComponent<ecs::benchmarks::base::components::DataComponent>(entity);
-        }
+  void clear(EntityManager& registry) { registry.clear(); }
 
 
-        static inline void removeComponentOne(EntityManager &entities, Entity entity) {
-            entities.removeComponent<ecs::benchmarks::base::components::PositionComponent>(entity);
-        }
+  [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
+  getComponentOneConst(EntityManager& registry, Entity entity) {
+    return *registry.getComponent<const ecs::benchmarks::base::components::PositionComponent,
+                                  ::mustache::FunctionSafety::kUnsafe>(entity);
+  }
 
-        static inline void removeComponentTwo(EntityManager &entities, Entity entity) {
-            entities.removeComponent<ecs::benchmarks::base::components::VelocityComponent>(entity);
-        }
+  [[nodiscard]] static inline const ecs::benchmarks::base::components::VelocityComponent&
+  getComponentTwoConst(EntityManager& registry, Entity entity) {
+    return *registry.getComponent<const ecs::benchmarks::base::components::VelocityComponent,
+                                  ::mustache::FunctionSafety::kUnsafe>(entity);
+  }
 
-        static inline void removeComponentThree(EntityManager &entities, Entity entity) {
-            entities.removeComponent<ecs::benchmarks::base::components::DataComponent>(entity);
-        }
+  [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent&
+  getComponentOne(EntityManager& registry, Entity entity) {
+    return *registry.getComponent<ecs::benchmarks::base::components::PositionComponent,
+                                  ::mustache::FunctionSafety::kUnsafe>(entity);
+  }
 
-        static inline auto &addComponentOne(EntityManager &entities, Entity entity) {
-            return entities.assign<ecs::benchmarks::base::components::PositionComponent>(entity);
-        }
-    };
+  [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent&
+  getComponentTwo(EntityManager& registry, Entity entity) {
+    return *registry.getComponent<ecs::benchmarks::base::components::VelocityComponent,
+                                  ::mustache::FunctionSafety::kUnsafe>(entity);
+  }
 
-    using EntityFactory = EntityFactoryImpl<true>;
-}
+  [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent*
+  getOptionalComponentThree(EntityManager& registry, Entity entity) {
+    return registry.getComponent<ecs::benchmarks::base::components::DataComponent>(entity);
+  }
+
+
+  static inline void removeComponentOne(EntityManager& entities, Entity entity) {
+    entities.removeComponent<ecs::benchmarks::base::components::PositionComponent>(entity);
+  }
+
+  static inline void removeComponentTwo(EntityManager& entities, Entity entity) {
+    entities.removeComponent<ecs::benchmarks::base::components::VelocityComponent>(entity);
+  }
+
+  static inline void removeComponentThree(EntityManager& entities, Entity entity) {
+    entities.removeComponent<ecs::benchmarks::base::components::DataComponent>(entity);
+  }
+
+  static inline auto& addComponentOne(EntityManager& entities, Entity entity) {
+    return entities.assign<ecs::benchmarks::base::components::PositionComponent>(entity);
+  }
+};
+
+using EntityFactory = EntityFactoryImpl<true>;
+} // namespace ecs::benchmarks::mustache::entities
 
 #endif
