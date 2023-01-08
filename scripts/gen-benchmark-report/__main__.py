@@ -3,20 +3,24 @@
 Usage:
   gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] gen-plots <REPORTS>...
   gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] [-o RESULTS.md] [--img-dir=IMG_DIR] [--skip=N] gen-results-md <REPORTS>...
+  gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] [-i README.md.mustache] [-o README.md] [--img-dir=IMG_DIR] [--skip=N] gen-readme-md <RESULTS>...
   gen-benchmark-report -h | --help
   gen-benchmark-report --version
 
 Commands:
   gen-plots                     plot graphs from reports
   gen-results-md                generate RESULTS.md from reports
+  gen-readme-md                 generate README.md from results
 
 Arguments:
   -c plot.config.json           .json config with framework infos [default: ./plot.config.json]
   -o RESULTS.md                 output filename for RESULTS.md [default: RESULTS.md]
+  -i README.md.mustache         mustache template filename for README.md [default: README.md.mustache]
   --reports-dir=REPORTS_DIR     reports directory [default: ./reports/]
   --img-dir=IMG_DIR             images directory [default: img/]
   --skip=N                      skip N first entries from results (table)
   <REPORTS>...                  list of .json files from google benchmark
+  <RESULTS>...                  list of .json files with results `results[key] = "markdown"`
 
 Options:
   -h, --help            show help
@@ -281,7 +285,6 @@ def gen_plots(config, results):
 def gen_results_md(config, output_dir, results_filename, results, img_dir):
     frameworks_info = config['frameworks']
 
-    results_md_filename = os.path.join(output_dir, results_filename)
     data = {'candidates': [candidate for candidate in frameworks_info.values() if
                            'skip_candidate' not in candidate or not candidate['skip_candidate']],
             'environment': {'os': results['_meta']['os'],
@@ -290,6 +293,8 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                             'ram': results['_meta']['ram']}}
 
     config_data = config['data']
+
+    results_md_filename = os.path.join(output_dir, results_filename)
 
     summary_df_data = {}
     df_data = {}
@@ -470,7 +475,38 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
             results_md_file.write(pystache.render(results_md_template, data))
             print("INFO: gen result {:s}".format(results_md_filename))
 
+        result_benchmark_md_template = """
+![{{figure_img_alt}}]({{figure_img_src}})
 
+_(lower is better)_
+
+{{small_table}}
+
+{{table}}
+"""
+
+        result_benchmark_md_map = {}
+        for benchmark in data['results']:
+            title = benchmark['header']
+            key = ''
+            for data_key, config_data in config['data'].items():
+                if config_data['header'] == title:
+                    key = data_key
+            if key != '':
+                result_benchmark_md_map[key] = pystache.render(result_benchmark_md_template, benchmark)
+
+        result_md_json_filename = os.path.join(output_dir, results_filename + ".json")
+        with open(result_md_json_filename, 'w', encoding='utf-8') as file_json:
+            json.dump(result_benchmark_md_map, file_json, ensure_ascii=False, indent=4)
+            print("INFO: gen result (json) {:s}".format(result_md_json_filename))
+
+
+def gen_readme_md(config, output_dir, readme_md_template_filename, readme_md_filename, input_results, img_dir):
+    with open(readme_md_template_filename, 'r') as readme_md_template_file:
+        readme_md_template = readme_md_template_file.read()
+        with open(readme_md_filename, 'w') as readme_md_file:
+            readme_md_file.write(pystache.render(readme_md_template, input_results))
+            print("INFO: gen README {:s}".format(readme_md_filename))
 
 def main(args):
     # print(args)
@@ -485,20 +521,52 @@ def main(args):
 
     # print(frameworks_info)
 
-    reports = {}
-    if args['<REPORTS>']:
-        for report_filename in args['<REPORTS>']:
-            with open(report_filename, 'r') as report_file:
-                print("INFO: load report {:s}".format(report_filename))
-                report_data = json.load(report_file)
-                reports[report_data['context']['framework.name']] = report_data
-
-    results = gen_results(config, output_dir, reports)
-
     if args['gen-plots']:
+        reports = {}
+        if args['<REPORTS>']:
+            for report_filename in args['<REPORTS>']:
+                with open(report_filename, 'r') as report_file:
+                    print("INFO: load report {:s}".format(report_filename))
+                    report_data = json.load(report_file)
+                    reports[report_data['context']['framework.name']] = report_data
+
+        results = gen_results(config, output_dir, reports)
+
         gen_plots(config, results)
     elif args['gen-results-md']:
+        reports = {}
+        if args['<REPORTS>']:
+            for report_filename in args['<REPORTS>']:
+                with open(report_filename, 'r') as report_file:
+                    print("INFO: load report {:s}".format(report_filename))
+                    report_data = json.load(report_file)
+                    reports[report_data['context']['framework.name']] = report_data
+
+        results = gen_results(config, output_dir, reports)
+
         gen_results_md(config, output_dir, args['-o'], results, args['--img-dir'])
+    elif args['gen-readme-md']:
+        input_results = {}
+        if args['<RESULTS>']:
+            for result_filename in args['<RESULTS>']:
+                with open(result_filename, 'r') as result_file:
+                    print("INFO: load result {:s}".format(result_filename))
+                    result_data = json.load(result_file)
+                    input_results = input_results | result_data
+
+        frameworks_info = config['frameworks']
+
+        # TODO: get hardware info
+        meta = {'ghz_per_cpu': 0 / 1000.0, 'mhz_per_cpu': 0, 'num_cpus': 0,
+                            'os': platform.system(), 'ram': get_total_memory()}
+
+        input_results['candidates'] = [candidate for candidate in frameworks_info.values() if 'skip_candidate' not in candidate or not candidate['skip_candidate']]
+        input_results['environment'] = {'os': meta['os'],
+                                'cpu': "{:.2f}GHz @ {:d}Cores".format(meta['ghz_per_cpu'],
+                                                                      meta['num_cpus']),
+                                'ram': meta['ram']}
+
+        gen_readme_md(config, output_dir, args['-i'], args['-o'], input_results, args['--img-dir'])
 
 
 if __name__ == '__main__':

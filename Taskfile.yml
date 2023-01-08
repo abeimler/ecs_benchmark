@@ -3,6 +3,9 @@ version: 3
 includes:
   benchmark: ./taskfiles/Benchmark.yml
   plot: ./taskfiles/Plot.yml
+  utils:
+    taskfile: ./taskfiles/Utils.yml
+    internal: true
 
 vars:
   VCPKG_ROOT: '{{.VCPKG_ROOT | default "./vcpkg"}}'
@@ -17,6 +20,16 @@ tasks:
     - task: build
     - task: benchmark
     - task: plot:all
+
+  generate:readme:
+    - task: utils:gen-readme-template
+      vars:
+        INPUT: "{{.PROJECT_DIR}}/README.md.mustache"
+        OUTPUT: "{{.PROJECT_DIR}}/README.md"
+        RESULTS: >
+          {{.PROJECT_DIR}}/reports/entities.RESULTS.md.json 
+          {{.PROJECT_DIR}}/reports/extended.RESULTS.md.json 
+          {{.PROJECT_DIR}}/reports/RESULTS.md.json
 
   configure:
     dir: "{{.PROJECT_DIR}}"

@@ -11,31 +11,33 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 * [Ginseng](https://github.com/apples/ginseng)
 * [mustache](https://github.com/kirillochnev/mustache)
 * [flecs](https://github.com/SanderMertens/flecs)
+* [pico_ecs](https://github.com/empyreanx/pico_headers)
 * ~~TODO: [OpenEcs](https://github.com/Gronis/OpenEcs)~~
 
 ## TL;DR Results
 
 ### Update systems (for-each entities (with mixed components) in 3 systems)
 
+
 ![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.png)
 
 _(lower is better)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group) | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:-------------|:----------------|:----------|:-----------|:---------|
-| Update    16 entities with 3 Systems | 3060ns   | 3511ns           | **2988ns**   | 3029ns          | 3032ns    | 111552ns   | 3956ns   |
-| Update    64 entities with 3 Systems | 13060ns  | 15271ns          | **12677ns**  | 13032ns         | 13179ns   | 129333ns   | 14082ns  |
-| Update   256 entities with 3 Systems | 55713ns  | 65685ns          | **54073ns**  | 55158ns         | 56406ns   | 154110ns   | 55632ns  |
-| Update   ~1K entities with 3 Systems | 219349ns | 253519ns         | **215628ns** | 217068ns        | 227745ns  | 325840ns   | 225262ns |
-| Update   ~4K entities with 3 Systems | 857519ns | 980429ns         | **837731ns** | 849060ns        | 881086ns  | 971967ns   | 854226ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    | pico_ecs     |
+|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|:-------------|
+| Update    16 entities with 3 Systems | 1455ns   | 1761ns           | 1420ns         | 1382ns          | 1269ns    | 103681ns   | 2259ns   | **1070ns**   |
+| Update    64 entities with 3 Systems | 5868ns   | 7347ns           | 5633ns         | 5563ns          | 5177ns    | 108972ns   | 6460ns   | **4171ns**   |
+| Update   256 entities with 3 Systems | 24910ns  | 31782ns          | 24361ns        | 23341ns         | 22304ns   | 130812ns   | 24695ns  | **23512ns**  |
+| Update   ~1K entities with 3 Systems | 99885ns  | 125085ns         | 95682ns        | 91612ns         | 89084ns   | 201275ns   | 94927ns  | **93549ns**  |
+| Update   ~4K entities with 3 Systems | 390637ns | 490440ns         | 378259ns       | 360928ns        | 360946ns  | 490916ns   | 363548ns | **367681ns** |
 
-|                                      | EnTT     | EnTT (runtime) | EnTT (group) | EnTT (stable) | Ginseng  | mustache  | Flecs    |
-|:-------------------------------------|:---------|:---------------|:-------------|:--------------|:---------|:----------|:---------|
-| Update  ~16K entities with 3 Systems | **3ms**  | **3ms**        | **3ms**      | **3ms**       | **3ms**  | **3ms**   | **3ms**  |
-| Update  ~65K entities with 3 Systems | **13ms** | 15ms           | **13ms**     | 14ms          | **13ms** | **13ms**  | **13ms** |
-| Update  262K entities with 3 Systems | 58ms     | 64ms           | 58ms         | 54ms          | 56ms     | **53ms**  | 54ms     |
-| Update   ~1M entities with 3 Systems | 220ms    | 256ms          | 270ms        | 222ms         | 223ms    | **216ms** | 219ms    |
-| Update   ~2M entities with 3 Systems | 439ms    | 518ms          | 648ms        | 440ms         | 445ms    | **439ms** | 441ms    |
+|                                      | EnTT    | EnTT (runtime) | EnTT (group) | EnTT (stable) | Ginseng | mustache | Flecs     | pico_ecs |
+|:-------------------------------------|:--------|:---------------|:-------------|:--------------|:--------|:---------|:----------|:---------|
+| Update  ~16K entities with 3 Systems | **1ms** | **1ms**        | **1ms**      | **1ms**       | **1ms** | **1ms**  | **1ms**   | **1ms**  |
+| Update  ~65K entities with 3 Systems | **5ms** | 7ms            | **5ms**      | **5ms**       | **5ms** | **5ms**  | **5ms**   | **5ms**  |
+| Update  262K entities with 3 Systems | 24ms    | 30ms           | 25ms         | **22ms**      | 23ms    | 24ms     | 23ms      | **22ms** |
+| Update   ~1M entities with 3 Systems | 95ms    | 119ms          | 110ms        | **90ms**      | 93ms    | 96ms     | **90ms**  | **90ms** |
+| Update   ~2M entities with 3 Systems | 193ms   | 239ms          | 285ms        | **180ms**     | 185ms   | 191ms    | **180ms** | 181ms    |
 
 
 
@@ -43,8 +45,8 @@ This is a very little Benchmark with three simple components and three small sys
 So always benchmarks YOUR special cases and systems, when needed and compare.
 
 Some frameworks are faster in adding/removing components, others in creating or destroying entities, it always depends on what you need the most.
-Always choose an ECS-Framework by features, for example EnTT has some great features like a 
-[resource-management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) or [events](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between), 
+Always choose an ECS-Framework by features, for example EnTT has some great features like a
+[resource-management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) or [events](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between),
 flecs has some nice [add-ons](https://github.com/SanderMertens/flecs#addons) and EntityX has a build-in [world/system-manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
 
 Pick and evaluate a framework you like and have a look at the examples and API design.
@@ -94,74 +96,80 @@ Benchmarks of more common features, like "Creating entities", "Add and remove co
 * **Compiler:** gcc (GCC) 12.2.0
 
 
+---
+
 ### Create entities
+
 
 ![CreateEntities Plot](img/CreateEntities.png)
 
 _(lower is better)_
 
-|                                           | EntityX   | EnTT     | Ginseng   | mustache   | Flecs     |
-|:------------------------------------------|:----------|:---------|:----------|:-----------|:----------|
-| Create    16 entities with two Components | 2716ns    | 2750ns   | 10472ns   | 2993ns     | 692709ns  |
-| Create    64 entities with two Components | 6567ns    | 4352ns   | 11832ns   | 5894ns     | 694854ns  |
-| Create   256 entities with two Components | 21436ns   | 10215ns  | 16207ns   | 16732ns    | 743310ns  |
-| Create   ~1K entities with two Components | 81265ns   | 32936ns  | 32101ns   | 59557ns    | 851549ns  |
-| Create   ~4K entities with two Components | 314925ns  | 141350ns | 96077ns   | 229287ns   | 1454413ns |
+|                                           | EntityX   | EnTT     | Ginseng   | mustache   | Flecs     | pico_ecs   |
+|:------------------------------------------|:----------|:---------|:----------|:-----------|:----------|:-----------|
+| Create    16 entities with two Components | 2628ns    | 2748ns   | 10581ns   | 2985ns     | 652407ns  | 593ns      |
+| Create    64 entities with two Components | 6082ns    | 4309ns   | 11995ns   | 5983ns     | 665214ns  | 1025ns     |
+| Create   256 entities with two Components | 19214ns   | 10152ns  | 16463ns   | 17605ns    | 739886ns  | 2782ns     |
+| Create   ~1K entities with two Components | 71351ns   | 32864ns  | 32361ns   | 62070ns    | 896714ns  | 9716ns     |
+| Create   ~4K entities with two Components | 278867ns  | 141754ns | 96061ns   | 237707ns   | 1532600ns | 88776ns    |
 
-|                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Create  ~16K entities with two Components | 1ms       | 0ms    | 0ms       | 0ms        | 4ms     |
-| Create  ~65K entities with two Components | 5ms       | 2ms    | 3ms       | 4ms        | 14ms    |
-| Create  262K entities with two Components | 23ms      | 12ms   | 14ms      | 18ms       | 54ms    |
-| Create   ~1M entities with two Components | 92ms      | 48ms   | 49ms      | 72ms       | 202ms   |
-| Create   ~2M entities with two Components | 183ms     | 93ms   | 94ms      | 145ms      | 395ms   |
+|                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Create  ~16K entities with two Components | 1ms       | 0ms    | 0ms       | 0ms        | 4ms     | 0ms        |
+| Create  ~65K entities with two Components | 4ms       | 2ms    | 3ms       | 4ms        | 14ms    | 1ms        |
+| Create  262K entities with two Components | 20ms      | 12ms   | 14ms      | 18ms       | 55ms    | 7ms        |
+| Create   ~1M entities with two Components | 83ms      | 48ms   | 49ms      | 72ms       | 208ms   | 23ms       |
+| Create   ~2M entities with two Components | 164ms     | 91ms   | 94ms      | 143ms      | 402ms   | 46ms       |
 
 
 
 ### Destroy entities
 
+
 ![DestroyEntities Plot](img/DestroyEntities.png)
 
 _(lower is better)_
 
-|                                            | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------------|:----------|:---------|:----------|:-----------|:---------|
-| Destroy    16 entities with two components | 1416ns    | 1075ns   | 1978ns    | 682ns      | 396515ns |
-| Destroy    64 entities with two components | 3421ns    | 2540ns   | 5515ns    | 819ns      | 398124ns |
-| Destroy   256 entities with two components | 11662ns   | 8462ns   | 19184ns   | 1294ns     | 404232ns |
-| Destroy   ~1K entities with two components | 46007ns   | 32197ns  | 73215ns   | 3061ns     | 428263ns |
-| Destroy   ~4K entities with two components | 187868ns  | 127435ns | 288918ns  | 9721ns     | 518695ns |
+|                                            | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------------|:----------|:---------|:----------|:-----------|:---------|:-----------|
+| Destroy    16 entities with two components | 1451ns    | 1075ns   | 1970ns    | 671ns      | 393841ns | 545ns      |
+| Destroy    64 entities with two components | 3464ns    | 2537ns   | 5391ns    | 807ns      | 396080ns | 725ns      |
+| Destroy   256 entities with two components | 11681ns   | 8528ns   | 18841ns   | 1287ns     | 402022ns | 1435ns     |
+| Destroy   ~1K entities with two components | 45895ns   | 32234ns  | 72359ns   | 3046ns     | 428988ns | 4301ns     |
+| Destroy   ~4K entities with two components | 186443ns  | 127482ns | 285900ns  | 9703ns     | 537208ns | 15811ns    |
 
-|                                            | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Destroy  ~16K entities with two components | 0ms       | 0ms    | 1ms       | 0ms        | 0ms     |
-| Destroy  ~65K entities with two components | 3ms       | 2ms    | 4ms       | 0ms        | 2ms     |
-| Destroy  262K entities with two components | 13ms      | 8ms    | 19ms      | 0ms        | 8ms     |
-| Destroy   ~1M entities with two components | 58ms      | 35ms   | 78ms      | 4ms        | 34ms    |
-| Destroy   ~2M entities with two components | 119ms     | 74ms   | 157ms     | 8ms        | 70ms    |
+|                                            | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Destroy  ~16K entities with two components | 0ms       | 0ms    | 1ms       | 0ms        | 0ms     | 0ms        |
+| Destroy  ~65K entities with two components | 3ms       | 2ms    | 4ms       | 0ms        | 2ms     | 0ms        |
+| Destroy  262K entities with two components | 13ms      | 8ms    | 19ms      | 0ms        | 9ms     | 0ms        |
+| Destroy   ~1M entities with two components | 58ms      | 35ms   | 77ms      | 4ms        | 41ms    | 5ms        |
+| Destroy   ~2M entities with two components | 117ms     | 72ms   | 154ms     | 8ms        | 79ms    | 10ms       |
+
 
 
 ### Get one (non-const) component from Entity
+
 
 ![UnpackOneComponent Plot](img/UnpackOneComponent.png)
 
 _(lower is better)_
 
-|                                        | EntityX   | EnTT    | Ginseng   | mustache   | Flecs   |
-|:---------------------------------------|:----------|:--------|:----------|:-----------|:--------|
-| Unpack one component in    16 entities | 22ns      | 45ns    | 27ns      | 162ns      | 354ns   |
-| Unpack one component in    64 entities | 96ns      | 184ns   | 112ns     | 730ns      | 1393ns  |
-| Unpack one component in   256 entities | 366ns     | 725ns   | 441ns     | 2752ns     | 5561ns  |
-| Unpack one component in   ~1K entities | 1456ns    | 2887ns  | 1763ns    | 10906ns    | 22790ns |
-| Unpack one component in   ~4K entities | 5786ns    | 11572ns | 7039ns    | 45466ns    | 91112ns |
+|                                        | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:---------------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
+| Unpack one component in    16 entities | 22ns      | 45ns    | 27ns      | 183ns      | 419ns    | 10ns       |
+| Unpack one component in    64 entities | 96ns      | 184ns   | 112ns     | 707ns      | 1640ns   | 46ns       |
+| Unpack one component in   256 entities | 367ns     | 724ns   | 437ns     | 2720ns     | 6586ns   | 171ns      |
+| Unpack one component in   ~1K entities | 1452ns    | 2874ns  | 1748ns    | 10621ns    | 26356ns  | 675ns      |
+| Unpack one component in   ~4K entities | 5796ns    | 11562ns | 6948ns    | 44903ns    | 104202ns | 2701ns     |
 
-|                                        | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:---------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Unpack one component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     |
-| Unpack one component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     |
-| Unpack one component in  262K entities | 0ms       | 0ms    | 0ms       | 3ms        | 5ms     |
-| Unpack one component in   ~1M entities | 1ms       | 3ms    | 1ms       | 11ms       | 22ms    |
-| Unpack one component in   ~2M entities | 3ms       | 6ms    | 3ms       | 25ms       | 45ms    |
+|                                        | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:---------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Unpack one component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
+| Unpack one component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     | 0ms        |
+| Unpack one component in  262K entities | 0ms       | 0ms    | 0ms       | 2ms        | 6ms     | 0ms        |
+| Unpack one component in   ~1M entities | 1ms       | 3ms    | 1ms       | 11ms       | 26ms    | 0ms        |
+| Unpack one component in   ~2M entities | 3ms       | 6ms    | 3ms       | 22ms       | 53ms    | 1ms        |
 
 
 **Note:**
@@ -171,25 +179,26 @@ _(lower is better)_
 
 ### Get one (const) component from Entity
 
+
 ![UnpackOneComponentConst Plot](img/UnpackOneComponentConst.png)
 
 _(lower is better)_
 
-|                                             | EntityX   | EnTT    | Ginseng   | mustache   | Flecs   |
-|:--------------------------------------------|:----------|:--------|:----------|:-----------|:--------|
-| Get one (const) component in    16 entities | 22ns      | 47ns    | 27ns      | 93ns       | 252ns   |
-| Get one (const) component in    64 entities | 96ns      | 190ns   | 112ns     | 360ns      | 988ns   |
-| Get one (const) component in   256 entities | 366ns     | 750ns   | 444ns     | 1424ns     | 3929ns  |
-| Get one (const) component in   ~1K entities | 1454ns    | 2985ns  | 1748ns    | 5670ns     | 15717ns |
-| Get one (const) component in   ~4K entities | 5789ns    | 11989ns | 6968ns    | 22700ns    | 62789ns |
+|                                             | EntityX   | EnTT    | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:--------------------------------------------|:----------|:--------|:----------|:-----------|:--------|:-----------|
+| Get one (const) component in    16 entities | 22ns      | 46ns    | 27ns      | 93ns       | 252ns   | 12ns       |
+| Get one (const) component in    64 entities | 95ns      | 190ns   | 112ns     | 359ns      | 988ns   | 55ns       |
+| Get one (const) component in   256 entities | 365ns     | 748ns   | 437ns     | 1420ns     | 3947ns  | 211ns      |
+| Get one (const) component in   ~1K entities | 1450ns    | 3015ns  | 1751ns    | 5675ns     | 15830ns | 837ns      |
+| Get one (const) component in   ~4K entities | 5797ns    | 12041ns | 6990ns    | 22702ns    | 63153ns | 3346ns     |
 
-|                                             | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:--------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Get one (const) component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     |
-| Get one (const) component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     |
-| Get one (const) component in  262K entities | 0ms       | 0ms    | 0ms       | 1ms        | 4ms     |
-| Get one (const) component in   ~1M entities | 1ms       | 3ms    | 1ms       | 5ms        | 16ms    |
-| Get one (const) component in   ~2M entities | 3ms       | 6ms    | 3ms       | 11ms       | 32ms    |
+|                                             | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:--------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Get one (const) component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
+| Get one (const) component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     | 0ms        |
+| Get one (const) component in  262K entities | 0ms       | 0ms    | 0ms       | 1ms        | 4ms     | 0ms        |
+| Get one (const) component in   ~1M entities | 1ms       | 3ms    | 1ms       | 5ms        | 16ms    | 0ms        |
+| Get one (const) component in   ~2M entities | 3ms       | 6ms    | 3ms       | 11ms       | 32ms    | 1ms        |
 
 
 **Note:**
@@ -199,25 +208,27 @@ _(lower is better)_
 
 ### Get two components from entity
 
+
 ![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)
 
 _(lower is better)_
 
-|                                         | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    |
-|:----------------------------------------|:----------|:--------|:----------|:-----------|:---------|
-| Unpack two components in    16 entities | 41ns      | 93ns    | 54ns      | 257ns      | 618ns    |
-| Unpack two components in    64 entities | 172ns     | 365ns   | 222ns     | 1022ns     | 2471ns   |
-| Unpack two components in   256 entities | 672ns     | 1457ns  | 877ns     | 4090ns     | 9818ns   |
-| Unpack two components in   ~1K entities | 2674ns    | 5809ns  | 3500ns    | 16350ns    | 39301ns  |
-| Unpack two components in   ~4K entities | 10707ns   | 23174ns | 14009ns   | 65442ns    | 157353ns |
+|                                         | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:----------------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
+| Unpack two components in    16 entities | 41ns      | 93ns    | 54ns      | 360ns      | 676ns    | 22ns       |
+| Unpack two components in    64 entities | 172ns     | 365ns   | 221ns     | 1023ns     | 2672ns   | 95ns       |
+| Unpack two components in   256 entities | 671ns     | 1450ns  | 875ns     | 4090ns     | 10606ns  | 374ns      |
+| Unpack two components in   ~1K entities | 2668ns    | 5804ns  | 3488ns    | 16335ns    | 42460ns  | 1483ns     |
+| Unpack two components in   ~4K entities | 10674ns   | 23247ns | 13967ns   | 65838ns    | 169089ns | 5910ns     |
 
-|                                         | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:----------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Unpack two components in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     |
-| Unpack two components in  ~65K entities | 0ms       | 0ms    | 0ms       | 1ms        | 2ms     |
-| Unpack two components in  262K entities | 0ms       | 1ms    | 0ms       | 4ms        | 10ms    |
-| Unpack two components in   ~1M entities | 2ms       | 6ms    | 3ms       | 17ms       | 40ms    |
-| Unpack two components in   ~2M entities | 5ms       | 12ms   | 7ms       | 34ms       | 80ms    |
+|                                         | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:----------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Unpack two components in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
+| Unpack two components in  ~65K entities | 0ms       | 0ms    | 0ms       | 1ms        | 2ms     | 0ms        |
+| Unpack two components in  262K entities | 0ms       | 1ms    | 0ms       | 4ms        | 10ms    | 0ms        |
+| Unpack two components in   ~1M entities | 2ms       | 6ms    | 3ms       | 18ms       | 43ms    | 1ms        |
+| Unpack two components in   ~2M entities | 5ms       | 12ms   | 7ms       | 37ms       | 86ms    | 3ms        |
+
 
 
 **Note:**
@@ -228,25 +239,26 @@ _(lower is better)_
 
 ### Get three components from entity
 
+
 ![UnpackThreeComponents Plot](img/UnpackThreeComponents.png)
 
 _(lower is better)_
 
-|                                           | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    |
-|:------------------------------------------|:----------|:--------|:----------|:-----------|:---------|
-| Unpack three components in     8 entities | 33ns      | 73ns    | 47ns      | 129ns      | 505ns    |
-| Unpack three components in    32 entities | 143ns     | 296ns   | 191ns     | 522ns      | 1971ns   |
-| Unpack three components in   128 entities | 538ns     | 1177ns  | 751ns     | 2018ns     | 7909ns   |
-| Unpack three components in   512 entities | 2133ns    | 4700ns  | 2986ns    | 8071ns     | 31638ns  |
-| Unpack three components in   ~2K entities | 8523ns    | 18743ns | 12002ns   | 32199ns    | 125618ns |
+|                                           | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:------------------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
+| Unpack three components in     8 entities | 32ns      | 77ns    | 48ns      | 127ns      | 592ns    | 16ns       |
+| Unpack three components in    32 entities | 135ns     | 299ns   | 197ns     | 502ns      | 2347ns   | 70ns       |
+| Unpack three components in   128 entities | 524ns     | 1193ns  | 777ns     | 1986ns     | 9363ns   | 272ns      |
+| Unpack three components in   512 entities | 2083ns    | 4796ns  | 3099ns    | 7971ns     | 37002ns  | 1076ns     |
+| Unpack three components in   ~2K entities | 8293ns    | 19090ns | 12407ns   | 31775ns    | 149878ns | 4306ns     |
 
-|                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Unpack three components in   ~8K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     |
-| Unpack three components in  ~32K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     |
-| Unpack three components in  131K entities | 0ms       | 1ms    | 0ms       | 2ms        | 7ms     |
-| Unpack three components in  524K entities | 2ms       | 5ms    | 3ms       | 8ms        | 31ms    |
-| Unpack three components in   ~1M entities | 4ms       | 10ms   | 6ms       | 17ms       | 62ms    |
+|                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Unpack three components in   ~8K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
+| Unpack three components in  ~32K entities | 0ms       | 0ms    | 0ms       | 0ms        | 2ms     | 0ms        |
+| Unpack three components in  131K entities | 0ms       | 1ms    | 0ms       | 2ms        | 9ms     | 0ms        |
+| Unpack three components in  524K entities | 2ms       | 5ms    | 3ms       | 8ms        | 37ms    | 1ms        |
+| Unpack three components in   ~1M entities | 4ms       | 10ms   | 6ms       | 17ms       | 74ms    | 2ms        |
 
 
 
@@ -260,25 +272,27 @@ _(lower is better)_
 
 ### Remove and add component
 
+
 ![RemoveAddComponent Plot](img/RemoveAddComponent.png)
 
 _(lower is better)_
 
-|                                              | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    |
-|:---------------------------------------------|:----------|:---------|:----------|:-----------|:---------|
-| Remove and Add a Component in    16 entities | 300ns     | 426ns    | 208ns     | 880ns      | 2700ns   |
-| Remove and Add a Component in    64 entities | 1176ns    | 1684ns   | 737ns     | 3463ns     | 10838ns  |
-| Remove and Add a Component in   256 entities | 4691ns    | 6692ns   | 2947ns    | 13810ns    | 42652ns  |
-| Remove and Add a Component in   ~1K entities | 18746ns   | 26836ns  | 12003ns   | 56276ns    | 170747ns |
-| Remove and Add a Component in   ~4K entities | 74966ns   | 107751ns | 52925ns   | 221859ns   | 681861ns |
+|                                              | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:---------------------------------------------|:----------|:---------|:----------|:-----------|:---------|:-----------|
+| Remove and Add a Component in    16 entities | 294ns     | 427ns    | 187ns     | 958ns      | 2689ns   | 94ns       |
+| Remove and Add a Component in    64 entities | 1170ns    | 1674ns   | 736ns     | 3799ns     | 10589ns  | 362ns      |
+| Remove and Add a Component in   256 entities | 4681ns    | 6655ns   | 2937ns    | 15180ns    | 42112ns  | 1427ns     |
+| Remove and Add a Component in   ~1K entities | 18717ns   | 26667ns  | 11910ns   | 60647ns    | 170502ns | 5690ns     |
+| Remove and Add a Component in   ~4K entities | 75062ns   | 105841ns | 47867ns   | 242589ns   | 683467ns | 23006ns    |
 
-|                                              | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:---------------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Remove and Add a Component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 2ms     |
-| Remove and Add a Component in  ~65K entities | 1ms       | 1ms    | 0ms       | 3ms        | 10ms    |
-| Remove and Add a Component in  262K entities | 4ms       | 6ms    | 3ms       | 14ms       | 43ms    |
-| Remove and Add a Component in   ~1M entities | 19ms      | 27ms   | 12ms      | 64ms       | 175ms   |
-| Remove and Add a Component in   ~2M entities | 38ms      | 55ms   | 27ms      | 136ms      | 347ms   |
+|                                              | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:---------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Remove and Add a Component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 2ms     | 0ms        |
+| Remove and Add a Component in  ~65K entities | 1ms       | 1ms    | 0ms       | 3ms        | 10ms    | 0ms        |
+| Remove and Add a Component in  262K entities | 4ms       | 6ms    | 3ms       | 15ms       | 43ms    | 1ms        |
+| Remove and Add a Component in   ~1M entities | 19ms      | 28ms   | 12ms      | 65ms       | 174ms   | 5ms        |
+| Remove and Add a Component in   ~2M entities | 38ms      | 55ms   | 24ms      | 140ms      | 348ms   | 13ms       |
+
 
 
 **Note:**
@@ -288,25 +302,27 @@ _(lower is better)_
 
 ### Update systems (for-each entities in 2 systems)
 
+
 ![SystemsUpdate Plot](img/SystemsUpdate.png)
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:----------|:---------|:----------|:-----------|:---------|
-| Update    16 entities with 2 systems | 3721ns    | 3384ns   | 3393ns    | 75296ns    | 4119ns   |
-| Update    64 entities with 2 systems | 15002ns   | 14123ns  | 13820ns   | 79924ns    | 14207ns  |
-| Update   256 entities with 2 systems | 58597ns   | 55094ns  | 54361ns   | 118376ns   | 53516ns  |
-| Update   ~1K entities with 2 systems | 231826ns  | 222801ns | 218470ns  | 281026ns   | 207993ns |
-| Update   ~4K entities with 2 systems | 925195ns  | 865798ns | 839382ns  | 906501ns   | 825537ns |
+|                                      | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:----------|:---------|:----------|:-----------|:---------|:-----------|
+| Update    16 entities with 2 systems | 1781ns    | 1601ns   | 1901ns    | 67473ns    | 2068ns   | 1492ns     |
+| Update    64 entities with 2 systems | 6986ns    | 6028ns   | 6889ns    | 74531ns    | 6202ns   | 5926ns     |
+| Update   256 entities with 2 systems | 27604ns   | 24079ns  | 27438ns   | 89616ns    | 22681ns  | 23490ns    |
+| Update   ~1K entities with 2 systems | 109156ns  | 93349ns  | 103881ns  | 164338ns   | 88204ns  | 93159ns    |
+| Update   ~4K entities with 2 systems | 431842ns  | 370726ns | 422970ns  | 428359ns   | 348574ns | 366802ns   |
 
-|                                      | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Update  ~16K entities with 2 systems | 3ms       | 3ms    | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 2 systems | 14ms      | 13ms   | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 2 systems | 59ms      | 54ms   | 54ms      | 53ms       | 52ms    |
-| Update   ~1M entities with 2 systems | 236ms     | 259ms  | 220ms     | 215ms      | 219ms   |
-| Update   ~2M entities with 2 systems | 474ms     | 441ms  | 447ms     | 434ms      | 436ms   |
+|                                      | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 2 systems | 1ms       | 1ms    | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 2 systems | 6ms       | 5ms    | 6ms       | 6ms        | 5ms     | 5ms        |
+| Update  262K entities with 2 systems | 27ms      | 22ms   | 26ms      | 23ms       | 21ms    | 22ms       |
+| Update   ~1M entities with 2 systems | 109ms     | 89ms   | 104ms     | 92ms       | 86ms    | 89ms       |
+| Update   ~2M entities with 2 systems | 218ms     | 179ms  | 211ms     | 185ms      | 174ms   | 179ms      |
+
 
 
 **Note:**
@@ -317,25 +333,26 @@ _(lower is better)_
 
 ### Update systems (for-each entities (with mixed components) in 2 systems)
 
+
 ![SystemsUpdateMixedEntities Plot](img/SystemsUpdateMixedEntities.png)
 
 _(lower is better)_
 
-|                                      | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:----------|:---------|:----------|:-----------|:---------|
-| Update    16 entities with 2 systems | 3182ns    | 3018ns   | 2966ns    | 74918ns    | 3829ns   |
-| Update    64 entities with 2 systems | 13531ns   | 12930ns  | 12740ns   | 76463ns    | 13244ns  |
-| Update   256 entities with 2 systems | 58837ns   | 55892ns  | 54348ns   | 115454ns   | 53971ns  |
-| Update   ~1K entities with 2 systems | 230471ns  | 217400ns | 212944ns  | 276312ns   | 206945ns |
-| Update   ~4K entities with 2 systems | 901751ns  | 866759ns | 839655ns  | 902958ns   | 828308ns |
+|                                      | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:----------|:---------|:----------|:-----------|:---------|:-----------|
+| Update    16 entities with 2 systems | 1542ns    | 1347ns   | 1682ns    | 69758ns    | 2006ns   | 1055ns     |
+| Update    64 entities with 2 systems | 6385ns    | 5531ns   | 6620ns    | 76723ns    | 5895ns   | 4171ns     |
+| Update   256 entities with 2 systems | 27578ns   | 23531ns  | 27584ns   | 93017ns    | 22738ns  | 23526ns    |
+| Update   ~1K entities with 2 systems | 108889ns  | 92464ns  | 105542ns  | 176507ns   | 88207ns  | 92361ns    |
+| Update   ~4K entities with 2 systems | 430554ns  | 362892ns | 421684ns  | 539253ns   | 352383ns | 362030ns   |
 
-|                                      | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:----------|:-------|:----------|:-----------|:--------|
-| Update  ~16K entities with 2 systems | 3ms       | 3ms    | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 2 systems | 14ms      | 13ms   | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 2 systems | 58ms      | 55ms   | 54ms      | 53ms       | 53ms    |
-| Update   ~1M entities with 2 systems | 235ms     | 237ms  | 219ms     | 216ms      | 219ms   |
-| Update   ~2M entities with 2 systems | 474ms     | 486ms  | 446ms     | 433ms      | 423ms   |
+|                                      | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 2 systems | 1ms       | 1ms    | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 2 systems | 6ms       | 5ms    | 6ms       | 5ms        | 5ms     | 5ms        |
+| Update  262K entities with 2 systems | 27ms      | 22ms   | 26ms      | 23ms       | 21ms    | 22ms       |
+| Update   ~1M entities with 2 systems | 108ms     | 89ms   | 99ms      | 92ms       | 86ms    | 88ms       |
+| Update   ~2M entities with 2 systems | 218ms     | 179ms  | 183ms     | 184ms      | 172ms   | 180ms      |
 
 
 **Note:**
@@ -347,25 +364,27 @@ _(lower is better)_
 
 ### Update systems (for-each entities in 3 systems)
 
+
 ![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)
 
 _(lower is better)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|
-| Update    16 entities with 3 systems | 3491ns   | 4048ns           | 3462ns         | 3416ns          | 3476ns    | 104112ns   | 4271ns   |
-| Update    64 entities with 3 systems | 14197ns  | 16855ns          | 14286ns        | 14028ns         | 14345ns   | 124710ns   | 15006ns  |
-| Update   256 entities with 3 systems | 55721ns  | 65505ns          | 54760ns        | 54997ns         | 56989ns   | 168987ns   | 55906ns  |
-| Update   ~1K entities with 3 systems | 217934ns | 254836ns         | 214747ns       | 221677ns        | 228271ns  | 323446ns   | 216283ns |
-| Update   ~4K entities with 3 systems | 859448ns | 987339ns         | 839617ns       | 856380ns        | 868681ns  | 950704ns   | 855218ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|:-----------|
+| Update    16 entities with 3 systems | 1666ns   | 2043ns           | 1627ns         | 1579ns          | 1443ns    | 101691ns   | 2345ns   | 1506ns     |
+| Update    64 entities with 3 systems | 6348ns   | 7998ns           | 6166ns         | 6018ns          | 5610ns    | 103423ns   | 6856ns   | 5940ns     |
+| Update   256 entities with 3 systems | 24776ns  | 31727ns          | 24223ns        | 23344ns         | 22382ns   | 126647ns   | 24728ns  | 23620ns    |
+| Update   ~1K entities with 3 systems | 98674ns  | 125218ns         | 96505ns        | 91802ns         | 89267ns   | 204558ns   | 94102ns  | 94276ns    |
+| Update   ~4K entities with 3 systems | 389218ns | 487819ns         | 379311ns       | 360516ns        | 360383ns  | 477473ns   | 364371ns | 371452ns   |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 systems | 3ms    | 3ms              | 3ms            | 3ms             | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 3 systems | 13ms   | 15ms             | 13ms           | 13ms            | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 3 systems | 55ms   | 64ms             | 57ms           | 55ms            | 56ms      | 53ms       | 55ms    |
-| Update   ~1M entities with 3 systems | 223ms  | 258ms            | 263ms          | 220ms           | 223ms     | 215ms      | 220ms   |
-| Update   ~2M entities with 3 systems | 440ms  | 535ms            | 610ms          | 442ms           | 446ms     | 435ms      | 438ms   |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 3 systems | 1ms    | 1ms              | 1ms            | 1ms             | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 3 systems | 5ms    | 7ms              | 5ms            | 5ms             | 5ms       | 5ms        | 5ms     | 5ms        |
+| Update  262K entities with 3 systems | 24ms   | 30ms             | 25ms           | 22ms            | 23ms      | 24ms       | 23ms    | 23ms       |
+| Update   ~1M entities with 3 systems | 96ms   | 119ms            | 109ms          | 90ms            | 91ms      | 96ms       | 91ms    | 90ms       |
+| Update   ~2M entities with 3 systems | 194ms  | 239ms            | 270ms          | 181ms           | 183ms     | 191ms      | 181ms   | 182ms      |
+
 
 
 **Note:**
@@ -386,25 +405,26 @@ _(lower is better)_
 
 ### Update systems (for-each entities (with mixed components) in 3 systems)
 
+
 ![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.png)
 
 _(lower is better)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|
-| Update    16 entities with 3 Systems | 3060ns   | 3511ns           | 2988ns         | 3029ns          | 3032ns    | 111552ns   | 3956ns   |
-| Update    64 entities with 3 Systems | 13060ns  | 15271ns          | 12677ns        | 13032ns         | 13179ns   | 129333ns   | 14082ns  |
-| Update   256 entities with 3 Systems | 55713ns  | 65685ns          | 54073ns        | 55158ns         | 56406ns   | 154110ns   | 55632ns  |
-| Update   ~1K entities with 3 Systems | 219349ns | 253519ns         | 215628ns       | 217068ns        | 227745ns  | 325840ns   | 225262ns |
-| Update   ~4K entities with 3 Systems | 857519ns | 980429ns         | 837731ns       | 849060ns        | 881086ns  | 971967ns   | 854226ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|:-----------|
+| Update    16 entities with 3 Systems | 1455ns   | 1761ns           | 1420ns         | 1382ns          | 1269ns    | 103681ns   | 2259ns   | 1070ns     |
+| Update    64 entities with 3 Systems | 5868ns   | 7347ns           | 5633ns         | 5563ns          | 5177ns    | 108972ns   | 6460ns   | 4171ns     |
+| Update   256 entities with 3 Systems | 24910ns  | 31782ns          | 24361ns        | 23341ns         | 22304ns   | 130812ns   | 24695ns  | 23512ns    |
+| Update   ~1K entities with 3 Systems | 99885ns  | 125085ns         | 95682ns        | 91612ns         | 89084ns   | 201275ns   | 94927ns  | 93549ns    |
+| Update   ~4K entities with 3 Systems | 390637ns | 490440ns         | 378259ns       | 360928ns        | 360946ns  | 490916ns   | 363548ns | 367681ns   |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 Systems | 3ms    | 3ms              | 3ms            | 3ms             | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 3 Systems | 13ms   | 15ms             | 13ms           | 14ms            | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 3 Systems | 58ms   | 64ms             | 58ms           | 54ms            | 56ms      | 53ms       | 54ms    |
-| Update   ~1M entities with 3 Systems | 220ms  | 256ms            | 270ms          | 222ms           | 223ms     | 216ms      | 219ms   |
-| Update   ~2M entities with 3 Systems | 439ms  | 518ms            | 648ms          | 440ms           | 445ms     | 439ms      | 441ms   |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 3 Systems | 1ms    | 1ms              | 1ms            | 1ms             | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 3 Systems | 5ms    | 7ms              | 5ms            | 5ms             | 5ms       | 5ms        | 5ms     | 5ms        |
+| Update  262K entities with 3 Systems | 24ms   | 30ms             | 25ms           | 22ms            | 23ms      | 24ms       | 23ms    | 22ms       |
+| Update   ~1M entities with 3 Systems | 95ms   | 119ms            | 110ms          | 90ms            | 93ms      | 96ms       | 90ms    | 90ms       |
+| Update   ~2M entities with 3 Systems | 193ms  | 239ms            | 285ms          | 180ms           | 185ms     | 191ms      | 180ms   | 181ms      |
 
 
 
@@ -427,7 +447,7 @@ _(lower is better)_
 
 I try to implement the ECS-examples as good as possible for each framework, if you have any improvements, feel free to make a PR or open an issue.
 
-You can find the frameworks example(s) in [`src/`](src/) and benchmark [`benchmarks/`](benchmarks/benchmarks/) for more details.  
+You can find the frameworks example(s) in [`src/`](src/) and benchmark [`benchmarks/`](benchmarks/benchmarks/) for more details.
 Also you can write tests for the framework example :)
 and add some metadata in [plot.config.json](plot.config.json).
 
@@ -446,12 +466,12 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 
 You can now find you benchmarks results in [`reports/`](reports/).
 
-_You need python and some dependencies to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
+_You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
 
 ### ~~Step-by-Step~~
 
 1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
-   1. `git submodule update --init --recursive` 
+   1. `git submodule update --init --recursive`
    2. `cmake -S . -B ./build`
    3. `cmake --build ./build`
 2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
@@ -475,46 +495,57 @@ _You need python and some dependencies to run [gen-benchmark-report](scripts/gen
 
 ### Candidates
 
-#### EntityX by @alecthomas
+#### EntityX by @alecthomas 
 
 > Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity "objects" themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.
 
 Version: 1.1.2 (Dec 2021)
 
-#### EnTT by @skypjack
+#### EnTT by @skypjack 
 
 > EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.
 
 Version: v3.11.1
 
-#### Ginseng by @apples
+#### Ginseng by @apples 
 
 > Ginseng is an entity-component-system (ECS) library designed for use in games.
-> The main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.
-> Any function-like object can be used as a system. The function's parameters are used to determine the required components.
+
+The main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.
+
+Any function-like object can be used as a system. The function's parameters are used to determine the required components.
 
 Version: 1.1 (Dec 2021)
 
-#### mustache by @kirillochnev
+#### mustache by @kirillochnev 
 
 > A fast, modern C++ Entity Component System
 
 Version: 0.2 (Aug 2022)
 
-#### OpenEcs by @Gronis
+#### OpenEcs by @Gronis 
 
-> Open Ecs is an Entity Component System that uses metaprogramming, cache coherency, and other useful tricks to maximize performance and configurability. It is written in c++11 without further dependencies.
+> Open Ecs is an Entity Component System that uses metaprogramming, cache coherency, and other useful tricks to maximize performance and configurability. 
+> It is written in c++11 without further dependencies.
 
 Version: Beta (Apr 2017)
 
-#### Flecs by @SanderMertens
+#### Flecs by @SanderMertens 
 
 > Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.
 
 Version: v3.1.3
 
+#### pico_ecs by @empyreanx 
+
+> A collection of cross-platform single header libraries written in C. 
+> Pure and simple ECS.
+
+Version: v2.0.0
+
+
 
 #### _Deprecated_
 
-I removed [anax](https://github.com/miguelmartin75/anax) and [Artemis-Cpp](https://github.com/matachi/Artemis-Cpp), they are out-of-date and didn't receive any updates in the last time.  
+I removed [anax](https://github.com/miguelmartin75/anax) and [Artemis-Cpp](https://github.com/matachi/Artemis-Cpp), they are out-of-date and didn't receive any updates in the last time.
 You can still checkout the old versions and branches.
