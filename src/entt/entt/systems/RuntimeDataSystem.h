@@ -7,16 +7,16 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    class RuntimeDataSystem final : public ecs::benchmarks::base::systems::DataSystem<::entt::registry, float> {
-    public:
-        void init(EntityManager& entities) override;
+class RuntimeDataSystem final : public ecs::benchmarks::base::systems::DataSystem<::entt::registry, float> {
+public:
+  void init(EntityManager& entities) override;
 
-        void update(EntityManager &registry, TimeDelta dt) override;
+  void update(EntityManager& registry, TimeDelta dt) override;
 
-    private:
-        ::entt::runtime_view m_view{};
-    };
+private:
+  ::entt::runtime_view m_view{};
+};
 
-}
+} // namespace ecs::benchmarks::entt::systems
 
 #endif

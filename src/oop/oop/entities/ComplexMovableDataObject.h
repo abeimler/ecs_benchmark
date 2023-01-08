@@ -5,29 +5,29 @@
 
 namespace ecs::benchmarks::oop::entities {
 
-    class ComplexMovableDataObject : public MovableDataObject {
-    public:
-        ComplexMovableDataObject() : m_eng(m_rd()) {}
+class ComplexMovableDataObject : public MovableDataObject {
+public:
+  ComplexMovableDataObject() : m_eng(m_rd()) {}
 
-        ComplexMovableDataObject(const ComplexMovableDataObject &) = default;
+  ComplexMovableDataObject(const ComplexMovableDataObject&) = default;
 
-        ComplexMovableDataObject(ComplexMovableDataObject &&) = default;
+  ComplexMovableDataObject(ComplexMovableDataObject&&) = default;
 
-        ComplexMovableDataObject &operator=(const ComplexMovableDataObject &) = default;
+  ComplexMovableDataObject& operator=(const ComplexMovableDataObject&) = default;
 
-        ComplexMovableDataObject &operator=(ComplexMovableDataObject &&) = default;
+  ComplexMovableDataObject& operator=(ComplexMovableDataObject&&) = default;
 
-        virtual ~ComplexMovableDataObject() = default;
+  virtual ~ComplexMovableDataObject() = default;
 
-        virtual void update(float dt) override;
+  virtual void update(float dt) override;
 
-    private:
-        int random(int min, int max);
+private:
+  int random(int min, int max);
 
-        static std::random_device m_rd;
-        std::mt19937 m_eng;
-    };
+  static std::random_device m_rd;
+  std::mt19937 m_eng;
+};
 
-}
+} // namespace ecs::benchmarks::oop::entities
 
 #endif

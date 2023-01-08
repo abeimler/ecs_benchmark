@@ -7,11 +7,11 @@
 
 namespace ecs::benchmarks::ginseng::systems {
 
-    class DataSystem final : public ecs::benchmarks::base::systems::DataSystem<::ginseng::database, float> {
-    public:
-        void update(EntityManager &registry, TimeDelta dt) override;
-    };
+class DataSystem final : public ecs::benchmarks::base::systems::DataSystem<::ginseng::database, float> {
+public:
+  void update(EntityManager& registry, TimeDelta dt) override;
+};
 
-}
+} // namespace ecs::benchmarks::ginseng::systems
 
 #endif

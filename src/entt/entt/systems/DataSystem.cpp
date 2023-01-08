@@ -3,11 +3,11 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    void DataSystem::update(EntityManager &registry, TimeDelta dt) {
-        auto& storage = registry.storage<ecs::benchmarks::base::components::DataComponent>();
-        std::for_each(storage.begin(), storage.end(), [dt](auto& data) {
-            updateData(data, dt);
-        });
-    }
-
+void DataSystem::update(EntityManager& registry, TimeDelta dt) {
+  auto& storage = registry.storage<ecs::benchmarks::base::components::DataComponent>();
+  std::for_each(storage.begin(), storage.end(), [dt](auto& data) {
+    updateData(data, dt);
+  });
 }
+
+} // namespace ecs::benchmarks::entt::systems

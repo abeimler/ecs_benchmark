@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: pico-ecs
+        BENCHMARK_DIR: pico-ecs
+        REPORT_NAME: pico-ecs
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: pico-ecs-entities
+        BENCHMARK_DIR: pico-ecs-entities
+        REPORT_NAME: pico-ecs-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: pico-ecs-extended
+        BENCHMARK_DIR: pico-ecs-extended
+        REPORT_NAME: pico-ecs-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: pico-ecs-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: pico-ecs-extended
+        BENCHMARK_DIR: pico-ecs-extended

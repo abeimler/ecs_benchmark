@@ -7,11 +7,11 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    class MoreComplexSystem final : public ecs::benchmarks::base::systems::MoreComplexSystem<::entt::registry, float> {
-    public:
-        void update(EntityManager &registry, TimeDelta dt) override;
-    };
+class MoreComplexSystem final : public ecs::benchmarks::base::systems::MoreComplexSystem<::entt::registry, float> {
+public:
+  void update(EntityManager& registry, TimeDelta dt) override;
+};
 
-}
+} // namespace ecs::benchmarks::entt::systems
 
 #endif

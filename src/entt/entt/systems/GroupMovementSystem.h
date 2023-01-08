@@ -7,11 +7,11 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    class GroupMovementSystem final : public ecs::benchmarks::base::systems::MovementSystem<::entt::registry, float> {
-    public:
-        void update(EntityManager &registry, TimeDelta dt) override;
-    };
+class GroupMovementSystem final : public ecs::benchmarks::base::systems::MovementSystem<::entt::registry, float> {
+public:
+  void update(EntityManager& registry, TimeDelta dt) override;
+};
 
-}
+} // namespace ecs::benchmarks::entt::systems
 
 #endif

@@ -1,0 +1,276 @@
+# Entity-Component-System Benchmarks
+
+[![Actions Status](https://github.com/abeimler/ecs_benchmark/workflows/ci/badge.svg)](https://github.com/abeimler/ecs_benchmark/actions)
+![License](https://img.shields.io/github/license/abeimler/ecs_benchmark)
+![Standard](https://img.shields.io/badge/c%2B%2B-20-blue)
+
+Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
+
+* [EntityX](https://github.com/alecthomas/entityx)
+* [EnTT](https://github.com/skypjack/entt)
+* [Ginseng](https://github.com/apples/ginseng)
+* [mustache](https://github.com/kirillochnev/mustache)
+* [flecs](https://github.com/SanderMertens/flecs)
+* [pico_ecs](https://github.com/empyreanx/pico_headers)
+* ~~TODO: [OpenEcs](https://github.com/Gronis/OpenEcs)~~
+
+## TL;DR Results
+
+### Update systems (for-each entities (with mixed components) in 3 systems)
+
+{{{ComplexSystemsUpdateMixedEntities}}}
+
+
+This is a very little Benchmark with three simple components and three small systems. In wild Entity-Component-Systems can have hundreds of components and a lot of systems and even more complex systems.
+So always benchmarks YOUR special cases and systems, when needed and compare.
+
+Some frameworks are faster in adding/removing components, others in creating or destroying entities, it always depends on what you need the most.
+Always choose an ECS-Framework by features, for example EnTT has some great features like a
+[resource-management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) or [events](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between),
+flecs has some nice [add-ons](https://github.com/SanderMertens/flecs#addons) and EntityX has a build-in [world/system-manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
+
+Pick and evaluate a framework you like and have a look at the examples and API design.
+
+
+## Details
+
+### Features
+
+All benchmarks are located in [`benchmark/benchmarks/`](benchmark/benchmarks/) and are written with [google/benchmark](https://github.com/google/benchmark).
+Each benchmark must implement the template [ECSBenchmark.h](benchmark/benchmarks/ECSBenchmark.h).
+
+Each framework has a sub-project in [`src/`](src) and must implement certain features (see [`src/base`](src/base)).
+
+#### Components
+
+1. `PositionComponent` with `x` and `y` coord.
+2. `VelocityComponent` with `x` and `y` for movement.
+3. `DataComponent` with some nonsense data.
+
+#### Systems
+
+1. `MovementSystem`: updates `PositionComponent` with (const) `VelocityComponent`
+2. `DataSystem`: updates `DataComponent` with nonsense
+3. `MoreComplexSystem`: updates Components with random data and nonsense
+
+
+
+## More Benchmarks
+
+Benchmarks of more common features, like "Creating entities", "Add and remove components", etc.
+
+### Features tested
+
+* Create Entities
+* Destroy Entities
+* Get Component(s)
+* Remove and add component
+* Systems (for-each entities)
+
+
+{{#environment}}
+### Environment
+
+* **OS:** {{os}}
+* **CPU:** {{cpu}}
+* **RAM:** {{ram}}
+{{/environment}}
+
+
+---
+
+### Create entities
+
+{{{CreateEntities}}}
+
+
+### Destroy entities
+
+{{{DestroyEntities}}}
+
+
+### Get one (non-const) component from Entity
+
+{{{UnpackOneComponent}}}
+
+**Note:**
+* Get one non-const component
+   1. `PositionComponent`
+
+
+### Get one (const) component from Entity
+
+{{{UnpackOneComponentConst}}}
+
+**Note:**
+* Get one const component
+  1. `const PositionComponent`
+
+
+### Get two components from entity
+
+{{{UnpackTwoComponents}}}
+
+
+**Note:**
+* Get non-const- and const-component
+   1. `PositionComponent`
+   2. `const VelocityComponent`
+
+
+### Get three components from entity
+
+{{{UnpackThreeComponents}}}
+
+
+**Note:**
+* Not every entity has three components, some has only two
+* Get two non-const- and const-component(s)
+   1. `PositionComponent`
+   2. `const VelocityComponent`
+   3. `DataComponent` (optional)
+
+
+### Remove and add component
+
+{{{RemoveAddComponent}}}
+
+
+**Note:**
+* Remove and add `PositionComponent`
+
+
+
+### Update systems (for-each entities in 2 systems)
+
+{{{SystemsUpdate}}}
+
+
+**Note:**
+* Systems used
+    1. `MovementSystem`
+    2. `DataSystem`
+
+
+### Update systems (for-each entities (with mixed components) in 2 systems)
+
+{{SystemsUpdateMixedEntities}}
+
+**Note:**
+* Systems used
+    1. `MovementSystem`
+    2. `DataSystem`
+* Not every entity has all three components, some got removed
+
+
+### Update systems (for-each entities in 3 systems)
+
+{{{ComplexSystemsUpdate}}}
+
+
+**Note:**
+* Systems used
+    1. `MovementSystem`
+    2. `DataSystem`
+    3. `MoreComplexSystem`
+* \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
+* \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+* \*** EnTT iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+   1. `DataSystem`: No Group, use `registry.view<DataComponent>`. _(Can't group a single component)_
+   2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
+   3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
+* \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
+
+
+
+
+### Update systems (for-each entities (with mixed components) in 3 systems)
+
+{{{ComplexSystemsUpdateMixedEntities}}}
+
+
+**Note:**
+* Systems used
+    1. `MovementSystem`
+    2. `DataSystem`
+    3. `MoreComplexSystem`
+* Not every entity has all three components, some got removed
+* \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
+* \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
+* \*** EnTT iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
+    1. `DataSystem`: No Group, use `registry.view<DataComponent>`. _(Can't group a single component)_
+    2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
+    3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
+* \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
+
+
+## Contributing
+
+I try to implement the ECS-examples as good as possible for each framework, if you have any improvements, feel free to make a PR or open an issue.
+
+You can find the frameworks example(s) in [`src/`](src/) and benchmark [`benchmarks/`](benchmarks/benchmarks/) for more details.
+Also you can write tests for the framework example :)
+and add some metadata in [plot.config.json](plot.config.json).
+
+_TODO: make more detailed "how to add framework"_
+
+Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
+
+## Run Benchmarks
+
+### Using [Taskfile](https://taskfile.dev/installation/)
+
+1. `git submodule update --init --recursive`
+2. Build: `task build`
+3. Run (All) Benchmarks: `task benchmark`
+4. Plot Graphs: `task plot:all`
+
+You can now find you benchmarks results in [`reports/`](reports/).
+
+_You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
+
+### ~~Step-by-Step~~
+
+1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
+   1. `git submodule update --init --recursive`
+   2. `cmake -S . -B ./build`
+   3. `cmake --build ./build`
+2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
+   * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
+   * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_
+3. Plot Reports, after generating json reports, see [`plot-results.sh`](plot-results.sh):
+   1. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
+   2. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
+
+
+## Links and More
+
+* [Dependency Setup](doc/README_dependencies.md)
+* [Building Details](doc/README_building.md)
+* Project Template, mix of: [starter_template](https://github.com/cpp-best-practices/gui_starter_template) and [ModernCppStarter](https://github.com/TheLartians/ModernCppStarter)
+  * [Forked cpp_vcpkg_project](https://github.com/abeimler/cpp_vcpkg_project)
+* [Google benchmark](https://github.com/google/benchmark)
+* https://github.com/SanderMertens/ecs-faq
+* https://github.com/jslee02/awesome-entity-component-system
+
+
+### Candidates
+
+{{#candidates}}
+#### {{name}} {{#author}}by {{author}} {{/author}}
+
+{{#description}}
+> {{& .}}
+{{/description}}
+
+{{#version}}
+Version: {{version}}
+{{/version}}
+
+{{/candidates}}
+
+
+#### _Deprecated_
+
+I removed [anax](https://github.com/miguelmartin75/anax) and [Artemis-Cpp](https://github.com/matachi/Artemis-Cpp), they are out-of-date and didn't receive any updates in the last time.
+You can still checkout the old versions and branches.

@@ -19,3 +19,12 @@ tasks:
     vars:
       REPORT_FILES: "{{range $i, $file := .REPORTS | splitLines -}} {{if $file}} {{$file}} {{end}} {{end}}"
       OUTPUT: '{{.OUTPUT | default "RESULTS.md"}}'
+
+  gen-readme-template:
+    dir: "{{.PROJECT_DIR}}"
+    cmds:
+      - python3 {{.PROJECT_DIR}}/scripts/gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-readme-md -o {{.OUTPUT}} -i {{.INPUT}} {{.RESULT_FILES}}
+    vars:
+      RESULT_FILES: "{{range $i, $file := .RESULTS | splitLines -}} {{if $file}} {{$file}} {{end}} {{end}}"
+      OUTPUT: '{{.OUTPUT | default "README.md"}}'
+      INPUT: '{{.INPUT | default "README.md.mustache"}}'

@@ -9,18 +9,18 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_EXTENSIONS ON)
 
-
-# Add project_options
-# https://github.com/aminya/project_options
-# Change the version to update the package (watch the releases of the repository for future updates)
+# Add project_options https://github.com/aminya/project_options Change the version to update the package (watch the releases of the
+# repository for future updates)
 include(cmake/CPM.cmake)
-CPMAddPackage(
-        NAME              project_options
-        GITHUB_REPOSITORY aminya/project_options
-        VERSION           0.26.3
-        #GIT_TAG           main
-        DOWNLOAD_ONLY
-)
+cpmaddpackage(
+  NAME
+  project_options
+  GITHUB_REPOSITORY
+  aminya/project_options
+  VERSION
+  0.26.3
+  # GIT_TAG           main
+  DOWNLOAD_ONLY)
 if(project_options_ADDED)
   include(${project_options_SOURCE_DIR}/Index.cmake)
 endif()
@@ -37,32 +37,29 @@ if(BUILDING_MULTI_CONFIG)
     # configuration types you use, but only if one is not forced-set on the command line for VS
     message(TRACE "Setting up multi-config build types")
     set(CMAKE_CONFIGURATION_TYPES
-            Debug Release RelWithDebInfo MinSizeRel
-            CACHE STRING "Enabled build types" FORCE)
+        Debug Release RelWithDebInfo MinSizeRel
+        CACHE STRING "Enabled build types" FORCE)
   else()
     message(TRACE "User chose a specific build type, so we are using that")
     set(CMAKE_CONFIGURATION_TYPES
-            ${CMAKE_BUILD_TYPE}
-            CACHE STRING "Enabled build types" FORCE)
+        ${CMAKE_BUILD_TYPE}
+        CACHE STRING "Enabled build types" FORCE)
   endif()
 endif()
 
 run_vcpkg()
 
 # Set the project name and language
-project(ecs-benchmark
-        VERSION 4.6.0
-        DESCRIPTION ""
-        HOMEPAGE_URL "https://github.com/abeimler/ecs_benchmark"
-        LANGUAGES CXX C)
+project(
+  ecs-benchmark
+  VERSION 4.7.0
+  DESCRIPTION ""
+  HOMEPAGE_URL "https://github.com/abeimler/ecs_benchmark"
+  LANGUAGES CXX C)
 include(cmake/PreventInSourceBuilds.cmake)
 
 # This is a list of headers to pre-compile, here are some common ones
-set(PCH_HEADERS
-        <vector>
-        <utility>
-        <string>
-        <string_view>)
+set(PCH_HEADERS <vector> <utility> <string> <string_view>)
 
 set(ENABLE_CLANG_TIDY OFF)
 set(ENABLE_CPPCHECK OFF)
@@ -97,44 +94,34 @@ if(FEATURE_TESTS)
   endif()
 endif()
 
-# Initialize project_options variable related to this project
-# This overwrites `project_options` and sets `project_warnings`
-# uncomment to enable the options. Some of them accept one or more inputs:
+# Initialize project_options variable related to this project This overwrites `project_options` and sets `project_warnings` uncomment to
+# enable the options. Some of them accept one or more inputs:
 project_options(
-        ENABLE_CACHE
-        ${ENABLE_CPPCHECK}
-        ${ENABLE_CLANG_TIDY}
-        ${ENABLE_INCLUDE_WHAT_YOU_USE}
-        ENABLE_VS_ANALYSIS
-        # ENABLE_BUILD_WITH_TIME_TRACE
-        ENABLE_INTERPROCEDURAL_OPTIMIZATION
-        ENABLE_NATIVE_OPTIMIZATION
-        # ENABLE_DOXYGEN
-        ${ENABLE_COVERAGE}
-        ${ENABLE_SANITIZER_ADDRESS}
-        # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
-        # ENABLE_SANITIZER_LEAK
-        # ENABLE_SANITIZER_THREAD
-        # ENABLE_SANITIZER_MEMORY
-        # ENABLE_PCH
-        # PCH_HEADERS
-        # ${PCH_HEADERS}
-        # WARNINGS_AS_ERRORS
-        # ENABLE_USER_LINKER
-        # ENABLE_UNITY
-        CPPCHECK_OPTIONS
-        --enable=style,performance,warning,portability
-        --inline-suppr
-        # We cannot act on a bug/missing feature of cppcheck
-        --suppress=cppcheckError
-        --suppress=internalAstError
-        # if a file does not have an internalAstError, we get an unmatchedSuppression error
-        --suppress=unmatchedSuppression
-        --suppress=passedByValue
-        --suppress=syntaxError
-        --suppress=*:${CMAKE_BINARY_DIR}/_deps/*
-        --inconclusive
-)
+  ENABLE_CACHE
+  ${ENABLE_CPPCHECK}
+  ${ENABLE_CLANG_TIDY}
+  ${ENABLE_INCLUDE_WHAT_YOU_USE}
+  ENABLE_VS_ANALYSIS
+  # ENABLE_BUILD_WITH_TIME_TRACE
+  ENABLE_INTERPROCEDURAL_OPTIMIZATION
+  ENABLE_NATIVE_OPTIMIZATION
+  # ENABLE_DOXYGEN
+  ${ENABLE_COVERAGE}
+  ${ENABLE_SANITIZER_ADDRESS}
+  # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR ENABLE_SANITIZER_LEAK ENABLE_SANITIZER_THREAD ENABLE_SANITIZER_MEMORY ENABLE_PCH PCH_HEADERS
+  # ${PCH_HEADERS} WARNINGS_AS_ERRORS ENABLE_USER_LINKER ENABLE_UNITY
+  CPPCHECK_OPTIONS
+  --enable=style,performance,warning,portability
+  --inline-suppr
+  # We cannot act on a bug/missing feature of cppcheck
+  --suppress=cppcheckError
+  --suppress=internalAstError
+  # if a file does not have an internalAstError, we get an unmatchedSuppression error
+  --suppress=unmatchedSuppression
+  --suppress=passedByValue
+  --suppress=syntaxError
+  --suppress=*:${CMAKE_BINARY_DIR}/_deps/*
+  --inconclusive)
 include(cmake/MoreProjectOptions.cmake)
 
 # ---- Add dependencies via CPM ----
@@ -143,17 +130,17 @@ include(cmake/CPM.cmake)
 # PackageProject.cmake will be used to make our target installable
 cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.9.0")
 cpmaddpackage(
-        NAME
-        Format.cmake
-        VERSION
-        1.7.3
-        GITHUB_REPOSITORY
-        TheLartians/Format.cmake
-        OPTIONS
-        # set to yes skip cmake formatting
-        "FORMAT_SKIP_CMAKE NO"
-        # path to exclude (optional, supports regular expressions)
-        "CMAKE_FORMAT_EXCLUDE libs|resources")
+  NAME
+  Format.cmake
+  VERSION
+  1.7.3
+  GITHUB_REPOSITORY
+  TheLartians/Format.cmake
+  OPTIONS
+  # set to yes skip cmake formatting
+  "FORMAT_SKIP_CMAKE NO"
+  # path to exclude (optional, supports regular expressions)
+  "CMAKE_FORMAT_EXCLUDE libs|resources")
 
 add_subdirectory(libs)
 
@@ -161,12 +148,10 @@ add_subdirectory(libs)
 # Project
 # ##########################################################################################################################################
 
-## add configure files
-configure_file (
-        "${PROJECT_SOURCE_DIR}/include/Version.h.in"
-        "${PROJECT_BINARY_DIR}/include/Version.h"
-        @ONLY
-)
+# add configure files
+configure_file("${PROJECT_SOURCE_DIR}/include/Version.h.in" "${PROJECT_BINARY_DIR}/include/Version.h" @ONLY)
+
+add_subdirectory(src)
 
 if(ENABLE_TESTS)
   # This variable is set by project() in CMake 3.21+
@@ -176,6 +161,7 @@ if(ENABLE_TESTS)
     include(CTest)
   endif()
   enable_testing()
+  add_subdirectory(test)
 endif()
 
 if(ENABLE_FUZZ_TESTS)
@@ -186,8 +172,6 @@ if(ENABLE_BENCHMARKS)
   message(AUTHOR_WARNING "Building Benchmarks.")
   add_subdirectory(benchmark)
 endif()
-
-add_subdirectory(src)
 
 # If MSVC is being used, and ASAN is enabled, we need to set the debugger environment so that it behaves well with MSVC's debugger, and we
 # can run the target from visual studio

@@ -6,21 +6,21 @@
 
 _(lower is faster)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|
-| Update  ~16K entities with 3 systems | 3491ns   | 4048ns           | 3462ns         | 3416ns          | 3476ns    | 104112ns   | 4271ns   |
-| Update  ~65K entities with 3 systems | 14197ns  | 16855ns          | 14286ns        | 14028ns         | 14345ns   | 124710ns   | 15006ns  |
-| Update  262K entities with 3 systems | 55721ns  | 65505ns          | 54760ns        | 54997ns         | 56989ns   | 168987ns   | 55906ns  |
-| Update   ~1M entities with 3 systems | 217934ns | 254836ns         | 214747ns       | 221677ns        | 228271ns  | 323446ns   | 216283ns |
-| Update   ~2M entities with 3 systems | 859448ns | 987339ns         | 839617ns       | 856380ns        | 868681ns  | 950704ns   | 855218ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|:-----------|
+| Update  ~16K entities with 3 systems | 1666ns   | 2043ns           | 1627ns         | 1579ns          | 1443ns    | 101691ns   | 2345ns   | 1506ns     |
+| Update  ~65K entities with 3 systems | 6348ns   | 7998ns           | 6166ns         | 6018ns          | 5610ns    | 103423ns   | 6856ns   | 5940ns     |
+| Update  262K entities with 3 systems | 24776ns  | 31727ns          | 24223ns        | 23344ns         | 22382ns   | 126647ns   | 24728ns  | 23620ns    |
+| Update   ~1M entities with 3 systems | 98674ns  | 125218ns         | 96505ns        | 91802ns         | 89267ns   | 204558ns   | 94102ns  | 94276ns    |
+| Update   ~2M entities with 3 systems | 389218ns | 487819ns         | 379311ns       | 360516ns        | 360383ns  | 477473ns   | 364371ns | 371452ns   |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 systems | 3ms    | 3ms              | 3ms            | 3ms             | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 3 systems | 13ms   | 15ms             | 13ms           | 13ms            | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 3 systems | 55ms   | 64ms             | 57ms           | 55ms            | 56ms      | 53ms       | 55ms    |
-| Update   ~1M entities with 3 systems | 223ms  | 258ms            | 263ms          | 220ms           | 223ms     | 215ms      | 220ms   |
-| Update   ~2M entities with 3 systems | 440ms  | 535ms            | 610ms          | 442ms           | 446ms     | 435ms      | 438ms   |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 3 systems | 1ms    | 1ms              | 1ms            | 1ms             | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 3 systems | 5ms    | 7ms              | 5ms            | 5ms             | 5ms       | 5ms        | 5ms     | 5ms        |
+| Update  262K entities with 3 systems | 24ms   | 30ms             | 25ms           | 22ms            | 23ms      | 24ms       | 23ms    | 23ms       |
+| Update   ~1M entities with 3 systems | 96ms   | 119ms            | 109ms          | 90ms            | 91ms      | 96ms       | 91ms    | 90ms       |
+| Update   ~2M entities with 3 systems | 194ms  | 239ms            | 270ms          | 181ms           | 183ms     | 191ms      | 181ms   | 182ms      |
 
 
 
@@ -32,21 +32,21 @@ _(lower is faster)_
 
 _(lower is better)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|
-| Update    16 entities with 3 systems | 3491ns   | 4048ns           | 3462ns         | 3416ns          | 3476ns    | 104112ns   | 4271ns   |
-| Update    64 entities with 3 systems | 14197ns  | 16855ns          | 14286ns        | 14028ns         | 14345ns   | 124710ns   | 15006ns  |
-| Update   256 entities with 3 systems | 55721ns  | 65505ns          | 54760ns        | 54997ns         | 56989ns   | 168987ns   | 55906ns  |
-| Update   ~1K entities with 3 systems | 217934ns | 254836ns         | 214747ns       | 221677ns        | 228271ns  | 323446ns   | 216283ns |
-| Update   ~4K entities with 3 systems | 859448ns | 987339ns         | 839617ns       | 856380ns        | 868681ns  | 950704ns   | 855218ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|:-----------|
+| Update    16 entities with 3 systems | 1666ns   | 2043ns           | 1627ns         | 1579ns          | 1443ns    | 101691ns   | 2345ns   | 1506ns     |
+| Update    64 entities with 3 systems | 6348ns   | 7998ns           | 6166ns         | 6018ns          | 5610ns    | 103423ns   | 6856ns   | 5940ns     |
+| Update   256 entities with 3 systems | 24776ns  | 31727ns          | 24223ns        | 23344ns         | 22382ns   | 126647ns   | 24728ns  | 23620ns    |
+| Update   ~1K entities with 3 systems | 98674ns  | 125218ns         | 96505ns        | 91802ns         | 89267ns   | 204558ns   | 94102ns  | 94276ns    |
+| Update   ~4K entities with 3 systems | 389218ns | 487819ns         | 379311ns       | 360516ns        | 360383ns  | 477473ns   | 364371ns | 371452ns   |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 systems | 3ms    | 3ms              | 3ms            | 3ms             | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 3 systems | 13ms   | 15ms             | 13ms           | 13ms            | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 3 systems | 55ms   | 64ms             | 57ms           | 55ms            | 56ms      | 53ms       | 55ms    |
-| Update   ~1M entities with 3 systems | 223ms  | 258ms            | 263ms          | 220ms           | 223ms     | 215ms      | 220ms   |
-| Update   ~2M entities with 3 systems | 440ms  | 535ms            | 610ms          | 442ms           | 446ms     | 435ms      | 438ms   |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 3 systems | 1ms    | 1ms              | 1ms            | 1ms             | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 3 systems | 5ms    | 7ms              | 5ms            | 5ms             | 5ms       | 5ms        | 5ms     | 5ms        |
+| Update  262K entities with 3 systems | 24ms   | 30ms             | 25ms           | 22ms            | 23ms      | 24ms       | 23ms    | 23ms       |
+| Update   ~1M entities with 3 systems | 96ms   | 119ms            | 109ms          | 90ms            | 91ms      | 96ms       | 91ms    | 90ms       |
+| Update   ~2M entities with 3 systems | 194ms  | 239ms            | 270ms          | 181ms           | 183ms     | 191ms      | 181ms   | 182ms      |
 
 
 ### Update systems (for-each entities (with mixed components) in 3 systems)
@@ -55,21 +55,21 @@ _(lower is better)_
 
 _(lower is better)_
 
-|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    |
-|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|
-| Update    16 entities with 3 Systems | 3060ns   | 3511ns           | 2988ns         | 3029ns          | 3032ns    | 111552ns   | 3956ns   |
-| Update    64 entities with 3 Systems | 13060ns  | 15271ns          | 12677ns        | 13032ns         | 13179ns   | 129333ns   | 14082ns  |
-| Update   256 entities with 3 Systems | 55713ns  | 65685ns          | 54073ns        | 55158ns         | 56406ns   | 154110ns   | 55632ns  |
-| Update   ~1K entities with 3 Systems | 219349ns | 253519ns         | 215628ns       | 217068ns        | 227745ns  | 325840ns   | 225262ns |
-| Update   ~4K entities with 3 Systems | 857519ns | 980429ns         | 837731ns       | 849060ns        | 881086ns  | 971967ns   | 854226ns |
+|                                      | EnTT     | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------------------------|:---------|:-----------------|:---------------|:----------------|:----------|:-----------|:---------|:-----------|
+| Update    16 entities with 3 Systems | 1455ns   | 1761ns           | 1420ns         | 1382ns          | 1269ns    | 103681ns   | 2259ns   | 1070ns     |
+| Update    64 entities with 3 Systems | 5868ns   | 7347ns           | 5633ns         | 5563ns          | 5177ns    | 108972ns   | 6460ns   | 4171ns     |
+| Update   256 entities with 3 Systems | 24910ns  | 31782ns          | 24361ns        | 23341ns         | 22304ns   | 130812ns   | 24695ns  | 23512ns    |
+| Update   ~1K entities with 3 Systems | 99885ns  | 125085ns         | 95682ns        | 91612ns         | 89084ns   | 201275ns   | 94927ns  | 93549ns    |
+| Update   ~4K entities with 3 Systems | 390637ns | 490440ns         | 378259ns       | 360928ns        | 360946ns  | 490916ns   | 363548ns | 367681ns   |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|
-| Update  ~16K entities with 3 Systems | 3ms    | 3ms              | 3ms            | 3ms             | 3ms       | 3ms        | 3ms     |
-| Update  ~65K entities with 3 Systems | 13ms   | 15ms             | 13ms           | 14ms            | 13ms      | 13ms       | 13ms    |
-| Update  262K entities with 3 Systems | 58ms   | 64ms             | 58ms           | 54ms            | 56ms      | 53ms       | 54ms    |
-| Update   ~1M entities with 3 Systems | 220ms  | 256ms            | 270ms          | 222ms           | 223ms     | 216ms      | 219ms   |
-| Update   ~2M entities with 3 Systems | 439ms  | 518ms            | 648ms          | 440ms           | 445ms     | 439ms      | 441ms   |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
+| Update  ~16K entities with 3 Systems | 1ms    | 1ms              | 1ms            | 1ms             | 1ms       | 1ms        | 1ms     | 1ms        |
+| Update  ~65K entities with 3 Systems | 5ms    | 7ms              | 5ms            | 5ms             | 5ms       | 5ms        | 5ms     | 5ms        |
+| Update  262K entities with 3 Systems | 24ms   | 30ms             | 25ms           | 22ms            | 23ms      | 24ms       | 23ms    | 22ms       |
+| Update   ~1M entities with 3 Systems | 95ms   | 119ms            | 110ms          | 90ms            | 93ms      | 96ms       | 90ms    | 90ms       |
+| Update   ~2M entities with 3 Systems | 193ms  | 239ms            | 285ms          | 180ms           | 185ms     | 191ms      | 180ms   | 181ms      |
 
 
 ### Iterate over entities with two components
@@ -80,11 +80,11 @@ _(lower is better)_
 
 |                                                 | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
 |:------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
-| Iterate over    16 entities with two components | 9ns                        | 17ns                      | 9ns                           |
-| Iterate over    64 entities with two components | 45ns                       | 83ns                      | 45ns                          |
-| Iterate over   256 entities with two components | 144ns                      | 331ns                     | 145ns                         |
-| Iterate over   ~1K entities with two components | 542ns                      | 1319ns                    | 541ns                         |
-| Iterate over   ~4K entities with two components | 2126ns                     | 8393ns                    | 2125ns                        |
+| Iterate over    16 entities with two components | 9ns                        | 17ns                      | 7ns                           |
+| Iterate over    64 entities with two components | 45ns                       | 82ns                      | 32ns                          |
+| Iterate over   256 entities with two components | 144ns                      | 331ns                     | 114ns                         |
+| Iterate over   ~1K entities with two components | 540ns                      | 1317ns                    | 430ns                         |
+| Iterate over   ~4K entities with two components | 2127ns                     | 27944ns                   | 1698ns                        |
 
 |                                                 | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
 |:------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
@@ -103,11 +103,11 @@ _(lower is better)_
 
 |                                                   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
 |:--------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
-| Iterate over    16 entities with three components | 6ns                        | 13ns                      | 6ns                           |
-| Iterate over    64 entities with three components | 33ns                       | 51ns                      | 33ns                          |
-| Iterate over   256 entities with three components | 144ns                      | 326ns                     | 144ns                         |
-| Iterate over   ~1K entities with three components | 536ns                      | 1217ns                    | 537ns                         |
-| Iterate over   ~4K entities with three components | 2109ns                     | 4876ns                    | 2111ns                        |
+| Iterate over    16 entities with three components | 7ns                        | 13ns                      | 7ns                           |
+| Iterate over    64 entities with three components | 33ns                       | 51ns                      | 31ns                          |
+| Iterate over   256 entities with three components | 144ns                      | 327ns                     | 144ns                         |
+| Iterate over   ~1K entities with three components | 536ns                      | 1218ns                    | 537ns                         |
+| Iterate over   ~4K entities with three components | 2110ns                     | 4856ns                    | 2109ns                        |
 
 |                                                   | EnTT (full-owning group)   | EnTT (non-owning group)   | EnTT (partial-owning group)   |
 |:--------------------------------------------------|:---------------------------|:--------------------------|:------------------------------|
@@ -163,12 +163,18 @@ Version: Beta (Apr 2017)
 
 Version: v3.1.3
 
+#### pico_ecs by @empyreanx 
+
+> A collection of cross-platform single header libraries written in C. Pure and simple ECS.
+
+Version: v2.0.0
+
 
 
 
 ### Environment
 
 * **OS:** Linux
-* **CPU:** 3.36GHz @ 12Cores
+* **CPU:** 3.13GHz @ 12Cores
 * **RAM:** 15.55GB
 

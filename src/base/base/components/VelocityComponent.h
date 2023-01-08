@@ -3,11 +3,11 @@
 
 namespace ecs::benchmarks::base::components {
 
-    struct VelocityComponent {
-        float x{0.0F};
-        float y{0.0F};
-    };
+struct VelocityComponent {
+  float x{0.0F};
+  float y{0.0F};
+};
 
-}
+} // namespace ecs::benchmarks::base::components
 
 #endif

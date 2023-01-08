@@ -10,17 +10,18 @@
 #include "systems/RuntimeMovementSystem.h"
 
 namespace ecs::benchmarks::entt {
-    class EnttRuntimeApplication final
-            : public ecs::benchmarks::base::Application<::entt::registry, float, systems::RuntimeMovementSystem, systems::RuntimeDataSystem, systems::RuntimeMoreComplexSystem> {
-    public:
-        EnttRuntimeApplication() = default;
-        explicit EnttRuntimeApplication(bool add_more_complex_system) : Application(add_more_complex_system) {}
-        ~EnttRuntimeApplication() = default;
-        EnttRuntimeApplication(const EnttRuntimeApplication &) = delete;
-        EnttRuntimeApplication &operator=(const EnttRuntimeApplication &) = delete;
-        EnttRuntimeApplication(EnttRuntimeApplication &&) = default;
-        EnttRuntimeApplication &operator=(EnttRuntimeApplication &&) = default;
-    };
-}
+class EnttRuntimeApplication final
+    : public ecs::benchmarks::base::Application<::entt::registry, float, systems::RuntimeMovementSystem,
+                                                systems::RuntimeDataSystem, systems::RuntimeMoreComplexSystem> {
+public:
+  EnttRuntimeApplication() = default;
+  explicit EnttRuntimeApplication(bool add_more_complex_system) : Application(add_more_complex_system) {}
+  ~EnttRuntimeApplication() = default;
+  EnttRuntimeApplication(const EnttRuntimeApplication&) = delete;
+  EnttRuntimeApplication& operator=(const EnttRuntimeApplication&) = delete;
+  EnttRuntimeApplication(EnttRuntimeApplication&&) = default;
+  EnttRuntimeApplication& operator=(EnttRuntimeApplication&&) = default;
+};
+} // namespace ecs::benchmarks::entt
 
-#endif //ECS_BENCHMARKS_ENTT_RUNTIMEAPPLICATION_H_
+#endif // ECS_BENCHMARKS_ENTT_RUNTIMEAPPLICATION_H_

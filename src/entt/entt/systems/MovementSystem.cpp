@@ -4,11 +4,13 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-    void MovementSystem::update(EntityManager &registry, TimeDelta dt) {
-        registry.view<ecs::benchmarks::base::components::PositionComponent, const ecs::benchmarks::base::components::VelocityComponent>()
-                .each([dt](auto &position, const auto &direction) {
-                    updatePosition(position, direction, dt);
-                });
-    }
-
+void MovementSystem::update(EntityManager& registry, TimeDelta dt) {
+  registry
+      .view<ecs::benchmarks::base::components::PositionComponent,
+            const ecs::benchmarks::base::components::VelocityComponent>()
+      .each([dt](auto& position, const auto& direction) {
+        updatePosition(position, direction, dt);
+      });
 }
+
+} // namespace ecs::benchmarks::entt::systems

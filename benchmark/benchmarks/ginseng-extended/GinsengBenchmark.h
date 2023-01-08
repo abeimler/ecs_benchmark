@@ -1,60 +1,59 @@
 #ifndef ECS_BENCHMARKS_GINSENGBENCHMARK_H_
 #define ECS_BENCHMARKS_GINSENGBENCHMARK_H_
 
-#include <utility>
-
 #include "ExtendedECSBenchmark.h"
-
+#include "ginseng/GinsengApplication.h"
+#include "ginseng/entities/EntityFactory.h"
 #include "ginseng/systems/DataSystem.h"
 #include "ginseng/systems/MoreComplexSystem.h"
 #include "ginseng/systems/MovementSystem.h"
-#include "ginseng/entities/EntityFactory.h"
-#include "ginseng/GinsengApplication.h"
+#include <utility>
 
 namespace ecs::benchmarks::ginseng {
 
-    class GinsengBenchmark final
-            : public ecs::benchmarks::base::ExtendedECSBenchmark<"ginseng", GinsengApplication, entities::EntityFactory> {
-    public:
-        GinsengBenchmark() = default;
+class GinsengBenchmark final
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"ginseng", GinsengApplication, entities::EntityFactory> {
+public:
+  GinsengBenchmark() = default;
 
-        explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options) : ExtendedECSBenchmark(std::move(options)) {}
+  explicit GinsengBenchmark(ecs::benchmarks::base::ESCBenchmarkOptions options)
+      : ExtendedECSBenchmark(std::move(options)) {}
 
-        
-        void BM_IterateSingleComponent(benchmark::State& state) {
-          using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
 
-          BM_IterateSingleComponentCustom(state, [](auto& ent_db) {
-            ent_db.visit([](ComponentOne& comp) {
-                dummy_each(comp);
-            });
-          });
-        }
+  void BM_IterateSingleComponent(benchmark::State& state) {
+    using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
 
-        void BM_IterateTwoComponents(benchmark::State& state) {
-          using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
-          using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
+    BM_IterateSingleComponentCustom(state, [](auto& ent_db) {
+      ent_db.visit([](ComponentOne& comp) {
+        dummy_each(comp);
+      });
+    });
+  }
 
-          BM_IterateTwoComponentsCustom(state, [](auto& ent_db) {
-            ent_db.visit([](ComponentOne& comp, ComponentTwo& comp2) {
-                dummy_each(comp, comp2);
-            });
-          });
-        }
+  void BM_IterateTwoComponents(benchmark::State& state) {
+    using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
+    using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
 
-        void BM_IterateThreeComponentsWithMixedEntities(benchmark::State& state) {
-          using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
-          using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-          using ComponentThree = ecs::benchmarks::base::components::DataComponent;
+    BM_IterateTwoComponentsCustom(state, [](auto& ent_db) {
+      ent_db.visit([](ComponentOne& comp, ComponentTwo& comp2) {
+        dummy_each(comp, comp2);
+      });
+    });
+  }
 
-          BM_IterateThreeComponentsWithMixedEntitiesCustom(state, [](auto& ent_db) {
-            ent_db.visit([](ComponentOne& comp, ComponentTwo& comp2, ComponentThree& comp3) {
-                dummy_each(comp, comp2, comp3);
-            });
-          });
-        }
-    };
+  void BM_IterateThreeComponentsWithMixedEntities(benchmark::State& state) {
+    using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
+    using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
+    using ComponentThree = ecs::benchmarks::base::components::DataComponent;
 
-}
+    BM_IterateThreeComponentsWithMixedEntitiesCustom(state, [](auto& ent_db) {
+      ent_db.visit([](ComponentOne& comp, ComponentTwo& comp2, ComponentThree& comp3) {
+        dummy_each(comp, comp2, comp3);
+      });
+    });
+  }
+};
 
-#endif //ECS_BENCHMARKS_ENTTBENCHMARK_H_
+} // namespace ecs::benchmarks::ginseng
+
+#endif // ECS_BENCHMARKS_ENTTBENCHMARK_H_

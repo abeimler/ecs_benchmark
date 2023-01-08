@@ -1,10 +1,9 @@
 #ifndef ECS_BENCHMARKS_ENTITYXBENCHMARK_H_
 #define ECS_BENCHMARKS_ENTITYXBENCHMARK_H_
 
-#include <utility>
-
-#include "entityx/entities/EntityFactory.h"
 #include "entityx/EntityXApplication.h"
+#include "entityx/entities/EntityFactory.h"
+#include <utility>
 
 #include "ECSBenchmark.h"
 
@@ -15,14 +14,15 @@
 
 namespace ecs::benchmarks::entityx {
 
-    class EntityXBenchmarkSuite final
-            : public ecs::benchmarks::base::ECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory> {
-    public:
-        EntityXBenchmarkSuite() = default;
+class EntityXBenchmarkSuite final
+    : public ecs::benchmarks::base::ECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory> {
+public:
+  EntityXBenchmarkSuite() = default;
 
-        explicit EntityXBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options) : ECSBenchmark(std::move(options)) {}
-    };
+  explicit EntityXBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options)
+      : ECSBenchmark(std::move(options)) {}
+};
 
-}
+} // namespace ecs::benchmarks::entityx
 
-#endif //ECS_BENCHMARKS_ENTITYXBENCHMARK_H_
+#endif // ECS_BENCHMARKS_ENTITYXBENCHMARK_H_
