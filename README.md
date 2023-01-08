@@ -19,7 +19,7 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 ### Update systems (for-each entities (with mixed components) in 3 systems)
 
 
-![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.png)
+![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.svg)
 
 _(lower is better)_
 
@@ -101,7 +101,7 @@ Benchmarks of more common features, like "Creating entities", "Add and remove co
 ### Create entities
 
 
-![CreateEntities Plot](img/CreateEntities.png)
+![CreateEntities Plot](img/CreateEntities.svg)
 
 _(lower is better)_
 
@@ -126,7 +126,7 @@ _(lower is better)_
 ### Destroy entities
 
 
-![DestroyEntities Plot](img/DestroyEntities.png)
+![DestroyEntities Plot](img/DestroyEntities.svg)
 
 _(lower is better)_
 
@@ -151,7 +151,7 @@ _(lower is better)_
 ### Get one (non-const) component from Entity
 
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)
+![UnpackOneComponent Plot](img/UnpackOneComponent.svg)
 
 _(lower is better)_
 
@@ -180,7 +180,7 @@ _(lower is better)_
 ### Get one (const) component from Entity
 
 
-![UnpackOneComponentConst Plot](img/UnpackOneComponentConst.png)
+![UnpackOneComponentConst Plot](img/UnpackOneComponentConst.svg)
 
 _(lower is better)_
 
@@ -209,7 +209,7 @@ _(lower is better)_
 ### Get two components from entity
 
 
-![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)
+![UnpackTwoComponents Plot](img/UnpackTwoComponents.svg)
 
 _(lower is better)_
 
@@ -240,7 +240,7 @@ _(lower is better)_
 ### Get three components from entity
 
 
-![UnpackThreeComponents Plot](img/UnpackThreeComponents.png)
+![UnpackThreeComponents Plot](img/UnpackThreeComponents.svg)
 
 _(lower is better)_
 
@@ -273,7 +273,7 @@ _(lower is better)_
 ### Remove and add component
 
 
-![RemoveAddComponent Plot](img/RemoveAddComponent.png)
+![RemoveAddComponent Plot](img/RemoveAddComponent.svg)
 
 _(lower is better)_
 
@@ -303,7 +303,7 @@ _(lower is better)_
 ### Update systems (for-each entities in 2 systems)
 
 
-![SystemsUpdate Plot](img/SystemsUpdate.png)
+![SystemsUpdate Plot](img/SystemsUpdate.svg)
 
 _(lower is better)_
 
@@ -334,7 +334,7 @@ _(lower is better)_
 ### Update systems (for-each entities (with mixed components) in 2 systems)
 
 
-![SystemsUpdateMixedEntities Plot](img/SystemsUpdateMixedEntities.png)
+![SystemsUpdateMixedEntities Plot](img/SystemsUpdateMixedEntities.svg)
 
 _(lower is better)_
 
@@ -365,7 +365,7 @@ _(lower is better)_
 ### Update systems (for-each entities in 3 systems)
 
 
-![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.png)
+![ComplexSystemsUpdate Plot](img/ComplexSystemsUpdate.svg)
 
 _(lower is better)_
 
@@ -406,7 +406,7 @@ _(lower is better)_
 ### Update systems (for-each entities (with mixed components) in 3 systems)
 
 
-![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.png)
+![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.svg)
 
 _(lower is better)_
 
@@ -448,7 +448,7 @@ _(lower is better)_
 I try to implement the ECS-examples as good as possible for each framework, if you have any improvements, feel free to make a PR or open an issue.
 
 You can find the frameworks example(s) in [`src/`](src/) and benchmark [`benchmarks/`](benchmarks/benchmarks/) for more details.
-Also you can write tests for the framework example :)
+Also, you can write tests for the framework example :)
 and add some metadata in [plot.config.json](plot.config.json).
 
 _TODO: make more detailed "how to add framework"_
@@ -464,7 +464,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 3. Run (All) Benchmarks: `task benchmark`
 4. Plot Graphs: `task plot:all`
 
-You can now find the benchmark results in [`reports/`](reports/).
+You can now find the benchmark-results in [`reports/`](reports/).
 
 _You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
 
