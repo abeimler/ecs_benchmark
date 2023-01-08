@@ -228,7 +228,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+  requires HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackNoComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     EntityManager registry;
@@ -242,15 +242,16 @@ public:
         benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
       }
     }
-    this->setCounters(state, entities, {
-      .component_one_count{0},
-      .component_two_count{0},
-      .component_three_count{0},
-    });
+    this->setCounters(state, entities,
+                      {
+                          .component_one_count{0},
+                          .component_two_count{0},
+                          .component_three_count{0},
+                      });
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+  requires HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
     const auto nentities = 0;
     EntityManager registry;

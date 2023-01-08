@@ -56,9 +56,7 @@ protected:
   }
 
 
-  ComponentsCounter createNoEntities(EntityManager& /*registry*/) {
-    return {};
-  }
+  ComponentsCounter createNoEntities(EntityManager& /*registry*/) { return {}; }
 
   ComponentsCounter createNoEntities(EntityManager& /*registry*/, std::vector<Entity>& out) {
     out.clear();

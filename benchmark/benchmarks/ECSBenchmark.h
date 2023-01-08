@@ -49,7 +49,7 @@ public:
 
 
   void BM_SystemsUpdate_NoEntities(benchmark::State& state) {
-    //const auto nentities = 0;
+    // const auto nentities = 0;
     std::vector<Entity> entities;
     Application app(m_options.add_more_complex_system);
     const ComponentsCounter components_counter = this->initApplicationWithoutEntities(app);
@@ -90,7 +90,7 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks void BM_CreateNoEntities(benchmark::State& state) {
+  requires include_entity_benchmarks void BM_CreateNoEntities(benchmark::State& state) {
     const auto nentities = 0;
     for (auto _ : state) {
       state.PauseTiming();
@@ -218,7 +218,7 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackNoComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -236,7 +236,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
     const auto nentities = 0;
     Application app(m_options.add_more_complex_system);
