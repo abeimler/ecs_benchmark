@@ -39,6 +39,12 @@ if (ENABLE_BENCHMARK_FLECS)
     add_subdirectory(benchmarks/flecs-extended)
 endif()
 
+if (ENABLE_BENCHMARK_PICO_ECS)
+    add_subdirectory(benchmarks/pico-ecs-entities)
+    add_subdirectory(benchmarks/pico-ecs)
+    add_subdirectory(benchmarks/pico-ecs-extended)
+endif()
+
 if (ENABLE_BENCHMARK_OOP)
     add_subdirectory(benchmarks/oop)
 endif()

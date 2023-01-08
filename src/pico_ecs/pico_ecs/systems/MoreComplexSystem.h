@@ -11,13 +11,13 @@ namespace ecs::benchmarks::pico_ecs::systems {
 namespace details {
 
 struct MoreComplexSystemContext {
-  ecs::benchmarks::pico_ecs::entities::EntityManager* registry{nullptr};
-  ecs::benchmarks::base::systems::MoreComplexSystem<ecs::benchmarks::pico_ecs::entities::EntityManager, ecs_dt_t>* system{nullptr};
+  ecs::benchmarks::pico_ecs::entities::details::EntityManager* registry{nullptr};
+  ecs::benchmarks::base::systems::MoreComplexSystem<ecs::benchmarks::pico_ecs::entities::details::EntityManager, ecs_dt_t>* system{nullptr};
 };
 
 }
 
-class MoreComplexSystem final : public ecs::benchmarks::base::systems::MoreComplexSystem<ecs::benchmarks::pico_ecs::entities::EntityManager, ecs_dt_t> {
+class MoreComplexSystem final : public ecs::benchmarks::base::systems::MoreComplexSystem<ecs::benchmarks::pico_ecs::entities::details::EntityManager, ecs_dt_t> {
 public:
   void init(EntityManager& /*registry*/) override;
   void update(EntityManager &registry, TimeDelta dt) override;

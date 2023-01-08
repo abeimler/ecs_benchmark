@@ -23,10 +23,9 @@ namespace ecs::benchmarks::openecs {
         /*
         base::ComponentsCounter
         initApplicationWithMixedComponents(OpenECSApplication &app, size_t nentities, std::vector<Entity> &out) {
-            /// @FIXME: SIGSEGV (Segmentation fault), can remove component(s) when createEntitiesWithMixedComponents
-            const auto ret = this->template createEntitiesWithMixedComponentsFromEmpty<entities::EntityFactory>(app.getEntities(), nentities, out);
             app.init();
-            return ret;
+            /// @FIXME: SIGSEGV (Segmentation fault), can remove component(s) when createEntitiesWithMixedComponents
+            return this->template createEntitiesWithMixedComponentsFromEmpty<entities::EntityFactory>(app.getEntities(), nentities, out);
         }
         */
 

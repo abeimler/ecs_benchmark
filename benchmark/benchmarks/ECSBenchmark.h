@@ -295,69 +295,59 @@ namespace ecs::benchmarks::base {
 
     protected:
         ComponentsCounter initApplicationWithEntities(Application &app, size_t nentities) {
-            const auto ret = this->createEntities(app.getEntities(), nentities);
             app.init();
-            return ret;
+            return this->createEntities(app.getEntities(), nentities);
         }
         ComponentsCounter initApplicationWithEntities(Application &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->createEntities(app.getEntities(), nentities, out);
             app.init();
-            return ret;
+            return this->createEntities(app.getEntities(), nentities, out);
         }
 
         ComponentsCounter initApplicationWithHalfComponents(Application &app, size_t nentities) {
-            const auto ret = this->createEntitiesWithHalfComponents(app.getEntities(), nentities);
             app.init();
-            return ret;
+            return this->createEntitiesWithHalfComponents(app.getEntities(), nentities);
         }
         ComponentsCounter initApplicationWithHalfComponents(Application &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->createEntitiesWithHalfComponents(app.getEntities(), nentities, out);
             app.init();
-            return ret;
+            return this->createEntitiesWithHalfComponents(app.getEntities(), nentities, out);
         }
 
         template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
         requires HasRemoveComponentsFeatures<tEntityFactory>
         ComponentsCounter
         initApplicationWithMixedComponents(Application &app, size_t nentities) {
-            const auto ret = this->template createEntitiesWithMixedComponents<tEntityManager>(app.getEntities(), nentities);
             app.init();
-            return ret;
+            return this->template createEntitiesWithMixedComponents<tEntityManager>(app.getEntities(), nentities);
         }
         template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
         requires HasRemoveComponentsFeatures<tEntityFactory>
         ComponentsCounter
         initApplicationWithMixedComponents(Application &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->template createEntitiesWithMixedComponents<tEntityFactory, tEntityManager>(app.getEntities(), nentities, out);
             app.init();
-            return ret;
+            return this->template createEntitiesWithMixedComponents<tEntityFactory, tEntityManager>(app.getEntities(), nentities, out);
         }
 
         template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
         requires HasAddComponentsFeatures<tEntityFactory>
         ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities) {
-          const auto ret = this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(), nentities);
-          app.init();
-          return ret;
+            app.init();
+            return this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(), nentities);
         }
         template<class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
         requires HasAddComponentsFeatures<tEntityFactory>
         ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities, std::vector<Entity>& out) {
-          const auto ret = this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(), nentities, out);
-          app.init();
-          return ret;
+            app.init();
+            return this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(), nentities, out);
         }
 
         ComponentsCounter initApplicationWithMinimalComponents(Application &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->createEntitiesWithMinimalComponents(app.getEntities(), nentities, out);
             app.init();
-            return ret;
+            return this->createEntitiesWithMinimalComponents(app.getEntities(), nentities, out);
         }
 
         ComponentsCounter initApplicationWithSingleComponent(Application &app, size_t nentities, std::vector<Entity> &out) {
-            const auto ret = this->createEntitiesWithSingleComponent(app.getEntities(), nentities, out);
             app.init();
-            return ret;
+            return this->createEntitiesWithSingleComponent(app.getEntities(), nentities, out);
         }
 
         void uninitApplication(Application &app) {

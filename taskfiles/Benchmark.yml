@@ -7,6 +7,7 @@ includes:
   mustache: ./benchmarks/Mustache.yml
   openecs: ./benchmarks/OpenECS.yml
   flecs: ./benchmarks/Flecs.yml
+  pico-ecs: ./benchmarks/PicoEcs.yml
   oop: ./benchmarks/OOP.yml
 
 tasks:
@@ -22,6 +23,7 @@ tasks:
     #- task: openecs:all
     - task: flecs:all
     - task: oop:all
+    - task: pico-ecs:all
 
   all:complex:
     - task: entt:complex
@@ -34,3 +36,4 @@ tasks:
     #- task: openecs:complex
     - task: flecs:complex
     - task: oop:complex
+    - task: pico-ecs:complex

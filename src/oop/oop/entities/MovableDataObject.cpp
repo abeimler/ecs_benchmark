@@ -1,7 +1,9 @@
 #include "MovableDataObject.h"
 #include <string>
 #include <vector>
-#include <numeric>
+#include <fmt/core.h>
+#include <fmt/format.h>
+#include <gsl-lite/gsl-lite.hpp>
 
 
 namespace ecs::benchmarks::oop::entities {
@@ -16,7 +18,10 @@ namespace ecs::benchmarks::oop::entities {
         m_data.thingy++;
         m_data.dingy += 0.0001 * static_cast<double>(dt);
         m_data.mingy = !m_data.mingy;
-        m_data.stringy = std::to_string(m_data.dingy);
+        /// @FIXME(pico_ecs): SIGSEGV (Segmentation fault), can't copy string ... support for components with dynamic memory (std::string) ?
+        //m_data.stringy = fmt::format(FMT_STRING("{:4.2f}"), m_data.dingy);
+        std::string stringy = fmt::format(FMT_STRING("{:4.2f}"), m_data.dingy);
+        std::char_traits<char>::copy(m_data.stringy, stringy.data(), std::min(stringy.length(), m_data.StringyMaxLength));
     }
 
 } // namespace ecs::benchmarks::oop::entities

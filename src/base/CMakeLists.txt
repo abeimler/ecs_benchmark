@@ -17,3 +17,8 @@ target_include_directories(
         INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
         "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-base INTERFACE project_warnings project_options)
+
+find_package(gsl-lite CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+target_link_system_libraries(ecs-benchmark-base INTERFACE gsl::gsl-lite gsl::gsl-lite-v1)
+target_link_system_libraries(ecs-benchmark-base INTERFACE fmt::fmt-header-only)

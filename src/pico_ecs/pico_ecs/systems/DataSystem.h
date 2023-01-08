@@ -8,7 +8,7 @@
 
 namespace ecs::benchmarks::pico_ecs::systems {
 
-class DataSystem final : public ecs::benchmarks::base::systems::DataSystem<ecs::benchmarks::pico_ecs::entities::EntityManager, ecs_dt_t> {
+class DataSystem final : public ecs::benchmarks::base::systems::DataSystem<ecs::benchmarks::pico_ecs::entities::details::EntityManager, ecs_dt_t> {
 public:
   void init(EntityManager& /*registry*/) override;
   void update(EntityManager &registry, TimeDelta dt) override;

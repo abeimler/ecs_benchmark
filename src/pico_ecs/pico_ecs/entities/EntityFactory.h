@@ -13,18 +13,15 @@
 namespace ecs::benchmarks::pico_ecs::entities {
 
     namespace details {
-      struct EcsDeleter {
-        void operator()(ecs_t* p_ecs) { ecs_free(p_ecs); }
-      };
-    }
+    struct EcsDeleter {
+      void operator()(ecs_t* p_ecs) { ecs_free(p_ecs); }
+    };
 
     class EntityManager {
     public:
-      static inline constexpr int MIN_ENTITIES  = 1 * 1024;
+      static inline constexpr int MIN_ENTITIES = 1 * 1024;
 
-      EntityManager() : ecs(ecs_new(MIN_ENTITIES, nullptr)) {
-        register_components();
-      }
+      EntityManager() : ecs(ecs_new(MIN_ENTITIES, nullptr)) { register_components(); }
 
       EntityManager(const EntityManager&) = delete;
       EntityManager(EntityManager&&) = default;
@@ -39,16 +36,17 @@ namespace ecs::benchmarks::pico_ecs::entities {
       ecs_id_t DataComponent;
 
     private:
-      void register_components()
-      {
+      void register_components() {
         PositionComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PositionComponent));
         VelocityComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::VelocityComponent));
         DataComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DataComponent));
       }
     };
+    }
 
     class EntityFactory {
     public:
+        using EntityManager = details::EntityManager;
         using Entity = ecs_id_t;
 
         auto create(EntityManager &registry) {

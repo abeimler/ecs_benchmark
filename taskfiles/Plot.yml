@@ -20,6 +20,7 @@ tasks:
           {{.PROJECT_DIR}}/reports/ginseng.json 
           {{.PROJECT_DIR}}/reports/mustache.json 
           {{.PROJECT_DIR}}/reports/flecs.json
+          {{.PROJECT_DIR}}/reports/pico-ecs.json
         # TODO: add openecs
         #  {{.PROJECT_DIR}}/reports/openecs.json
 
@@ -33,6 +34,7 @@ tasks:
           {{.PROJECT_DIR}}/reports/ginseng-entities.json 
           {{.PROJECT_DIR}}/reports/mustache-entities.json 
           {{.PROJECT_DIR}}/reports/flecs-entities.json
+          {{.PROJECT_DIR}}/reports/pico-ecs-entities.json
         # TODO: add openecs
         # {{.PROJECT_DIR}}/reports/openecs-entities.json
 
@@ -50,10 +52,9 @@ tasks:
           {{.PROJECT_DIR}}/reports/entt-extended-stable.json 
           {{.PROJECT_DIR}}/reports/ginseng-extended.json 
           {{.PROJECT_DIR}}/reports/mustache-extended.json 
-          {{.PROJECT_DIR}}/reports/flecs-extended.json 
-
+          {{.PROJECT_DIR}}/reports/flecs-extended.json
+          {{.PROJECT_DIR}}/reports/pico-ecs-extended.json
         # TODO: add openecs
-        # {{.PROJECT_DIR}}/reports/openecs-extended.json
         # {{.PROJECT_DIR}}/reports/openecs-extended.json
 
   extended-oop:
@@ -70,3 +71,4 @@ tasks:
           {{.PROJECT_DIR}}/reports/mustache-complex.json 
           {{.PROJECT_DIR}}/reports/flecs-complex.json
           {{.PROJECT_DIR}}/reports/oop-complex.json
+          {{.PROJECT_DIR}}/reports/pico-ecs-complex.json

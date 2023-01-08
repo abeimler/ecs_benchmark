@@ -14,7 +14,7 @@
 namespace ecs::benchmarks::pico_ecs {
     class PicoEcsApplication {
     public:
-        using EntityManager = ecs::benchmarks::pico_ecs::entities::EntityManager;
+        using EntityManager = ecs::benchmarks::pico_ecs::entities::details::EntityManager;
         using TimeDelta = ecs_dt_t;
 
         PicoEcsApplication() = default;
@@ -40,11 +40,11 @@ namespace ecs::benchmarks::pico_ecs {
           m_data_system.init(m_registry);
           m_more_complex_system.init(m_registry);
           ecs_enable_system(m_registry.ecs.get(), m_movement_system.id());
-          ecs_enable_system(m_registry.ecs.get(), m_movement_system.id());
+          ecs_enable_system(m_registry.ecs.get(), m_data_system.id());
           if(m_add_more_complex_system) {
-            ecs_enable_system(m_registry.ecs.get(), m_movement_system.id());
+            ecs_enable_system(m_registry.ecs.get(), m_more_complex_system.id());
           } else {
-            ecs_disable_system(m_registry.ecs.get(), m_movement_system.id());
+            ecs_disable_system(m_registry.ecs.get(), m_more_complex_system.id());
           }
         }
 
@@ -53,16 +53,12 @@ namespace ecs::benchmarks::pico_ecs {
         }
 
         void update(TimeDelta dt) {
-          m_movement_system.update(m_registry, dt);
-          m_data_system.update(m_registry, dt);
-          if(m_add_more_complex_system) {
-            m_more_complex_system.update(m_registry, dt);
-          }
+          ecs_update_systems(m_registry.ecs.get(), dt);
         }
 
     private:
-        bool m_add_more_complex_system;
-        ecs::benchmarks::pico_ecs::entities::EntityManager m_registry;
+        bool m_add_more_complex_system{false};
+        EntityManager m_registry;
         systems::MovementSystem m_movement_system;
         systems::DataSystem m_data_system;
         systems::MoreComplexSystem m_more_complex_system;
