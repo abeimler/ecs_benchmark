@@ -464,7 +464,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 3. Run (All) Benchmarks: `task benchmark`
 4. Plot Graphs: `task plot:all`
 
-You can now find you benchmarks results in [`reports/`](reports/).
+You can now find the benchmark results in [`reports/`](reports/).
 
 _You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
 
