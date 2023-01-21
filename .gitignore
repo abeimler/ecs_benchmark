@@ -3,6 +3,7 @@ reports/*.xml
 reports/*.json
 reports/*.out
 reports/*.png
+reports/*.svg
 reports/RESULTS.md
 reports/*.RESULTS.md
 

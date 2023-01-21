@@ -9,7 +9,7 @@
     "ComplexSystemsUpdateNoEntities": {
       "index": "Update 0 entities with 3 systems",
       "title": "Update Systems (3 Systems) with zero entities",
-      "regex": "^BM_(.*_)?BM_ComplexSystemsUpdate_NoEntities$",
+      "regex": "^BM_(.*_)?ComplexSystemsUpdate_NoEntities$",
       "header": "Update systems (for-each entities in 3 systems) with zero entities"
     },
     "ComplexSystemsUpdate": {

@@ -42,7 +42,9 @@ import re
 from pprint import pprint
 
 RESULTS_MD_MUSTACHE_FILENAME = os.path.join(os.path.dirname(__file__), 'RESULTS.md.mustache')
-
+GEN_PLOT_IMAGE_WIDTH = 1008
+GEN_PLOT_IMAGE_HEIGHT = 720
+OUTPUT_IMG_FILENAME_EXT = 'svg'
 
 def format_bytes(byte):
     for x in ['B', 'KB', 'MB', 'GB', 'TB']:
@@ -142,7 +144,7 @@ def gen_results(config, output_dir, reports):
                     entries[key] = {}
                 entries[key][entities] = time_ms
                 entries_unit = 'ms'
-                output_png_filename = os.path.join(output_dir, "{:s}.png".format(key))
+                output_image_filename = os.path.join(output_dir, "{:s}.{:s}".format(key, OUTPUT_IMG_FILENAME_EXT))
                 if key not in entries_data:
                     entries_data[key] = []
                 entries_data[key].append(
@@ -150,7 +152,7 @@ def gen_results(config, output_dir, reports):
                      'time_min': time_min,
                      'entities': entities, 'components_one': components_one, 'components_two': components_two,
                      'components_three': components_three,
-                     'output_png_filename': output_png_filename})
+                     'output_image_filename': output_image_filename})
 
         result_plot_data = {}
         for k in entries.keys():
@@ -243,7 +245,7 @@ def gen_results(config, output_dir, reports):
                     if not find:
                         y.append(None)
 
-                output_png_filename = result['entries_data'][ek][0]['output_png_filename']
+                output_image_filename = result['entries_data'][ek][0]['output_image_filename']
                 name = frameworks_info[framework]['name']
 
                 if ek not in results['_data_frame_data']:
@@ -255,7 +257,7 @@ def gen_results(config, output_dir, reports):
 
                 results['_data_frame_data'][ek]['df'][name] = y
                 results['_data_frame_data'][ek]['df']['entities'] = x
-                results['_data_frame_data'][ek]['output_png_filename'] = output_png_filename
+                results['_data_frame_data'][ek]['output_image_filename'] = output_image_filename
                 results['_data_frame_data'][ek]['unit'] = unit
                 results['_data_frame_data'][ek]['name'] = name
                 results['_data_frame_data'][ek]['y'].append(name)
@@ -277,8 +279,8 @@ def gen_plots(config, results):
             "value": "time ({})".format(data['unit']),
             "variable": "Frameworks",
         }, title=title, log_y=True)
-        fig.write_image(data['output_png_filename'])
-        print("INFO: gen plot '{:s}': {:s}".format(title, data['output_png_filename']))
+        fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+        print("INFO: gen plot '{:s}': {:s}".format(title, data['output_image_filename']))
 
 
 
@@ -437,17 +439,17 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
 
     data['summary'] = {'table': summary_df.to_markdown() if summary_df is not None else None,
                        'small_table': small_summary_df.to_markdown() if small_summary_df is not None else None,
-                       'figure_img_src': os.path.join(img_dir, 'SystemsUpdate.png'),
+                       'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format('SystemsUpdate', OUTPUT_IMG_FILENAME_EXT)),
                        'figure_img_alt': 'Summary SystemsUpdate Plot'}
 
     data['plots'] = {}
     data['results'] = []
     for ek in df_data.keys():
-        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)),
+        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'key': ek, 'header': config_data[ek]['header']}
     for ek in small_df_data.keys():
-        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.png".format(ek)),
+        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'key': ek, 'header': config_data[ek]['header']}
 
