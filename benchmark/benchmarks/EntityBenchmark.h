@@ -360,7 +360,7 @@ protected:
 };
 } // namespace ecs::benchmarks::base
 
-#define ECS_ENTITY_BENCHMARKS(benchmark_suite)                                             \
+#define MINIMAL_ECS_ENTITY_BENCHMARKS(benchmark_suite)                                     \
   static void BM_CreateNoEntities(benchmark::State& state) {                               \
     benchmark_suite.BM_CreateNoEntities(state);                                            \
   }                                                                                        \
@@ -396,7 +396,9 @@ protected:
   static void BM_UnpackThreeComponents(benchmark::State& state) {                          \
     benchmark_suite.BM_UnpackThreeComponents(state);                                       \
   }                                                                                        \
-  BENCHMARK(BM_UnpackThreeComponents)->Apply(ecs::benchmarks::base::BEDefaultArguments);   \
+  BENCHMARK(BM_UnpackThreeComponents)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+#define ECS_REMOVE_ENTITY_BENCHMARKS(benchmark_suite)                                      \
   static void BM_RemoveAddComponent(benchmark::State& state) {                             \
     benchmark_suite.BM_RemoveAddComponent(state);                                          \
   }                                                                                        \
@@ -405,6 +407,10 @@ protected:
     benchmark_suite.BM_DestroyEntities(state);                                             \
   }                                                                                        \
   BENCHMARK(BM_DestroyEntities)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+
+#define ECS_ENTITY_BENCHMARKS(benchmark_suite)                                             \
+  MINIMAL_ECS_ENTITY_BENCHMARKS(benchmark_suite)                                           \
+  ECS_REMOVE_ENTITY_BENCHMARKS(benchmark_suite)
 
 
 #endif // ECS_BENCHMARKS_ENTITYBENCHMARK_H_

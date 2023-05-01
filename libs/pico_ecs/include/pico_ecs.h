@@ -89,10 +89,10 @@ extern "C" {
    */
   typedef uint32_t ecs_id_t;
 
-  /**
+/**
 * @brief NULL/invalid/undefined value
-   */
-  const ecs_id_t ECS_NULL = (ecs_id_t)-1;
+ */
+#define ECS_NULL ((ecs_id_t)-1)
 
   /**
 * @brief Return code for update callback and calling functions
@@ -341,8 +341,6 @@ typedef double ecs_dt_t;
 #endif // PICO_ECS_H
 
 #ifdef PICO_ECS_IMPLEMENTATION // Define once
-
-//const ecs_id_t ECS_NULL = (ecs_id_t)-1;
 
 #include <stdint.h> // uint32_t
 #include <stdlib.h> // malloc, realloc, free
