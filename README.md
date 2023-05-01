@@ -90,10 +90,10 @@ Benchmarks of more common features, like "Creating entities", "Add and remove co
 
 ### Environment
 
-* **OS:** Linux (Kernel: 6.1.3)
+* **OS:** Linux (Kernel: 6.2.12)
 * **CPU:** 3.13GHz @ 12Cores
 * **RAM:** 16GB
-* **Compiler:** gcc (GCC) 12.2.0
+* **Compiler:** gcc (GCC) 12.2.1
 
 
 ---
