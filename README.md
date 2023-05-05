@@ -4,7 +4,13 @@
 ![License](https://img.shields.io/github/license/abeimler/ecs_benchmark)
 ![Standard](https://img.shields.io/badge/c%2B%2B-20-blue)
 
-Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
+This repository contains a collection of benchmarks for popular Entity-Component-System (ECS) frameworks. The benchmarks cover different aspects of ECS frameworks, such as update systems, component additions/removals, and entity creation/destruction.
+
+Each benchmark is performed on three simple components and three small systems, which can be scaled to hundreds of components and systems in a real-world scenario. The results of the benchmarks are displayed in tables and charts, allowing you to compare the performance of different ECS frameworks in different areas.
+
+It's important to note that different ECS frameworks have different strengths and weaknesses. For example, some frameworks might excel in adding/removing components, while others might be better at creating/destroying entities. Therefore, it's crucial to choose an ECS framework based on your specific requirements.
+
+ECS (Entity-Component-System) Frameworks:
 
 * [EntityX](https://github.com/alecthomas/entityx)
 * [EnTT](https://github.com/skypjack/entt)
@@ -16,8 +22,12 @@ Simple Benchmarks of common ECS (Entity-Component-System) Frameworks:
 
 ## TL;DR Results
 
-### Update systems (for-each entities (with mixed components) in 3 systems)
+The benchmark results are displayed in tables and charts, allowing you to quickly compare the performance of different ECS frameworks in different scenarios. The tables include the time in nanoseconds it takes to perform the benchmark on different numbers of entities, while the charts provide a visual representation of the results.
 
+When using ECS frameworks, it's important to benchmark your specific use case and compare the results. Therefore, the results of these benchmarks should be used as a starting point for your own benchmarking efforts.
+
+
+### Update systems (for-each entities (with mixed components) in 3 systems)
 
 ![ComplexSystemsUpdateMixedEntities Plot](img/ComplexSystemsUpdateMixedEntities.svg)
 
@@ -40,52 +50,44 @@ _(lower is better)_
 | Update   ~2M entities with 3 Systems | 197ms   | 442ms            | 304ms        | 195ms         | 209ms   | 188ms    | **181ms** | 192ms    |
 
 
+While this benchmark only includes three simple components and three small systems, it's important to note that Entity-Component-Systems can become much more complex in the wild, with hundreds of components and systems. Therefore, it's crucial to always benchmark your specific cases and systems when necessary and compare results.
 
-This is a very little Benchmark with three simple components and three small systems. In wild Entity-Component-Systems can have hundreds of components and a lot of systems and even more complex systems.
-So always benchmarks YOUR special cases and systems, when needed and compare.
+Different ECS frameworks excel in different areas, such as faster adding/removing of components or creating/destroying entities. Therefore, it's essential to choose an ECS framework based on its features. For example, EnTT offers [resource management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) and [event handling](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between), while flecs provides useful [add-ons](https://github.com/SanderMertens/flecs#addons), and EntityX includes a built-in [world/system manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
 
-Some frameworks are faster in adding/removing components, others in creating or destroying entities, it always depends on what you need the most.
-Always choose an ECS-Framework by features, for example EnTT has some great features like a
-[resource-management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) or [events](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between),
-flecs has some nice [add-ons](https://github.com/SanderMertens/flecs#addons) and EntityX has a build-in [world/system-manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
-
-Pick and evaluate a framework you like and have a look at the examples and API design.
+To evaluate a framework, look at its examples and API design, and pick the one that suits your needs the best.
 
 
 ## Details
 
 ### Features
 
-All benchmarks are located in [`benchmark/benchmarks/`](benchmark/benchmarks/) and are written with [google/benchmark](https://github.com/google/benchmark).
-Each benchmark must implement the template [ECSBenchmark.h](benchmark/benchmarks/ECSBenchmark.h).
+All benchmarks are located in the [`benchmark/benchmarks/`](benchmark/benchmarks/) directory and are implemented with the [google/benchmark](https://github.com/google/benchmark) library. Each benchmark must implement the `ECSBenchmark.h` template.
 
-Each framework has a sub-project in [`src/`](src) and must implement certain features (see [`src/base`](src/base)).
+Each framework has its own sub-project in the [`src/`](src) directory and must implement specific features (see [`src/base`](src/base)).
 
 #### Components
 
-1. `PositionComponent` with `x` and `y` coord.
-2. `VelocityComponent` with `x` and `y` for movement.
-3. `DataComponent` with some nonsense data.
+1. `PositionComponent`: includes `x` and `y` coordinates.
+2. `VelocityComponent`: includes `x` and `y` coordinates for movement.
+3. `DataComponent`: includes some arbitrary data.
 
 #### Systems
 
-1. `MovementSystem`: updates `PositionComponent` with (const) `VelocityComponent`
-2. `DataSystem`: updates `DataComponent` with nonsense
-3. `MoreComplexSystem`: updates Components with random data and nonsense
+1. `MovementSystem`: updates the `PositionComponent` with a constant `VelocityComponent`.
+2. `DataSystem`: updates the `DataComponent` with arbitrary data.
+3. `MoreComplexSystem`: updates components with random data and arbitrary information.
 
+## Additional Benchmarks
 
-
-## More Benchmarks
-
-Benchmarks of more common features, like "Creating entities", "Add and remove components", etc.
+Benchmarks for more common features, such as "Creating entities," "Adding and removing components," and others.
 
 ### Features tested
 
-* Create Entities
-* Destroy Entities
-* Get Component(s)
-* Remove and add component
-* Systems (for-each entities)
+* Entity Creation
+* Entity Destruction
+* Component Retrieval
+* Adding and Removing Components
+* Systems (for iterating through entities)
 
 
 ### Environment
@@ -443,13 +445,13 @@ _(lower is better)_
 * \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
 
 
+Here's an improved version of the "Contributing" section:
+
 ## Contributing
 
-I try to implement the ECS-examples as good as possible for each framework, if you have any improvements, feel free to make a PR or open an issue.
+If you have any improvements to the ECS-examples for any of the frameworks, feel free to make a pull request or open an issue. The example(s) for each framework can be found in [`src/`](src/), and benchmarks are located in [`benchmarks/benchmarks/`](benchmarks/benchmarks/) for more details.
 
-You can find the frameworks example(s) in [`src/`](src/) and benchmark [`benchmarks/`](benchmarks/benchmarks/) for more details.
-Also, you can write tests for the framework example :)
-and add some metadata in [plot.config.json](plot.config.json).
+Additionally, you can write tests for the framework example and add some metadata to the [plot.config.json](plot.config.json) file. Any contributions are greatly appreciated!
 
 _TODO: make more detailed "how to add framework"_
 
