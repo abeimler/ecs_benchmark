@@ -18,9 +18,9 @@ public:
 
   DummyObject& operator=(DummyObject&&) = default;
 
-  virtual ~DummyObject() = default;
+  ~DummyObject() override = default;
 
-  virtual void update(float /*dt*/) override {}
+  void update(float /*dt*/) override {}
 };
 
 EntityFactory::Entity EntityFactory::create(EntityManager& registry) {
@@ -68,8 +68,8 @@ void EntityFactory::createEmptyBulk(EntityManager& registry, std::vector<Entity>
 }
 
 void EntityFactory::destroy(EntityManager& registry, Entity entity) {
-  if (entity != nullptr && entity->id() != 0) {
-    registry[entity->id() - 1ul]->destroy();
+  if (entity != nullptr && entity->id() > 0) {
+    registry[entity->id() - 1Z]->destroy();
   }
 }
 
@@ -80,8 +80,8 @@ void EntityFactory::destroyBulk(EntityManager& /*registry*/, std::vector<Entity>
 }
 
 void EntityFactory::remove(EntityManager& registry, Entity entity) {
-  if (entity != nullptr && entity->id() != 0) {
-    registry.erase(std::next(registry.begin(), entity->id() - 1ul));
+  if (entity != nullptr && entity->id() > 0) {
+    registry.erase(std::next(registry.begin(), entity->id() - 1Z));
   }
 }
 

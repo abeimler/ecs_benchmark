@@ -2,6 +2,8 @@
 #define ECS_BENCHMARKS_MUSTACHE_MORECOMPLEXSYSTEM_H_
 
 #include "base/systems/MoreComplexSystem.h"
+/// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
+#include <cstdint>
 #include <mustache/ecs/ecs.hpp>
 
 namespace ecs::benchmarks::mustache::systems {

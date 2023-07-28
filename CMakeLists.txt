@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20...3.24)
+cmake_minimum_required(VERSION 3.21...3.24)
 
 # Not ideal to use this global variable, but necessary to make sure that tooling and projects use the same version
 set(CMAKE_CXX_STANDARD 20)
@@ -18,7 +18,7 @@ cpmaddpackage(
   GITHUB_REPOSITORY
   aminya/project_options
   VERSION
-  0.26.3
+  0.30.0
   # GIT_TAG           main
   DOWNLOAD_ONLY)
 if(project_options_ADDED)
@@ -47,88 +47,47 @@ if(BUILDING_MULTI_CONFIG)
   endif()
 endif()
 
+option(ENABLE_CROSS_COMPILING "Detect cross compiler and setup toolchain" OFF)
+if(ENABLE_CROSS_COMPILING)
+  enable_cross_compiler()
+endif()
 run_vcpkg()
 
 # Set the project name and language
 project(
   ecs-benchmark
-  VERSION 4.7.1
+  VERSION 4.7.2
   DESCRIPTION "Benchmarks of common ECS (Entity-Component-System)-Frameworks in C++ (or C)"
   HOMEPAGE_URL "https://github.com/abeimler/ecs_benchmark"
   LANGUAGES CXX C)
 include(cmake/PreventInSourceBuilds.cmake)
 
-# This is a list of headers to pre-compile, here are some common ones
-set(PCH_HEADERS <vector> <utility> <string> <string_view>)
 
-set(ENABLE_CLANG_TIDY OFF)
-set(ENABLE_CPPCHECK OFF)
-set(ENABLE_SANITIZER_ADDRESS OFF)
-set(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR OFF)
-set(ENABLE_COVERAGE OFF)
-set(ENABLE_INCLUDE_WHAT_YOU_USE OFF)
-if(ENABLE_CHECKING)
-  set(ENABLE_CLANG_TIDY "ENABLE_CLANG_TIDY")
-  set(ENABLE_CPPCHECK "ENABLE_CPPCHECK")
-  set(ENABLE_INCLUDE_WHAT_YOU_USE "ENABLE_INCLUDE_WHAT_YOU_USE")
-endif()
-if(ENABLE_CHECKING_INCLUDE_WHAT_YOU_USE)
-  set(ENABLE_INCLUDE_WHAT_YOU_USE "ENABLE_INCLUDE_WHAT_YOU_USE")
-endif()
-if(FEATURE_TESTS)
-  if(NOT DEFINED OPT_ENABLE_COVERAGE)
-    set(ENABLE_COVERAGE "ENABLE_COVERAGE")
-  endif()
-
-  if(NOT DISABLE_SANITIZER)
-    if(NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-      set(ENABLE_SANITIZER_ADDRESS "ENABLE_SANITIZER_ADDRESS")
-      set(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR "ENABLE_SANITIZER_UNDEFINED_BEHAVIOR")
-    else()
-      # or it is MSVC and has run vcvarsall
-      string(FIND "$ENV{PATH}" "$ENV{VSINSTALLDIR}" index_of_vs_install_dir)
-      if(MSVC AND "${index_of_vs_install_dir}" STREQUAL "-1")
-        set(ENABLE_SANITIZER_ADDRESS "ENABLE_SANITIZER_ADDRESS")
-      endif()
-    endif()
+# User options
+include(cmake/CMakeOptions.cmake)
+get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(BUILDING_MULTI_CONFIG)
+  if(NOT CMAKE_BUILD_TYPE)
+    # Make sure that all supported configuration types have their associated conan packages available. You can reduce this list to only the
+    # configuration types you use, but only if one is not forced-set on the command line for VS
+    message(TRACE "Setting up multi-config build types")
+    set(CMAKE_CONFIGURATION_TYPES
+            Debug Release RelWithDebInfo MinSizeRel
+            CACHE STRING "Enabled build types" FORCE)
+  else()
+    message(TRACE "User chose a specific build type, so we are using that")
+    set(CMAKE_CONFIGURATION_TYPES
+            ${CMAKE_BUILD_TYPE}
+            CACHE STRING "Enabled build types" FORCE)
   endif()
 endif()
-
-# Initialize project_options variable related to this project This overwrites `project_options` and sets `project_warnings` uncomment to
-# enable the options. Some of them accept one or more inputs:
-project_options(
-  ENABLE_CACHE
-  ${ENABLE_CPPCHECK}
-  ${ENABLE_CLANG_TIDY}
-  ${ENABLE_INCLUDE_WHAT_YOU_USE}
-  ENABLE_VS_ANALYSIS
-  # ENABLE_BUILD_WITH_TIME_TRACE
-  ENABLE_INTERPROCEDURAL_OPTIMIZATION
-  ENABLE_NATIVE_OPTIMIZATION
-  # ENABLE_DOXYGEN
-  ${ENABLE_COVERAGE}
-  ${ENABLE_SANITIZER_ADDRESS}
-  # ENABLE_SANITIZER_UNDEFINED_BEHAVIOR ENABLE_SANITIZER_LEAK ENABLE_SANITIZER_THREAD ENABLE_SANITIZER_MEMORY ENABLE_PCH PCH_HEADERS
-  # ${PCH_HEADERS} WARNINGS_AS_ERRORS ENABLE_USER_LINKER ENABLE_UNITY
-  CPPCHECK_OPTIONS
-  --enable=style,performance,warning,portability
-  --inline-suppr
-  # We cannot act on a bug/missing feature of cppcheck
-  --suppress=cppcheckError
-  --suppress=internalAstError
-  # if a file does not have an internalAstError, we get an unmatchedSuppression error
-  --suppress=unmatchedSuppression
-  --suppress=passedByValue
-  --suppress=syntaxError
-  --suppress=*:${CMAKE_BINARY_DIR}/_deps/*
-  --inconclusive)
-include(cmake/MoreProjectOptions.cmake)
+include(cmake/ProjectOptions.cmake)
 
 # ---- Add dependencies via CPM ----
 # see https://github.com/TheLartians/CPM.cmake for more info
 include(cmake/CPM.cmake)
 # PackageProject.cmake will be used to make our target installable
-cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.9.0")
+cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.11.0")
 cpmaddpackage(
   NAME
   Format.cmake
@@ -151,9 +110,8 @@ add_subdirectory(libs)
 # add configure files
 configure_file("${PROJECT_SOURCE_DIR}/include/Version.h.in" "${PROJECT_BINARY_DIR}/include/Version.h" @ONLY)
 
-add_subdirectory(src)
 
-if(ENABLE_TESTS)
+if(ENABLE_TESTING)
   # This variable is set by project() in CMake 3.21+
   string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${PROJECT_SOURCE_DIR}" PROJECT_IS_TOP_LEVEL)
   if(PROJECT_IS_TOP_LEVEL)
@@ -161,10 +119,15 @@ if(ENABLE_TESTS)
     include(CTest)
   endif()
   enable_testing()
+  message(AUTHOR_WARNING "Building Tests. Be sure to check out test/constexpr_tests.cpp for constexpr testing")
   add_subdirectory(test)
 endif()
 
-if(ENABLE_FUZZ_TESTS)
+if(ENABLE_FUZZING)
+  message(AUTHOR_WARNING "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
+  if (NOT OPT_ENABLE_ADDRESS_SANITIZER AND NOT OPT_ENABLE_THREAD_SANITIZER)
+    message(WARNING "You need asan or tsan enabled for meaningful fuzz testing")
+  endif()
   add_subdirectory(fuzz_test)
 endif()
 
@@ -173,9 +136,12 @@ if(ENABLE_BENCHMARKS)
   add_subdirectory(benchmark)
 endif()
 
-# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment so that it behaves well with MSVC's debugger, and we
-# can run the target from visual studio
+add_subdirectory(src)
+
+# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
+# so that it behaves well with MSVC's debugger, and we can run the target from visual studio
 if(MSVC)
-  get_all_targets(all_targets)
+  get_all_installable_targets(all_targets)
+  message("all_targets=${all_targets}")
   set_target_properties(${all_targets} PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=$(VC_ExecutablePath_x64);%PATH%")
 endif()

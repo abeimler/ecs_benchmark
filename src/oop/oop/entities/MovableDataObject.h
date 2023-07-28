@@ -22,7 +22,7 @@ public:
 
   MovableDataObject& operator=(MovableDataObject&&) = default;
 
-  virtual ~MovableDataObject() = default;
+  ~MovableDataObject() override = default;
 
   void updatePosition(float dt);
 

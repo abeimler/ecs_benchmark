@@ -1,7 +1,5 @@
 target_compile_options(project_options INTERFACE $<$<C_COMPILER_ID:MSVC>:/external:anglebrackets /external:W0>)
 target_compile_options(project_options INTERFACE $<$<CXX_COMPILER_ID:MSVC>:/external:anglebrackets /external:W0>)
-# being a cross-platform target, we enforce standards conformance on MSVC
-target_compile_options(project_options INTERFACE "$<$<COMPILE_LANG_AND_ID:CXX,MSVC>:/permissive->")
 
 add_library(project_options_no_exceptions INTERFACE)
 target_link_libraries(project_options_no_exceptions INTERFACE project_options)

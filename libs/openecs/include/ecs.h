@@ -8,7 +8,7 @@
 #ifndef ECS_SINGLE_INCLUDE_H
 #define ECS_SINGLE_INCLUDE_H
 /// --------------------------------------------------------------------------
-/// Copyright (C) 2015  Robin Grönberg
+/// Copyright (C) 2015  Robin Grï¿½nberg
 ///
 /// This program is free software: you can redistribute it and/or modify
 /// it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@
 
 #include <bitset>
 #include <cassert>
+#include <cstdint>
 #include <functional>
 #include <iostream>
 #include <map>
@@ -921,7 +922,7 @@ inline bool operator!=(const Entity& lhs, const Entity& rhs);
 
 // #included from: BaseEntity.h
 //
-// Created by Robin Grönberg on 05/12/15.
+// Created by Robin Grï¿½nberg on 05/12/15.
 //
 
 #ifndef OPENECS_BASEENTITY_H
@@ -1433,7 +1434,7 @@ details::ComponentMask Entity::static_mask() {
 #endif // ECS_ENTITY_H
 // #included from: UnallocatedEntity.h
 //
-// Created by Robin Grönberg on 05/12/15.
+// Created by Robin Grï¿½nberg on 05/12/15.
 //
 
 #ifndef OPENECS_UNALLOCATEDENTITY_H
@@ -2854,7 +2855,7 @@ View<T>&& View<T>::with() {
 #endif // OPENECS_VIEW_H
 // #included from: SystemManager.h
 //
-// Created by Robin Grönberg on 29/11/15.
+// Created by Robin Grï¿½nberg on 29/11/15.
 //
 
 #ifndef OPENECS_SYSTEM_MANAGER_H
@@ -2909,7 +2910,7 @@ private:
 // #included from: SystemManager.inl
 // #included from: System.h
 //
-// Created by Robin Grönberg on 29/11/15.
+// Created by Robin Grï¿½nberg on 29/11/15.
 //
 
 #ifndef OPENECS_SYSTEM_H
