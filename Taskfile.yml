@@ -30,6 +30,7 @@ tasks:
           {{.PROJECT_DIR}}/reports/entities.RESULTS.md.json 
           {{.PROJECT_DIR}}/reports/extended.RESULTS.md.json 
           {{.PROJECT_DIR}}/reports/RESULTS.md.json
+    - "\\cp {{.PROJECT_DIR}}/reports/*.svg {{.PROJECT_DIR}}/img/."
 
   configure:
     dir: "{{.PROJECT_DIR}}"

@@ -5,6 +5,8 @@
 #include "systems/DataSystem.h"
 #include "systems/MoreComplexSystem.h"
 #include "systems/MovementSystem.h"
+/// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
+#include <cstdint>
 #include <mustache/ecs/ecs.hpp>
 
 namespace ecs::benchmarks::mustache {
@@ -53,7 +55,7 @@ public:
   void update(TimeDelta /*dt*/) { m_world.update(); }
 
 private:
-  bool m_add_more_complex_system;
+  bool m_add_more_complex_system{false};
   ::mustache::World m_world;
 };
 } // namespace ecs::benchmarks::mustache

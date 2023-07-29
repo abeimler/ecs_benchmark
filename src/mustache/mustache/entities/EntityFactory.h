@@ -5,6 +5,8 @@
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
 #include "base/entities/EntityFactory.h"
+/// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
+#include <cstdint>
 #include <mustache/ecs/ecs.hpp>
 
 namespace ecs::benchmarks::mustache::entities {

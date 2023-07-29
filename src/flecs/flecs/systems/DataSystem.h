@@ -28,7 +28,7 @@ public:
     /// (std::string) ?
     // data.stringy = fmt::format(FMT_STRING("{:4.2f}"), data.dingy);
     std::string stringy = fmt::format("{:4.2f}", data.dingy);
-    std::char_traits<char>::copy(data.stringy, stringy.data(),
+    std::char_traits<char>::copy(gsl::span<char>(data.stringy).data(), gsl::span<const char>(stringy).data(),
                                  std::min(stringy.length(), DataComponent::StringyMaxLength));
   };
 };

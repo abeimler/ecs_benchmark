@@ -17,9 +17,9 @@ public:
 
   ComplexMovableDataObject& operator=(ComplexMovableDataObject&&) = default;
 
-  virtual ~ComplexMovableDataObject() = default;
+  ~ComplexMovableDataObject() override = default;
 
-  virtual void update(float dt) override;
+  void update(float dt) override;
 
 private:
   int random(int min, int max);

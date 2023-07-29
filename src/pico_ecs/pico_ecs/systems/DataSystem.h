@@ -14,7 +14,7 @@ public:
   void init(EntityManager& /*registry*/) override;
   void update(EntityManager& registry, TimeDelta dt) override;
 
-  inline ecs_id_t id() const noexcept { return m_system; }
+  [[nodiscard]] inline ecs_id_t id() const noexcept { return m_system; }
 
 private:
   ecs_id_t m_system;

@@ -89,22 +89,13 @@ Benchmarks of more common features, like "Creating entities", "Add and remove co
 {{{DestroyEntities}}}
 
 
-### Get one (non-const) component from Entity
+### Get one component from Entity
 
 {{{UnpackOneComponent}}}
 
 **Note:**
 * Get one non-const component
    1. `PositionComponent`
-
-
-### Get one (const) component from Entity
-
-{{{UnpackOneComponentConst}}}
-
-**Note:**
-* Get one const component
-  1. `const PositionComponent`
 
 
 ### Get two components from entity
@@ -229,6 +220,10 @@ You can now find the benchmark-results in [`reports/`](reports/).
 
 _You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
 
+```bash
+pip install -r ./scripts/gen-benchmark-report/requirements.txt
+```
+
 ### ~~Step-by-Step~~
 
 1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
@@ -268,9 +263,3 @@ Version: {{version}}
 {{/version}}
 
 {{/candidates}}
-
-
-#### _Deprecated_
-
-I removed [anax](https://github.com/miguelmartin75/anax) and [Artemis-Cpp](https://github.com/matachi/Artemis-Cpp), they are out-of-date and didn't receive any updates in the last time.
-You can still checkout the old versions and branches.

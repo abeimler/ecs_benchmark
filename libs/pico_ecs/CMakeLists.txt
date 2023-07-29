@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.24)
 # add dependencies
 CPMAddPackage(
         NAME pico_headers
-        VERSION 2.0.0
+        VERSION 2.2
         GITHUB_REPOSITORY empyreanx/pico_headers
         # TODO: set current version, use master (no release version)
         GIT_TAG main
@@ -18,5 +18,7 @@ if(pico_headers_ADDED)
     add_library(pico_ecs INTERFACE ${pico_headers_SOURCE_DIR}/pico_ecs.h)
     add_library(pico_headers::pico_ecs ALIAS pico_ecs)
     target_include_directories(pico_ecs INTERFACE "$<BUILD_INTERFACE:${pico_headers_SOURCE_DIR}>")
+
+    target_compile_definitions(pico_ecs INTERFACE $<$<CONFIG:Release>:NDEBUG>)
 endif()
 
