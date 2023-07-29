@@ -2,7 +2,7 @@
 
 ## TL;DR Results
 
-![Summary SystemsUpdate Plot](img/SystemsUpdate.png)
+![Summary SystemsUpdate Plot](img/SystemsUpdate.svg)
 
 _(lower is faster)_
 
@@ -14,257 +14,283 @@ None
 
 ## Benchmarks
 
-### Create entities
+### Create No entities
 
-![CreateEntities Plot](img/CreateEntities.png)
+![CreateNoEntities Plot](img/CreateNoEntities.svg)
 
 _(lower is better)_
 
-|                                           | EntityX   | EnTT     | Ginseng   | mustache   | Flecs     | pico_ecs   |
-|:------------------------------------------|:----------|:---------|:----------|:-----------|:----------|:-----------|
-| Create    16 entities with two Components | 2628ns    | 2748ns   | 10581ns   | 2985ns     | 652407ns  | 593ns      |
-| Create    64 entities with two Components | 6082ns    | 4309ns   | 11995ns   | 5983ns     | 665214ns  | 1025ns     |
-| Create   256 entities with two Components | 19214ns   | 10152ns  | 16463ns   | 17605ns    | 739886ns  | 2782ns     |
-| Create   ~1K entities with two Components | 71351ns   | 32864ns  | 32361ns   | 62070ns    | 896714ns  | 9716ns     |
-| Create   ~4K entities with two Components | 278867ns  | 141754ns | 96061ns   | 237707ns   | 1532600ns | 88776ns    |
+|                    | EntityX   | EnTT   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-------------------|:----------|:-------|:----------|:-----------|:---------|:-----------|
+| Create No entities | 286ns     | 310ns  | 261ns     | 317ns      | 465062ns | 937ns      |
 
-|                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
-| Create  ~16K entities with two Components | 1ms       | 0ms    | 0ms       | 0ms        | 4ms     | 0ms        |
-| Create  ~65K entities with two Components | 4ms       | 2ms    | 3ms       | 4ms        | 14ms    | 1ms        |
-| Create  262K entities with two Components | 20ms      | 12ms   | 14ms      | 18ms       | 55ms    | 7ms        |
-| Create   ~1M entities with two Components | 83ms      | 48ms   | 49ms      | 72ms       | 208ms   | 23ms       |
-| Create   ~2M entities with two Components | 164ms     | 91ms   | 94ms      | 143ms      | 402ms   | 46ms       |
+
 
 
 ### Create empty entities
 
-![CreateEmptyEntities Plot](img/CreateEmptyEntities.png)
+![CreateEmptyEntities Plot](img/CreateEmptyEntities.svg)
 
 _(lower is better)_
 
 |                               | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
 |:------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
-| Create    16 (empty) entities | 1132ns    | 428ns   | 422ns     | 1734ns     | 374008ns | 480ns      |
-| Create    64 (empty) entities | 2519ns    | 572ns   | 769ns     | 3751ns     | 375535ns | 665ns      |
-| Create   256 (empty) entities | 7650ns    | 1166ns  | 1749ns    | 11564ns    | 379466ns | 1406ns     |
-| Create   ~1K (empty) entities | 27509ns   | 3230ns  | 5099ns    | 37586ns    | 398212ns | 4379ns     |
-| Create   ~4K (empty) entities | 105911ns  | 11222ns | 18521ns   | 140453ns   | 473239ns | 19680ns    |
+| Create    16 (empty) entities | 1149ns    | 1161ns  | 464ns     | 1909ns     | 472108ns | 1079ns     |
+| Create    64 (empty) entities | 2605ns    | 1506ns  | 874ns     | 4099ns     | 460690ns | 1447ns     |
+| Create   256 (empty) entities | 7903ns    | 2779ns  | 2118ns    | 12875ns    | 465570ns | 3077ns     |
+| Create   ~1K (empty) entities | 28556ns   | 7552ns  | 6435ns    | 46868ns    | 495406ns | 9548ns     |
+| Create   ~4K (empty) entities | 110605ns  | 26126ns | 39544ns   | 181483ns   | 631648ns | 53853ns    |
 
 |                               | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
 |:------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
-| Create  ~16K (empty) entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
-| Create  ~65K (empty) entities | 1ms       | 0ms    | 0ms       | 2ms        | 2ms     | 0ms        |
-| Create  262K (empty) entities | 6ms       | 0ms    | 2ms       | 8ms        | 7ms     | 1ms        |
-| Create   ~1M (empty) entities | 27ms      | 3ms    | 9ms       | 39ms       | 39ms    | 7ms        |
-| Create   ~2M (empty) entities | 63ms      | 12ms   | 24ms      | 89ms       | 76ms    | 13ms       |
+| Create  ~16K (empty) entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     | 0ms        |
+| Create  ~65K (empty) entities | 1ms       | 0ms    | 1ms       | 3ms        | 4ms     | 0ms        |
+| Create  262K (empty) entities | 8ms       | 2ms    | 4ms       | 13ms       | 16ms    | 2ms        |
+| Create   ~1M (empty) entities | 33ms      | 10ms   | 18ms      | 54ms       | 57ms    | 12ms       |
+| Create   ~2M (empty) entities | 66ms      | 20ms   | 34ms      | 107ms      | 111ms   | 28ms       |
+
+
+### Get No component from Entity
+
+![UnpackNoComponent Plot](img/UnpackNoComponent.svg)
+
+_(lower is better)_
+
+|                                    | EntityX   | EnTT   | Ginseng   | mustache   | Flecs    | pico_ecs   |
+|:-----------------------------------|:----------|:-------|:----------|:-----------|:---------|:-----------|
+| Get No component in    16 entities | 3ns       | 43ns   | 32ns      | 9ns        | 605ns    | 3ns        |
+| Get No component in    64 entities | 10ns      | 149ns  | 108ns     | 44ns       | 2396ns   | 15ns       |
+| Get No component in   256 entities | 45ns      | 569ns  | 412ns     | 146ns      | 9639ns   | 46ns       |
+| Get No component in   ~1K entities | 145ns     | 2258ns | 1602ns    | 541ns      | 38696ns  | 150ns      |
+| Get No component in   ~4K entities | 541ns     | 8987ns | 6387ns    | 2124ns     | 153077ns | 550ns      |
+
+|                                    | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:-----------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Get No component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
+| Get No component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 2ms     | 0ms        |
+| Get No component in  262K entities | 0ms       | 0ms    | 0ms       | 0ms        | 10ms    | 0ms        |
+| Get No component in   ~1M entities | 0ms       | 2ms    | 2ms       | 0ms        | 43ms    | 0ms        |
+| Get No component in   ~2M entities | 0ms       | 4ms    | 4ms       | 1ms        | 110ms   | 0ms        |
+
+
+### Create entities
+
+![CreateEntities Plot](img/CreateEntities.svg)
+
+_(lower is better)_
+
+|                                           | EntityX   | EnTT     | Ginseng   | mustache   | Flecs     | pico_ecs   |
+|:------------------------------------------|:----------|:---------|:----------|:-----------|:----------|:-----------|
+| Create    16 entities with two Components | 2676ns    | 3495ns   | 10426ns   | 3097ns     | 522925ns  | 1191ns     |
+| Create    64 entities with two Components | 6668ns    | 5233ns   | 11974ns   | 6492ns     | 534176ns  | 2084ns     |
+| Create   256 entities with two Components | 21379ns   | 12007ns  | 16886ns   | 19764ns    | 589483ns  | 5725ns     |
+| Create   ~1K entities with two Components | 84588ns   | 37302ns  | 34845ns   | 72389ns    | 780777ns  | 19864ns    |
+| Create   ~4K entities with two Components | 316231ns  | 139040ns | 104352ns  | 280658ns   | 1584845ns | 84775ns    |
+
+|                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Create  ~16K entities with two Components | 1ms       | 0ms    | 0ms       | 1ms        | 4ms     | 0ms        |
+| Create  ~65K entities with two Components | 4ms       | 2ms    | 1ms       | 4ms        | 17ms    | 1ms        |
+| Create  262K entities with two Components | 20ms      | 9ms    | 8ms       | 17ms       | 66ms    | 6ms        |
+| Create   ~1M entities with two Components | 93ms      | 54ms   | 52ms      | 82ms       | 292ms   | 33ms       |
+| Create   ~2M entities with two Components | 179ms     | 106ms  | 100ms     | 167ms      | 567ms   | 66ms       |
 
 
 ### Get one (non-const) component from Entity
 
-![UnpackOneComponent Plot](img/UnpackOneComponent.png)
+![UnpackOneComponent Plot](img/UnpackOneComponent.svg)
 
 _(lower is better)_
 
 |                                        | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
 |:---------------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
-| Unpack one component in    16 entities | 22ns      | 45ns    | 27ns      | 183ns      | 419ns    | 10ns       |
-| Unpack one component in    64 entities | 96ns      | 184ns   | 112ns     | 707ns      | 1640ns   | 46ns       |
-| Unpack one component in   256 entities | 367ns     | 724ns   | 437ns     | 2720ns     | 6586ns   | 171ns      |
-| Unpack one component in   ~1K entities | 1452ns    | 2874ns  | 1748ns    | 10621ns    | 26356ns  | 675ns      |
-| Unpack one component in   ~4K entities | 5796ns    | 11562ns | 6948ns    | 44903ns    | 104202ns | 2701ns     |
+| Unpack one component in    16 entities | 22ns      | 57ns    | 30ns      | 194ns      | 611ns    | 30ns       |
+| Unpack one component in    64 entities | 92ns      | 217ns   | 114ns     | 798ns      | 2431ns   | 105ns      |
+| Unpack one component in   256 entities | 372ns     | 861ns   | 444ns     | 3164ns     | 9841ns   | 407ns      |
+| Unpack one component in   ~1K entities | 1403ns    | 3419ns  | 1769ns    | 11481ns    | 39123ns  | 1597ns     |
+| Unpack one component in   ~4K entities | 5584ns    | 13705ns | 7077ns    | 45996ns    | 155260ns | 6348ns     |
 
 |                                        | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
 |:---------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
 | Unpack one component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
-| Unpack one component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     | 0ms        |
-| Unpack one component in  262K entities | 0ms       | 0ms    | 0ms       | 2ms        | 6ms     | 0ms        |
-| Unpack one component in   ~1M entities | 1ms       | 3ms    | 1ms       | 11ms       | 26ms    | 0ms        |
-| Unpack one component in   ~2M entities | 3ms       | 6ms    | 3ms       | 22ms       | 53ms    | 1ms        |
+| Unpack one component in  ~65K entities | 0ms       | 0ms    | 0ms       | 1ms        | 2ms     | 0ms        |
+| Unpack one component in  262K entities | 0ms       | 0ms    | 0ms       | 3ms        | 10ms    | 0ms        |
+| Unpack one component in   ~1M entities | 1ms       | 3ms    | 1ms       | 12ms       | 39ms    | 1ms        |
+| Unpack one component in   ~2M entities | 3ms       | 7ms    | 3ms       | 27ms       | 78ms    | 3ms        |
 
 
-### Get one (const) component from Entity
+### Get component from No Entity
 
-![UnpackOneComponentConst Plot](img/UnpackOneComponentConst.png)
+![UnpackOneComponentNoEntities Plot](img/UnpackOneComponentNoEntities.svg)
 
 _(lower is better)_
 
-|                                             | EntityX   | EnTT    | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:--------------------------------------------|:----------|:--------|:----------|:-----------|:--------|:-----------|
-| Get one (const) component in    16 entities | 22ns      | 46ns    | 27ns      | 93ns       | 252ns   | 12ns       |
-| Get one (const) component in    64 entities | 95ns      | 190ns   | 112ns     | 359ns      | 988ns   | 55ns       |
-| Get one (const) component in   256 entities | 365ns     | 748ns   | 437ns     | 1420ns     | 3947ns  | 211ns      |
-| Get one (const) component in   ~1K entities | 1450ns    | 3015ns  | 1751ns    | 5675ns     | 15830ns | 837ns      |
-| Get one (const) component in   ~4K entities | 5797ns    | 12041ns | 6990ns    | 22702ns    | 63153ns | 3346ns     |
+|                                     | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
+|:------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
+| Unpack No entities (empty entities) | 0ns       | 0ns    | 0ns       | 0ns        | 0ns     | 0ns        |
 
-|                                             | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:--------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
-| Get one (const) component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
-| Get one (const) component in  ~65K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     | 0ms        |
-| Get one (const) component in  262K entities | 0ms       | 0ms    | 0ms       | 1ms        | 4ms     | 0ms        |
-| Get one (const) component in   ~1M entities | 1ms       | 3ms    | 1ms       | 5ms        | 16ms    | 0ms        |
-| Get one (const) component in   ~2M entities | 3ms       | 6ms    | 3ms       | 11ms       | 32ms    | 1ms        |
+
 
 
 ### Get two components from entity
 
-![UnpackTwoComponents Plot](img/UnpackTwoComponents.png)
+![UnpackTwoComponents Plot](img/UnpackTwoComponents.svg)
 
 _(lower is better)_
 
 |                                         | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
 |:----------------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
-| Unpack two components in    16 entities | 41ns      | 93ns    | 54ns      | 360ns      | 676ns    | 22ns       |
-| Unpack two components in    64 entities | 172ns     | 365ns   | 221ns     | 1023ns     | 2672ns   | 95ns       |
-| Unpack two components in   256 entities | 671ns     | 1450ns  | 875ns     | 4090ns     | 10606ns  | 374ns      |
-| Unpack two components in   ~1K entities | 2668ns    | 5804ns  | 3488ns    | 16335ns    | 42460ns  | 1483ns     |
-| Unpack two components in   ~4K entities | 10674ns   | 23247ns | 13967ns   | 65838ns    | 169089ns | 5910ns     |
+| Unpack two components in    16 entities | 42ns      | 108ns   | 55ns      | 366ns      | 1227ns   | 48ns       |
+| Unpack two components in    64 entities | 176ns     | 421ns   | 223ns     | 1394ns     | 4877ns   | 173ns      |
+| Unpack two components in   256 entities | 678ns     | 1673ns  | 886ns     | 5575ns     | 19454ns  | 705ns      |
+| Unpack two components in   ~1K entities | 2693ns    | 6666ns  | 3516ns    | 22236ns    | 78088ns  | 2699ns     |
+| Unpack two components in   ~4K entities | 10704ns   | 26649ns | 14130ns   | 88406ns    | 310513ns | 10651ns    |
 
 |                                         | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
 |:----------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
-| Unpack two components in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
-| Unpack two components in  ~65K entities | 0ms       | 0ms    | 0ms       | 1ms        | 2ms     | 0ms        |
-| Unpack two components in  262K entities | 0ms       | 1ms    | 0ms       | 4ms        | 10ms    | 0ms        |
-| Unpack two components in   ~1M entities | 2ms       | 6ms    | 3ms       | 18ms       | 43ms    | 1ms        |
-| Unpack two components in   ~2M entities | 5ms       | 12ms   | 7ms       | 37ms       | 86ms    | 3ms        |
+| Unpack two components in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 1ms     | 0ms        |
+| Unpack two components in  ~65K entities | 0ms       | 0ms    | 0ms       | 1ms        | 4ms     | 0ms        |
+| Unpack two components in  262K entities | 0ms       | 1ms    | 0ms       | 6ms        | 19ms    | 0ms        |
+| Unpack two components in   ~1M entities | 2ms       | 7ms    | 3ms       | 27ms       | 78ms    | 2ms        |
+| Unpack two components in   ~2M entities | 5ms       | 13ms   | 7ms       | 51ms       | 156ms   | 5ms        |
 
 
 ### Get three components from entity
 
-![UnpackThreeComponents Plot](img/UnpackThreeComponents.png)
+![UnpackThreeComponents Plot](img/UnpackThreeComponents.svg)
 
 _(lower is better)_
 
 |                                           | EntityX   | EnTT    | Ginseng   | mustache   | Flecs    | pico_ecs   |
 |:------------------------------------------|:----------|:--------|:----------|:-----------|:---------|:-----------|
-| Unpack three components in     8 entities | 32ns      | 77ns    | 48ns      | 127ns      | 592ns    | 16ns       |
-| Unpack three components in    32 entities | 135ns     | 299ns   | 197ns     | 502ns      | 2347ns   | 70ns       |
-| Unpack three components in   128 entities | 524ns     | 1193ns  | 777ns     | 1986ns     | 9363ns   | 272ns      |
-| Unpack three components in   512 entities | 2083ns    | 4796ns  | 3099ns    | 7971ns     | 37002ns  | 1076ns     |
-| Unpack three components in   ~2K entities | 8293ns    | 19090ns | 12407ns   | 31775ns    | 149878ns | 4306ns     |
+| Unpack three components in     8 entities | 31ns      | 120ns   | 49ns      | 178ns      | 935ns    | 36ns       |
+| Unpack three components in    32 entities | 127ns     | 452ns   | 200ns     | 702ns      | 3917ns   | 130ns      |
+| Unpack three components in   128 entities | 515ns     | 1799ns  | 790ns     | 2795ns     | 14862ns  | 502ns      |
+| Unpack three components in   512 entities | 2008ns    | 7189ns  | 3163ns    | 11180ns    | 59584ns  | 1989ns     |
+| Unpack three components in   ~2K entities | 8042ns    | 28643ns | 12660ns   | 46010ns    | 236976ns | 8032ns     |
 
 |                                           | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
 |:------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
 | Unpack three components in   ~8K entities | 0ms       | 0ms    | 0ms       | 0ms        | 0ms     | 0ms        |
-| Unpack three components in  ~32K entities | 0ms       | 0ms    | 0ms       | 0ms        | 2ms     | 0ms        |
-| Unpack three components in  131K entities | 0ms       | 1ms    | 0ms       | 2ms        | 9ms     | 0ms        |
-| Unpack three components in  524K entities | 2ms       | 5ms    | 3ms       | 8ms        | 37ms    | 1ms        |
-| Unpack three components in   ~1M entities | 4ms       | 10ms   | 6ms       | 17ms       | 74ms    | 2ms        |
+| Unpack three components in  ~32K entities | 0ms       | 0ms    | 0ms       | 0ms        | 3ms     | 0ms        |
+| Unpack three components in  131K entities | 0ms       | 1ms    | 0ms       | 2ms        | 15ms    | 0ms        |
+| Unpack three components in  524K entities | 2ms       | 7ms    | 3ms       | 12ms       | 60ms    | 2ms        |
+| Unpack three components in   ~1M entities | 4ms       | 15ms   | 7ms       | 25ms       | 121ms   | 4ms        |
 
 
 ### Remove and add component
 
-![RemoveAddComponent Plot](img/RemoveAddComponent.png)
+![RemoveAddComponent Plot](img/RemoveAddComponent.svg)
 
 _(lower is better)_
 
-|                                              | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    | pico_ecs   |
-|:---------------------------------------------|:----------|:---------|:----------|:-----------|:---------|:-----------|
-| Remove and Add a Component in    16 entities | 294ns     | 427ns    | 187ns     | 958ns      | 2689ns   | 94ns       |
-| Remove and Add a Component in    64 entities | 1170ns    | 1674ns   | 736ns     | 3799ns     | 10589ns  | 362ns      |
-| Remove and Add a Component in   256 entities | 4681ns    | 6655ns   | 2937ns    | 15180ns    | 42112ns  | 1427ns     |
-| Remove and Add a Component in   ~1K entities | 18717ns   | 26667ns  | 11910ns   | 60647ns    | 170502ns | 5690ns     |
-| Remove and Add a Component in   ~4K entities | 75062ns   | 105841ns | 47867ns   | 242589ns   | 683467ns | 23006ns    |
+|                                              | EntityX   | EnTT    | Ginseng   | Flecs    | pico_ecs   |
+|:---------------------------------------------|:----------|:--------|:----------|:---------|:-----------|
+| Remove and Add a Component in    16 entities | 245ns     | 390ns   | 187ns     | 3687ns   | 141ns      |
+| Remove and Add a Component in    64 entities | 957ns     | 1537ns  | 725ns     | 14797ns  | 550ns      |
+| Remove and Add a Component in   256 entities | 3813ns    | 6150ns  | 2883ns    | 59815ns  | 2194ns     |
+| Remove and Add a Component in   ~1K entities | 15300ns   | 24607ns | 11711ns   | 247079ns | 8794ns     |
+| Remove and Add a Component in   ~4K entities | 61311ns   | 97870ns | 46932ns   | 944265ns | 35081ns    |
 
-|                                              | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:---------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
-| Remove and Add a Component in  ~16K entities | 0ms       | 0ms    | 0ms       | 0ms        | 2ms     | 0ms        |
-| Remove and Add a Component in  ~65K entities | 1ms       | 1ms    | 0ms       | 3ms        | 10ms    | 0ms        |
-| Remove and Add a Component in  262K entities | 4ms       | 6ms    | 3ms       | 15ms       | 43ms    | 1ms        |
-| Remove and Add a Component in   ~1M entities | 19ms      | 28ms   | 12ms      | 65ms       | 174ms   | 5ms        |
-| Remove and Add a Component in   ~2M entities | 38ms      | 55ms   | 24ms      | 140ms      | 348ms   | 13ms       |
+|                                              | EntityX   | EnTT   | Ginseng   | Flecs   | pico_ecs   |
+|:---------------------------------------------|:----------|:-------|:----------|:--------|:-----------|
+| Remove and Add a Component in  ~16K entities | 0ms       | 0ms    | 0ms       | 3ms     | 0ms        |
+| Remove and Add a Component in  ~65K entities | 0ms       | 1ms    | 0ms       | 15ms    | 0ms        |
+| Remove and Add a Component in  262K entities | 3ms       | 6ms    | 3ms       | 60ms    | 2ms        |
+| Remove and Add a Component in   ~1M entities | 16ms      | 25ms   | 13ms      | 242ms   | 12ms       |
+| Remove and Add a Component in   ~2M entities | 32ms      | 51ms   | 24ms      | 481ms   | 19ms       |
 
 
 ### Destroy entities
 
-![DestroyEntities Plot](img/DestroyEntities.png)
+![DestroyEntities Plot](img/DestroyEntities.svg)
 
 _(lower is better)_
 
-|                                            | EntityX   | EnTT     | Ginseng   | mustache   | Flecs    | pico_ecs   |
-|:-------------------------------------------|:----------|:---------|:----------|:-----------|:---------|:-----------|
-| Destroy    16 entities with two components | 1451ns    | 1075ns   | 1970ns    | 671ns      | 393841ns | 545ns      |
-| Destroy    64 entities with two components | 3464ns    | 2537ns   | 5391ns    | 807ns      | 396080ns | 725ns      |
-| Destroy   256 entities with two components | 11681ns   | 8528ns   | 18841ns   | 1287ns     | 402022ns | 1435ns     |
-| Destroy   ~1K entities with two components | 45895ns   | 32234ns  | 72359ns   | 3046ns     | 428988ns | 4301ns     |
-| Destroy   ~4K entities with two components | 186443ns  | 127482ns | 285900ns  | 9703ns     | 537208ns | 15811ns    |
+|                                            | EntityX   | EnTT     | Ginseng   | Flecs    | pico_ecs   |
+|:-------------------------------------------|:----------|:---------|:----------|:---------|:-----------|
+| Destroy    16 entities with two components | 1377ns    | 1164ns   | 2010ns    | 474940ns | 1019ns     |
+| Destroy    64 entities with two components | 3518ns    | 2578ns   | 5592ns    | 477761ns | 1390ns     |
+| Destroy   256 entities with two components | 12282ns   | 8365ns   | 19809ns   | 492976ns | 2592ns     |
+| Destroy   ~1K entities with two components | 47721ns   | 31180ns  | 76583ns   | 527769ns | 6934ns     |
+| Destroy   ~4K entities with two components | 194602ns  | 123227ns | 305002ns  | 694052ns | 25251ns    |
 
-|                                            | EntityX   | EnTT   | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:-------------------------------------------|:----------|:-------|:----------|:-----------|:--------|:-----------|
-| Destroy  ~16K entities with two components | 0ms       | 0ms    | 1ms       | 0ms        | 0ms     | 0ms        |
-| Destroy  ~65K entities with two components | 3ms       | 2ms    | 4ms       | 0ms        | 2ms     | 0ms        |
-| Destroy  262K entities with two components | 13ms      | 8ms    | 19ms      | 0ms        | 9ms     | 0ms        |
-| Destroy   ~1M entities with two components | 58ms      | 35ms   | 77ms      | 4ms        | 41ms    | 5ms        |
-| Destroy   ~2M entities with two components | 117ms     | 72ms   | 154ms     | 8ms        | 79ms    | 10ms       |
+|                                            | EntityX   | EnTT   | Ginseng   | Flecs   | pico_ecs   |
+|:-------------------------------------------|:----------|:-------|:----------|:--------|:-----------|
+| Destroy  ~16K entities with two components | 0ms       | 0ms    | 1ms       | 1ms     | 0ms        |
+| Destroy  ~65K entities with two components | 3ms       | 1ms    | 4ms       | 4ms     | 0ms        |
+| Destroy  262K entities with two components | 13ms      | 8ms    | 20ms      | 14ms    | 1ms        |
+| Destroy   ~1M entities with two components | 59ms      | 35ms   | 83ms      | 59ms    | 9ms        |
+| Destroy   ~2M entities with two components | 120ms     | 69ms   | 168ms     | 115ms   | 16ms       |
 
 
 ### Create entities at once
 
-![CreateEntitiesInBulk Plot](img/CreateEntitiesInBulk.png)
+![CreateEntitiesInBulk Plot](img/CreateEntitiesInBulk.svg)
 
 _(lower is better)_
 
 |                                                   | EnTT    |
 |:--------------------------------------------------|:--------|
-| Create    16 entities with two components at once | 2385ns  |
-| Create    64 entities with two components at once | 3222ns  |
-| Create   256 entities with two components at once | 6342ns  |
-| Create   ~1K entities with two components at once | 17935ns |
-| Create   ~4K entities with two components at once | 63428ns |
+| Create    16 entities with two components at once | 3033ns  |
+| Create    64 entities with two components at once | 3851ns  |
+| Create   256 entities with two components at once | 6995ns  |
+| Create   ~1K entities with two components at once | 16873ns |
+| Create   ~4K entities with two components at once | 57259ns |
 
 |                                                   | EnTT   |
 |:--------------------------------------------------|:-------|
 | Create  ~16K entities with two components at once | 0ms    |
 | Create  ~65K entities with two components at once | 0ms    |
 | Create  262K entities with two components at once | 4ms    |
-| Create   ~1M entities with two components at once | 29ms   |
-| Create   ~2M entities with two components at once | 63ms   |
+| Create   ~1M entities with two components at once | 34ms   |
+| Create   ~2M entities with two components at once | 66ms   |
 
 
 ### Create empty entities at once
 
-![CreateEmptyEntitiesInBulk Plot](img/CreateEmptyEntitiesInBulk.png)
+![CreateEmptyEntitiesInBulk Plot](img/CreateEmptyEntitiesInBulk.svg)
 
 _(lower is better)_
 
-|                                       | EnTT   |
-|:--------------------------------------|:-------|
-| Create    16 (empty) entities at once | 358ns  |
-| Create    64 (empty) entities at once | 373ns  |
-| Create   256 (empty) entities at once | 509ns  |
-| Create   ~1K (empty) entities at once | 807ns  |
-| Create   ~4K (empty) entities at once | 2159ns |
+|                                       | EnTT    |
+|:--------------------------------------|:--------|
+| Create    16 (empty) entities at once | 1077ns  |
+| Create    64 (empty) entities at once | 1228ns  |
+| Create   256 (empty) entities at once | 1835ns  |
+| Create   ~1K (empty) entities at once | 3951ns  |
+| Create   ~4K (empty) entities at once | 12028ns |
 
 |                                       | EnTT   |
 |:--------------------------------------|:-------|
 | Create  ~16K (empty) entities at once | 0ms    |
 | Create  ~65K (empty) entities at once | 0ms    |
-| Create  262K (empty) entities at once | 0ms    |
-| Create   ~1M (empty) entities at once | 2ms    |
-| Create   ~2M (empty) entities at once | 5ms    |
+| Create  262K (empty) entities at once | 1ms    |
+| Create   ~1M (empty) entities at once | 5ms    |
+| Create   ~2M (empty) entities at once | 15ms   |
 
 
 ### Destroy entities at once
 
-![DestroyEntitiesInBulk Plot](img/DestroyEntitiesInBulk.png)
+![DestroyEntitiesInBulk Plot](img/DestroyEntitiesInBulk.svg)
 
 _(lower is better)_
 
-|                                                    | EnTT     |
-|:---------------------------------------------------|:---------|
-| Destroy    16 entities with two components at once | 1097ns   |
-| Destroy    64 entities with two components at once | 2580ns   |
-| Destroy   256 entities with two components at once | 8552ns   |
-| Destroy   ~1K entities with two components at once | 32272ns  |
-| Destroy   ~4K entities with two components at once | 128508ns |
+|                                                    | EnTT    |
+|:---------------------------------------------------|:--------|
+| Destroy    16 entities with two components at once | 1075ns  |
+| Destroy    64 entities with two components at once | 2032ns  |
+| Destroy   256 entities with two components at once | 5474ns  |
+| Destroy   ~1K entities with two components at once | 14110ns |
+| Destroy   ~4K entities with two components at once | 53874ns |
 
 |                                                    | EnTT   |
 |:---------------------------------------------------|:-------|
 | Destroy  ~16K entities with two components at once | 0ms    |
-| Destroy  ~65K entities with two components at once | 2ms    |
-| Destroy  262K entities with two components at once | 8ms    |
-| Destroy   ~1M entities with two components at once | 34ms   |
-| Destroy   ~2M entities with two components at once | 72ms   |
+| Destroy  ~65K entities with two components at once | 0ms    |
+| Destroy  262K entities with two components at once | 5ms    |
+| Destroy   ~1M entities with two components at once | 41ms   |
+| Destroy   ~2M entities with two components at once | 91ms   |
 
 
 
@@ -282,7 +308,7 @@ Version: 1.1.2 (Dec 2021)
 
 > EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.
 
-Version: v3.11.1
+Version: v3.12.2
 
 #### Ginseng by @apples 
 
@@ -298,7 +324,7 @@ Version: 1.1 (Dec 2021)
 
 > A fast, modern C++ Entity Component System
 
-Version: 0.2 (Aug 2022)
+Version: 0.2 (Apr 2023)
 
 #### OpenEcs by @Gronis 
 
@@ -310,13 +336,13 @@ Version: Beta (Apr 2017)
 
 > Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.
 
-Version: v3.1.3
+Version: v3.2.4
 
 #### pico_ecs by @empyreanx 
 
 > A collection of cross-platform single header libraries written in C. Pure and simple ECS.
 
-Version: v2.0.0
+Version: 2.2 (Mai 2023)
 
 
 
@@ -324,6 +350,6 @@ Version: v2.0.0
 ### Environment
 
 * **OS:** Linux
-* **CPU:** 3.47GHz @ 12Cores
-* **RAM:** 15.55GB
+* **CPU:** 3.76GHz @ 12Cores
+* **RAM:** 46.98GB
 
