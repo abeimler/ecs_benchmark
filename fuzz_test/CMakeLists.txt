@@ -1,57 +1,9 @@
-# cmake-format: off
-# [[[cog
-#    import os, cog, glob
-#    path, file = os.path.split(cog.inFile)
-#    filepattern = os.path.join(path, '**/*.h??').lstrip('./')
-#    files = glob.glob(filepattern, recursive=True)
-#    if files:
-#       cog.outl("## GENERATED CODE WITH cogapp")
-#       cog.outl("set(${CMAKE_PROJECT_NAME}_FUZZ_TEST_HEADERS ")    ###< you need to CHANGE this line (string) with your sourcecode-list cmake variable name
-#       for src in files:
-#           if "skeleton" in src: continue
-#           cog.outl("    ${CMAKE_CURRENT_SOURCE_DIR}/%s " % os.path.normpath(os.path.relpath(src, path)).replace("\\","/"))
-#       cog.outl(")")
-# ]]]
-# [[[end]]]
-# cmake-format: on
-
-# cmake-format: off
-# [[[cog
-#    import os, cog, glob
-#    path, file = os.path.split(cog.inFile)
-#    filepattern = os.path.join(path, '**/*.c??').lstrip('./')
-#    files = glob.glob(filepattern, recursive=True)
-#    if files:
-#       cog.outl("## GENERATED CODE WITH cogapp")
-#       cog.outl("set(${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE ")    ###< you need to CHANGE this line (string) with your sourcecode-list cmake variable name
-#       for src in files:
-#           if "skeleton" in src: continue
-#           if "catch_main.cpp" in os.path.relpath(src, path): continue
-#           cog.outl("    ${CMAKE_CURRENT_SOURCE_DIR}/%s " % os.path.normpath(os.path.relpath(src, path)).replace("\\","/"))
-#       cog.outl(")")
-# ]]]
-## GENERATED CODE WITH cogapp
-set(${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE 
-    ${CMAKE_CURRENT_SOURCE_DIR}/fuzz_tester.cpp 
-)
-# [[[end]]]
-# cmake-format: on
-
-source_group(
-  TREE "${CMAKE_CURRENT_SOURCE_DIR}"
-  PREFIX "Test Header Files"
-  FILES ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_HEADERS})
-source_group(
-  TREE "${CMAKE_CURRENT_SOURCE_DIR}"
-  PREFIX "Test Source Files"
-  FILES ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE})
-
 # A fuzz test runs until it finds an error. This particular one is going to rely on libFuzzer.
 #
-add_executable(${CMAKE_PROJECT_NAME}-fuzz-tester)
-target_sources(${CMAKE_PROJECT_NAME}-fuzz-tester PRIVATE ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE}
+add_executable(ecs-benchmark-fuzz-tester)
+target_sources(ecs-benchmark-fuzz-tester PRIVATE ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE}
                                                          ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_HEADERS})
-target_include_directories(${CMAKE_PROJECT_NAME}-fuzz-tester PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ecs-benchmark-fuzz-tester PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # @NOTE: add libs here
 set(THREADS_PREFER_PTHREAD_FLAG ON)

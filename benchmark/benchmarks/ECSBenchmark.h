@@ -20,7 +20,7 @@ public:
   using EntityManager = typename EntityFactory::EntityManager;
   using Entity = typename EntityFactory::Entity;
 
-  const float fakeTimeDelta{1.0F / 60.0F};
+  inline static constexpr float fakeTimeDelta{1.0F / 60.0F};
 
   ECSBenchmark() {
     benchmark::AddCustomContext("framework.name", m_name);

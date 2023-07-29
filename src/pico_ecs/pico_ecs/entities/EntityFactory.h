@@ -16,6 +16,8 @@ struct EcsDeleter {
   void operator()(ecs_t* p_ecs) { ecs_free(p_ecs); }
 };
 
+void VelocityComponent_constructor(ecs_t* ecs, ecs_id_t entity_id, void* ptr, void* args);
+
 class EntityManager {
 public:
   static inline constexpr int MIN_ENTITIES = 1 * 1024;
@@ -34,10 +36,14 @@ public:
   ecs_id_t VelocityComponent;
   ecs_id_t DataComponent;
 
+  [[nodiscard]] inline auto valid(ecs_id_t entity_id) {
+    return ecs_is_ready(ecs.get(), entity_id);
+  }
+
 private:
   void register_components() {
     PositionComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PositionComponent), nullptr, nullptr);
-    VelocityComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::VelocityComponent), nullptr,  nullptr);
+    VelocityComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::VelocityComponent), VelocityComponent_constructor,  nullptr);
     DataComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DataComponent), nullptr, nullptr);
   }
 };
@@ -72,6 +78,9 @@ public:
   }
 
   void destroy(EntityManager& registry, Entity entity_id) { ecs_destroy(registry.ecs.get(), entity_id); }
+
+  /// Member access into incomplete type 'ecs_s' ... move impl. to pico_ecs.cpp
+  [[nodiscard]] static size_t getEntitiesCount(EntityManager& registry);
 
   void clear(EntityManager& registry) { ecs_reset(registry.ecs.get()); }
 

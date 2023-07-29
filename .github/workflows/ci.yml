@@ -43,7 +43,7 @@ jobs:
         task:
           - build
           # TODO: add tests and coverage tasks
-          #- test
+          - test
           #- test:release
           #- test:without-sanitizer
           #- test:release:without-sanitizer
@@ -59,9 +59,9 @@ jobs:
 
           # Only to test non-multiconfig builds
           - os: ubuntu-22.04
-            compiler: gcc-11
+            compiler: gcc-13
             CMAKE_GENERATOR: "Unix Makefiles"
-            GCOV: gcov-11
+            GCOV: gcov-13
 
           - os: windows-2022
             compiler: msvc

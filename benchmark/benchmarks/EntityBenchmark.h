@@ -46,8 +46,8 @@ concept HasBulkDestroyFeature = requires(EntityFactory factory, EntityManager& e
 template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
           class Entity = typename EntityFactory::Entity>
 concept HasGetComponentsFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
-  factory.getComponentOneConst(entity_manager, entity);
-  factory.getComponentTwoConst(entity_manager, entity);
+  //factory.getComponentOneConst(entity_manager, entity);
+  //factory.getComponentTwoConst(entity_manager, entity);
   factory.getComponentOne(entity_manager, entity);
   factory.getComponentTwo(entity_manager, entity);
   factory.getOptionalComponentThree(entity_manager, entity);
@@ -90,7 +90,7 @@ public:
 
 
   void BM_CreateNoEntities(benchmark::State& state) {
-    const auto nentities = 0;
+    const size_t nentities = 0;
     for (auto _ : state) {
       state.PauseTiming();
       EntityManager registry;
