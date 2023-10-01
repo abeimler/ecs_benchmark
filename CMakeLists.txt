@@ -42,7 +42,6 @@ string(TOUPPER "${CMAKE_PROJECT_NAME}" CMAKE_PROJECT_NAME_UPPERCASE)
 string(TOLOWER "${CMAKE_PROJECT_NAME}" CMAKE_PROJECT_NAME_LOWERCASE)
 include(cmake/PreventInSourceBuilds.cmake)
 
-
 # User options
 include(cmake/CMakeOptions.cmake)
 get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -52,13 +51,13 @@ if(BUILDING_MULTI_CONFIG)
     # configuration types you use, but only if one is not forced-set on the command line for VS
     message(TRACE "Setting up multi-config build types")
     set(CMAKE_CONFIGURATION_TYPES
-            Debug Release RelWithDebInfo MinSizeRel
-            CACHE STRING "Enabled build types" FORCE)
+        Debug Release RelWithDebInfo MinSizeRel
+        CACHE STRING "Enabled build types" FORCE)
   else()
     message(TRACE "User chose a specific build type, so we are using that")
     set(CMAKE_CONFIGURATION_TYPES
-            ${CMAKE_BUILD_TYPE}
-            CACHE STRING "Enabled build types" FORCE)
+        ${CMAKE_BUILD_TYPE}
+        CACHE STRING "Enabled build types" FORCE)
   endif()
 endif()
 include(cmake/ProjectOptions.cmake)
@@ -90,7 +89,6 @@ add_subdirectory(libs)
 # add configure files
 configure_file("${PROJECT_SOURCE_DIR}/include/Version.h.in" "${PROJECT_BINARY_DIR}/include/Version.h" @ONLY)
 
-
 if(ENABLE_TESTING)
   # This variable is set by project() in CMake 3.21+
   string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${PROJECT_SOURCE_DIR}" PROJECT_IS_TOP_LEVEL)
@@ -105,7 +103,7 @@ endif()
 
 if(ENABLE_FUZZING)
   message(AUTHOR_WARNING "Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
-  if (NOT OPT_ENABLE_ADDRESS_SANITIZER AND NOT OPT_ENABLE_THREAD_SANITIZER)
+  if(NOT OPT_ENABLE_ADDRESS_SANITIZER AND NOT OPT_ENABLE_THREAD_SANITIZER)
     message(WARNING "You need asan or tsan enabled for meaningful fuzz testing")
   endif()
   add_subdirectory(fuzz_test)
@@ -118,8 +116,8 @@ endif()
 
 add_subdirectory(src)
 
-# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
-# so that it behaves well with MSVC's debugger, and we can run the target from visual studio
+# If MSVC is being used, and ASAN is enabled, we need to set the debugger environment so that it behaves well with MSVC's debugger, and we
+# can run the target from visual studio
 if(MSVC)
   get_all_installable_targets(all_targets)
   message("all_targets=${all_targets}")

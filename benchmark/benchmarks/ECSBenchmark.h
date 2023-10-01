@@ -90,7 +90,8 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks void BM_CreateNoEntities(benchmark::State& state) {
+    requires include_entity_benchmarks
+  void BM_CreateNoEntities(benchmark::State& state) {
     const auto nentities = 0;
     for (auto _ : state) {
       state.PauseTiming();
@@ -106,7 +107,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks void BM_CreateEmptyEntities(benchmark::State& state) {
+    requires include_entity_benchmarks
+  void BM_CreateEmptyEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
       state.PauseTiming();
@@ -122,7 +124,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasBulkFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasBulkFeature<tEntityFactory>
   void BM_CreateEmptyEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -139,7 +141,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks void BM_CreateEntities(benchmark::State& state) {
+    requires include_entity_benchmarks
+  void BM_CreateEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
       state.PauseTiming();
@@ -155,7 +158,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasBulkFeatureWithOutput<tEntityFactory>
+    requires include_entity_benchmarks && HasBulkFeatureWithOutput<tEntityFactory>
   void BM_CreateEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -173,7 +176,7 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasDestroyFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasDestroyFeature<tEntityFactory>
   void BM_DestroyEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -199,7 +202,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasBulkDestroyFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasBulkDestroyFeature<tEntityFactory>
   void BM_DestroyEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -218,7 +221,7 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackNoComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -236,7 +239,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
     const auto nentities = 0;
     Application app(m_options.add_more_complex_system);
@@ -254,7 +257,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -271,26 +274,26 @@ public:
     this->setCounters(state, entities, components_counter);
   }
 
-//  template <class tEntityFactory = EntityFactory>
-//  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
-//  void BM_UnpackOneConstComponent(benchmark::State& state) {
-//    const auto nentities = static_cast<size_t>(state.range(0));
-//    Application app(m_options.add_more_complex_system);
-//    EntityManager& registry = app.getEntities();
-//    std::vector<Entity> entities;
-//    const ComponentsCounter components_counter =
-//        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
-//
-//    for (auto _ : state) {
-//      for (auto& entity : entities) {
-//        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOneConst(registry, entity));
-//      }
-//    }
-//    this->setCounters(state, entities, components_counter);
-//  }
+  //  template <class tEntityFactory = EntityFactory>
+  //  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+  //  void BM_UnpackOneConstComponent(benchmark::State& state) {
+  //    const auto nentities = static_cast<size_t>(state.range(0));
+  //    Application app(m_options.add_more_complex_system);
+  //    EntityManager& registry = app.getEntities();
+  //    std::vector<Entity> entities;
+  //    const ComponentsCounter components_counter =
+  //        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+  //
+  //    for (auto _ : state) {
+  //      for (auto& entity : entities) {
+  //        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOneConst(registry, entity));
+  //      }
+  //    }
+  //    this->setCounters(state, entities, components_counter);
+  //  }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackTwoComponents(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -309,7 +312,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
   void BM_UnpackThreeComponents(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -328,7 +331,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-  requires include_entity_benchmarks void BM_RemoveAddComponent(benchmark::State& state) {
+    requires include_entity_benchmarks
+  void BM_RemoveAddComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
     EntityManager& registry = app.getEntities();
@@ -374,29 +378,30 @@ protected:
   }
 
   template <class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
-  requires HasRemoveComponentsFeatures<tEntityFactory>
-      ComponentsCounter initApplicationWithMixedComponents(Application& app, size_t nentities) {
+    requires HasRemoveComponentsFeatures<tEntityFactory>
+  ComponentsCounter initApplicationWithMixedComponents(Application& app, size_t nentities) {
     app.init();
     return this->template createEntitiesWithMixedComponents<tEntityManager>(app.getEntities(), nentities);
   }
   template <class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
-  requires HasRemoveComponentsFeatures<tEntityFactory> ComponentsCounter
-  initApplicationWithMixedComponents(Application& app, size_t nentities, std::vector<Entity>& out) {
+    requires HasRemoveComponentsFeatures<tEntityFactory>
+  ComponentsCounter initApplicationWithMixedComponents(Application& app, size_t nentities, std::vector<Entity>& out) {
     app.init();
     return this->template createEntitiesWithMixedComponents<tEntityFactory, tEntityManager>(app.getEntities(),
                                                                                             nentities, out);
   }
 
   template <class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
-  requires HasAddComponentsFeatures<tEntityFactory>
-      ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities) {
+    requires HasAddComponentsFeatures<tEntityFactory>
+  ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities) {
     app.init();
     return this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(),
                                                                                                      nentities);
   }
   template <class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
-  requires HasAddComponentsFeatures<tEntityFactory> ComponentsCounter
-  initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities, std::vector<Entity>& out) {
+    requires HasAddComponentsFeatures<tEntityFactory>
+  ComponentsCounter initApplicationWithMixedComponentsFromEmpty(Application& app, size_t nentities,
+                                                                std::vector<Entity>& out) {
     app.init();
     return this->template createEntitiesWithMixedComponentsFromEmpty<tEntityFactory, tEntityManager>(app.getEntities(),
                                                                                                      nentities, out);

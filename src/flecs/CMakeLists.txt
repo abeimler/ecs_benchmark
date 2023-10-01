@@ -1,5 +1,4 @@
-# https://github.com/SanderMertens/flecs
-# add dependencies
+# https://github.com/SanderMertens/flecs add dependencies
 cpmaddpackage(
   NAME
   flecs

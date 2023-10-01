@@ -36,15 +36,16 @@ public:
   ecs_id_t VelocityComponent;
   ecs_id_t DataComponent;
 
-  [[nodiscard]] inline auto valid(ecs_id_t entity_id) {
-    return ecs_is_ready(ecs.get(), entity_id);
-  }
+  [[nodiscard]] inline auto valid(ecs_id_t entity_id) { return ecs_is_ready(ecs.get(), entity_id); }
 
 private:
   void register_components() {
-    PositionComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PositionComponent), nullptr, nullptr);
-    VelocityComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::VelocityComponent), VelocityComponent_constructor,  nullptr);
-    DataComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DataComponent), nullptr, nullptr);
+    PositionComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PositionComponent),
+                                               nullptr, nullptr);
+    VelocityComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::VelocityComponent),
+                                               VelocityComponent_constructor, nullptr);
+    DataComponent =
+        ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DataComponent), nullptr, nullptr);
   }
 };
 } // namespace details

@@ -20,16 +20,16 @@ concept HasAddComponentsFeatures = requires(EntityFactory entity_factory, Entity
 };
 template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
           class Entity = typename EntityFactory::Entity>
-concept HasRemoveComponentsFeatures = requires(EntityFactory entity_factory, EntityManager entity_manager,
-                                               Entity entity) {
-  entity_factory.removeComponentOne(entity_manager, entity);
-  entity_factory.removeComponentTwo(entity_manager, entity);
-  entity_factory.removeComponentThree(entity_manager, entity);
-};
+concept HasRemoveComponentsFeatures =
+    requires(EntityFactory entity_factory, EntityManager entity_manager, Entity entity) {
+      entity_factory.removeComponentOne(entity_manager, entity);
+      entity_factory.removeComponentTwo(entity_manager, entity);
+      entity_factory.removeComponentThree(entity_manager, entity);
+    };
 template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
           class Entity = typename EntityFactory::Entity>
 concept HasComponentsFeatures = HasAddComponentsFeatures<EntityFactory, EntityManager, Entity> &&
-    HasRemoveComponentsFeatures<EntityFactory, EntityManager, Entity>;
+                                HasRemoveComponentsFeatures<EntityFactory, EntityManager, Entity>;
 
 
 template <class EntityFactory>
@@ -128,8 +128,9 @@ protected:
 
   template <class tEntityFactory, class tEntityManager = typename tEntityFactory::EntityManager,
             bool destory_entites = false>
-  requires HasRemoveComponentsFeatures<tEntityFactory> ComponentsCounter
-  createEntitiesWithMixedComponents(tEntityManager& registry, size_t nentities, std::vector<Entity>& out) {
+    requires HasRemoveComponentsFeatures<tEntityFactory>
+  ComponentsCounter createEntitiesWithMixedComponents(tEntityManager& registry, size_t nentities,
+                                                      std::vector<Entity>& out) {
     ComponentsCounter components_counter;
     out.clear();
     out.reserve(nentities);
@@ -169,7 +170,7 @@ protected:
     return components_counter;
   }
   template <class tEntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
-  requires HasRemoveComponentsFeatures<tEntityFactory>
+    requires HasRemoveComponentsFeatures<tEntityFactory>
   inline ComponentsCounter createEntitiesWithMixedComponentsAndDestroyedEntitites(tEntityManager& registry,
                                                                                   size_t nentities,
                                                                                   std::vector<Entity>& out) {
@@ -178,8 +179,9 @@ protected:
 
   template <class tEntityFactory, class tEntityManager = typename tEntityFactory::EntityManager,
             bool destory_entites = false>
-  requires HasAddComponentsFeatures<tEntityFactory> ComponentsCounter
-  createEntitiesWithMixedComponentsFromEmpty(tEntityManager& registry, size_t nentities, std::vector<Entity>& out) {
+    requires HasAddComponentsFeatures<tEntityFactory>
+  ComponentsCounter createEntitiesWithMixedComponentsFromEmpty(tEntityManager& registry, size_t nentities,
+                                                               std::vector<Entity>& out) {
     ComponentsCounter components_counter;
     out.clear();
     out.reserve(nentities);
@@ -232,7 +234,7 @@ protected:
     return components_counter;
   }
   template <class tEntityFactory = EntityFactory, class tEntityManager = typename tEntityFactory::EntityManager>
-  requires HasAddComponentsFeatures<tEntityFactory>
+    requires HasAddComponentsFeatures<tEntityFactory>
   inline ComponentsCounter createEntitiesWithMixedComponentsAndDestroyedEntitiesFromEmpty(tEntityManager& registry,
                                                                                           size_t nentities,
                                                                                           std::vector<Entity>& out) {

@@ -1,8 +1,6 @@
-add_executable(ecs-benchmark-tests
-        ${CMAKE_CURRENT_SOURCE_DIR}/entity_factory/entt_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/entity_factory/pico_ecs_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/application/entt_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/application/pico_ecs_test.cpp)
+add_executable(
+  ecs-benchmark-tests ${CMAKE_CURRENT_SOURCE_DIR}/entity_factory/entt_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/entity_factory/pico_ecs_test.cpp
+                      ${CMAKE_CURRENT_SOURCE_DIR}/application/entt_test.cpp ${CMAKE_CURRENT_SOURCE_DIR}/application/pico_ecs_test.cpp)
 target_include_directories(ecs-benchmark-tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(ecs-benchmark-tests PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(ecs-benchmark-tests PRIVATE ${PROJECT_BINARY_DIR}/include)

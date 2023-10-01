@@ -8,17 +8,11 @@
 namespace ecs::benchmarks::base {
 
 template <typename Iterable, typename Func>
-concept HasEach = requires(Iterable it, Func func) {
-  it.each(func);
-};
+concept HasEach = requires(Iterable it, Func func) { it.each(func); };
 template <typename Iterable, typename Func>
-concept HasForEach = requires(Iterable it, Func func) {
-  it.for_each(func);
-};
+concept HasForEach = requires(Iterable it, Func func) { it.for_each(func); };
 template <typename Iterable, typename Func>
-concept HasVisit = requires(Iterable it, Func func) {
-  it.visit(func);
-};
+concept HasVisit = requires(Iterable it, Func func) { it.visit(func); };
 
 template <StringLiteral Name, class Application, class EntityFactory, bool include_entity_benchmarks = false>
 class ExtendedECSBenchmark : public ECSBenchmark<Name, Application, EntityFactory, include_entity_benchmarks> {
@@ -41,7 +35,7 @@ public:
 
 protected:
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponentWithPreCreatedView(benchmark::State& state, GetView&& get_view, Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
@@ -68,7 +62,7 @@ protected:
     }
   }
   template <typename Comp, typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponentWithPreCreatedView(benchmark::State& state, GetView&& get_view, Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
@@ -95,7 +89,7 @@ protected:
     }
   }
   template <typename GetView>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponentWithPreCreatedView(benchmark::State& state, GetView&& view) {
     BM_IterateSingleComponentWithPreCreatedView(state, view, [](auto&... comp) {
       dummy_each(comp...);
@@ -103,7 +97,7 @@ protected:
   }
 
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponent(benchmark::State& state, GetView get_view, Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
@@ -155,14 +149,14 @@ protected:
     }
   }
   template <typename Comp, typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponent(benchmark::State& state, GetView&& get_view, Func&& func) {
     BM_IterateSingleComponentCustom(state, [&](auto& registry) {
       generic_each_comps<Comp>(get_view(registry), func);
     });
   }
   template <typename GetView>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponent(benchmark::State& state, GetView&& view) {
     BM_IterateSingleComponent(state, view, [](auto&... comp) {
       dummy_each(comp...);
@@ -170,7 +164,7 @@ protected:
   }
 
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateTwoComponentsWithPreCreatedView(benchmark::State& state, GetView&& get_view, Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
@@ -197,7 +191,7 @@ protected:
     }
   }
   template <typename GetView>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateTwoComponentsWithPreCreatedView(benchmark::State& state, GetView&& view) {
     BM_IterateTwoComponentsWithPreCreatedView(state, view, [](auto&... comp) {
       dummy_each(comp...);
@@ -228,14 +222,14 @@ protected:
     }
   }
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateTwoComponents(benchmark::State& state, GetView&& get_view, Func&& func) {
     BM_IterateTwoComponentsCustom(state, [&](auto& registry) {
       generic_each(get_view(registry), func);
     });
   }
   template <typename GetView>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateTwoComponents(benchmark::State& state, GetView view) {
     BM_IterateTwoComponents(state, view, [](auto&... comp) {
       dummy_each(comp...);
@@ -243,7 +237,7 @@ protected:
   }
 
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateThreeComponentsWithMixedEntitiesAndPreCreatedView(benchmark::State& state, GetView&& get_view,
                                                                    Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
@@ -271,7 +265,7 @@ protected:
     }
   }
   template <typename GetView>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateThreeComponentsWithMixedEntitiesAndPreCreatedView(benchmark::State& state, GetView&& view) {
     BM_IterateThreeComponentsWithMixedEntitiesAndPreCreatedView(state, view, [](auto&... comp) {
       dummy_each(comp...);
@@ -302,14 +296,14 @@ protected:
     }
   }
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateThreeComponentsWithMixedEntities(benchmark::State& state, GetView&& get_view, Func&& func) {
     BM_IterateThreeComponentsWithMixedEntitiesCustom(state, [&](auto& registry) {
       generic_each(get_view(registry), func);
     });
   }
   template <typename GetView>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateThreeComponentsWithMixedEntities(benchmark::State& state, GetView&& view) {
     BM_IterateThreeComponentsWithMixedEntities(state, view, [](auto&... comp) {
       dummy_each(comp...);
@@ -318,7 +312,7 @@ protected:
 
 
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateSingleComponentWithPreCreatedViewCustom(benchmark::State& state, GetView&& get_view, Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
@@ -345,7 +339,7 @@ protected:
     }
   }
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateTwoComponentsWithPreCreatedViewCustom(benchmark::State& state, GetView&& get_view, Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
@@ -372,7 +366,7 @@ protected:
     }
   }
   template <typename GetView, typename Func>
-  requires std::invocable<GetView&, EntityManager&>
+    requires std::invocable<GetView&, EntityManager&>
   void BM_IterateThreeComponentsWithMixedEntitiesAndPreCreatedViewCustom(benchmark::State& state, GetView&& get_view,
                                                                          Func&& func) {
     const auto nentities = static_cast<size_t>(state.range(0));
@@ -408,14 +402,20 @@ public:
   }
 
   template <typename Iterable, typename Func>
-  requires HasEach<Iterable, Func>
-  inline static void generic_each(Iterable&& iterable, Func&& func) { std::forward<Iterable>(iterable).each(func); }
+    requires HasEach<Iterable, Func>
+  inline static void generic_each(Iterable&& iterable, Func&& func) {
+    std::forward<Iterable>(iterable).each(func);
+  }
   template <typename Iterable, typename Func>
-  requires HasForEach<Iterable, Func>
-  inline static void generic(Iterable&& iterable, Func&& func) { std::forward<Iterable>(iterable).for_each(func); }
+    requires HasForEach<Iterable, Func>
+  inline static void generic(Iterable&& iterable, Func&& func) {
+    std::forward<Iterable>(iterable).for_each(func);
+  }
   template <typename Iterable, typename Func>
-  requires HasVisit<Iterable, Func>
-  inline static void generic(Iterable&& iterable, Func&& func) { std::forward<Iterable>(iterable).visit(func); }
+    requires HasVisit<Iterable, Func>
+  inline static void generic(Iterable&& iterable, Func&& func) {
+    std::forward<Iterable>(iterable).visit(func);
+  }
 };
 } // namespace ecs::benchmarks::base
 

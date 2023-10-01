@@ -1,14 +1,14 @@
 #ifndef ECS_BENCHMARK_TESTS_ENTITY_FACTORY_BASE_H
 #define ECS_BENCHMARK_TESTS_ENTITY_FACTORY_BASE_H
 
-#include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_template_test_macros.hpp>
-#include <catch2/matchers/catch_matchers_floating_point.hpp>
 #include <catch2/catch_approx.hpp>
+#include <catch2/catch_template_test_macros.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
 
 namespace ecs::benchmarks {
 
-template<class EntityFactory>
+template <class EntityFactory>
 struct EntityFactory_Fixture {
   using EntityManager = EntityFactory::EntityManager;
   using Entity = EntityFactory::Entity;
@@ -81,6 +81,6 @@ struct EntityFactory_Fixture {
   }
 };
 
-}
+} // namespace ecs::benchmarks
 
 #endif // ECS_BENCHMARK_TESTS_ENTITY_FACTORY_BASE_H
