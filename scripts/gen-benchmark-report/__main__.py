@@ -106,6 +106,7 @@ def gen_results(config, output_dir, reports):
             name = benchmark['name']
             time = benchmark['real_time']
             time_ns = None
+            time_us = None
             time_ms = None
             time_s = None
             time_min = None
@@ -115,14 +116,22 @@ def gen_results(config, output_dir, reports):
             components_three = None
             key = ''
             unit = benchmark['time_unit']
-            if benchmark['time_unit'] == 'ns':
+            if unit == 'ns':
                 time_ns = int(time)
-                time_ms = time_ns / 1000000.0
+                time_us = time_ns / 1000.0
+                time_ms = time_us / 1000.0
                 time_s = time_ms / 1000.0
                 time_min = time_s / 60.0
-            elif benchmark['time_unit'] == 'ms':
-                time_ns = int(time * 1000000.0)
+            elif unit == 'ms':
                 time_ms = time
+                time_ns = time_ms * 1000000.0
+                time_us = time_ns / 1000.0
+                time_s = time_ms / 1000.0
+                time_min = time_s / 60.0
+            elif unit == 'us':
+                time_us = time
+                time_ns = time_us * 1000.0
+                time_ms = time_ns / 1000000.0
                 time_s = time_ms / 1000.0
                 time_min = time_s / 60.0
 
@@ -148,7 +157,7 @@ def gen_results(config, output_dir, reports):
                 if key not in entries_data:
                     entries_data[key] = []
                 entries_data[key].append(
-                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_ms': time_ms, 'time_s': time_s,
+                    {'name': name, 'unit': unit, 'time': time, 'time_ns': time_ns, 'time_us': time_us, 'time_ms': time_ms, 'time_s': time_s,
                      'time_min': time_min,
                      'entities': entities, 'components_one': components_one, 'components_two': components_two,
                      'components_three': components_three,
@@ -195,6 +204,10 @@ def gen_results(config, output_dir, reports):
                                 if units[ek] != 's' and units[ek] != 'min':
                                     units[ek] = 'ms'
                                     break
+                            elif ed['time_ns'] >= 1000.0:
+                                if units[ek] != 's' and units[ek] != 'min' and units[ek] != 'ms':
+                                    units[ek] = 'us'
+                                    break
 
     for framework, result in results.items():
         if '_meta' != framework:
@@ -209,6 +222,8 @@ def gen_results(config, output_dir, reports):
                         if ed['entities'] == e:
                             if unit == 'ns':
                                 y.append(ed['time_ns'])
+                            elif unit == 'us':
+                                y.append(ed['time_us'])
                             elif unit == 'ms':
                                 y.append(ed['time_ms'])
                             elif unit == 's':
@@ -235,6 +250,8 @@ def gen_results(config, output_dir, reports):
                         if ed['entities'] == e:
                             if unit == 'ns':
                                 y.append(ed['time_ns'])
+                            elif unit == 'us':
+                                y.append(ed['time_us'])
                             elif unit == 'ms':
                                 y.append(ed['time_ms'])
                             elif unit == 's':
@@ -386,7 +403,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                     find = False
                     for ed in entries_data:
                         if ed['entities'] == key:
-                            small_summary_df_data[name].append("{:>8d}ns".format(int(ed['time_ns'])))
+                            small_summary_df_data[name].append("{:>6d}us".format(int(ed['time_us'])))
                             find = True
                             break
                     if not find:
@@ -407,7 +424,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 find = False
                 for ed in entries_data:
                     if ed['entities'] == key:
-                        small_df_data[ek][name].append("{:>6d}ns".format(int(ed['time_ns'])))
+                        small_df_data[ek][name].append("{:>6d}us".format(int(ed['time_us'])))
                         find = True
                         break
                 if not find:
