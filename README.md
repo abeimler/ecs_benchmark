@@ -33,21 +33,21 @@ Therefore, the results of these benchmarks should be used as a starting point fo
 
 _(lower is better)_
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
-| Update    16 entities with 3 Systems | 1us    | 1us              | 1us            | 1us             | 1us       | 26us       | 2us     | 1us        |
-| Update    64 entities with 3 Systems | 5us    | 8us              | 5us            | 5us             | 5us       | 30us       | 7us     | 4us        |
-| Update   256 entities with 3 Systems | 25us   | 37us             | 24us           | 23us            | 25us      | 47us       | 26us    | 25us       |
-| Update   ~1K entities with 3 Systems | 98us   | 145us            | 93us           | 96us            | 99us      | 115us      | 97us    | 102us      |
-| Update   ~4K entities with 3 Systems | 389us  | 579us            | 375us          | 359us           | 393us     | 386us      | 377us   | 418us      |
+|                                      | EnTT      | EnTT (runtime)   | EnTT (group)  | EnTT (stable)   | Ginseng   | mustache | Flecs   | pico_ecs   |
+|:-------------------------------------|:----------|:-----------------|:--------------|:----------------|:----------|:---------|:--------|:-----------|
+| Update    16 entities with 3 Systems | **1us**   | **1us**          | **1us**       | **1us**         | **1us**   | 26us     | 2us     | **1us**    |
+| Update    64 entities with 3 Systems | 5us       | 8us              | 5us           | 5us             | 5us       | 30us     | 7us     | **4us**    |
+| Update   256 entities with 3 Systems | 25us      | 37us             | 24us          | **23us**        | 25us      | 47us     | 26us    | 25us       |
+| Update   ~1K entities with 3 Systems | 98us      | 145us            | 93us          | 96us            | 99us      | 115us    | 97us    | 102us      |
+| Update   ~4K entities with 3 Systems | 389us     | 579us            | 375us         | 359us           | 393us     | 386us    | 377us   | 418us      |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|
-| Update  ~16K entities with 3 Systems | 1ms    | 2ms              | 1ms            | 1ms             | 1ms       | 1ms        | 1ms     | 1ms        |
-| Update  ~65K entities with 3 Systems | 6ms    | 9ms              | 5ms            | 5ms             | 6ms       | 5ms        | 5ms     | 6ms        |
-| Update  262K entities with 3 Systems | 25ms   | 36ms             | 24ms           | 24ms            | 25ms      | 26ms       | 24ms    | 24ms       |
-| Update   ~1M entities with 3 Systems | 100ms  | 145ms            | 106ms          | 94ms            | 101ms     | 95ms       | 96ms    | 98ms       |
-| Update   ~2M entities with 3 Systems | 199ms  | 291ms            | 273ms          | 198ms           | 202ms     | 192ms      | 195ms   | 200ms      |
+|                                      | EnTT      | EnTT (runtime) | EnTT (group)  | EnTT (stable) | Ginseng  | mustache     | Flecs    | pico_ecs   |
+|:-------------------------------------|:----------|:---------------|:--------------|:--------------|:---------|:-------------|:---------|:-----------|
+| Update  ~16K entities with 3 Systems | **1ms**   | 2ms            | **1ms**       | **1ms**       | **1ms**  | **1ms**      | **1ms**  | **1ms**    |
+| Update  ~65K entities with 3 Systems | 6ms       | 9ms            | **5ms**       | **5ms**       | 6ms      | **5ms**      | **5ms**  | 6ms        |
+| Update  262K entities with 3 Systems | 25ms      | 36ms           | **24ms**      | **24ms**      | 25ms     | 26ms         | **24ms** | **24ms**   |
+| Update   ~1M entities with 3 Systems | 100ms     | 145ms          | 106ms         | **94ms**      | 101ms    | 95ms         | 96ms     | 98ms       |
+| Update   ~2M entities with 3 Systems | 199ms     | 291ms          | 273ms         | 198ms         | 202ms    | **192ms**    | 195ms    | 200ms      |
 
 
 
