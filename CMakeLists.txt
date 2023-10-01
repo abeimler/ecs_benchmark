@@ -18,33 +18,11 @@ cpmaddpackage(
   GITHUB_REPOSITORY
   aminya/project_options
   VERSION
-  0.30.0
+  0.32.1
   # GIT_TAG           main
   DOWNLOAD_ONLY)
 if(project_options_ADDED)
   include(${project_options_SOURCE_DIR}/Index.cmake)
-endif()
-
-# Define the features of the project
-include(CMakeDependentOption)
-option(ENABLE_TESTING "Enable the tests" ${PROJECT_IS_TOP_LEVEL})
-option(ENABLE_BENCHMARKS "Enable Benchmark" ON)
-option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
-get_property(BUILDING_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(BUILDING_MULTI_CONFIG)
-  if(NOT CMAKE_BUILD_TYPE)
-    # Make sure that all supported configuration types have their associated conan packages available. You can reduce this list to only the
-    # configuration types you use, but only if one is not forced-set on the command line for VS
-    message(TRACE "Setting up multi-config build types")
-    set(CMAKE_CONFIGURATION_TYPES
-        Debug Release RelWithDebInfo MinSizeRel
-        CACHE STRING "Enabled build types" FORCE)
-  else()
-    message(TRACE "User chose a specific build type, so we are using that")
-    set(CMAKE_CONFIGURATION_TYPES
-        ${CMAKE_BUILD_TYPE}
-        CACHE STRING "Enabled build types" FORCE)
-  endif()
 endif()
 
 option(ENABLE_CROSS_COMPILING "Detect cross compiler and setup toolchain" OFF)
@@ -60,6 +38,8 @@ project(
   DESCRIPTION "Benchmarks of common ECS (Entity-Component-System)-Frameworks in C++ (or C)"
   HOMEPAGE_URL "https://github.com/abeimler/ecs_benchmark"
   LANGUAGES CXX C)
+string(TOUPPER "${CMAKE_PROJECT_NAME}" CMAKE_PROJECT_NAME_UPPERCASE)
+string(TOLOWER "${CMAKE_PROJECT_NAME}" CMAKE_PROJECT_NAME_LOWERCASE)
 include(cmake/PreventInSourceBuilds.cmake)
 
 
