@@ -1,8 +1,7 @@
 # A fuzz test runs until it finds an error. This particular one is going to rely on libFuzzer.
 #
 add_executable(ecs-benchmark-fuzz-tester)
-target_sources(ecs-benchmark-fuzz-tester PRIVATE ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE}
-                                                         ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_HEADERS})
+target_sources(ecs-benchmark-fuzz-tester PRIVATE ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_SOURCE} ${${CMAKE_PROJECT_NAME}_FUZZ_TEST_HEADERS})
 target_include_directories(ecs-benchmark-fuzz-tester PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # @NOTE: add libs here

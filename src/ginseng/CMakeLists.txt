@@ -1,5 +1,4 @@
-# https://github.com/apples/ginseng
-# add dependencies
+# https://github.com/apples/ginseng add dependencies
 cpmaddpackage(
   NAME
   ginseng

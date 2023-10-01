@@ -14,8 +14,6 @@ target_link_system_libraries(ecs-benchmark-constexpr-tests PRIVATE Catch2::Catch
 # use different for different binaries
 catch_discover_tests(ecs-benchmark-constexpr-tests)
 
-
-
 # Disable the constexpr portion of the test, and build again this allows us to have an executable that we can debug when things go wrong
 # with the constexpr testing
 add_executable(ecs-benchmark-relaxed-constexpr-tests)

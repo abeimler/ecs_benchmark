@@ -1,10 +1,9 @@
-# https://github.com/SanderMertens/flecs
-# add dependencies
+# https://github.com/SanderMertens/flecs add dependencies
 cpmaddpackage(
   NAME
   flecs
   VERSION
-  3.2.4
+  3.2.7
   GITHUB_REPOSITORY
   SanderMertens/flecs
   OPTIONS

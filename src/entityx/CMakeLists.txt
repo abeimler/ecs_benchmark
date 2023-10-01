@@ -1,5 +1,4 @@
-# https://github.com/alecthomas/entityx
-# add dependencies
+# https://github.com/alecthomas/entityx add dependencies
 cpmaddpackage(
   NAME
   entityx

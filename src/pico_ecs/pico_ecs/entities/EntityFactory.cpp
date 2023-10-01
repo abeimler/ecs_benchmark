@@ -16,6 +16,6 @@ void VelocityComponent_constructor(ecs_t* ecs, ecs_id_t entity_id, void* ptr, vo
   comp->y = 1.0F;
 }
 
-}
+} // namespace details
 
-}
+} // namespace ecs::benchmarks::pico_ecs::entities

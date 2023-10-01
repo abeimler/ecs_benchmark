@@ -156,7 +156,7 @@
       "name": "EntityX",
       "author": "@alecthomas",
       "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity \"objects\" themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.",
-      "version": "1.1.2 (Dec 2021)",
+      "version": "1.1.2 (Apr 2023)",
       "link": "https://github.com/alecthomas/entityx"
     },
     "entt": {
@@ -232,21 +232,21 @@
       "name": "OpenEcs",
       "author": "@Gronis",
       "description": "Open Ecs is an Entity Component System that uses metaprogramming, cache coherency, and other useful tricks to maximize performance and configurability. It is written in c++11 without further dependencies.",
-      "version": "Beta (Apr 2017)",
+      "version": "0.1.101 (Apr 2017)",
       "link": "https://github.com/Gronis/OpenEcs"
     },
     "flecs": {
       "name": "Flecs",
       "author": "@SanderMertens",
       "description": "Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.",
-      "version": "v3.2.4",
+      "version": "v3.2.7",
       "link": "https://github.com/SanderMertens/flecs"
     },
     "pico_ecs": {
       "name": "pico_ecs",
       "author": "@empyreanx",
       "description": "A collection of cross-platform single header libraries written in C. Pure and simple ECS.",
-      "version": "2.2 (Mai 2023)",
+      "version": "2.3 (Sep 2023)",
       "link": "https://github.com/empyreanx/pico_headers"
     },
     "oop": {

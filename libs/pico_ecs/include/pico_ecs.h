@@ -105,13 +105,13 @@ extern "C" {
   typedef int8_t ecs_ret_t;
 
 /**
-* @brief Determine floating point type
+* @brief Determine delta-time type
  */
-#ifdef ECS_USE_FLOAT
-  typedef float  ecs_dt_t;
-#else
-typedef double ecs_dt_t;
+#ifndef ECS_DT_TYPE
+#define ECS_DT_TYPE double
 #endif
+
+  typedef ECS_DT_TYPE ecs_dt_t;
 
   /**
 * @brief Creates an ECS instance.
@@ -890,6 +890,19 @@ void* ecs_add(ecs_t* ecs, ecs_id_t entity_id, ecs_id_t comp_id, void* args)
 
   // Load component
   ecs_array_t* comp_array = &ecs->comp_arrays[comp_id];
+  ecs_comp_t* comp = &ecs->comps[comp_id];
+
+  // Grow the component array
+  ecs_array_resize(ecs, comp_array, entity_id);
+
+  // Get pointer to component
+  void* ptr = ecs_get(ecs, entity_id, comp_id);
+
+  // Call constructor
+  if (comp->constructor)
+    comp->constructor(ecs, entity_id, ptr, args);
+  else
+    memset(ptr, 0, comp_array->size);
 
   // Set entity component bit that determines which systems this entity
   // belongs to
@@ -909,19 +922,6 @@ void* ecs_add(ecs_t* ecs, ecs_id_t entity_id, ecs_id_t comp_id, void* args)
       }
     }
   }
-
-  // Grow the component array
-  ecs_array_resize(ecs, comp_array, entity_id);
-
-  // Get pointer to component
-  void* ptr = ecs_get(ecs, entity_id, comp_id);
-
-  ecs_comp_t* comp = &ecs->comps[comp_id];
-
-  if (comp->constructor)
-    comp->constructor(ecs, entity_id, ptr, args);
-  else
-    memset(ptr, 0, comp_array->size);
 
   // Return component
   return ptr;
@@ -1544,3 +1544,4 @@ static bool ecs_is_system_ready(ecs_t* ecs, ecs_id_t sys_id)
 */
 
 // EoF
+

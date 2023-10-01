@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.24)
 # add dependencies
 CPMAddPackage(
         NAME pico_headers
-        VERSION 2.2
+        VERSION 2.3
         GITHUB_REPOSITORY empyreanx/pico_headers
         # TODO: set current version, use master (no release version)
         GIT_TAG main
