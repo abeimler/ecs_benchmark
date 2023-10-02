@@ -106,6 +106,7 @@ struct HeroMonsterEntityFactory_Fixture {
         const auto& player = m_entity_factory.getPlayerComponent(registry, entity);
 
         THEN("got player component") {
+          ((void)player);
           //REQUIRE(player);
         }
       }
