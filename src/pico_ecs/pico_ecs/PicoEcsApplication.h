@@ -38,12 +38,18 @@ public:
     m_movement_system.init(m_registry);
     m_data_system.init(m_registry);
     m_more_complex_system.init(m_registry);
+    m_health_system.init(m_registry);
+    m_damage_system.init(m_registry);
     ecs_enable_system(m_registry.ecs.get(), m_movement_system.id());
     ecs_enable_system(m_registry.ecs.get(), m_data_system.id());
     if (m_add_more_complex_system) {
       ecs_enable_system(m_registry.ecs.get(), m_more_complex_system.id());
+      ecs_enable_system(m_registry.ecs.get(), m_health_system.id());
+      ecs_enable_system(m_registry.ecs.get(), m_damage_system.id());
     } else {
       ecs_disable_system(m_registry.ecs.get(), m_more_complex_system.id());
+      ecs_disable_system(m_registry.ecs.get(), m_health_system.id());
+      ecs_disable_system(m_registry.ecs.get(), m_damage_system.id());
     }
   }
 
@@ -59,6 +65,8 @@ private:
   systems::MovementSystem m_movement_system;
   systems::DataSystem m_data_system;
   systems::MoreComplexSystem m_more_complex_system;
+  systems::HealthSystem m_health_system;
+  systems::DamageSystem m_damage_system;
 };
 } // namespace ecs::benchmarks::pico_ecs
 

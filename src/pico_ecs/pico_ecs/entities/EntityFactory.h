@@ -4,6 +4,7 @@
 #include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
+#include "base/components/HeroMonsterComponents.h"
 #include "base/entities/EntityFactory.h"
 #include <bit>
 #include <memory>
@@ -35,6 +36,9 @@ public:
   ecs_id_t PositionComponent;
   ecs_id_t VelocityComponent;
   ecs_id_t DataComponent;
+  ecs_id_t PlayerComponent;
+  ecs_id_t HealthComponent;
+  ecs_id_t DamageComponent;
 
   [[nodiscard]] inline auto valid(ecs_id_t entity_id) { return ecs_is_ready(ecs.get(), entity_id); }
 
@@ -46,6 +50,13 @@ private:
                                                VelocityComponent_constructor, nullptr);
     DataComponent =
         ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DataComponent), nullptr, nullptr);
+
+    PlayerComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PlayerComponent),
+                                               nullptr, nullptr);
+    HealthComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::HealthComponent),
+                                               nullptr, nullptr);
+    DamageComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DamageComponent),
+                                               nullptr, nullptr);
   }
 };
 } // namespace details

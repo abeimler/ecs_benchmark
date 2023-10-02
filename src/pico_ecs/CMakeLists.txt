@@ -11,6 +11,8 @@ add_library(
   pico_ecs/systems/MovementSystem.cpp
   pico_ecs/entities/EntityFactory.h
   pico_ecs/entities/EntityFactory.cpp
+  pico_ecs/entities/HeroMonsterEntityFactory.h
+  pico_ecs/entities/HeroMonsterEntityFactory.cpp
   pico_ecs/PicoEcsApplication.h
   pico_ecs/PicoEcsApplication.cpp
   pico_ecs/pico_ecs.cpp)

@@ -4,6 +4,7 @@
 #include "base/systems/MovementSystem.h"
 #include "pico_ecs/entities/EntityFactory.h"
 #include <pico_ecs.h>
+#include <span>
 
 namespace ecs::benchmarks::pico_ecs::systems {
 
@@ -18,6 +19,8 @@ public:
 
 private:
   ecs_id_t m_system;
+
+  static auto updateMovement(ecs_t* ecs, std::span<ecs_id_t> entities, ecs_dt_t dt, void* udata) -> ecs_ret_t;
 };
 
 } // namespace ecs::benchmarks::pico_ecs::systems
