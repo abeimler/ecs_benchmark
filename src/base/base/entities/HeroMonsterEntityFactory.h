@@ -1,8 +1,9 @@
 #ifndef ECS_BENCHMARKS_BASE_HERMONSTERENTITYFACTORY_H_
 #define ECS_BENCHMARKS_BASE_HERMONSTERENTITYFACTORY_H_
 
-#include <vector>
+#include <gsl/gsl-lite.hpp>
 #include <optional>
+#include <vector>
 
 namespace ecs::benchmarks::base::entities {
 
@@ -58,18 +59,18 @@ public:
     }());
     switch(player.type) {
       case PlayerType::Hero:
-        health.maxhp = player.rng.range(5, 15);
-        damage.def = player.rng.range(2, 6);
-        damage.atk = player.rng.range(4, 10);
+        health.maxhp = gsl::narrow_cast<int>(player.rng.range(5, 15));
+        damage.def = gsl::narrow_cast<int>(player.rng.range(2, 6));
+        damage.atk = gsl::narrow_cast<int>(player.rng.range(4, 10));
         break;
       case PlayerType::Monster:
-        health.maxhp = player.rng.range(4, 12);
-        damage.def = player.rng.range(2, 8);
-        damage.atk = player.rng.range(3, 9);
+        health.maxhp = gsl::narrow_cast<int>(player.rng.range(4, 12));
+        damage.def = gsl::narrow_cast<int>(player.rng.range(2, 8));
+        damage.atk = gsl::narrow_cast<int>(player.rng.range(3, 9));
         break;
       case PlayerType::NPC:
-        health.maxhp = player.rng.range(6, 12);
-        damage.def = player.rng.range(3, 8);
+        health.maxhp = gsl::narrow_cast<int>(player.rng.range(6, 12));
+        damage.def = gsl::narrow_cast<int>(player.rng.range(3, 8));
         damage.atk = 0;
         break;
     }

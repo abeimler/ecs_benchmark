@@ -4,13 +4,14 @@
 #include "ExtendedECSBenchmark.h"
 #include "entt/StableEnttApplication.h"
 #include "entt/entities/StableEntityFactory.h"
+#include "entt/entities/HeroMonsterEntityFactory.h"
 #include <utility>
 
 namespace ecs::benchmarks::entt {
 
 class EnttStableBenchmarkSuite final
     : public ecs::benchmarks::base::ExtendedECSBenchmark<"entt (stable)", StableEnttApplication,
-                                                         entities::StableEntityFactory> {
+                                                         entities::StableEntityFactory, entities::HeroMonsterEntityFactory> {
 public:
   EnttStableBenchmarkSuite() = default;
 

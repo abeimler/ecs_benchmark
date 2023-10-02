@@ -4,13 +4,14 @@
 #include "ExtendedECSBenchmark.h"
 #include "entt/EnttGroupApplication.h"
 #include "entt/entities/EntityFactory.h"
+#include "entt/entities/HeroMonsterEntityFactory.h"
 #include <utility>
 
 namespace ecs::benchmarks::entt {
 
 class EnttPartialOwningGroupBenchmarkSuite final
     : public ecs::benchmarks::base::ExtendedECSBenchmark<"entt (group, partial-owning)", EnttGroupApplication,
-                                                         entities::EntityFactory> {
+                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
 public:
   EnttPartialOwningGroupBenchmarkSuite() = default;
 

@@ -31,6 +31,8 @@ add_library(
   entityx/systems/MovementSystem.cpp
   entityx/entities/EntityFactory.h
   entityx/entities/EntityFactory.cpp
+  entityx/entities/HeroMonsterEntityFactory.h
+  entityx/entities/HeroMonsterEntityFactory.cpp
   entityx/EntityXApplication.h
   entityx/EntityXApplication.cpp)
 add_library(ecs-benchmark::example::entityx ALIAS ecs-benchmark-example-entityx)

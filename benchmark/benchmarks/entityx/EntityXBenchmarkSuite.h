@@ -3,6 +3,7 @@
 
 #include "entityx/EntityXApplication.h"
 #include "entityx/entities/EntityFactory.h"
+#include "entityx/entities/HeroMonsterEntityFactory.h"
 #include <utility>
 
 #include "ECSBenchmark.h"
@@ -15,7 +16,8 @@
 namespace ecs::benchmarks::entityx {
 
 class EntityXBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"entityx", EntityXApplication,
+                                                 entities::EntityFactory, entities::HeroMonsterEntityFactory> {
 public:
   EntityXBenchmarkSuite() = default;
 
