@@ -44,6 +44,13 @@ public:
                   ecs::benchmarks::base::components::VelocityComponent,
                   ecs::benchmarks::base::components::DataComponent>()
           .each(systems::MoreComplexSystem::update);
+      m_world
+          .system<ecs::benchmarks::base::components::HealthComponent>()
+          .each(systems::HealthSystem::update);
+      m_world
+          .system<ecs::benchmarks::base::components::HealthComponent,
+                  const ecs::benchmarks::base::components::DamageComponent>()
+          .each(systems::DamageSystem::update);
     }
   }
 

@@ -24,6 +24,8 @@ add_library(
   flecs/systems/MovementSystem.cpp
   flecs/entities/EntityFactory.h
   flecs/entities/EntityFactory.cpp
+  flecs/entities/HeroMonsterEntityFactory.h
+  flecs/entities/HeroMonsterEntityFactory.cpp
   flecs/FlecsApplication.h
   flecs/FlecsApplication.cpp)
 add_library(ecs-benchmark::example::flecs ALIAS ecs-benchmark-example-flecs)
