@@ -4,6 +4,7 @@
 #include "ExtendedECSBenchmark.h"
 #include "mustache/MustacheApplication.h"
 #include "mustache/entities/EntityFactory.h"
+#include "mustache/entities/HeroMonsterEntityFactory.h"
 #include "mustache/systems/DataSystem.h"
 #include "mustache/systems/MoreComplexSystem.h"
 #include "mustache/systems/MovementSystem.h"
@@ -12,7 +13,8 @@
 namespace ecs::benchmarks::mustache {
 
 class MustacheBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"mustache", MustacheApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"mustache", MustacheApplication,
+                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
 public:
   MustacheBenchmarkSuite() = default;
 
