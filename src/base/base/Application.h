@@ -7,7 +7,9 @@
 
 namespace ecs::benchmarks::base {
 
-template <class tEntityManager, typename tTimeDelta, class MovementSystem, class DataSystem, class MoreComplexSystem>
+template <class tEntityManager, typename tTimeDelta,
+          class MovementSystem, class DataSystem, class MoreComplexSystem,
+          class HealthSystem, class DamageSystem>
 class Application {
 public:
   using EntityManager = tEntityManager;
@@ -44,11 +46,22 @@ public:
     return std::make_unique<MoreComplexSystem>();
   }
 
+  std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
+  createHealthSystem(EntityManager& /*entities*/) {
+    return std::make_unique<HealthSystem>();
+  }
+  std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
+  createDamageSystem(EntityManager& /*entities*/) {
+    return std::make_unique<DamageSystem>();
+  }
+
   virtual void init() {
     m_systems.emplace_back(createMovementSystem(m_entities));
     m_systems.emplace_back(createDataSystem(m_entities));
     if (m_add_more_complex_system) {
       m_systems.emplace_back(createMoreComplexSystem(m_entities));
+      m_systems.emplace_back(createHealthSystem(m_entities));
+      m_systems.emplace_back(createDamageSystem(m_entities));
     }
 
     for (auto& system : m_systems) {

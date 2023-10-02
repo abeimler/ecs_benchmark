@@ -3,13 +3,16 @@ add_library(
   ecs-benchmark-base
   INTERFACE
   ${CMAKE_CURRENT_SOURCE_DIR}/base/components/DataComponent.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/base/components/HeroMonsterComponents.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/components/VelocityComponent.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/components/PositionComponent.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/DataSystem.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/HeroMonsterSystems.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/MoreComplexSystem.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/MovementSystem.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/System.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/Application.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/base/random.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/entities/EntityFactory.h)
 add_library(ecs-benchmark::base ALIAS ecs-benchmark-base)
 

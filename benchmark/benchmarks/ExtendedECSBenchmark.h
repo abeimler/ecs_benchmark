@@ -14,8 +14,10 @@ concept HasForEach = requires(Iterable it, Func func) { it.for_each(func); };
 template <typename Iterable, typename Func>
 concept HasVisit = requires(Iterable it, Func func) { it.visit(func); };
 
-template <StringLiteral Name, class Application, class EntityFactory, bool include_entity_benchmarks = false>
-class ExtendedECSBenchmark : public ECSBenchmark<Name, Application, EntityFactory, include_entity_benchmarks> {
+template <StringLiteral Name, class Application,
+          class EntityFactory, class HeroMonsterEntityFactory,
+          bool include_entity_benchmarks = false>
+class ExtendedECSBenchmark : public ECSBenchmark<Name, Application, EntityFactory, HeroMonsterEntityFactory, include_entity_benchmarks> {
 private:
   inline static constexpr auto default_initializable_entity_manager =
       std::default_initializable<typename EntityFactory::EntityManager>;
@@ -26,7 +28,7 @@ public:
 
   ExtendedECSBenchmark() = default;
   explicit ExtendedECSBenchmark(ESCBenchmarkOptions options)
-      : ECSBenchmark<Name, Application, EntityFactory>(std::move(options)) {}
+      : ECSBenchmark<Name, Application, EntityFactory, HeroMonsterEntityFactory>(std::move(options)) {}
   virtual ~ExtendedECSBenchmark() = default;
   ExtendedECSBenchmark(const ExtendedECSBenchmark&) = default;
   ExtendedECSBenchmark& operator=(const ExtendedECSBenchmark&) = default;

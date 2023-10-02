@@ -11,7 +11,8 @@
 namespace ecs::benchmarks::entt {
 class StableEnttApplication final
     : public ecs::benchmarks::base::Application<::entt::registry, float, systems::StableMovementSystem,
-                                                systems::DataSystem, systems::MoreComplexSystem> {
+                                                systems::DataSystem, systems::MoreComplexSystem,
+                                                systems::HealthSystem, systems::DamageSystem> {
 public:
   StableEnttApplication() = default;
   explicit StableEnttApplication(bool add_more_complex_system) : Application(add_more_complex_system) {}

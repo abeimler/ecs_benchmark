@@ -3,6 +3,7 @@
 
 #include "BaseECSBenchmark.h"
 #include "EntityBenchmark.h"
+#include "base/components/HeroMonsterComponents.h"
 #include "basic.h"
 #include <algorithm>
 #include <benchmark/benchmark.h>
@@ -14,7 +15,9 @@
 
 namespace ecs::benchmarks::base {
 
-template <StringLiteral Name, class Application, class EntityFactory, bool include_entity_benchmarks = false>
+template <StringLiteral Name, class Application,
+          class EntityFactory, class HeroMonsterEntityFactory,
+          bool include_entity_benchmarks = false>
 class ECSBenchmark : protected BaseECSBenchmark<EntityFactory> {
 public:
   using EntityManager = typename EntityFactory::EntityManager;
@@ -65,7 +68,22 @@ public:
     const auto nentities = static_cast<size_t>(state.range(0));
     std::vector<Entity> entities;
     Application app(m_options.add_more_complex_system);
-    const ComponentsCounter components_counter = this->initApplicationWithEntities(app, nentities, entities);
+    ComponentsCounter components_counter = this->initApplicationWithEntities(app, nentities, entities);
+    for (auto entity : entities) {
+      using namespace ecs::benchmarks::base::components;
+      m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
+      const auto type = m_hero_monster_entities_factory.initComponents(app.getEntities(), entity);
+      switch(type) {
+        case PlayerType::Hero:
+          components_counter.hero_count++;
+          break;
+        case PlayerType::Monster:
+          components_counter.monster_count++;
+          break;
+        case PlayerType::NPC:
+          break;
+      }
+    }
     for (auto _ : state) {
       app.update(fakeTimeDelta);
     }
@@ -78,8 +96,39 @@ public:
     const auto nentities = static_cast<size_t>(state.range(0));
     std::vector<Entity> entities;
     Application app(m_options.add_more_complex_system);
-    const ComponentsCounter components_counter =
+    ComponentsCounter components_counter =
         this->template initApplicationWithMixedComponents<EntityFactory>(app, nentities, entities);
+    for (size_t i = 0, j = 0; i < entities.size(); i++) {
+      auto entity = entities[i];
+      if (nentities >= 100 || i >= nentities / 8) {
+        if (nentities >= 100 || (j % 2) == 0U) {
+          using namespace ecs::benchmarks::base::components;
+          if ((i % 6) == 0U) {
+            m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
+            const auto type = m_hero_monster_entities_factory.initComponents(app.getEntities(), entity);
+            switch(type) {
+              case PlayerType::Hero:
+                components_counter.hero_count++;
+                break;
+              case PlayerType::Monster:
+                components_counter.monster_count++;
+                break;
+              case PlayerType::NPC:
+                break;
+            }
+          } else if ((i % 4) == 0U) {
+            m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
+            m_hero_monster_entities_factory.initComponents(app.getEntities(), entity, PlayerType::Hero);
+            components_counter.hero_count++;
+          } else if ((i % 2) == 0U) {
+            m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
+            m_hero_monster_entities_factory.initComponents(app.getEntities(), entity, PlayerType::Monster);
+            components_counter.monster_count++;
+          }
+        }
+        j++;
+      }
+    }
     for (auto _ : state) {
       app.update(fakeTimeDelta);
     }
@@ -424,6 +473,7 @@ protected:
   inline static constexpr auto m_name{Name.value};
   const ESCBenchmarkOptions m_options;
   EntityFactory m_entities_factory;
+  HeroMonsterEntityFactory m_hero_monster_entities_factory;
 };
 } // namespace ecs::benchmarks::base
 
