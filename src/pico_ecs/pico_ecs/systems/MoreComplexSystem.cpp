@@ -2,13 +2,14 @@
 #include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include <cassert>
 #include <bit>
+#include <cassert>
 #include <span>
 
 namespace ecs::benchmarks::pico_ecs::systems {
 
-auto MoreComplexSystem::updateMoreComplex(ecs_t* ecs, std::span<ecs_id_t> entities, ecs_dt_t dt, void* udata) -> ecs_ret_t {
+auto MoreComplexSystem::updateMoreComplex(ecs_t* ecs, std::span<ecs_id_t> entities, ecs_dt_t dt, void* udata)
+    -> ecs_ret_t {
   (void)ecs;
   (void)dt;
   details::MoreComplexSystemContext& context = *std::bit_cast<details::MoreComplexSystemContext*>(udata);

@@ -6,9 +6,9 @@
 #include "base/Application.h"
 
 #include "systems/DataSystem.h"
-#include "systems/MoreComplexSystem.h"
 #include "systems/GroupMoreComplexSystem.h"
 #include "systems/GroupMovementSystem.h"
+#include "systems/MoreComplexSystem.h"
 
 namespace ecs::benchmarks::entt {
 class EnttGroupApplication final

@@ -7,7 +7,8 @@
 
 namespace ecs::benchmarks::base::entities {
 
-template <class tEntityManager, typename tEntity, class tPlayerComponent, class tHealthComponent, class tDamageComponent>
+template <class tEntityManager, typename tEntity, class tPlayerComponent, class tHealthComponent,
+          class tDamageComponent>
 class HeroMonsterEntityFactory {
 public:
   using EntityManager = tEntityManager;
@@ -55,9 +56,11 @@ public:
 
     player.type = opt_player_type.value_or([&player]() {
       const auto player_type_rate = player.rng.range(1, 100);
-      return (player_type_rate <= 3)? PlayerType::NPC : (player_type_rate <= 30) ? PlayerType::Hero : PlayerType::Monster;
+      return (player_type_rate <= 3)    ? PlayerType::NPC
+             : (player_type_rate <= 30) ? PlayerType::Hero
+                                        : PlayerType::Monster;
     }());
-    switch(player.type) {
+    switch (player.type) {
       case PlayerType::Hero:
         health.maxhp = gsl::narrow_cast<int>(player.rng.range(5, 15));
         damage.def = gsl::narrow_cast<int>(player.rng.range(2, 6));

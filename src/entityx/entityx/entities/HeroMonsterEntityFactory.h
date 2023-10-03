@@ -7,13 +7,13 @@
 
 namespace ecs::benchmarks::entityx::entities {
 
-class HeroMonsterEntityFactory final : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<::entityx::EntityManager, ::entityx::Entity,
-                                                                                                  ecs::benchmarks::base::components::PlayerComponent,
-                                                                                                  ecs::benchmarks::base::components::HealthComponent,
-                                                                                                  ecs::benchmarks::base::components::DamageComponent> {
+class HeroMonsterEntityFactory final
+    : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
+          ::entityx::EntityManager, ::entityx::Entity, ecs::benchmarks::base::components::PlayerComponent,
+          ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
 public:
-  //using EntityManager = ::entityx::registry;
-  //using Entity = ::entityx::Entity;
+  // using EntityManager = ::entityx::registry;
+  // using Entity = ::entityx::Entity;
 
   Entity createRandom(EntityManager& registry) override;
   Entity createHero(EntityManager& registry) override;
@@ -21,22 +21,22 @@ public:
 
   void addComponents(EntityManager& registry, Entity entity) override;
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent&
-  getPlayerComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return *entities.component<ecs::benchmarks::base::components::PlayerComponent>(entity.id());
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::HealthComponent&
-  getHealthComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::HealthComponent& getHealthComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return *entities.component<ecs::benchmarks::base::components::HealthComponent>(entity.id());
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent&
-  getDamageComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent& getDamageComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return *entities.component<ecs::benchmarks::base::components::DamageComponent>(entity.id());
   }
 };
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::entityx::entities
 
 #endif

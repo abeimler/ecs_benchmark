@@ -1,8 +1,8 @@
 #ifndef ECS_BENCHMARKS_MUSTACHE_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_MUSTACHE_MORECOMPLEXSYSTEM_H_
 
-#include "base/systems/MoreComplexSystem.h"
 #include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/MoreComplexSystem.h"
 /// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
 #include <cstdint>
 #include <mustache/ecs/ecs.hpp>
@@ -21,7 +21,7 @@ public:
 
 
 class HealthSystem final : public ::mustache::System<HealthSystem>,
-                                ecs::benchmarks::base::systems::HealthSystem<::mustache::World, float> {
+                           ecs::benchmarks::base::systems::HealthSystem<::mustache::World, float> {
 public:
   using Entity = ::mustache::Entity;
 
@@ -31,7 +31,7 @@ public:
 };
 
 class DamageSystem final : public ::mustache::System<DamageSystem>,
-                                ecs::benchmarks::base::systems::DamageSystem<::mustache::World, float> {
+                           ecs::benchmarks::base::systems::DamageSystem<::mustache::World, float> {
 public:
   using Entity = ::mustache::Entity;
 

@@ -3,8 +3,8 @@
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
 #include <bit>
-#include <span>
 #include <cassert>
+#include <span>
 
 namespace ecs::benchmarks::pico_ecs::systems {
 

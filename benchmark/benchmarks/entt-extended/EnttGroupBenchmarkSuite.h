@@ -10,8 +10,8 @@
 namespace ecs::benchmarks::entt {
 
 class EnttGroupBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"entt (group)", EnttGroupApplication,
-                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"entt (group)", EnttGroupApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   EnttGroupBenchmarkSuite() = default;
 

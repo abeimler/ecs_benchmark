@@ -34,4 +34,4 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& entities, Entity ent
   entities.assign<ecs::benchmarks::base::components::DamageComponent>(entity);
 }
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::mustache::entities

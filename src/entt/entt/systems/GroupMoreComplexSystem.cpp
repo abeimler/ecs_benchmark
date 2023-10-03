@@ -15,16 +15,15 @@ void GroupMoreComplexSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
 }
 
 void GroupHealthSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
-  registry
-      .group<ecs::benchmarks::base::components::HealthComponent>()
-      .each([this](auto& health) {
-        updateHealth(health);
-      });
+  registry.group<ecs::benchmarks::base::components::HealthComponent>().each([this](auto& health) {
+    updateHealth(health);
+  });
 }
 
 void GroupDamageSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
   registry
-      .group<const ecs::benchmarks::base::components::DamageComponent>(::entt::get<ecs::benchmarks::base::components::HealthComponent>)
+      .group<const ecs::benchmarks::base::components::DamageComponent>(
+          ::entt::get<ecs::benchmarks::base::components::HealthComponent>)
       .each([this](const auto& damage, auto& health) {
         updateDamage(health, damage);
       });

@@ -1,8 +1,8 @@
 #ifndef ECS_BENCHMARKS_PICO_ECS_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_PICO_ECS_MORECOMPLEXSYSTEM_H_
 
-#include "base/systems/MoreComplexSystem.h"
 #include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/MoreComplexSystem.h"
 #include "pico_ecs/entities/EntityFactory.h"
 #include <pico_ecs.h>
 #include <span>
@@ -36,7 +36,7 @@ private:
 
 class HealthSystem final
     : public ecs::benchmarks::base::systems::HealthSystem<ecs::benchmarks::pico_ecs::entities::details::EntityManager,
-                                                            ecs_dt_t> {
+                                                          ecs_dt_t> {
 public:
   void init(EntityManager& /*registry*/) override;
   void update(EntityManager& registry, TimeDelta dt) override;

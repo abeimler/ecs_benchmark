@@ -14,7 +14,8 @@
 namespace ecs::benchmarks::entt {
 
 class EnttBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"entt", EnttApplication, entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"entt", EnttApplication, entities::EntityFactory,
+                                                 entities::HeroMonsterEntityFactory> {
 public:
   EnttBenchmarkSuite() = default;
 

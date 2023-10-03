@@ -13,8 +13,8 @@
 namespace ecs::benchmarks::openecs {
 
 class OpenECSBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"openecs", OpenECSApplication,
-                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"openecs", OpenECSApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   OpenECSBenchmarkSuite() = default;
 

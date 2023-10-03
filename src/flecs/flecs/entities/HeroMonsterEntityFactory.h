@@ -7,10 +7,10 @@
 
 namespace ecs::benchmarks::flecs::entities {
 
-class HeroMonsterEntityFactory final : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<::flecs::world, ::flecs::entity,
-                                                                                                  ecs::benchmarks::base::components::PlayerComponent,
-                                                                                                  ecs::benchmarks::base::components::HealthComponent,
-                                                                                                  ecs::benchmarks::base::components::DamageComponent> {
+class HeroMonsterEntityFactory final
+    : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
+          ::flecs::world, ::flecs::entity, ecs::benchmarks::base::components::PlayerComponent,
+          ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
 public:
   Entity createRandom(EntityManager& registry) override;
   Entity createHero(EntityManager& registry) override;
@@ -34,6 +34,6 @@ public:
   }
 };
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::flecs::entities
 
 #endif

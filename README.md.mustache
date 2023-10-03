@@ -4,9 +4,11 @@
 ![License](https://img.shields.io/github/license/abeimler/ecs_benchmark)
 ![Standard](https://img.shields.io/badge/c%2B%2B-20-blue)
 
-This repository contains a collection of benchmarks for popular Entity-Component-System (ECS) frameworks. The benchmarks cover different aspects of ECS frameworks, such as update systems, component additions/removals, and entity creation/destruction.
-Each benchmark is performed on three simple components and three small systems, which can be scaled to hundreds of components and systems in a real-world scenario. The results of the benchmarks are displayed in tables and charts, allowing you to compare the performance of different ECS frameworks in different areas.
-It's important to note that different ECS frameworks have different strengths and weaknesses. For example, some frameworks might excel in adding/removing components, while others might be better at creating/destroying entities. Therefore, it's crucial to choose an ECS framework based on your specific requirements.
+This repository contains a collection of benchmarks for popular Entity-Component-System (ECS) frameworks.
+The benchmarks cover different aspects of ECS frameworks, such as update systems, component additions/removals, and entity creation/destruction.
+It's important to note that different ECS frameworks have different strengths and weaknesses.
+For example, some frameworks might excel in adding/removing components, while others might be better at creating/destroying entities.
+Therefore, it's crucial to choose an ECS framework based on your specific requirements.
 
 ECS (Entity-Component-System) Frameworks:
 
@@ -20,23 +22,24 @@ ECS (Entity-Component-System) Frameworks:
 ## TL;DR Results
 
 The benchmark results are displayed in tables and charts,
-allowing you to quickly compare the performance of different ECS frameworks in different scenarios. The tables include the time in nanoseconds it takes to perform the benchmark on different numbers of entities,
-while the charts provide a visual representation of the results.
+allowing you to quickly compare the performance of different ECS frameworks in different scenarios.
 When using ECS frameworks, it's important to benchmark your specific use case and compare the results.
 Therefore, the results of these benchmarks should be used as a starting point for your own benchmarking efforts.
 
-### Update systems (for-each entities (with mixed components) in 3 systems)
+
+### Update systems (for-each entities (with mixed components) in 5 systems)
 
 {{{ComplexSystemsUpdateMixedEntities}}}
 
 
-While this benchmark only includes three simple components and three small systems,
+While this benchmark only includes up to 5 simple components and 5 small systems,
 it's important to note that Entity-Component-Systems can become much more complex in the wild,
 with hundreds of components and systems.
 Therefore, it's crucial to always benchmark your specific cases and systems when necessary and compare results.
-Different ECS frameworks excel in different areas, such as faster adding/removing of components or creating/destroying entities.
-Therefore, it's essential to choose an ECS framework based on its features.
-For example, EnTT offers [resource management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) and [event handling](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between), while flecs provides useful [add-ons](https://github.com/SanderMertens/flecs#addons), and EntityX includes a built-in [world/system manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
+Choose an ECS framework based on its features,
+for example, EnTT offers [resource management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) and [event handling](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between),
+while flecs provides useful [add-ons](https://github.com/SanderMertens/flecs#addons),
+and EntityX includes a built-in [world/system manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
 
 To evaluate a framework, look at its examples and API design, and pick the one that suits your needs the best.
 
@@ -52,15 +55,19 @@ Each framework has its own sub-project in the [`src/`](src) directory and must i
 
 #### Components
 
-1. `PositionComponent` with `x` and `y` coord.
-2. `VelocityComponent` with `x` and `y` for movement.
-3. `DataComponent` with some nonsense data.
+1. `PositionComponent`: includes `x` and `y` coordinates.
+2. `VelocityComponent`: includes `x` and `y` coordinates for movement.
+3. `DataComponent`: includes some arbitrary data.
+4. `HealthComponent`: Hero/Monster data includes HP/MaxHP and status.
+5. `DamageComponent`: Hero/Monster data includes damage.
 
 #### Systems
 
-1. `MovementSystem`: updates `PositionComponent` with (const) `VelocityComponent`
-2. `DataSystem`: updates `DataComponent` with nonsense
-3. `MoreComplexSystem`: updates Components with random data and nonsense
+1. `MovementSystem`: updates the `PositionComponent` with a constant `VelocityComponent`.
+2. `DataSystem`: updates the `DataComponent` with arbitrary data.
+3. `MoreComplexSystem`: updates components with random data and arbitrary information.
+4. `HealthSystem`: update Hero/Monster health (update HP and status).
+5. `DamageSystem`: update Hero/Monster health by taking damage.
 
 
 ## Additional Benchmarks
@@ -162,7 +169,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 * Not every entity has all three components, some got removed
 
 
-### Update systems (for-each entities in 3 systems)
+### Update systems (for-each entities in 5 systems)
 
 {{{ComplexSystemsUpdate}}}
 
@@ -172,6 +179,8 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
     1. `MovementSystem`
     2. `DataSystem`
     3. `MoreComplexSystem`
+    4. `HealthSystem`
+    5. `DamageSystem`
 * \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
 * \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
 * \*** EnTT iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
@@ -183,7 +192,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 
 
 
-### Update systems (for-each entities (with mixed components) in 3 systems)
+### Update systems (for-each entities (with mixed components) in 5 systems)
 
 {{{ComplexSystemsUpdateMixedEntities}}}
 
@@ -193,6 +202,8 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
     1. `MovementSystem`
     2. `DataSystem`
     3. `MoreComplexSystem`
+    4. `HealthSystem`
+    5. `DamageSystem`
 * Not every entity has all three components, some got removed
 * \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
 * \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)

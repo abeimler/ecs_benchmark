@@ -2,9 +2,9 @@
 #define ECS_BENCHMARKS_PICO_ECS_ENTITYFACTORY_H_
 
 #include "base/components/DataComponent.h"
+#include "base/components/HeroMonsterComponents.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include "base/components/HeroMonsterComponents.h"
 #include "base/entities/EntityFactory.h"
 #include <bit>
 #include <memory>
@@ -51,12 +51,12 @@ private:
     DataComponent =
         ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DataComponent), nullptr, nullptr);
 
-    PlayerComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PlayerComponent),
-                                               nullptr, nullptr);
-    HealthComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::HealthComponent),
-                                               nullptr, nullptr);
-    DamageComponent = ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DamageComponent),
-                                               nullptr, nullptr);
+    PlayerComponent =
+        ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::PlayerComponent), nullptr, nullptr);
+    HealthComponent =
+        ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::HealthComponent), nullptr, nullptr);
+    DamageComponent =
+        ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DamageComponent), nullptr, nullptr);
   }
 };
 } // namespace details

@@ -1,8 +1,8 @@
 #ifndef ECS_BENCHMARKS_ENTITYX_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_ENTITYX_MORECOMPLEXSYSTEM_H_
 
-#include "base/systems/MoreComplexSystem.h"
 #include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/MoreComplexSystem.h"
 #include <entityx/entityx.h>
 
 namespace ecs::benchmarks::entityx::systems {

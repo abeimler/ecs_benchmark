@@ -13,8 +13,8 @@
 namespace ecs::benchmarks::ginseng {
 
 class GinsengBenchmark final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"ginseng", GinsengApplication,
-                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"ginseng", GinsengApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   GinsengBenchmark() = default;
 

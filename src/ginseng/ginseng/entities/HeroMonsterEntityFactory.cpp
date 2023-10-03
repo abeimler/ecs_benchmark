@@ -37,4 +37,4 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& registry, Entity ent
   registry.add_component(entity, ecs::benchmarks::base::components::DamageComponent{});
 }
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::ginseng::entities

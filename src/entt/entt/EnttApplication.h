@@ -10,8 +10,8 @@
 namespace ecs::benchmarks::entt {
 class EnttApplication final
     : public ecs::benchmarks::base::Application<::entt::registry, float, systems::MovementSystem, systems::DataSystem,
-                                                systems::MoreComplexSystem,
-                                                systems::HealthSystem, systems::DamageSystem> {
+                                                systems::MoreComplexSystem, systems::HealthSystem,
+                                                systems::DamageSystem> {
 public:
   EnttApplication() = default;
 

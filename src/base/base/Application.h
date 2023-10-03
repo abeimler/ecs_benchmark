@@ -7,8 +7,7 @@
 
 namespace ecs::benchmarks::base {
 
-template <class tEntityManager, typename tTimeDelta,
-          class MovementSystem, class DataSystem, class MoreComplexSystem,
+template <class tEntityManager, typename tTimeDelta, class MovementSystem, class DataSystem, class MoreComplexSystem,
           class HealthSystem, class DamageSystem>
 class Application {
 public:

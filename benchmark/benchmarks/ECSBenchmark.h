@@ -15,9 +15,10 @@
 
 namespace ecs::benchmarks::base {
 
-template <StringLiteral Name, class Application,
-          class EntityFactory, class HeroMonsterEntityFactory,
-          bool include_entity_benchmarks = false>
+enum class ECSBenchmarkIncludeEntityBenchmarks : bool { No = false, Yes = true };
+
+template <StringLiteral Name, class Application, class EntityFactory, class HeroMonsterEntityFactory,
+          ECSBenchmarkIncludeEntityBenchmarks include_entity_benchmarks = ECSBenchmarkIncludeEntityBenchmarks::No>
 class ECSBenchmark : protected BaseECSBenchmark<EntityFactory> {
 public:
   using EntityManager = typename EntityFactory::EntityManager;
@@ -73,7 +74,7 @@ public:
       using namespace ecs::benchmarks::base::components;
       m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
       const auto type = m_hero_monster_entities_factory.initComponents(app.getEntities(), entity);
-      switch(type) {
+      switch (type) {
         case PlayerType::Hero:
           components_counter.hero_count++;
           break;
@@ -106,7 +107,7 @@ public:
           if ((i % 6) == 0U) {
             m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
             const auto type = m_hero_monster_entities_factory.initComponents(app.getEntities(), entity);
-            switch(type) {
+            switch (type) {
               case PlayerType::Hero:
                 components_counter.hero_count++;
                 break;
@@ -139,7 +140,7 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes)
   void BM_CreateNoEntities(benchmark::State& state) {
     const auto nentities = 0;
     for (auto _ : state) {
@@ -156,7 +157,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes)
   void BM_CreateEmptyEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -173,7 +174,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasBulkFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes && HasBulkFeature<tEntityFactory>)
   void BM_CreateEmptyEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -190,7 +191,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes)
   void BM_CreateEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -207,7 +208,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasBulkFeatureWithOutput<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasBulkFeatureWithOutput<tEntityFactory>)
   void BM_CreateEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -225,7 +227,7 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasDestroyFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes && HasDestroyFeature<tEntityFactory>)
   void BM_DestroyEntities(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -251,7 +253,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasBulkDestroyFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasBulkDestroyFeature<tEntityFactory>)
   void BM_DestroyEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {
@@ -270,7 +273,8 @@ public:
 
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasGetComponentsFeature<tEntityFactory>)
   void BM_UnpackNoComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -288,7 +292,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasGetComponentsFeature<tEntityFactory>)
   void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
     const auto nentities = 0;
     Application app(m_options.add_more_complex_system);
@@ -306,7 +311,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasGetComponentsFeature<tEntityFactory>)
   void BM_UnpackOneComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -324,8 +330,8 @@ public:
   }
 
   //  template <class tEntityFactory = EntityFactory>
-  //  requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
-  //  void BM_UnpackOneConstComponent(benchmark::State& state) {
+  //  requires (include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+  //  HasGetComponentsFeature<tEntityFactory>) void BM_UnpackOneConstComponent(benchmark::State& state) {
   //    const auto nentities = static_cast<size_t>(state.range(0));
   //    Application app(m_options.add_more_complex_system);
   //    EntityManager& registry = app.getEntities();
@@ -342,7 +348,8 @@ public:
   //  }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasGetComponentsFeature<tEntityFactory>)
   void BM_UnpackTwoComponents(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -361,7 +368,8 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks && HasGetComponentsFeature<tEntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
+             HasGetComponentsFeature<tEntityFactory>)
   void BM_UnpackThreeComponents(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -380,7 +388,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires include_entity_benchmarks
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes)
   void BM_RemoveAddComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);

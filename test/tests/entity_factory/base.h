@@ -107,7 +107,7 @@ struct HeroMonsterEntityFactory_Fixture {
 
         THEN("got player component") {
           ((void)player);
-          //REQUIRE(player);
+          // REQUIRE(player);
         }
       }
     }

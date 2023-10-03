@@ -13,8 +13,8 @@
 namespace ecs::benchmarks::mustache {
 
 class MustacheBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"mustache", MustacheApplication,
-                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"mustache", MustacheApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   MustacheBenchmarkSuite() = default;
 

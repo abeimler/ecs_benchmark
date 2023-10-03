@@ -8,8 +8,8 @@
 namespace ecs::benchmarks::openecs::entities {
 
 struct PlayerEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PlayerComponent,
-                                                    ecs::benchmarks::base::components::HealthComponent,
-                                                    ecs::benchmarks::base::components::DamageComponent> {
+                                                      ecs::benchmarks::base::components::HealthComponent,
+                                                      ecs::benchmarks::base::components::DamageComponent> {
   PlayerEntity() {
     add<ecs::benchmarks::base::components::PlayerComponent>();
     add<ecs::benchmarks::base::components::HealthComponent>();
@@ -26,8 +26,8 @@ struct HeroEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::compo
   }
 };
 struct MonsterEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::components::PlayerComponent,
-                                                    ecs::benchmarks::base::components::HealthComponent,
-                                                    ecs::benchmarks::base::components::DamageComponent> {
+                                                       ecs::benchmarks::base::components::HealthComponent,
+                                                       ecs::benchmarks::base::components::DamageComponent> {
   MonsterEntity() {
     add<ecs::benchmarks::base::components::PlayerComponent>();
     add<ecs::benchmarks::base::components::HealthComponent>();
@@ -35,10 +35,10 @@ struct MonsterEntity final : public ::ecs::EntityAlias<ecs::benchmarks::base::co
   }
 };
 
-class HeroMonsterEntityFactory final : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<::ecs::EntityManager, ::ecs::Entity,
-                                                                                                  ecs::benchmarks::base::components::PlayerComponent,
-                                                                                                  ecs::benchmarks::base::components::HealthComponent,
-                                                                                                  ecs::benchmarks::base::components::DamageComponent> {
+class HeroMonsterEntityFactory final
+    : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
+          ::ecs::EntityManager, ::ecs::Entity, ecs::benchmarks::base::components::PlayerComponent,
+          ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
 public:
   Entity createRandom(EntityManager& entities) override;
   Entity createHero(EntityManager& entities) override;
@@ -62,6 +62,6 @@ public:
   }
 };
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::openecs::entities
 
 #endif

@@ -37,7 +37,8 @@ TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::EntityFactory_Fixture, "Test EntityFa
 }
 
 TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::HeroMonsterEntityFactory_Fixture, "Test HeroMonsterEntityFactory for entt",
-                          "[template][entt][entity_factory][hero][monster]", ecs::benchmarks::entt::entities::HeroMonsterEntityFactory) {
+                          "[template][entt][entity_factory][hero][monster]",
+                          ecs::benchmarks::entt::entities::HeroMonsterEntityFactory) {
   GIVEN("HeroMonsterEntityFactory") {
     ecs::benchmarks::HeroMonsterEntityFactory_Fixture<TestType> entity_factory_fixture;
     // auto& entity_factory = entity_factory_fixture.m_entity_factory;

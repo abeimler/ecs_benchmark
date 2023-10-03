@@ -10,8 +10,8 @@
 namespace ecs::benchmarks::ginseng {
 class GinsengApplication final
     : public ecs::benchmarks::base::Application<::ginseng::database, float, systems::MovementSystem,
-                                                systems::DataSystem, systems::MoreComplexSystem,
-                                                systems::HealthSystem, systems::DamageSystem> {
+                                                systems::DataSystem, systems::MoreComplexSystem, systems::HealthSystem,
+                                                systems::DamageSystem> {
 public:
   GinsengApplication() = default;
 

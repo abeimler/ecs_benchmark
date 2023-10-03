@@ -29,11 +29,11 @@ SOFTWARE.
 #ifndef ECS_BENCHMARKS_BASE_RANDOM_H_
 #define ECS_BENCHMARKS_BASE_RANDOM_H_
 
+#include <array>
 #include <bit>
 #include <cmath>
 #include <cstdint>
 #include <limits>
-#include <array>
 
 namespace ecs::benchmarks::base {
 
@@ -76,7 +76,7 @@ public:
     state[3] = seed + 11;
   }
 
-  constexpr explicit random_xoshiro128(const std::array<uint32_t, 4>& s) : state(s) { }
+  constexpr explicit random_xoshiro128(const std::array<uint32_t, 4>& s) : state(s) {}
 
   //***************************************************************************
   /// Get the next random_xoshiro128 number.
@@ -199,6 +199,6 @@ private:
   */
 };
 
-}
+} // namespace ecs::benchmarks::base
 
 #endif

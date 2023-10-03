@@ -5,7 +5,8 @@ namespace ecs::benchmarks::openecs::entities {
 
 HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createRandom(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
-  auto ret = entities.create<PlayerEntity>();;
+  auto ret = entities.create<PlayerEntity>();
+  ;
   initComponents(entities, ret);
   return ret;
 }
@@ -28,4 +29,4 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& /*entities*/, Entity
   entity.add<ecs::benchmarks::base::components::DamageComponent>();
 }
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::openecs::entities

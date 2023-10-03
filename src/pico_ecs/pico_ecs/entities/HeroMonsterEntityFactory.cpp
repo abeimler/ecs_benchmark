@@ -37,4 +37,4 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& registry, Entity ent
   ecs_add(registry.ecs.get(), entity, registry.DamageComponent, nullptr);
 }
 
-} // namespace ecs::benchmarks::entt::entities
+} // namespace ecs::benchmarks::pico_ecs::entities

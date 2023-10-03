@@ -19,8 +19,8 @@
 namespace ecs::benchmarks::entityx {
 
 class EntityXBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"entityx", EntityXApplication,
-                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   EntityXBenchmarkSuite() = default;
 

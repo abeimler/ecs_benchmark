@@ -1,8 +1,8 @@
 #ifndef ECS_BENCHMARKS_GINSENG_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_GINSENG_MORECOMPLEXSYSTEM_H_
 
-#include "base/systems/MoreComplexSystem.h"
 #include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/MoreComplexSystem.h"
 #include <ginseng/ginseng.hpp>
 
 namespace ecs::benchmarks::ginseng::systems {

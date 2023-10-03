@@ -13,8 +13,8 @@
 namespace ecs::benchmarks::pico_ecs {
 
 class PicoEcsBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"pico_ecs", PicoEcsApplication,
-                                                 entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"pico_ecs", PicoEcsApplication, entities::EntityFactory,
+                                                 entities::HeroMonsterEntityFactory> {
 public:
   PicoEcsBenchmarkSuite() = default;
 

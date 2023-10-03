@@ -13,8 +13,8 @@
 namespace ecs::benchmarks::flecs {
 
 class FlecsBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"flecs", FlecsApplication,
-                                                         entities::EntityFactory, entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"flecs", FlecsApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   FlecsBenchmarkSuite() = default;
 

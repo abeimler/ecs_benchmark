@@ -24,19 +24,23 @@ public:
   static void clear(EntityManager& registry);
 
 
-  [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent& getComponentOneConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
+  getComponentOneConst(EntityManager& entities, Entity entity) {
     return *entities.component<const ecs::benchmarks::base::components::PositionComponent>(entity.id());
   }
 
-  [[nodiscard]] static inline const ecs::benchmarks::base::components::VelocityComponent& getComponentTwoConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline const ecs::benchmarks::base::components::VelocityComponent&
+  getComponentTwoConst(EntityManager& entities, Entity entity) {
     return *entities.component<const ecs::benchmarks::base::components::VelocityComponent>(entity.id());
   }
 
-  [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent& getComponentOne(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent&
+  getComponentOne(EntityManager& entities, Entity entity) {
     return *entities.component<ecs::benchmarks::base::components::PositionComponent>(entity.id());
   }
 
-  [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent& getComponentTwo(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent&
+  getComponentTwo(EntityManager& entities, Entity entity) {
     return *entities.component<ecs::benchmarks::base::components::VelocityComponent>(entity.id());
   }
 
