@@ -53,6 +53,8 @@ protected:
     state.counters["components_one"] = static_cast<double>(components_counter.component_one_count);
     state.counters["components_two"] = static_cast<double>(components_counter.component_two_count);
     state.counters["components_three"] = static_cast<double>(components_counter.component_three_count);
+    state.counters["hero_count"] = static_cast<double>(components_counter.hero_count);
+    state.counters["monster_count"] = static_cast<double>(components_counter.monster_count);
   }
 
 

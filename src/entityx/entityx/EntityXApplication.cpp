@@ -18,6 +18,8 @@ void EntityXApplication::update(TimeDelta dt) {
   systems.update<systems::DataSystem>(dt);
   if (m_add_more_complex_system) {
     systems.update<systems::MoreComplexSystem>(dt);
+    systems.update<systems::HealthSystem>(dt);
+    systems.update<systems::DamageSystem>(dt);
   }
 }
 } // namespace ecs::benchmarks::entityx

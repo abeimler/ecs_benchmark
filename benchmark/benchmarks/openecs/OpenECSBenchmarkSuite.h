@@ -4,6 +4,7 @@
 #include "ECSBenchmark.h"
 #include "openecs/OpenECSApplication.h"
 #include "openecs/entities/EntityFactory.h"
+#include "openecs/entities/HeroMonsterEntityFactory.h"
 #include "openecs/systems/DataSystem.h"
 #include "openecs/systems/MoreComplexSystem.h"
 #include "openecs/systems/MovementSystem.h"
@@ -12,7 +13,8 @@
 namespace ecs::benchmarks::openecs {
 
 class OpenECSBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"openecs", OpenECSApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"openecs", OpenECSApplication, entities::EntityFactory,
+                                                 entities::HeroMonsterEntityFactory> {
 public:
   OpenECSBenchmarkSuite() = default;
 

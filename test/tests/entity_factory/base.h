@@ -81,6 +81,39 @@ struct EntityFactory_Fixture {
   }
 };
 
+template <class EntityFactory>
+struct HeroMonsterEntityFactory_Fixture {
+  using EntityManager = EntityFactory::EntityManager;
+  using Entity = EntityFactory::Entity;
+
+  EntityFactory m_entity_factory;
+
+  void testCreateEntity(EntityManager& registry) {
+    auto entity = m_entity_factory.createRandom(registry);
+
+    THEN("valid entity") {
+      REQUIRE(registry.valid(entity));
+    }
+  }
+
+
+  void testGetPlayerComponent(EntityManager& registry) {
+    GIVEN("one entity") {
+      auto entity = m_entity_factory.createRandom(registry);
+      REQUIRE(registry.valid(entity));
+
+      WHEN("get player component") {
+        const auto& player = m_entity_factory.getPlayerComponent(registry, entity);
+
+        THEN("got player component") {
+          ((void)player);
+          // REQUIRE(player);
+        }
+      }
+    }
+  }
+};
+
 } // namespace ecs::benchmarks
 
 #endif // ECS_BENCHMARK_TESTS_ENTITY_FACTORY_BASE_H

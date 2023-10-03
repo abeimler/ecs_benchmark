@@ -4,6 +4,7 @@
 #include "ExtendedECSBenchmark.h"
 #include "ginseng/GinsengApplication.h"
 #include "ginseng/entities/EntityFactory.h"
+#include "ginseng/entities/HeroMonsterEntityFactory.h"
 #include "ginseng/systems/DataSystem.h"
 #include "ginseng/systems/MoreComplexSystem.h"
 #include "ginseng/systems/MovementSystem.h"
@@ -12,7 +13,8 @@
 namespace ecs::benchmarks::ginseng {
 
 class GinsengBenchmark final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"ginseng", GinsengApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"ginseng", GinsengApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   GinsengBenchmark() = default;
 

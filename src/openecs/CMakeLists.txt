@@ -17,6 +17,8 @@ add_library(
   openecs/systems/MovementSystem.cpp
   openecs/entities/EntityFactory.h
   openecs/entities/EntityFactory.cpp
+  openecs/entities/HeroMonsterEntityFactory.h
+  openecs/entities/HeroMonsterEntityFactory.cpp
   openecs/OpenECSApplication.h
   openecs/OpenECSApplication.cpp)
 add_library(ecs-benchmark::example::openecs ALIAS ecs-benchmark-example-openecs)

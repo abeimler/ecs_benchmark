@@ -28,6 +28,8 @@ add_library(
   mustache/systems/MovementSystem.cpp
   mustache/entities/EntityFactory.h
   mustache/entities/EntityFactory.cpp
+  mustache/entities/HeroMonsterEntityFactory.h
+  mustache/entities/HeroMonsterEntityFactory.cpp
   mustache/MustacheApplication.h
   mustache/MustacheApplication.cpp)
 add_library(ecs-benchmark::example::mustache ALIAS ecs-benchmark-example-mustache)

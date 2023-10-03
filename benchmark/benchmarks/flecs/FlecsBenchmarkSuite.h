@@ -4,6 +4,7 @@
 #include "ECSBenchmark.h"
 #include "flecs/FlecsApplication.h"
 #include "flecs/entities/EntityFactory.h"
+#include "flecs/entities/HeroMonsterEntityFactory.h"
 #include "flecs/systems/DataSystem.h"
 #include "flecs/systems/MoreComplexSystem.h"
 #include "flecs/systems/MovementSystem.h"
@@ -13,7 +14,8 @@
 namespace ecs::benchmarks::flecs {
 
 class FlecsBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"flecs", FlecsApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"flecs", FlecsApplication, entities::EntityFactory,
+                                                 entities::HeroMonsterEntityFactory> {
 public:
   FlecsBenchmarkSuite() = default;
 

@@ -3,6 +3,7 @@
 
 #include "flecs/custom_flecs.h"
 
+#include "base/systems/HeroMonsterSystems.h"
 #include "base/systems/MoreComplexSystem.h"
 
 namespace ecs::benchmarks::flecs::systems {
@@ -36,6 +37,48 @@ public:
 private:
   static std::random_device m_rd;
   static std::mt19937 m_eng;
+};
+
+
+class HealthSystem {
+public:
+  using TimeDelta = float;
+  using Entity = ::flecs::entity;
+
+  inline static const auto update = [](::flecs::iter& /*it*/, size_t /*index*/,
+                                       ecs::benchmarks::base::components::HealthComponent& health) {
+    using namespace ecs::benchmarks::base::components;
+    if (health.hp <= 0) {
+      health.hp = 0;
+      health.status = StatusEffect::Dead;
+    } else if (health.hp > health.maxhp) {
+      health.hp = health.maxhp;
+    } else if (health.status == StatusEffect::Dead && health.hp == 0) {
+      health.hp = health.maxhp;
+      health.status = StatusEffect::Spawn;
+    } else {
+      health.status = StatusEffect::Alive;
+    }
+  };
+};
+
+
+class DamageSystem {
+public:
+  using TimeDelta = float;
+  using Entity = ::flecs::entity;
+
+  inline static const auto update = [](::flecs::iter& /*it*/, size_t /*index*/,
+                                       ecs::benchmarks::base::components::HealthComponent& health,
+                                       const ecs::benchmarks::base::components::DamageComponent& damage) {
+    using namespace ecs::benchmarks::base::components;
+    // Calculate damage
+    const int totalDamage = damage.atk - damage.def;
+
+    if (totalDamage > 0) {
+      health.hp -= totalDamage;
+    }
+  };
 };
 
 } // namespace ecs::benchmarks::flecs::systems

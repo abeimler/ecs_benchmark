@@ -4,6 +4,7 @@
 #include "ECSBenchmark.h"
 #include "pico_ecs/PicoEcsApplication.h"
 #include "pico_ecs/entities/EntityFactory.h"
+#include "pico_ecs/entities/HeroMonsterEntityFactory.h"
 #include "pico_ecs/systems/DataSystem.h"
 #include "pico_ecs/systems/MoreComplexSystem.h"
 #include "pico_ecs/systems/MovementSystem.h"
@@ -12,7 +13,8 @@
 namespace ecs::benchmarks::pico_ecs {
 
 class PicoEcsBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"pico_ecs", PicoEcsApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"pico_ecs", PicoEcsApplication, entities::EntityFactory,
+                                                 entities::HeroMonsterEntityFactory> {
 public:
   PicoEcsBenchmarkSuite() = default;
 

@@ -37,7 +37,7 @@ struct Application_Fixture {
           const auto& comp = m_entity_factory.getComponentOne(app.getEntities(), entity);
 
           AND_THEN("component.x is updated") {
-            REQUIRE(comp.x > 0.0F);
+            REQUIRE(comp.x > 0.0);
           }
         }
       }

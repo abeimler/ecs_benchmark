@@ -29,6 +29,9 @@ struct ComponentsCounter {
   size_t component_one_count{0};
   size_t component_two_count{0};
   size_t component_three_count{0};
+
+  size_t hero_count{0};
+  size_t monster_count{0};
 };
 
 inline static constexpr auto MIN_ENTITIES_RANGE = 8L;

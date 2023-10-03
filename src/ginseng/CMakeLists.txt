@@ -23,6 +23,8 @@ add_library(
   ginseng/systems/MovementSystem.cpp
   ginseng/entities/EntityFactory.h
   ginseng/entities/EntityFactory.cpp
+  ginseng/entities/HeroMonsterEntityFactory.h
+  ginseng/entities/HeroMonsterEntityFactory.cpp
   ginseng/GinsengApplication.h
   ginseng/GinsengApplication.cpp)
 add_library(ecs-benchmark::example::ginseng ALIAS ecs-benchmark-example-ginseng)

@@ -40,6 +40,8 @@ add_library(
   entt/systems/GroupMovementSystem.cpp
   entt/entities/EntityFactory.h
   entt/entities/EntityFactory.cpp
+  entt/entities/HeroMonsterEntityFactory.h
+  entt/entities/HeroMonsterEntityFactory.cpp
   entt/entities/StableEntityFactory.h
   entt/entities/StableEntityFactory.cpp
   entt/EnttApplication.h

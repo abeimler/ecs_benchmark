@@ -13,4 +13,17 @@ void MoreComplexSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
   });
 }
 
+void HealthSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
+  registry.visit([this](ecs::benchmarks::base::components::HealthComponent& health) {
+    updateHealth(health);
+  });
+}
+
+void DamageSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
+  registry.visit([this](ecs::benchmarks::base::components::HealthComponent& health,
+                        const ecs::benchmarks::base::components::DamageComponent& damage) {
+    updateDamage(health, damage);
+  });
+}
+
 } // namespace ecs::benchmarks::ginseng::systems

@@ -4,6 +4,7 @@
 #include "ECSBenchmark.h"
 #include "entityx/EntityXApplication.h"
 #include "entityx/entities/EntityFactory.h"
+#include "entityx/entities/HeroMonsterEntityFactory.h"
 #include <utility>
 
 
@@ -14,10 +15,10 @@
 namespace ecs::benchmarks::entityx {
 
 class EntityXEntityBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory,
-                                                 /*include_entity_benchmarks= */ true // application is needed to get
-                                                                                      // entity manager
-                                                 > {
+    : public ecs::benchmarks::base::ECSBenchmark<
+          "entityx", EntityXApplication, entities::EntityFactory, entities::HeroMonsterEntityFactory,
+          base::ECSBenchmarkIncludeEntityBenchmarks::Yes // application is needed to get entity manager
+          > {
 public:
   EntityXEntityBenchmarkSuite() = default;
 

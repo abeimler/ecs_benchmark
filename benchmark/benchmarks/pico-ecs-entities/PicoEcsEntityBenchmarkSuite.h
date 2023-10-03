@@ -4,15 +4,16 @@
 #include "ECSBenchmark.h"
 #include "pico_ecs/PicoEcsApplication.h"
 #include "pico_ecs/entities/EntityFactory.h"
+#include "pico_ecs/entities/HeroMonsterEntityFactory.h"
 #include <utility>
 
 namespace ecs::benchmarks::pico_ecs {
 
 class PicoEcsEntityBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"pico_ecs", PicoEcsApplication, entities::EntityFactory,
-                                                 /*include_entity_benchmarks= */ true // application is needed to get
-                                                                                      // entity manager
-                                                 > {
+    : public ecs::benchmarks::base::ECSBenchmark<
+          "pico_ecs", PicoEcsApplication, entities::EntityFactory, entities::HeroMonsterEntityFactory,
+          base::ECSBenchmarkIncludeEntityBenchmarks::Yes // application is needed to get entity manager
+          > {
 public:
   PicoEcsEntityBenchmarkSuite() = default;
 

@@ -3,6 +3,7 @@
 
 #include "entityx/EntityXApplication.h"
 #include "entityx/entities/EntityFactory.h"
+#include "entityx/entities/HeroMonsterEntityFactory.h"
 #include "entityx/systems/DataSystem.h"
 #include "entityx/systems/MoreComplexSystem.h"
 #include "entityx/systems/MovementSystem.h"
@@ -18,7 +19,8 @@
 namespace ecs::benchmarks::entityx {
 
 class EntityXBenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<"entityx", EntityXApplication, entities::EntityFactory,
+                                                         entities::HeroMonsterEntityFactory> {
 public:
   EntityXBenchmarkSuite() = default;
 

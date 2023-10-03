@@ -37,6 +37,8 @@ public:
     m_world.systems().addSystem<systems::DataSystem>();
     if (m_add_more_complex_system) {
       m_world.systems().addSystem<systems::MoreComplexSystem>();
+      m_world.systems().addSystem<systems::HealthSystem>();
+      m_world.systems().addSystem<systems::DamageSystem>();
     }
     m_world.init();
   }
@@ -49,6 +51,8 @@ public:
     }
     m_world.systems().removeSystem<systems::DataSystem>();
     m_world.systems().removeSystem<systems::MovementSystem>();
+    m_world.systems().removeSystem<systems::HealthSystem>();
+    m_world.systems().removeSystem<systems::DamageSystem>();
      */
   }
 

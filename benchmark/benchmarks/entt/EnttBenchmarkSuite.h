@@ -4,6 +4,7 @@
 #include "ECSBenchmark.h"
 #include "entt/EnttApplication.h"
 #include "entt/entities/EntityFactory.h"
+#include "entt/entities/HeroMonsterEntityFactory.h"
 #include "entt/systems/DataSystem.h"
 #include "entt/systems/MoreComplexSystem.h"
 #include "entt/systems/MovementSystem.h"
@@ -13,7 +14,8 @@
 namespace ecs::benchmarks::entt {
 
 class EnttBenchmarkSuite final
-    : public ecs::benchmarks::base::ECSBenchmark<"entt", EnttApplication, entities::EntityFactory> {
+    : public ecs::benchmarks::base::ECSBenchmark<"entt", EnttApplication, entities::EntityFactory,
+                                                 entities::HeroMonsterEntityFactory> {
 public:
   EnttBenchmarkSuite() = default;
 
