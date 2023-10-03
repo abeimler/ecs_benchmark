@@ -34,7 +34,7 @@ run_vcpkg()
 # Set the project name and language
 project(
   ecs-benchmark
-  VERSION 4.7.4
+  VERSION 5.0.0
   DESCRIPTION "Benchmarks of common ECS (Entity-Component-System)-Frameworks in C++ (or C)"
   HOMEPAGE_URL "https://github.com/abeimler/ecs_benchmark"
   LANGUAGES CXX C)
