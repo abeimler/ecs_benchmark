@@ -1,7 +1,7 @@
 """Generate benchmarks graphs and RESULTS.md with benchmark results.
 
 Usage:
-  gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] gen-plots <REPORTS>...
+  gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] gen-plots [--plot-lines] <REPORTS>...
   gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] [-o RESULTS.md] [--img-dir=IMG_DIR] [--skip=N] gen-results-md <REPORTS>...
   gen-benchmark-report [-c plot.config.json] [--reports-dir=REPORTS_DIR] [-i README.md.mustache] [-o README.md] [--img-dir=IMG_DIR] [--skip=N] gen-readme-md <RESULTS>...
   gen-benchmark-report -h | --help
@@ -19,6 +19,7 @@ Arguments:
   --reports-dir=REPORTS_DIR     reports directory [default: ./reports/]
   --img-dir=IMG_DIR             images directory [default: img/]
   --skip=N                      skip N first entries from results (table)
+  --plot-lines                  plot graph as (log) lines, otherwise as histogram
   <REPORTS>...                  list of .json files from google benchmark
   <RESULTS>...                  list of .json files with results `results[key] = "markdown"`
 
@@ -38,6 +39,7 @@ import pystache
 import os
 import json
 import re
+import numpy as np
 
 from pprint import pprint
 
@@ -239,11 +241,13 @@ def gen_results(config, output_dir, reports):
                 results[framework]['plot_data']['_df'][ek] = pd.DataFrame(data_frame, index=x)
 
     results['_data_frame_data'] = {}
+    results['_plot_data_histogram'] = {}
     for framework, result in results.items():
-        if framework != '_meta' and framework != '_data_frame_data':
+        if framework != '_meta' and framework != '_data_frame_data' and framework != '_plot_data_histogram':
             for ek in result['entries_data'].keys():
                 unit = units[ek]
                 y = []
+                y_us = []
                 for e in x:
                     find = False
                     for ed in result['entries_data'][ek]:
@@ -258,9 +262,11 @@ def gen_results(config, output_dir, reports):
                                 y.append(ed['time_s'])
                             elif unit == 'min':
                                 y.append(ed['time_min'])
+                            y_us.append(ed['time_us'])
                             find = True
                     if not find:
                         y.append(None)
+                        y_us.append(None)
 
                 output_image_filename = result['entries_data'][ek][0]['output_image_filename']
                 name = frameworks_info[framework]['name']
@@ -272,6 +278,24 @@ def gen_results(config, output_dir, reports):
                 if 'y' not in results['_data_frame_data'][ek]:
                     results['_data_frame_data'][ek]['y'] = []
 
+                if ek not in results['_plot_data_histogram']:
+                    results['_plot_data_histogram'][ek] = {}
+                if 'data' not in results['_plot_data_histogram'][ek]:
+                    results['_plot_data_histogram'][ek]['data'] = {
+                        'Framework': [],
+                        'Entities': [],
+                        'Time (us)': [],
+                    }
+
+                histo_frameworks = []
+                histo_entities = []
+                histo_time = []
+
+                for index, entites in enumerate(x):
+                    histo_frameworks.append(name)
+                    histo_entities.append(entites)
+                    histo_time.append(y_us[index])
+
                 results['_data_frame_data'][ek]['df'][name] = y
                 results['_data_frame_data'][ek]['df']['entities'] = x
                 results['_data_frame_data'][ek]['output_image_filename'] = output_image_filename
@@ -279,25 +303,70 @@ def gen_results(config, output_dir, reports):
                 results['_data_frame_data'][ek]['name'] = name
                 results['_data_frame_data'][ek]['y'].append(name)
 
+                results['_plot_data_histogram'][ek]['data']['Framework'] = results['_plot_data_histogram'][ek]['data']['Framework'] + histo_frameworks
+                results['_plot_data_histogram'][ek]['data']['Entities'] = results['_plot_data_histogram'][ek]['data']['Entities'] + histo_entities
+                results['_plot_data_histogram'][ek]['data']['Time (us)'] = results['_plot_data_histogram'][ek]['data']['Time (us)'] + histo_time
+
+                results['_plot_data_histogram'][ek]['x'] = 'Entities'
+                results['_plot_data_histogram'][ek]['y'] = 'Time (us)'
+                results['_plot_data_histogram'][ek]['color'] = 'Framework'
+                results['_plot_data_histogram'][ek]['barmode'] = 'group'
+                results['_plot_data_histogram'][ek]['labels'] = {'Time (us)': 'Time (us)', 'Entities': 'Entities'}
+
+                # Define custom groups
+                custom_groups = {
+                    0: '0-128',
+                    128: '128-1024',
+                    1024: '1024-8192',
+                    8192: '8192-16384',
+                    16384: '16384-65536',
+                    65536: '65536-131072',
+                    131072: '131072-524288',
+                    1048576: '1M-2M',
+                }
+                # Create a new column 'EntityGroup' based on the custom groups
+                results['_plot_data_histogram'][ek]['data']['EntityGroup'] = pd.cut(results['_plot_data_histogram'][ek]['data']['Entities'], bins=list(custom_groups.keys()) + [float('inf')], labels=list(custom_groups.values()))
+
+                results['_plot_data_histogram'][ek]['data_frame'] = pd.DataFrame(results['_plot_data_histogram'][ek]['data'])
+
     return results
 
 
 def gen_plots(config, results):
     frameworks_info = config['frameworks']
     for key, data in results['_data_frame_data'].items():
-
         title = config['data'][key]['title']
         if not title:
             print("WARN: no plot title for {:s}".format(key))
         else:
             title = key
 
-        fig = px.line(data['df'], x='entities', y=data['y'], labels={
-            "value": "time ({})".format(data['unit']),
-            "variable": "Frameworks",
-        }, title=title, log_y=True)
-        fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
-        print("INFO: gen plot '{:s}': {:s}".format(title, data['output_image_filename']))
+        if '--plot-lines' in config['args'] and config['args']['--plot-lines']:
+            fig = px.line(data['df'], x='entities', y=data['y'], labels={
+                "value": "time ({})".format(data['unit']),
+                "variable": "Frameworks",
+            }, title=title, log_y=True)
+            fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+            print("INFO: gen line plot '{:s}': {:s}".format(title, data['output_image_filename']))
+        else:
+            fig = px.histogram(
+                results['_plot_data_histogram'][key]['data_frame'],
+                x='EntityGroup',
+                y='Time (us)',
+                color='Framework',
+                barmode='group',
+                labels={'Time (us)': 'Time (us)', 'Entities': 'Entities', 'EntityGroup': 'Entities'},
+                log_y=True,
+                histfunc='avg',
+            )
+            # Update layout
+            fig.update_layout(
+                title=title,
+                xaxis_title='Entities (avg)',
+                yaxis_title='Time (us)',
+            )
+            fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+            print("INFO: gen histogram plot '{:s}': {:s}".format(title, data['output_image_filename']))
 
 
 
@@ -323,7 +392,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
     small_df_index = {}
     skip = int(config['args']['--skip']) if '--skip' in config['args'] and config['args']['--skip'] else None
     for framework, result in results.items():
-        if framework == '_meta' or framework == '_data_frame_data':
+        if framework == '_meta' or framework == '_data_frame_data' or framework == '_plot_data_histogram':
             continue
 
         name = frameworks_info[framework]['name']

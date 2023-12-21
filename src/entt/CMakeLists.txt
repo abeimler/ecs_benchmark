@@ -1,4 +1,4 @@
-# https://github.com/skypjack/entt add dependencies
+# https://github.com/skypjack/entt
 cpmaddpackage(
   NAME
   EnTT

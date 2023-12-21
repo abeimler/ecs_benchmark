@@ -1544,4 +1544,3 @@ static bool ecs_is_system_ready(ecs_t* ecs, ecs_id_t sys_id)
 */
 
 // EoF
-

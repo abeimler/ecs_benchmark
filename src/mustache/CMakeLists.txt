@@ -1,4 +1,4 @@
-# https://github.com/kirillochnev/mustache add dependencies
+# https://github.com/kirillochnev/mustache
 cpmaddpackage(
   NAME
   mustache

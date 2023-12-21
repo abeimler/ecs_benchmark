@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
 # https://github.com/empyreanx/pico_headers
-# add dependencies
 CPMAddPackage(
         NAME pico_headers
         VERSION 2.3
