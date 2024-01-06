@@ -16,19 +16,15 @@ public:
 
   static Entity createEmpty(EntityManager& entities);
   static void createEmptyBulk(EntityManager& registry, size_t nentities);
-  //static void createEmptyBulk(EntityManager& registry, std::vector<Entity>& out);
 
   static Entity createSingle(EntityManager& entities);
   static void createSingleBulk(EntityManager& registry, size_t nentities);
-  //static void createSingleBulk(EntityManager& registry, std::vector<Entity>& out);
 
   static Entity create(EntityManager& entities);
   static void createBulk(EntityManager& registry, size_t nentities);
-  //static void createBulk(EntityManager& registry, std::vector<Entity>& out);
 
   static Entity createMinimal(EntityManager& entities);
   static void createMinimalBulk(EntityManager& registry, size_t nentities);
-  //static void createMinimalBulk(EntityManager& registry, std::vector<Entity>& out);
 
   static void destroy(EntityManager& entities, Entity entity);
   static void destroyBulk(EntityManager& registry, std::vector<Entity>& entities);
