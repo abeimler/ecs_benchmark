@@ -16,8 +16,7 @@ public:
   using Entity = ::flecs::entity;
 
   using TimeDelta = double;
-  inline static const auto update = [](::flecs::iter& it,
-                                       ecs::benchmarks::base::components::DataComponent* data) {
+  inline static const auto update = [](::flecs::iter& it, ecs::benchmarks::base::components::DataComponent* data) {
     using DataComponent = ecs::benchmarks::base::components::DataComponent;
     const auto dt = gsl::narrow_cast<TimeDelta>(it.delta_time());
 
@@ -25,12 +24,12 @@ public:
       data[i].dingy += 0.0001 * dt;
       data[i].mingy = !data[i].mingy;
       data[i].thingy++;
-      /// @FIXME(pico_ecs): SIGSEGV (Segmentation fault), can't copy string ... support for components with dynamic memory
-      /// (std::string) ?
+      /// @FIXME(pico_ecs): SIGSEGV (Segmentation fault), can't copy string ... support for components with dynamic
+      /// memory (std::string) ?
       // data.stringy = fmt::format(FMT_STRING("{:4.2f}"), data[i].dingy);
-      std::string stringy = fmt::format(FMT_STRING("{:4.2f}"), data[i].dingy);
+      std::string stringy = fmt::format("{:4.2f}", data[i].dingy);
       std::char_traits<char>::copy(data[i].stringy, stringy.data(),
-                                  std::min(stringy.length(), DataComponent::StringyMaxLength));
+                                   std::min(stringy.length(), DataComponent::StringyMaxLength));
     }
   };
 };
