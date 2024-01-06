@@ -24,4 +24,4 @@ SCENARIO("Test Application, Update System for mustache", "[template][mustache][a
   }
 }
 
-} // namespace ecs::benchmarks::entt
+} // namespace ecs::benchmarks::mustache

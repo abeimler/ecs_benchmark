@@ -19,9 +19,7 @@ public:
   Entity createHero(EntityManager& registry) override;
   Entity createMonster(EntityManager& registry) override;
 
-  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) {
-    return entities.valid(entity.id());
-  }
+  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) { return entities.valid(entity.id()); }
 
   void addComponents(EntityManager& registry, Entity entity) override;
 

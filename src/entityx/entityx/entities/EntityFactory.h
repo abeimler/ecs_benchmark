@@ -23,13 +23,9 @@ public:
 
   static void clear(EntityManager& registry);
 
-  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) {
-    return entities.valid(entity.id());
-  }
+  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) { return entities.valid(entity.id()); }
 
-  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
-    return registry.size();
-  }
+  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) { return registry.size(); }
 
   [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
   getComponentOneConst(EntityManager& entities, Entity entity) {

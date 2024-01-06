@@ -24,4 +24,4 @@ SCENARIO("Test Application, Update System for flecs", "[template][flecs][applica
   }
 }
 
-} // namespace ecs::benchmarks::entt
+} // namespace ecs::benchmarks::flecs

@@ -51,4 +51,4 @@ TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::HeroMonsterEntityFactory_Fixture, "Te
   }
 }
 
-} // namespace ecs::benchmarks::entt
+} // namespace ecs::benchmarks::flecs

@@ -20,13 +20,9 @@ public:
   Entity createHero(EntityManager& registry) override;
   Entity createMonster(EntityManager& registry) override;
 
-  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
-    return registry.size();
-  }
+  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) { return registry.size(); }
 
-  [[nodiscard]] static inline bool valid(EntityManager& registry, Entity entity) {
-    return registry.exists(entity);
-  }
+  [[nodiscard]] static inline bool valid(EntityManager& registry, Entity entity) { return registry.exists(entity); }
 
   void addComponents(EntityManager& registry, Entity entity) override;
 

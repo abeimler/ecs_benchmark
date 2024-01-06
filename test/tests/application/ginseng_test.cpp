@@ -24,4 +24,4 @@ SCENARIO("Test Application, Update System for ginseng", "[template][ginseng][app
   }
 }
 
-} // namespace ecs::benchmarks::entt
+} // namespace ecs::benchmarks::ginseng

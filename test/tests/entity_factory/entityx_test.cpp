@@ -33,7 +33,8 @@ TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::EntityFactory_Fixture, "Test EntityFa
   }
 }
 
-TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::HeroMonsterEntityFactory_Fixture, "Test HeroMonsterEntityFactory for entityx",
+TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::HeroMonsterEntityFactory_Fixture,
+                          "Test HeroMonsterEntityFactory for entityx",
                           "[template][entityx][entity_factory][hero][monster]",
                           ecs::benchmarks::entityx::entities::HeroMonsterEntityFactory) {
   GIVEN("HeroMonsterEntityFactory") {
@@ -51,4 +52,4 @@ TEMPLATE_TEST_CASE_METHOD(ecs::benchmarks::HeroMonsterEntityFactory_Fixture, "Te
   }
 }
 
-} // namespace ecs::benchmarks::entt
+} // namespace ecs::benchmarks::entityx

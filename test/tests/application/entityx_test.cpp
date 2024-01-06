@@ -24,4 +24,4 @@ SCENARIO("Test Application, Update System for entityx", "[template][entityx][app
   }
 }
 
-} // namespace ecs::benchmarks::entt
+} // namespace ecs::benchmarks::entityx

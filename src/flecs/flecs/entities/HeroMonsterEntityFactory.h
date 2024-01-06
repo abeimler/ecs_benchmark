@@ -18,7 +18,7 @@ public:
 
   void addComponents(EntityManager& entities, Entity entity) override;
 
-  template<class C>
+  template <class C>
   [[nodiscard]] static inline auto getComponentCount(EntityManager& entities) {
     return entities.count<C>();
   }

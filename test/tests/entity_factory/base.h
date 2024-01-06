@@ -2,9 +2,9 @@
 #define ECS_BENCHMARK_TESTS_ENTITY_FACTORY_BASE_H
 
 #include "base/components/DataComponent.h"
+#include "base/components/HeroMonsterComponents.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include "base/components/HeroMonsterComponents.h"
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -23,10 +23,13 @@ struct EntityFactory_Fixture {
     [[maybe_unused]] auto entity = m_entity_factory.createEmpty(registry);
 
     THEN("registry is not empty") {
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                    registry) == 1);
       } else {
         REQUIRE(registry.valid(entity));
       }
@@ -37,10 +40,13 @@ struct EntityFactory_Fixture {
     [[maybe_unused]] auto entity = m_entity_factory.createSingle(registry);
 
     THEN("registry is not empty") {
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                    registry) == 1);
       } else {
         REQUIRE(registry.valid(entity));
       }
@@ -51,10 +57,13 @@ struct EntityFactory_Fixture {
     [[maybe_unused]] auto entity = m_entity_factory.create(registry);
 
     THEN("registry is not empty") {
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                    registry) == 1);
       } else {
         REQUIRE(registry.valid(entity));
       }
@@ -65,10 +74,13 @@ struct EntityFactory_Fixture {
     [[maybe_unused]] auto entity = m_entity_factory.createMinimal(registry);
 
     THEN("registry is not empty") {
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                    registry) == 1);
       } else {
         REQUIRE(registry.valid(entity));
       }
@@ -78,10 +90,13 @@ struct EntityFactory_Fixture {
   void testDestroyEntity(EntityManager& registry) {
     GIVEN("one entity") {
       auto entity = m_entity_factory.create(registry);
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                    registry) == 1);
       } else {
         REQUIRE(registry.valid(entity));
       }
@@ -90,12 +105,16 @@ struct EntityFactory_Fixture {
         m_entity_factory.destroy(registry, entity);
 
         THEN("entity is not valid, anymore") {
-          if constexpr (requires (EntityFactory ef, EntityManager em, Entity e) { em.valid(e); }) {
+          if constexpr (requires(EntityFactory ef, EntityManager em, Entity e) { em.valid(e); }) {
             REQUIRE_FALSE(registry.valid(entity));
-          } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+          } else if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
             REQUIRE(m_entity_factory.getEntitiesCount(registry) == 0);
-          } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-            REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 0);
+          } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                                 ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                                     em);
+                               }) {
+            REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                        registry) == 0);
           }
         }
       }
@@ -106,10 +125,13 @@ struct EntityFactory_Fixture {
   void testGetComponentOne(EntityManager& registry) {
     GIVEN("one entity") {
       auto entity = m_entity_factory.create(registry);
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(
+                    registry) == 1);
       } else {
         REQUIRE(registry.valid(entity));
       }
@@ -136,11 +158,14 @@ struct HeroMonsterEntityFactory_Fixture {
     [[maybe_unused]] auto entity = m_entity_factory.createRandom(registry);
 
     THEN("valid entity") {
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em, Entity e) { ef.valid(em, e); }) {
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(
+                    registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em, Entity e) { ef.valid(em, e); }) {
         REQUIRE(m_entity_factory.valid(registry, entity));
       } else {
         REQUIRE(registry.valid(entity));
@@ -152,11 +177,14 @@ struct HeroMonsterEntityFactory_Fixture {
   void testGetPlayerComponent(EntityManager& registry) {
     GIVEN("one entity") {
       auto entity = m_entity_factory.createRandom(registry);
-      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+      if constexpr (requires(EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
         REQUIRE(m_entity_factory.getEntitiesCount(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(em); }) {
-        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(registry) == 1);
-      } else if constexpr (requires (EntityFactory ef, EntityManager em, Entity e) { ef.valid(em, e); }) {
+      } else if constexpr (requires(EntityFactory ef, EntityManager em) {
+                             ef.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(em);
+                           }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PlayerComponent>(
+                    registry) == 1);
+      } else if constexpr (requires(EntityFactory ef, EntityManager em, Entity e) { ef.valid(em, e); }) {
         REQUIRE(m_entity_factory.valid(registry, entity));
       } else {
         REQUIRE(registry.valid(entity));

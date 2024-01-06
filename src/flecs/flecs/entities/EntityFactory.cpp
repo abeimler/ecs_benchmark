@@ -19,8 +19,7 @@ void EntityFactory::createEmptyBulk(EntityManager& registry, size_t nentities) {
 }
 
 EntityFactory::Entity EntityFactory::createSingle(EntityManager& entities) {
-  return entities.entity()
-      .add<ecs::benchmarks::base::components::PositionComponent>();
+  return entities.entity().add<ecs::benchmarks::base::components::PositionComponent>();
 }
 
 void EntityFactory::createSingleBulk(EntityManager& registry, size_t nentities) {
