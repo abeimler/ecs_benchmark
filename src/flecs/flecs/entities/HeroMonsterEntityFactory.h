@@ -12,11 +12,16 @@ class HeroMonsterEntityFactory final
           ::flecs::world, ::flecs::entity, ecs::benchmarks::base::components::PlayerComponent,
           ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
 public:
-  Entity createRandom(EntityManager& registry) override;
-  Entity createHero(EntityManager& registry) override;
-  Entity createMonster(EntityManager& registry) override;
+  Entity createRandom(EntityManager& entities) override;
+  Entity createHero(EntityManager& entities) override;
+  Entity createMonster(EntityManager& entities) override;
 
-  void addComponents(EntityManager& registry, Entity entity) override;
+  void addComponents(EntityManager& entities, Entity entity) override;
+
+  template<class C>
+  [[nodiscard]] static inline auto getComponentCount(EntityManager& entities) {
+    return entities.count<C>();
+  }
 
   [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent&
   getPlayerComponent(EntityManager& /*entities*/, Entity entity) override {

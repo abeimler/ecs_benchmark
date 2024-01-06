@@ -31,6 +31,9 @@ public:
   static void destroy(EntityManager& registry, Entity entity);
   static void destroyBulk(EntityManager& registry, std::vector<Entity>& entities);
 
+  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
+    return registry.storage<Entity>().size();
+  }
 
   [[nodiscard]] static inline const ecs::benchmarks::entt::components::StablePositionComponent&
   getComponentOneConst(EntityManager& registry, Entity entity) {

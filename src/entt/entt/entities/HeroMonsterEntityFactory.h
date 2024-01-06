@@ -22,6 +22,10 @@ public:
 
   void addComponents(EntityManager& registry, Entity entity) override;
 
+  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
+    return registry.storage<Entity>().size();
+  }
+
   [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& registry,
                                                                                               Entity entity) override {
     return registry.get<ecs::benchmarks::base::components::PlayerComponent>(entity);

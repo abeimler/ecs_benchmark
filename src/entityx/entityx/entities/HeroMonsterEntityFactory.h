@@ -12,12 +12,16 @@ class HeroMonsterEntityFactory final
           ::entityx::EntityManager, ::entityx::Entity, ecs::benchmarks::base::components::PlayerComponent,
           ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
 public:
-  // using EntityManager = ::entityx::registry;
+  // using EntityManager = ::entityx::EntityManager;
   // using Entity = ::entityx::Entity;
 
   Entity createRandom(EntityManager& registry) override;
   Entity createHero(EntityManager& registry) override;
   Entity createMonster(EntityManager& registry) override;
+
+  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) {
+    return entities.valid(entity.id());
+  }
 
   void addComponents(EntityManager& registry, Entity entity) override;
 

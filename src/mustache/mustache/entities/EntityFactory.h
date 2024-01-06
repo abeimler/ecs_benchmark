@@ -20,24 +20,24 @@ public:
   using EntityManager = ::mustache::EntityManager;
   using Entity = ::mustache::Entity;
 
-  auto create(EntityManager& registry) {
+  static auto create(EntityManager& registry) {
     return registry.create<ecs::benchmarks::base::components::PositionComponent,
                            ecs::benchmarks::base::components::VelocityComponent,
                            ecs::benchmarks::base::components::DataComponent>();
   }
 
-  auto createMinimal(EntityManager& registry) {
+  static auto createMinimal(EntityManager& registry) {
     return registry.create<ecs::benchmarks::base::components::PositionComponent,
                            ecs::benchmarks::base::components::VelocityComponent>();
   }
 
-  auto createEmpty(EntityManager& registry) { return registry.create(); }
+  static auto createEmpty(EntityManager& registry) { return registry.create(); }
 
-  auto createSingle(EntityManager& registry) {
+  static auto createSingle(EntityManager& registry) {
     return registry.create<ecs::benchmarks::base::components::PositionComponent>();
   }
 
-  void destroy(EntityManager& registry, Entity entity) {
+  static void destroy(EntityManager& registry, Entity entity) {
     if constexpr (destroy_now) {
       registry.destroyNow(entity);
     } else {
@@ -47,6 +47,9 @@ public:
 
   void clear(EntityManager& registry) { registry.clear(); }
 
+  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) {
+    return entities.isEntityValid(entity);
+  }
 
   [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
   getComponentOneConst(EntityManager& registry, Entity entity) {

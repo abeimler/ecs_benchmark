@@ -1,6 +1,8 @@
 #ifndef ECS_BENCHMARK_TESTS_APPLICATION_BASE_H
 #define ECS_BENCHMARK_TESTS_APPLICATION_BASE_H
 
+#include "base/components/PositionComponent.h"
+#include "base/components/HeroMonsterComponents.h"
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -19,8 +21,15 @@ struct Application_Fixture {
   void testUpdateSystem(Application& app) {
     GIVEN("one entity") {
       auto entity = m_entity_factory.create(app.getEntities());
-      REQUIRE(m_entity_factory.getEntitiesCount(app.getEntities()) == 1);
-      REQUIRE(app.getEntities().valid(entity));
+      if constexpr (requires (EntityFactory ef, EntityManager em) { ef.getEntitiesCount(em); }) {
+        REQUIRE(m_entity_factory.getEntitiesCount(app.getEntities()) == 1);
+      } else if constexpr (requires (EntityFactory ef, EntityManager em) { ef.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(em); }) {
+        REQUIRE(m_entity_factory.template getComponentCount<ecs::benchmarks::base::components::PositionComponent>(app.getEntities()) == 1);
+      } else if constexpr (requires (EntityFactory ef, EntityManager em, Entity e) { ef.valid(em, e); }) {
+        REQUIRE(m_entity_factory.valid(app.getEntities(), entity));
+      } else {
+        REQUIRE(app.getEntities().valid(entity));
+      }
 
       THEN("component is init") {
         const auto& comp = m_entity_factory.getComponentOne(app.getEntities(), entity);

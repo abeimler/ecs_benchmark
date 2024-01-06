@@ -22,6 +22,14 @@ public:
 
   static void destroy(EntityManager& registry, Entity entity);
 
+  [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
+    return registry.size();
+  }
+
+  [[nodiscard]] static inline bool valid(EntityManager& registry, Entity entity) {
+    return registry.exists(entity);
+  }
+
 
   /// @FIXME: SIGSEGV (Segmentation fault), can't use const ? (std::as_const(registry))
   [[nodiscard]] static inline ecs::benchmarks::base::components::PositionComponent&

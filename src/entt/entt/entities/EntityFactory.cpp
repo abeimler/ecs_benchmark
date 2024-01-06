@@ -59,4 +59,9 @@ void EntityFactory::destroy(EntityManager& registry, Entity entity) {
 void EntityFactory::destroyBulk(EntityManager& registry, std::vector<Entity>& entities) {
   registry.destroy(entities.begin(), entities.end());
 }
+
+void EntityFactory::release(EntityManager& registry, Entity entity) {
+  registry.release(entity);
+}
+
 } // namespace ecs::benchmarks::entt::entities

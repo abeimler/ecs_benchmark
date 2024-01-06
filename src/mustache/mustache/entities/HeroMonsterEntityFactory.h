@@ -18,6 +18,10 @@ public:
   Entity createHero(EntityManager& registry) override;
   Entity createMonster(EntityManager& registry) override;
 
+  [[nodiscard]] static inline bool valid(EntityManager& entities, Entity entity) {
+    return entities.isEntityValid(entity);
+  }
+
   void addComponents(EntityManager& registry, Entity entity) override;
 
   [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& registry,

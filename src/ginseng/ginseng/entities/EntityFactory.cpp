@@ -33,4 +33,5 @@ EntityFactory::Entity EntityFactory::createSingle(EntityManager& registry) {
 void EntityFactory::destroy(EntityManager& registry, Entity entity) {
   registry.destroy_entity(entity);
 }
+
 } // namespace ecs::benchmarks::ginseng::entities

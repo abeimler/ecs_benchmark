@@ -29,6 +29,12 @@ public:
   static void destroy(EntityManager& entities, Entity entity);
   static void destroyBulk(EntityManager& registry, std::vector<Entity>& entities);
 
+  template<class C>
+  [[nodiscard]] static inline auto getComponentCount(EntityManager& entities) {
+    return entities.count<C>();
+  }
+
+
   [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
   getComponentOneConst(EntityManager& /*entities*/, Entity entity) {
     return *entity.get<ecs::benchmarks::base::components::PositionComponent>();
@@ -51,7 +57,7 @@ public:
 
   [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent*
   getOptionalComponentThree(EntityManager& /*entities*/, Entity entity) {
-    return entity.has<ecs::benchmarks::base::components::DataComponent>() 
+    return entity.has<ecs::benchmarks::base::components::DataComponent>()
                 ? entity.get_mut<ecs::benchmarks::base::components::DataComponent>()
                 : nullptr;
   }

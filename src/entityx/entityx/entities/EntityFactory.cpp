@@ -37,4 +37,5 @@ void EntityFactory::destroy(EntityManager& entities, Entity entity) {
 void EntityFactory::clear(EntityManager& entities) {
   entities.reset();
 }
+
 } // namespace ecs::benchmarks::entityx::entities
