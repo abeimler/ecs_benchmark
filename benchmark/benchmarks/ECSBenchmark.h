@@ -181,11 +181,9 @@ public:
       state.PauseTiming();
       Application app(m_options.add_more_complex_system);
       EntityManager& registry = app.getEntities();
-      std::vector<Entity> entities;
-      entities.resize(nentities);
 
       state.ResumeTiming();
-      this->m_entities_factory.createEmptyBulk(registry, entities);
+      this->m_entities_factory.createEmptyBulk(registry, nentities);
     }
     state.counters["entities"] = static_cast<double>(nentities);
   }
@@ -236,7 +234,7 @@ public:
       EntityManager& registry = app.getEntities();
       std::vector<Entity> entities;
       entities.resize(nentities);
-      if constexpr (HasBulkFeature<EntityFactory>) {
+      if constexpr (HasBulkFeatureWithOutput<EntityFactory>) {
         this->m_entities_factory.createMinimalBulk(registry, entities);
       } else {
         for (auto& entity : entities) {
@@ -254,7 +252,7 @@ public:
 
   template <class tEntityFactory = EntityFactory>
     requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
-             HasBulkDestroyFeature<tEntityFactory>)
+             HasBulkDestroyFeature<tEntityFactory> && HasBulkFeatureWithOutput<tEntityFactory>)
   void BM_DestroyEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {

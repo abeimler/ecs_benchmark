@@ -14,13 +14,20 @@ public:
   using EntityManager = ::flecs::world;
   using Entity = ::flecs::entity;
 
-  static Entity create(EntityManager& entities);
-  static Entity createSingle(EntityManager& entities);
-  static Entity createMinimal(EntityManager& entities);
   static Entity createEmpty(EntityManager& entities);
+  static void createEmptyBulk(EntityManager& registry, size_t nentities);
+
+  static Entity createSingle(EntityManager& entities);
+  static void createSingleBulk(EntityManager& registry, size_t nentities);
+
+  static Entity create(EntityManager& entities);
+  static void createBulk(EntityManager& registry, size_t nentities);
+
+  static Entity createMinimal(EntityManager& entities);
+  static void createMinimalBulk(EntityManager& registry, size_t nentities);
 
   static void destroy(EntityManager& entities, Entity entity);
-
+  static void destroyBulk(EntityManager& registry, std::vector<Entity>& entities);
 
   [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
   getComponentOneConst(EntityManager& /*entities*/, Entity entity) {
@@ -44,7 +51,9 @@ public:
 
   [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent*
   getOptionalComponentThree(EntityManager& /*entities*/, Entity entity) {
-    return entity.get_mut<ecs::benchmarks::base::components::DataComponent>();
+    return entity.has<ecs::benchmarks::base::components::DataComponent>() 
+                ? entity.get_mut<ecs::benchmarks::base::components::DataComponent>()
+                : nullptr;
   }
 
 

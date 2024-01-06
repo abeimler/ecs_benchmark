@@ -19,10 +19,9 @@ public:
   }
 
   inline static const auto update = [](::flecs::iter& /*it*/, size_t /*index*/,
-                                       ecs::benchmarks::base::components::PositionComponent& position,
+                                       const ecs::benchmarks::base::components::PositionComponent& position,
                                        ecs::benchmarks::base::components::VelocityComponent& direction,
-                                       ecs::benchmarks::base::components::DataComponent& data) {
-    // const TimeDelta dt = it.delta_time();
+                                       const ecs::benchmarks::base::components::DataComponent& data) {
     if ((data.thingy % 10) == 0) {
       if (position.x > position.y) {
         direction.x = static_cast<float>(random(-5, 5));
@@ -45,8 +44,7 @@ public:
   using TimeDelta = float;
   using Entity = ::flecs::entity;
 
-  inline static const auto update = [](::flecs::iter& /*it*/, size_t /*index*/,
-                                       ecs::benchmarks::base::components::HealthComponent& health) {
+  inline static const auto update = [](ecs::benchmarks::base::components::HealthComponent& health) {
     using namespace ecs::benchmarks::base::components;
     if (health.hp <= 0) {
       health.hp = 0;
@@ -68,8 +66,7 @@ public:
   using TimeDelta = float;
   using Entity = ::flecs::entity;
 
-  inline static const auto update = [](::flecs::iter& /*it*/, size_t /*index*/,
-                                       ecs::benchmarks::base::components::HealthComponent& health,
+  inline static const auto update = [](ecs::benchmarks::base::components::HealthComponent& health,
                                        const ecs::benchmarks::base::components::DamageComponent& damage) {
     using namespace ecs::benchmarks::base::components;
     // Calculate damage
