@@ -3,6 +3,7 @@
 #include "MovableDataObject.h"
 #include "MovableObject.h"
 #include <algorithm>
+#include <vector>
 
 namespace ecs::benchmarks::oop::entities {
 
@@ -69,7 +70,7 @@ void EntityFactory::createEmptyBulk(EntityManager& registry, std::vector<Entity>
 
 void EntityFactory::destroy(EntityManager& registry, Entity entity) {
   if (entity != nullptr && entity->id() > 0) {
-    registry[entity->id() - 1Z]->destroy();
+    registry[entity->id() - 1]->destroy();
   }
 }
 
@@ -81,7 +82,7 @@ void EntityFactory::destroyBulk(EntityManager& /*registry*/, std::vector<Entity>
 
 void EntityFactory::remove(EntityManager& registry, Entity entity) {
   if (entity != nullptr && entity->id() > 0) {
-    registry.erase(std::next(registry.begin(), entity->id() - 1Z));
+    registry.erase(std::next(registry.begin(), entity->id() - 1));
   }
 }
 

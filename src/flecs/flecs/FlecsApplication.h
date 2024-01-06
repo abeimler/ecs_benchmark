@@ -36,15 +36,17 @@ public:
     m_world
         .system<ecs::benchmarks::base::components::PositionComponent,
                 const ecs::benchmarks::base::components::VelocityComponent>()
-        .each(systems::MovementSystem::update);
-    m_world.system<ecs::benchmarks::base::components::DataComponent>().each(systems::DataSystem::update);
+        .iter(systems::MovementSystem::update);
+    m_world.system<ecs::benchmarks::base::components::DataComponent>()
+        .iter(systems::DataSystem::update);
     if (m_add_more_complex_system) {
       m_world
-          .system<ecs::benchmarks::base::components::PositionComponent,
+          .system<const ecs::benchmarks::base::components::PositionComponent,
                   ecs::benchmarks::base::components::VelocityComponent,
-                  ecs::benchmarks::base::components::DataComponent>()
+                  const ecs::benchmarks::base::components::DataComponent>()
           .each(systems::MoreComplexSystem::update);
-      m_world.system<ecs::benchmarks::base::components::HealthComponent>().each(systems::HealthSystem::update);
+      m_world.system<ecs::benchmarks::base::components::HealthComponent>()
+          .each(systems::HealthSystem::update);
       m_world
           .system<ecs::benchmarks::base::components::HealthComponent,
                   const ecs::benchmarks::base::components::DamageComponent>()

@@ -13,6 +13,7 @@ void MovableDataObject::updatePosition(float dt) {
 }
 
 void MovableDataObject::update(float dt) {
+  using DataComponent = ecs::benchmarks::base::components::DataComponent;
   MovableObject::update(dt);
   // NOTE: copy-paste from DataSystem
   m_data.thingy++;
@@ -22,7 +23,8 @@ void MovableDataObject::update(float dt) {
   /// (std::string) ?
   // m_data.stringy = fmt::format(FMT_STRING("{:4.2f}"), m_data.dingy);
   std::string stringy = fmt::format(FMT_STRING("{:4.2f}"), m_data.dingy);
-  std::char_traits<char>::copy(m_data.stringy, stringy.data(), std::min(stringy.length(), m_data.StringyMaxLength));
+  std::char_traits<char>::copy(m_data.stringy, stringy.data(),
+                               std::min(stringy.length(), DataComponent::StringyMaxLength));
 }
 
 } // namespace ecs::benchmarks::oop::entities

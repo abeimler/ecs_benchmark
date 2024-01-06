@@ -211,7 +211,7 @@ public:
     state.counters["entities"] = static_cast<double>(nentities);
   }
   template <class tEntityFactory = EntityFactory>
-    requires HasBulkDestroyFeature<tEntityFactory>
+    requires(HasBulkDestroyFeature<tEntityFactory> && HasBulkFeatureWithOutput<tEntityFactory>)
   void BM_DestroyEntitiesInBulk(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     for (auto _ : state) {

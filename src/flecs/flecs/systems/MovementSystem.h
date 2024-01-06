@@ -13,12 +13,14 @@ public:
   using TimeDelta = double;
   using Entity = ::flecs::entity;
 
-  inline static const auto update = [](::flecs::iter& it, size_t /*index*/,
-                                       ecs::benchmarks::base::components::PositionComponent& position,
-                                       const ecs::benchmarks::base::components::VelocityComponent& direction) {
+  inline static const auto update = [](::flecs::iter& it,
+                                       ecs::benchmarks::base::components::PositionComponent* position,
+                                       const ecs::benchmarks::base::components::VelocityComponent* direction) {
     const auto dt = gsl::narrow_cast<TimeDelta>(it.delta_time());
-    position.x += direction.x * dt;
-    position.y += direction.y * dt;
+    for (auto i : it) {
+      position[i].x += direction[i].x * dt;
+      position[i].y += direction[i].y * dt;
+    }
   };
 };
 

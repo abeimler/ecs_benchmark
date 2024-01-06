@@ -7,9 +7,8 @@ cpmaddpackage(
   GITHUB_REPOSITORY
   SanderMertens/flecs
   OPTIONS
-  "FLECS_STATIC_LIBS ON"
-  "FLECS_SHARED_LIBS OFF"
-  "FLECS_DEVELOPER_WARNINGS OFF")
+  "FLECS_STATIC ON"
+  "FLECS_SHARED OFF")
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-example-myecs"
