@@ -18,7 +18,7 @@ cpmaddpackage(
   GITHUB_REPOSITORY
   aminya/project_options
   VERSION
-  0.33.0
+  0.34.0
   # GIT_TAG           main
   DOWNLOAD_ONLY)
 if(project_options_ADDED)
@@ -66,12 +66,14 @@ include(cmake/ProjectOptions.cmake)
 # see https://github.com/TheLartians/CPM.cmake for more info
 include(cmake/CPM.cmake)
 # PackageProject.cmake will be used to make our target installable
-cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.11.0")
+# https://github.com/TheLartians/PackageProject.cmake
+cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.11.2")
+# https://github.com/TheLartians/Format.cmake
 cpmaddpackage(
   NAME
   Format.cmake
   VERSION
-  1.7.3
+  1.8.1
   GITHUB_REPOSITORY
   TheLartians/Format.cmake
   OPTIONS

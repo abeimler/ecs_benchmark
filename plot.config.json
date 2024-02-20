@@ -163,14 +163,14 @@
       "name": "EnTT",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt"
     },
     "entt (runtime)": {
       "name": "EnTT (runtime)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true
     },
@@ -178,7 +178,7 @@
       "name": "EnTT (group)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true
     },
@@ -186,7 +186,7 @@
       "name": "EnTT (non-owning group)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true
     },
@@ -194,7 +194,7 @@
       "name": "EnTT (full-owning group)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true
     },
@@ -202,7 +202,7 @@
       "name": "EnTT (partial-owning group)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true
     },
@@ -210,7 +210,7 @@
       "name": "EnTT (stable)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
-      "version": "v3.12.2",
+      "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true
     },
@@ -225,7 +225,7 @@
       "name": "mustache",
       "author": "@kirillochnev",
       "description": "A fast, modern C++ Entity Component System",
-      "version": "0.2 (Apr 2023)",
+      "version": "0.2 (Feb 2024)",
       "link": "https://github.com/kirillochnev/mustache"
     },
     "openecs": {
@@ -239,7 +239,7 @@
       "name": "Flecs",
       "author": "@SanderMertens",
       "description": "Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.",
-      "version": "v3.2.10",
+      "version": "v3.2.11",
       "link": "https://github.com/SanderMertens/flecs"
     },
     "pico_ecs": {

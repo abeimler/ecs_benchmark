@@ -3,7 +3,7 @@ cpmaddpackage(
   NAME
   EnTT
   VERSION
-  3.12.2
+  3.13.1
   GITHUB_REPOSITORY
   skypjack/entt
   OPTIONS
