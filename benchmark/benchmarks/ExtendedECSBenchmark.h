@@ -399,8 +399,9 @@ protected:
 
 public:
   template <class Comp, class... Args>
-  inline static void dummy_each(Comp& comp, Args&&... /*args*/) {
-    ((comp.x = {}));
+  inline static void dummy_each(Comp& comp, Args&&... args) {
+    benchmark::DoNotOptimize(comp);
+    (benchmark::DoNotOptimize(args), ...);
   }
 
   template <typename Iterable, typename Func>

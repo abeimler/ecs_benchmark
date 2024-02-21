@@ -45,6 +45,12 @@ if(ENABLE_BENCHMARK_PICO_ECS)
   add_subdirectory(benchmarks/pico-ecs-extended)
 endif()
 
+if(ENABLE_BENCHMARK_GAIA_ECS)
+  add_subdirectory(benchmarks/gaia-ecs-entities)
+  add_subdirectory(benchmarks/gaia-ecs)
+  add_subdirectory(benchmarks/gaia-ecs-extended)
+endif()
+
 if(ENABLE_BENCHMARK_OOP)
   add_subdirectory(benchmarks/oop)
 endif()

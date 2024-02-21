@@ -162,7 +162,7 @@ tasks:
 
   format:
     - cmake --build build --target fix-format
-    - ~/vcpkg/vcpkg format-manifest ./vcpkg.json
+    #- ~/vcpkg/vcpkg format-manifest ./vcpkg.json
 
   lint:
     - cmake --build build --target check-format
