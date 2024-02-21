@@ -1,0 +1,41 @@
+version: 3
+
+includes:
+  utils:
+    taskfile: ../Utils.yml
+    internal: true
+
+tasks:
+  all:
+    - task: default
+    - task: entities
+    - task: extended
+
+  default:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: gaia-ecs
+        BENCHMARK_DIR: gaia-ecs
+        REPORT_NAME: gaia-ecs
+
+  entities:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: gaia-ecs-entities
+        BENCHMARK_DIR: gaia-ecs-entities
+        REPORT_NAME: gaia-ecs-entities
+
+  extended:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: gaia-ecs-extended
+        BENCHMARK_DIR: gaia-ecs-extended
+        REPORT_NAME: gaia-ecs-extended
+
+  complex:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: gaia-ecs-complex
+        BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
+        BENCHMARK_NAME: gaia-ecs-extended
+        BENCHMARK_DIR: gaia-ecs-extended

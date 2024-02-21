@@ -249,6 +249,13 @@
       "version": "2.3 (Sep 2023)",
       "link": "https://github.com/empyreanx/pico_headers"
     },
+    "gaia-ecs": {
+      "name": "gaia-ecs",
+      "author": "@richardbiely",
+      "description": "Gaia-ECS is a fast and easy-to-use ECS framework.",
+      "version": "v0.8.5",
+      "link": "https://github.com/richardbiely/gaia-ecs"
+    },
     "oop": {
       "name": "OOP",
       "description": "Simple OOP Solution.",
