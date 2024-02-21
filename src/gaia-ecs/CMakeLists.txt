@@ -32,14 +32,22 @@ add_library(
     gaia-ecs/systems/DataSystem.cpp
     gaia-ecs/systems/MoreComplexSystem.h
     gaia-ecs/systems/MoreComplexSystem.cpp
+    gaia-ecs/systems/SoAMoreComplexSystem.h
+    gaia-ecs/systems/SoAMoreComplexSystem.cpp
     gaia-ecs/systems/MovementSystem.h
     gaia-ecs/systems/MovementSystem.cpp
+    gaia-ecs/systems/SoAMovementSystem.h
+    gaia-ecs/systems/SoAMovementSystem.cpp
     gaia-ecs/entities/EntityFactory.h
     gaia-ecs/entities/EntityFactory.cpp
+    gaia-ecs/entities/SoAEntityFactory.h
+    gaia-ecs/entities/SoAEntityFactory.cpp
     gaia-ecs/entities/HeroMonsterEntityFactory.h
     gaia-ecs/entities/HeroMonsterEntityFactory.cpp
     gaia-ecs/GaiaEcsApplication.h
     gaia-ecs/GaiaEcsApplication.cpp
+    gaia-ecs/SoAGaiaEcsApplication.h
+    gaia-ecs/SoAGaiaEcsApplication.cpp
 )
 add_library(ecs-benchmark::example::gaia-ecs ALIAS ecs-benchmark-example-gaia-ecs)
 

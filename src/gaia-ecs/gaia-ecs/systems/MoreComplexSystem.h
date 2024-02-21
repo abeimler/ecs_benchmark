@@ -22,7 +22,7 @@ public:
               .query()
               .all<ecs::benchmarks::base::components::PositionComponent,
                    ecs::benchmarks::base::components::VelocityComponent&,
-                   ecs::benchmarks::base::components::PositionComponent>();
+                   ecs::benchmarks::base::components::DataComponent>();
   }
 
   void OnUpdate() override {
@@ -87,8 +87,8 @@ public:
   void OnCreated() override {
     m_q = world()
               .query()
-              .all<ecs::benchmarks::base::components::HealthComponent,
-                   ecs::benchmarks::base::components::DamageComponent&>();
+              .all<ecs::benchmarks::base::components::HealthComponent&,
+                   ecs::benchmarks::base::components::DamageComponent>();
   }
   void OnUpdate() override {
     constexpr TimeDelta dt = 1.0 / 60.0;
