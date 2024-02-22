@@ -57,6 +57,7 @@ tasks:
           {{.PROJECT_DIR}}/reports/flecs-extended.json
           {{.PROJECT_DIR}}/reports/pico-ecs-extended.json
           {{.PROJECT_DIR}}/reports/gaia-ecs-extended.json
+          {{.PROJECT_DIR}}/reports/gaia-ecs-extended-soa.json
         # TODO: add openecs
         # {{.PROJECT_DIR}}/reports/openecs-extended.json
 
