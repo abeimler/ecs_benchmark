@@ -18,6 +18,7 @@ ECS (Entity-Component-System) Frameworks:
 * [mustache](https://github.com/kirillochnev/mustache)
 * [flecs](https://github.com/SanderMertens/flecs)
 * [pico_ecs](https://github.com/empyreanx/pico_headers)
+* [gaia-ecs](https://github.com/richardbiely/gaia-ecs)
 
 ## TL;DR Results
 
@@ -186,7 +187,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
    2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
    3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 * \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
-
+* \***** gaia-ecs (SoA) iterate via [SoA Layout](https://github.com/richardbiely/gaia-ecs?tab=readme-ov-file#data-layouts) using an `PositionSoA`- and `VelocitySoA`-component
 
 
 
@@ -210,6 +211,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
     2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
     3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 * \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
+* \***** gaia-ecs (SoA) iterate via [SoA Layout](https://github.com/richardbiely/gaia-ecs?tab=readme-ov-file#data-layouts) using an `PositionSoA`- und `VelocitySoA`-component
 
 
 ## Contributing
@@ -229,42 +231,51 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 
 ### Using [Taskfile](https://taskfile.dev/installation/)
 
-1. `git submodule update --init --recursive`
-2. Build: `task build`
-3. Run (All) Benchmarks: `task benchmark`
-4. Plot Graphs: `task plot:all`
+0. Install [Taskfile](https://taskfile.dev/installation/)
+1. Run Build: `task build`
+2. Run (All) Benchmarks: `task benchmark`
+3. Plot Graphs: `task plot:all`
+
+Or run `task generate`
 
 You can now find the benchmark-results in [`reports/`](reports/).
 
-_You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
+_You need python (>=3.8.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting), install [pipx](https://pipx.pypa.io/stable/installation/) and [poetry](https://python-poetry.org/docs/#installing-with-pipx) `pipx install poetry`._
+
+Then install dependencies for the script:
+```bash
+cd ./scripts/gen-benchmark-report && poetry install
+```
+
+#### Generate README
 
 ```bash
-pip install -r ./scripts/gen-benchmark-report/requirements.txt
+task generate:readme
 ```
+
 
 ### ~~Step-by-Step~~
 
 1. Configure and build benchmarks, see [Building Details](doc/README_building.md):
-   1. `git submodule update --init --recursive`
-   2. `cmake -S . -B ./build`
-   3. `cmake --build ./build`
+   1. `cmake -S . -B ./build`
+   2. `cmake --build ./build`
 2. Run benchmark(s), with [`run-benchmarks.sh`](run-benchmarks.sh) or each:
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_
 3. Plot Reports, after generating json reports, see [`plot-results.sh`](plot-results.sh):
-   1. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
-   2. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
+   1. `pipx run --spec ./scripts/gen-benchmark-report gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
+   2. `pipx run --spec ./scripts/gen-benchmark-report gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
 
 
 ## Links and More
 
-* [Dependency Setup](doc/README_dependencies.md)
-* [Building Details](doc/README_building.md)
-* Project Template, mix of: [starter_template](https://github.com/cpp-best-practices/gui_starter_template) and [ModernCppStarter](https://github.com/TheLartians/ModernCppStarter)
-  * [Forked cpp_vcpkg_project](https://github.com/abeimler/cpp_vcpkg_project)
-* [Google benchmark](https://github.com/google/benchmark)
-* https://github.com/SanderMertens/ecs-faq
-* https://github.com/jslee02/awesome-entity-component-system
+- [Dependency Setup](doc/README_dependencies.md)
+- [Building Details](doc/README_building.md)
+- Project Template, mix of: [starter_template](https://github.com/cpp-best-practices/gui_starter_template) and [ModernCppStarter](https://github.com/TheLartians/ModernCppStarter)
+  - [Forked cpp_vcpkg_project](https://github.com/abeimler/cpp_vcpkg_project)
+- [Google benchmark](https://github.com/google/benchmark)
+- https://github.com/SanderMertens/ecs-faq
+- https://github.com/jslee02/awesome-entity-component-system
 
 
 ### Candidates

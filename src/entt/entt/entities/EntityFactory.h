@@ -30,7 +30,7 @@ public:
   static void destroy(EntityManager& registry, Entity entity);
   static void destroyBulk(EntityManager& registry, std::vector<Entity>& entities);
 
-  static void release(EntityManager& registry, Entity entity);
+  // static void release(EntityManager& registry, Entity entity);
 
   [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
     return registry.storage<Entity>().size();

@@ -21,6 +21,7 @@ tasks:
           {{.PROJECT_DIR}}/reports/mustache.json 
           {{.PROJECT_DIR}}/reports/flecs.json
           {{.PROJECT_DIR}}/reports/pico-ecs.json
+          {{.PROJECT_DIR}}/reports/gaia-ecs.json
         # TODO: add openecs
         #  {{.PROJECT_DIR}}/reports/openecs.json
 
@@ -35,6 +36,7 @@ tasks:
           {{.PROJECT_DIR}}/reports/mustache-entities.json 
           {{.PROJECT_DIR}}/reports/flecs-entities.json
           {{.PROJECT_DIR}}/reports/pico-ecs-entities.json
+          {{.PROJECT_DIR}}/reports/gaia-ecs-entities.json
         # TODO: add openecs
         # {{.PROJECT_DIR}}/reports/openecs-entities.json
 
@@ -54,6 +56,8 @@ tasks:
           {{.PROJECT_DIR}}/reports/mustache-extended.json 
           {{.PROJECT_DIR}}/reports/flecs-extended.json
           {{.PROJECT_DIR}}/reports/pico-ecs-extended.json
+          {{.PROJECT_DIR}}/reports/gaia-ecs-extended.json
+          {{.PROJECT_DIR}}/reports/gaia-ecs-extended-soa.json
         # TODO: add openecs
         # {{.PROJECT_DIR}}/reports/openecs-extended.json
 
@@ -72,3 +76,4 @@ tasks:
           {{.PROJECT_DIR}}/reports/flecs-complex.json
           {{.PROJECT_DIR}}/reports/oop-complex.json
           {{.PROJECT_DIR}}/reports/pico-ecs-complex.json
+          {{.PROJECT_DIR}}/reports/gaia-ecs-complex.json

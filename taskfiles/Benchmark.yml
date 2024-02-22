@@ -8,6 +8,7 @@ includes:
   openecs: ./benchmarks/OpenECS.yml
   flecs: ./benchmarks/Flecs.yml
   pico-ecs: ./benchmarks/PicoEcs.yml
+  gaia-ecs: ./benchmarks/GaiaEcs.yml
   oop: ./benchmarks/OOP.yml
 
 tasks:
@@ -24,6 +25,7 @@ tasks:
     - task: flecs:all
     - task: oop:all
     - task: pico-ecs:all
+    - task: gaia-ecs:all
 
   all:complex:
     - task: entt:complex
@@ -37,3 +39,4 @@ tasks:
     - task: flecs:complex
     - task: oop:complex
     - task: pico-ecs:complex
+    - task: gaia-ecs:complex

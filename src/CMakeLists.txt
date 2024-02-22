@@ -40,3 +40,8 @@ option(ENABLE_BENCHMARK_OOP "Enable OOP Benchmarks" ON)
 if(ENABLE_BENCHMARK_OOP)
   add_subdirectory(oop)
 endif()
+
+option(ENABLE_BENCHMARK_GAIA_ECS "Enable gaia-ecs Benchmarks" ON)
+if(ENABLE_BENCHMARK_GAIA_ECS)
+  add_subdirectory(gaia-ecs)
+endif()

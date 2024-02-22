@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "gen-benchmark-report"
+version = "1.1.0"
+description = "Generate benchmarks graphs and RESULTS.md with benchmark results"
+authors = ["Alex Beimler <alex-beimler@web.de>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/abeimler/ecs_benchmark/tree/master/scripts/gen-benchmark-report"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+docopt = "==0.6.2"
+pandas = "==1.5.2"
+psutil = "==5.8.0"
+pystache = "==0.6.0"
+pynput = "==1.6.8"
+QtPy = "==1.11.3"
+black = "==22.3.0"
+plotly = "==5.11.0"
+tabulate = "==0.9.0"
+kaleido = "==0.2.1"
+
+[tool.poetry.scripts]
+gen-benchmark-report = "gen_benchmark_report.cli:cli"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -18,7 +18,7 @@ cpmaddpackage(
   GITHUB_REPOSITORY
   aminya/project_options
   VERSION
-  0.33.0
+  0.34.0
   # GIT_TAG           main
   DOWNLOAD_ONLY)
 if(project_options_ADDED)
@@ -34,7 +34,7 @@ run_vcpkg()
 # Set the project name and language
 project(
   ecs-benchmark
-  VERSION 6.0.0
+  VERSION 6.1.0
   DESCRIPTION "Benchmarks of common ECS (Entity-Component-System)-Frameworks in C++ (or C)"
   HOMEPAGE_URL "https://github.com/abeimler/ecs_benchmark"
   LANGUAGES CXX C)
@@ -65,13 +65,14 @@ include(cmake/ProjectOptions.cmake)
 # ---- Add dependencies via CPM ----
 # see https://github.com/TheLartians/CPM.cmake for more info
 include(cmake/CPM.cmake)
-# PackageProject.cmake will be used to make our target installable
-cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.11.0")
+# PackageProject.cmake will be used to make our target installable https://github.com/TheLartians/PackageProject.cmake
+cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.11.2")
+# https://github.com/TheLartians/Format.cmake
 cpmaddpackage(
   NAME
   Format.cmake
   VERSION
-  1.7.3
+  1.8.1
   GITHUB_REPOSITORY
   TheLartians/Format.cmake
   OPTIONS

@@ -14,8 +14,8 @@ tasks:
   gen-report-template:
     dir: "{{.PROJECT_DIR}}"
     cmds:
-      - python3 {{.PROJECT_DIR}}/scripts/gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-plots {{.REPORT_FILES}}
-      - python3 {{.PROJECT_DIR}}/scripts/gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-results-md -o {{.OUTPUT}} {{.REPORT_FILES}}
+      - pipx run --spec {{.PROJECT_DIR}}/scripts/gen-benchmark-report gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-plots {{.REPORT_FILES}}
+      - pipx run --spec {{.PROJECT_DIR}}/scripts/gen-benchmark-report gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-results-md -o {{.OUTPUT}} {{.REPORT_FILES}}
     vars:
       REPORT_FILES: "{{range $i, $file := .REPORTS | splitLines -}} {{if $file}} {{$file}} {{end}} {{end}}"
       OUTPUT: '{{.OUTPUT | default "RESULTS.md"}}'
@@ -23,7 +23,7 @@ tasks:
   gen-readme-template:
     dir: "{{.PROJECT_DIR}}"
     cmds:
-      - python3 {{.PROJECT_DIR}}/scripts/gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-readme-md -o {{.OUTPUT}} -i {{.INPUT}} {{.RESULT_FILES}}
+      - pipx run --spec {{.PROJECT_DIR}}/scripts/gen-benchmark-report gen-benchmark-report -c {{.PROJECT_DIR}}/plot.config.json --reports-dir={{.PROJECT_DIR}}/reports/ gen-readme-md -o {{.OUTPUT}} -i {{.INPUT}} {{.RESULT_FILES}}
     vars:
       RESULT_FILES: "{{range $i, $file := .RESULTS | splitLines -}} {{if $file}} {{$file}} {{end}} {{end}}"
       OUTPUT: '{{.OUTPUT | default "README.md"}}'
