@@ -253,14 +253,14 @@
       "name": "gaia-ecs",
       "author": "@richardbiely",
       "description": "Gaia-ECS is a fast and easy-to-use ECS framework.",
-      "version": "v0.8.5",
+      "version": "v0.8.4",
       "link": "https://github.com/richardbiely/gaia-ecs"
     },
     "gaia-ecs (SoA)": {
       "name": "gaia-ecs (SoA)",
       "author": "@richardbiely",
       "description": "Gaia-ECS is a fast and easy-to-use ECS framework.",
-      "version": "v0.8.5",
+      "version": "v0.8.4",
       "link": "https://github.com/richardbiely/gaia-ecs",
       "skip_candidate": true
     },

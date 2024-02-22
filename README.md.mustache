@@ -229,18 +229,28 @@ Read [CONTRIBUTING.md](CONTRIBUTING) for more details.
 
 ### Using [Taskfile](https://taskfile.dev/installation/)
 
-1. `git submodule update --init --recursive`
-2. Build: `task build`
-3. Run (All) Benchmarks: `task benchmark`
-4. Plot Graphs: `task plot:all`
+0. Install [Taskfile](https://taskfile.dev/installation/)
+1. Run Build: `task build`
+2. Run (All) Benchmarks: `task benchmark`
+3. Plot Graphs: `task plot:all`
+
+Or run `task generate`
 
 You can now find the benchmark-results in [`reports/`](reports/).
 
-_You need python (>=3.9.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting)_
+_You need python (>=3.8.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting), install [pipx](https://pipx.pypa.io/stable/installation/) and [poetry](https://python-poetry.org/docs/#installing-with-pipx) `pipx install poetry`._
+
+Then install dependencies for the script:
+```bash
+cd ./scripts/gen-benchmark-report && poetry install
+```
+
+#### Generate README
 
 ```bash
-pip install -r ./scripts/gen-benchmark-report/requirements.txt
+task generate:readme
 ```
+
 
 ### ~~Step-by-Step~~
 
@@ -252,8 +262,8 @@ pip install -r ./scripts/gen-benchmark-report/requirements.txt
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt` _(console output)_ _(optional)_
    * `./build/benchmark/benchmarks/entt/ecs-benchmark-entt --benchmark_format=json > ./reports/entt.json` _(write json report)_
 3. Plot Reports, after generating json reports, see [`plot-results.sh`](plot-results.sh):
-   1. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
-   2. `python3 ./scripts/gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
+   1. `pipx run --spec ./scripts/gen-benchmark-report gen-benchmark-report -i ./info.json gen-plot ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate graphs)_
+   2. `pipx run --spec ./scripts/gen-benchmark-report gen-benchmark-report -i ./info.json gen-results-md ./reports/entityx.json ./reports/entt.json ./reports/ginseng.json ./reports/mustache.json ./reports/openecs.json ./reports/flecs.json` _(generate full report)_
 
 
 ## Links and More

@@ -13,7 +13,7 @@ cpmaddpackage(
   "GAIA_BUILD_UNITTEST OFF"
   "GAIA_BUILD_BENCHMARK OFF"
   "GAIA_BUILD_EXAMPLES OFF"
-  "GAIA_MAKE_SINGLE_HEADER ON"
+  "GAIA_MAKE_SINGLE_HEADER OFF"
   DOWNLOAD_ONLY True)
 # @FIXME: can not found <gaia.h> header ... use single-header download
 if(gaia_ADDED)
