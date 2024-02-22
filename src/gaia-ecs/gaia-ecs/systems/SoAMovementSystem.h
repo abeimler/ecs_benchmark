@@ -15,10 +15,7 @@ public:
   using Entity = ::gaia::ecs::Entity;
 
   void OnCreated() override {
-    m_q = world()
-              .query()
-              .all<components::SoAPositionComponent&,
-                   components::SoAVelocityComponent>();
+    m_q = world().query().all<components::SoAPositionComponent&, components::SoAVelocityComponent>();
   }
 
   void OnUpdate() override {
@@ -26,13 +23,13 @@ public:
     m_q.each([&](::gaia::ecs::Iter iter) {
       // Position
       auto vp = iter.view_mut<components::SoAPositionComponent>(); // read-write access to PositionSoA
-      auto px = vp.set<0>(); // continuous block of "x" from PositionSoA
-      auto py = vp.set<1>(); // continuous block of "y" from PositionSoA
+      auto px = vp.set<0>();                                       // continuous block of "x" from PositionSoA
+      auto py = vp.set<1>();                                       // continuous block of "y" from PositionSoA
 
       // Velocity
       auto vv = iter.view<components::SoAVelocityComponent>(); // read-only access to VelocitySoA
-      auto vx = vv.get<0>(); // continuous block of "x" from VelocitySoA
-      auto vy = vv.get<1>(); // continuous block of "y" from VelocitySoA
+      auto vx = vv.get<0>();                                   // continuous block of "x" from VelocitySoA
+      auto vy = vv.get<1>();                                   // continuous block of "y" from VelocitySoA
 
       // Handle x coordinates
       GAIA_EACH(iter) px[i] += vx[i] * dt;

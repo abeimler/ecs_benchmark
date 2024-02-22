@@ -65,8 +65,7 @@ include(cmake/ProjectOptions.cmake)
 # ---- Add dependencies via CPM ----
 # see https://github.com/TheLartians/CPM.cmake for more info
 include(cmake/CPM.cmake)
-# PackageProject.cmake will be used to make our target installable
-# https://github.com/TheLartians/PackageProject.cmake
+# PackageProject.cmake will be used to make our target installable https://github.com/TheLartians/PackageProject.cmake
 cpmaddpackage("gh:TheLartians/PackageProject.cmake@1.11.2")
 # https://github.com/TheLartians/Format.cmake
 cpmaddpackage(

@@ -27,9 +27,7 @@ SoAEntityFactory::Entity SoAEntityFactory::create(EntityManager& entities) {
 
 SoAEntityFactory::Entity SoAEntityFactory::createMinimal(EntityManager& entities) {
   auto e = entities.add();
-  entities.bulk(e)
-      .add<components::SoAPositionComponent>()
-      .add<components::SoAVelocityComponent>();
+  entities.bulk(e).add<components::SoAPositionComponent>().add<components::SoAVelocityComponent>();
   return e;
 }
 

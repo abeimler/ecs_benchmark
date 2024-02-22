@@ -28,26 +28,25 @@ public:
   //  return entities.size();
   //}
 
-  [[nodiscard]] static inline const components::SoAPositionComponent&
-  getComponentOneConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline const components::SoAPositionComponent& getComponentOneConst(EntityManager& entities,
+                                                                                           Entity entity) {
     return entities.get<components::SoAPositionComponent>(entity);
   }
 
-  [[nodiscard]] static inline const components::SoAVelocityComponent&
-  getComponentTwoConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline const components::SoAVelocityComponent& getComponentTwoConst(EntityManager& entities,
+                                                                                           Entity entity) {
     return entities.get<components::SoAVelocityComponent>(entity);
   }
 
-  [[nodiscard]] static inline const components::SoAPositionComponent&
-  getComponentOne(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline const components::SoAPositionComponent& getComponentOne(EntityManager& entities,
+                                                                                      Entity entity) {
     return entities.get<components::SoAPositionComponent>(entity);
   }
 
   /// @FIXME: get component as non-const
-  [[nodiscard]] static inline components::SoAVelocityComponent&
-  getComponentTwo(EntityManager& entities, Entity entity) {
-    return *const_cast<components::SoAVelocityComponent*>(
-        &entities.get<components::SoAVelocityComponent>(entity));
+  [[nodiscard]] static inline components::SoAVelocityComponent& getComponentTwo(EntityManager& entities,
+                                                                                Entity entity) {
+    return *const_cast<components::SoAVelocityComponent*>(&entities.get<components::SoAVelocityComponent>(entity));
   }
 
   /// @FIXME: get component as non-const

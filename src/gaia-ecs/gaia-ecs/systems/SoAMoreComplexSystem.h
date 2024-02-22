@@ -22,8 +22,7 @@ public:
   void OnCreated() override {
     m_q = world()
               .query()
-              .all<components::SoAPositionComponent,
-                   components::SoAVelocityComponent&,
+              .all<components::SoAPositionComponent, components::SoAVelocityComponent&,
                    ecs::benchmarks::base::components::DataComponent>();
   }
 
@@ -32,13 +31,13 @@ public:
     m_q.each([&](::gaia::ecs::Iter iter) {
       // Position
       auto vp = iter.view<components::SoAPositionComponent>(); // read-only access to PositionSoA
-      auto px = vp.get<0>(); // continuous block of "x" from PositionSoA
-      auto py = vp.get<1>(); // continuous block of "y" from PositionSoA
+      auto px = vp.get<0>();                                   // continuous block of "x" from PositionSoA
+      auto py = vp.get<1>();                                   // continuous block of "y" from PositionSoA
 
       // Velocity
       auto vv = iter.view_mut<components::SoAVelocityComponent>(); // read-write access to VelocitySoA
-      auto vx = vv.set<0>(); // continuous block of "x" from VelocitySoA
-      auto vy = vv.set<1>(); // continuous block of "y" from VelocitySoA
+      auto vx = vv.set<0>();                                       // continuous block of "x" from VelocitySoA
+      auto vy = vv.set<1>();                                       // continuous block of "y" from VelocitySoA
 
       // Data
       auto vd = iter.view<ecs::benchmarks::base::components::DataComponent>();

@@ -6,4 +6,4 @@ static ecs::benchmarks::gaia_ecs::GaiaEcsSoABenchmarkSuite soa_benchmark_suite({
 });
 
 ECS_COMPLEX_UPDATE_SYSTEMS_BENCHMARKS(soa_benchmark_suite)
-//ECS_ITERATE_COMPONENTS_BENCHMARKS(soa_benchmark_suite)
+// ECS_ITERATE_COMPONENTS_BENCHMARKS(soa_benchmark_suite)

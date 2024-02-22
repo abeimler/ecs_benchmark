@@ -3,8 +3,8 @@
 
 #include "ExtendedECSBenchmark.h"
 #include "gaia-ecs/SoAGaiaEcsApplication.h"
-#include "gaia-ecs/entities/SoAEntityFactory.h"
 #include "gaia-ecs/entities/HeroMonsterEntityFactory.h"
+#include "gaia-ecs/entities/SoAEntityFactory.h"
 #include "gaia-ecs/systems/DataSystem.h"
 #include "gaia-ecs/systems/MoreComplexSystem.h"
 #include "gaia-ecs/systems/SoAMoreComplexSystem.h"
@@ -14,8 +14,8 @@
 namespace ecs::benchmarks::gaia_ecs {
 
 class GaiaEcsSoABenchmarkSuite final
-    : public ecs::benchmarks::base::ExtendedECSBenchmark<"gaia-ecs (SoA)", SoAGaiaEcsApplication, entities::SoAEntityFactory,
-                                                         entities::HeroMonsterEntityFactory> {
+    : public ecs::benchmarks::base::ExtendedECSBenchmark<
+          "gaia-ecs (SoA)", SoAGaiaEcsApplication, entities::SoAEntityFactory, entities::HeroMonsterEntityFactory> {
 public:
   GaiaEcsSoABenchmarkSuite() = default;
 

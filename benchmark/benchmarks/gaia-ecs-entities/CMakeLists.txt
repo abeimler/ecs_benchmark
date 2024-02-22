@@ -3,7 +3,7 @@ set(INCLUDE_DIR "include") # must be relative paths
 add_executable(
   ecs-benchmark-gaia-ecs-entities
   # NOTE: add new benchmarks here
-        GaiaEcsEntityBenchmarkSuite.cpp GaiaEcsEntityBenchmarkSuite.h)
+  GaiaEcsEntityBenchmarkSuite.cpp GaiaEcsEntityBenchmarkSuite.h)
 target_include_directories(
   ecs-benchmark-gaia-ecs-entities
   PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
