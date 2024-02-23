@@ -20,7 +20,7 @@ public:
   GinsengApplication() = default;
   explicit GinsengApplication(base::add_more_complex_system_t add_more_complex_system)
       : Application(add_more_complex_system) {}
-  ~GinsengApplication() = default;
+  ~GinsengApplication() override = default;
   GinsengApplication(const GinsengApplication&) = delete;
   GinsengApplication& operator=(const GinsengApplication&) = delete;
   GinsengApplication(GinsengApplication&&) = default;

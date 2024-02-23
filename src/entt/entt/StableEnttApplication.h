@@ -22,7 +22,7 @@ public:
   StableEnttApplication() = default;
   explicit StableEnttApplication(base::add_more_complex_system_t add_more_complex_system)
       : Application(add_more_complex_system) {}
-  ~StableEnttApplication() = default;
+  ~StableEnttApplication() override = default;
   StableEnttApplication(const StableEnttApplication&) = delete;
   StableEnttApplication& operator=(const StableEnttApplication&) = delete;
   StableEnttApplication(StableEnttApplication&&) = default;

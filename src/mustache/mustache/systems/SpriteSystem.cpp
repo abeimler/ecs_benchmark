@@ -1,8 +1,7 @@
 #include "SpriteSystem.h"
 #include "base/components/HeroMonsterComponents.h"
-#include "base/components/PositionComponent.h"
 #include "base/components/SpriteComponent.h"
-#include "base/components/VelocityComponent.h"
+#include <mustache/ecs/ecs.hpp>
 
 namespace ecs::benchmarks::mustache::systems {
 

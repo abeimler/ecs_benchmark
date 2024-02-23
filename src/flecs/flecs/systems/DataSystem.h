@@ -2,9 +2,9 @@
 #define ECS_BENCHMARKS_FLECS_DATASYSTEM_H_
 
 #include "flecs/custom_flecs.h"
-#include <gsl/gsl-lite.hpp>
 
 #include "base/systems/DataSystem.h"
+#include <gsl/gsl-lite.hpp>
 
 namespace ecs::benchmarks::flecs::systems {
 

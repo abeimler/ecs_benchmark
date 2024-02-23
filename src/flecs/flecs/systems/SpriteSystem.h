@@ -3,6 +3,8 @@
 
 #include "flecs/custom_flecs.h"
 
+#include "base/components/HeroMonsterComponents.h"
+#include "base/components/SpriteComponent.h"
 #include "base/systems/SpriteSystem.h"
 
 namespace ecs::benchmarks::flecs::systems {

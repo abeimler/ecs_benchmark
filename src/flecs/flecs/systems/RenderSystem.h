@@ -3,6 +3,8 @@
 
 #include "flecs/custom_flecs.h"
 
+#include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 #include "base/systems/RenderSystem.h"
 
 namespace ecs::benchmarks::flecs::systems {

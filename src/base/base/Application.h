@@ -4,6 +4,7 @@
 #include "FrameBuffer.h"
 #include "base/systems/System.h"
 #include <cstdint>
+#include <gsl/gsl-lite.hpp>
 #include <memory>
 
 namespace ecs::benchmarks::base {

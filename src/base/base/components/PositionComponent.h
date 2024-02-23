@@ -4,8 +4,8 @@
 namespace ecs::benchmarks::base::components {
 
 struct PositionComponent {
-  double x{0.0F};
-  double y{0.0F};
+  float x{0.0F};
+  float y{0.0F};
 };
 
 

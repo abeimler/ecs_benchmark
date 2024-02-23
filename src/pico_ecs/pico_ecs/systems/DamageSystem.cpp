@@ -1,7 +1,5 @@
 #include "DamageSystem.h"
-#include "base/components/DataComponent.h"
-#include "base/components/PositionComponent.h"
-#include "base/components/VelocityComponent.h"
+#include "base/components/HeroMonsterComponents.h"
 #include <bit>
 #include <cassert>
 #include <span>

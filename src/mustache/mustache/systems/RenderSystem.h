@@ -4,6 +4,7 @@
 /// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
 #include <cstdint>
 
+#include "base/FrameBuffer.h"
 #include "base/systems/RenderSystem.h"
 #include <mustache/ecs/ecs.hpp>
 
@@ -15,7 +16,7 @@ public:
   using Entity = ::mustache::Entity;
 
   RenderSystem() = delete;
-  RenderSystem(base::FrameBuffer& frameBuffer)
+  explicit RenderSystem(base::FrameBuffer& frameBuffer)
       : ecs::benchmarks::base::systems::RenderSystem<::mustache::World, float>(frameBuffer) {}
 
   void update(::mustache::World& world, TimeDelta dt) override;

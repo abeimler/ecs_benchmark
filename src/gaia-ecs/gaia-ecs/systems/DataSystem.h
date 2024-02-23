@@ -2,11 +2,7 @@
 #define ECS_BENCHMARKS_GAIA_ECS_DATASYSTEM_H_
 
 #include "base/systems/DataSystem.h"
-#include <fmt/core.h>
-#include <fmt/format.h>
 #include <gaia.h>
-#include <gsl-lite/gsl-lite.hpp>
-#include <string>
 
 namespace ecs::benchmarks::gaia_ecs::systems {
 

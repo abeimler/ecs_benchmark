@@ -1,7 +1,5 @@
 #include "GroupDamageSystem.h"
-#include "base/components/DataComponent.h"
-#include "base/components/PositionComponent.h"
-#include "base/components/VelocityComponent.h"
+#include "base/components/HeroMonsterComponents.h"
 
 namespace ecs::benchmarks::entt::systems {
 

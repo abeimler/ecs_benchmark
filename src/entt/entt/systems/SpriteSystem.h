@@ -3,9 +3,6 @@
 
 #include "entt/entt.h"
 
-#include "base/systems/DamageSystem.h"
-#include "base/systems/HealthSystem.h"
-#include "base/systems/MoreComplexSystem.h"
 #include "base/systems/SpriteSystem.h"
 
 namespace ecs::benchmarks::entt::systems {

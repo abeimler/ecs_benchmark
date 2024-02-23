@@ -3,6 +3,7 @@
 
 #include "System.h"
 #include "base/components/HeroMonsterComponents.h"
+#include <algorithm>
 
 namespace ecs::benchmarks::base::systems {
 
@@ -22,8 +23,8 @@ public:
     // Calculate damage
     const int totalDamage = damage.atk - damage.def;
 
-    if (totalDamage > 0) {
-      health.hp -= totalDamage;
+    if (health.hp > 0 && totalDamage > 0) {
+      health.hp = std::max(health.hp - totalDamage, 0);
     }
   }
 };

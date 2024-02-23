@@ -1,7 +1,4 @@
 #include "HealthSystem.h"
-#include "base/components/DataComponent.h"
-#include "base/components/PositionComponent.h"
-#include "base/components/VelocityComponent.h"
 #include <bit>
 #include <cassert>
 #include <span>

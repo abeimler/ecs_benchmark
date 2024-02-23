@@ -1,6 +1,5 @@
 #include "SpriteSystem.h"
 #include "base/components/HeroMonsterComponents.h"
-#include "base/components/PositionComponent.h"
 #include "base/components/SpriteComponent.h"
 
 namespace ecs::benchmarks::ginseng::systems {

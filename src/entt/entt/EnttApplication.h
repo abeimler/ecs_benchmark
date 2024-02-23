@@ -21,7 +21,7 @@ public:
   EnttApplication() = default;
   explicit EnttApplication(base::add_more_complex_system_t add_more_complex_system)
       : Application(add_more_complex_system) {}
-  ~EnttApplication() = default;
+  ~EnttApplication() override = default;
   EnttApplication(const EnttApplication&) = delete;
   EnttApplication& operator=(const EnttApplication&) = delete;
   EnttApplication(EnttApplication&&) = default;

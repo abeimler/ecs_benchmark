@@ -1,10 +1,5 @@
 #include "MovableDataObject.h"
-#include <fmt/core.h>
-#include <fmt/format.h>
 #include <gsl-lite/gsl-lite.hpp>
-#include <string>
-#include <vector>
-
 
 namespace ecs::benchmarks::oop::entities {
 

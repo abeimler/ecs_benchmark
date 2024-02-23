@@ -54,7 +54,7 @@ public:
 
   void uninit() { m_sm.clear(); }
 
-  void update(TimeDelta dt) { m_sm.update(); }
+  void update(TimeDelta /*dt*/) { m_sm.update(); }
 
 private:
   base::add_more_complex_system_t m_addMoreComplexSystem{base::add_more_complex_system_t::UseMoreComplexSystems};

@@ -20,7 +20,7 @@ public:
                    ecs::benchmarks::base::components::DamageComponent>();
   }
   void OnUpdate() override {
-    constexpr TimeDelta dt = 1.0F / 60.0F;
+    // constexpr TimeDelta dt = 1.0F / 60.0F;
     m_q.each([&](ecs::benchmarks::base::components::HealthComponent& health,
                  const ecs::benchmarks::base::components::DamageComponent& damage) {
       BaseSystem::updateDamage(health, damage);

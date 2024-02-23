@@ -1,5 +1,7 @@
 #include "SoAHeroMonsterEntityFactory.h"
 #include "base/components/HeroMonsterComponents.h"
+#include "base/components/SpriteComponent.h"
+#include "gaia-ecs/components/SoAPositionComponent.h"
 
 namespace ecs::benchmarks::gaia_ecs::entities {
 

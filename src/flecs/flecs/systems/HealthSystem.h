@@ -3,6 +3,7 @@
 
 #include "flecs/custom_flecs.h"
 
+#include "base/components/HeroMonsterComponents.h"
 #include "base/systems/HealthSystem.h"
 
 namespace ecs::benchmarks::flecs::systems {

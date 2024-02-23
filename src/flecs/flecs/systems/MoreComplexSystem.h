@@ -3,6 +3,9 @@
 
 #include "flecs/custom_flecs.h"
 
+#include "base/components/DataComponent.h"
+#include "base/components/PositionComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/systems/MoreComplexSystem.h"
 
 namespace ecs::benchmarks::flecs::systems {

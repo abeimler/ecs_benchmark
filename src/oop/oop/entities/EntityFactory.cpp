@@ -1,5 +1,5 @@
 #include "EntityFactory.h"
-#include "ComplexMovableDataObject.h"
+#include "ComplexGameObject.h"
 #include "MovableDataObject.h"
 #include "MovableObject.h"
 #include <algorithm>
@@ -10,15 +10,10 @@ namespace ecs::benchmarks::oop::entities {
 class DummyObject : public GameObject {
 public:
   DummyObject() = default;
-
   DummyObject(const DummyObject&) = default;
-
   DummyObject(DummyObject&&) = default;
-
   DummyObject& operator=(const DummyObject&) = default;
-
   DummyObject& operator=(DummyObject&&) = default;
-
   ~DummyObject() override = default;
 
   void update(float /*dt*/) override {}
@@ -26,7 +21,7 @@ public:
 
 EntityFactory::Entity EntityFactory::create(EntityManager& registry) {
   auto& ret = (add_more_complex_system == base::add_more_complex_system_t::UseMoreComplexSystems)
-                  ? registry.emplace_back(std::make_unique<ComplexMovableDataObject>())
+                  ? registry.emplace_back(std::make_unique<ComplexGameObject>())
                   : registry.emplace_back(std::make_unique<MovableDataObject>());
   ret->id(registry.size());
   return ret.get();
@@ -36,7 +31,7 @@ void EntityFactory::createBulk(EntityManager& registry, std::vector<Entity>& out
   registry.reserve(registry.size() + out.size());
   for (size_t i = 0; i < out.size(); i++) {
     auto& ret = (add_more_complex_system == base::add_more_complex_system_t::UseMoreComplexSystems)
-                    ? registry.emplace_back(std::make_unique<ComplexMovableDataObject>())
+                    ? registry.emplace_back(std::make_unique<ComplexGameObject>())
                     : registry.emplace_back(std::make_unique<MovableDataObject>());
     ret->id(registry.size());
   }

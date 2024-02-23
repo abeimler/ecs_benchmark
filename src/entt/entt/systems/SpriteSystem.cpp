@@ -1,9 +1,6 @@
 #include "SpriteSystem.h"
-#include "base/components/DataComponent.h"
 #include "base/components/HeroMonsterComponents.h"
-#include "base/components/PositionComponent.h"
 #include "base/components/SpriteComponent.h"
-#include "base/components/VelocityComponent.h"
 
 namespace ecs::benchmarks::entt::systems {
 

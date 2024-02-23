@@ -2,7 +2,6 @@
 #define ECS_BENCHMARKS_BASE_SPRITE_RENDERSYSTEM_H_
 
 #include "System.h"
-#include "base/FrameBuffer.h"
 #include "base/components/HeroMonsterComponents.h"
 #include "base/components/SpriteComponent.h"
 

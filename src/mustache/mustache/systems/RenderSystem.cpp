@@ -1,7 +1,6 @@
 #include "RenderSystem.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/SpriteComponent.h"
-#include "base/components/VelocityComponent.h"
 
 namespace ecs::benchmarks::mustache::systems {
 

@@ -26,7 +26,7 @@ public:
   }
 
   void OnUpdate() override {
-    constexpr TimeDelta dt = 1.0F / 60.0F;
+    // constexpr TimeDelta dt = 1.0F / 60.0F;
     m_q.each([&](::gaia::ecs::Iter iter) {
       // Position
       auto vp = iter.view<components::SoAPositionComponent>(); // read-only access to PositionSoA
@@ -44,7 +44,7 @@ public:
 private:
   ::gaia::ecs::Query m_q;
   // std::reference_wrapper<base::FrameBuffer> m_frameBuffer;
-  base::FrameBuffer* m_frameBuffer;
+  base::FrameBuffer* m_frameBuffer{nullptr};
 };
 
 } // namespace ecs::benchmarks::gaia_ecs::systems

@@ -1,6 +1,8 @@
 #ifndef ECS_BENCHMARKS_GAIA_ECS_SPRITESYSTEM_H_
 #define ECS_BENCHMARKS_GAIA_ECS_SPRITESYSTEM_H_
 
+#include "base/components/HeroMonsterComponents.h"
+#include "base/components/SpriteComponent.h"
 #include "base/systems/SpriteSystem.h"
 #include <gaia.h>
 
@@ -22,7 +24,7 @@ public:
   }
 
   void OnUpdate() override {
-    constexpr TimeDelta dt = 1.0F / 60.0F;
+    // constexpr TimeDelta dt = 1.0F / 60.0F;
     m_q.each([&](ecs::benchmarks::base::components::SpriteComponent& spr,
                  const ecs::benchmarks::base::components::PlayerComponent& player,
                  const ecs::benchmarks::base::components::HealthComponent& health) {

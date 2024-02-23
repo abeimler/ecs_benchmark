@@ -3,6 +3,7 @@
 
 #include "entt/entt.h"
 
+#include "base/FrameBuffer.h"
 #include "base/systems/DamageSystem.h"
 #include "base/systems/HealthSystem.h"
 #include "base/systems/MoreComplexSystem.h"
@@ -14,7 +15,7 @@ namespace ecs::benchmarks::entt::systems {
 class RenderSystem final : public ecs::benchmarks::base::systems::RenderSystem<::entt::registry, float> {
 public:
   RenderSystem() = delete;
-  RenderSystem(base::FrameBuffer& frameBuffer)
+  explicit RenderSystem(base::FrameBuffer& frameBuffer)
       : ecs::benchmarks::base::systems::RenderSystem<::entt::registry, float>(frameBuffer) {}
 
   void update(EntityManager& registry, TimeDelta dt) override;

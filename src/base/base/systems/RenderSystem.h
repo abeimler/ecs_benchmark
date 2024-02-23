@@ -6,6 +6,7 @@
 #include "base/components/PositionComponent.h"
 #include "base/components/SpriteComponent.h"
 #include <functional>
+#include <gsl/gsl-lite.hpp>
 
 namespace ecs::benchmarks::base::systems {
 
