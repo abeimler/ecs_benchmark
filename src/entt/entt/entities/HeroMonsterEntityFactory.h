@@ -4,14 +4,17 @@
 #include "entt/entt.h"
 
 #include "base/components/HeroMonsterComponents.h"
+#include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 #include "base/entities/HeroMonsterEntityFactory.h"
 
 namespace ecs::benchmarks::entt::entities {
 
 class HeroMonsterEntityFactory final
     : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
-          ::entt::registry, ::entt::registry::entity_type, ecs::benchmarks::base::components::PlayerComponent,
-          ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
+          ::entt::registry, ::entt::registry::entity_type, ecs::benchmarks::base::components::PositionComponent,
+          ecs::benchmarks::base::components::PlayerComponent, ecs::benchmarks::base::components::HealthComponent,
+          ecs::benchmarks::base::components::DamageComponent, ecs::benchmarks::base::components::SpriteComponent> {
 public:
   // using EntityManager = ::entt::registry;
   // using Entity = ::entt::registry::entity_type;
@@ -24,6 +27,11 @@ public:
 
   [[nodiscard]] static inline auto getEntitiesCount(EntityManager& registry) {
     return registry.storage<Entity>().size();
+  }
+
+  [[nodiscard]] inline ecs::benchmarks::base::components::PositionComponent&
+  getPositionComponent(EntityManager& registry, Entity entity) override {
+    return registry.get<ecs::benchmarks::base::components::PositionComponent>(entity);
   }
 
   [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& registry,
@@ -39,6 +47,11 @@ public:
   [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent& getDamageComponent(EntityManager& registry,
                                                                                               Entity entity) override {
     return registry.get<ecs::benchmarks::base::components::DamageComponent>(entity);
+  }
+
+  [[nodiscard]] inline ecs::benchmarks::base::components::SpriteComponent& getSpriteComponent(EntityManager& registry,
+                                                                                              Entity entity) override {
+    return registry.get<ecs::benchmarks::base::components::SpriteComponent>(entity);
   }
 };
 

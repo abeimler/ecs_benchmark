@@ -7,8 +7,8 @@
 #include "gaia-ecs/entities/SoAEntityFactory.h"
 #include "gaia-ecs/systems/DataSystem.h"
 #include "gaia-ecs/systems/MoreComplexSystem.h"
-#include "gaia-ecs/systems/SoAMoreComplexSystem.h"
-#include "gaia-ecs/systems/SoAMovementSystem.h"
+#include "gaia-ecs/systems/soa/SoAMoreComplexSystem.h"
+#include "gaia-ecs/systems/soa/SoAMovementSystem.h"
 #include <utility>
 
 namespace ecs::benchmarks::gaia_ecs {

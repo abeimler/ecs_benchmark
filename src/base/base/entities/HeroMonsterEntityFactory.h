@@ -6,9 +6,8 @@
 
 namespace ecs::benchmarks::base::entities {
 
-template <class tEntityManager, typename tEntity, class tPositionComponent,
-          class tPlayerComponent, class tHealthComponent,
-          class tDamageComponent, class tSpriteComponent>
+template <class tEntityManager, typename tEntity, class tPositionComponent, class tPlayerComponent,
+          class tHealthComponent, class tDamageComponent, class tSpriteComponent>
 class HeroMonsterEntityFactory {
 public:
   using EntityManager = tEntityManager;

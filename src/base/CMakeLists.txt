@@ -8,7 +8,7 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/base/components/PositionComponent.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/components/SpriteComponent.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/DataSystem.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/HealthSystem.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/HealthSystem.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/MoreComplexSystem.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/MovementSystem.h
   ${CMAKE_CURRENT_SOURCE_DIR}/base/systems/RenderSystem.h
@@ -25,6 +25,6 @@ target_include_directories(
 target_link_libraries(ecs-benchmark-base INTERFACE project_warnings project_options)
 
 find_package(gsl-lite CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
+# find_package(fmt CONFIG REQUIRED)
 target_link_system_libraries(ecs-benchmark-base INTERFACE gsl::gsl-lite gsl::gsl-lite-v1)
-target_link_system_libraries(ecs-benchmark-base INTERFACE fmt::fmt-header-only)
+# target_link_system_libraries(ecs-benchmark-base INTERFACE fmt::fmt-header-only)

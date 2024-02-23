@@ -5,9 +5,7 @@
 #include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include <numeric>
-#include <random>
-#include <vector>
+#include <gsl/gsl-lite.hpp>
 
 namespace ecs::benchmarks::base::systems {
 
@@ -27,11 +25,11 @@ public:
   static void updateComponents(const PositionComponent& position, DirectionComponent& direction, DataComponent& data) {
     if ((data.thingy % 10) == 0) {
       if (position.x > position.y) {
-        direction.x = static_cast<float>(data.rng.range(3, 19)) - 10.0F;
-        direction.y = static_cast<float>(data.rng.range(0, 5));
+        direction.x = gsl::narrow_cast<float>(data.rng.range(3, 19)) - 10.0F;
+        direction.y = gsl::narrow_cast<float>(data.rng.range(0, 5));
       } else {
-        direction.x = static_cast<float>(data.rng.range(0, 5));
-        direction.y = static_cast<float>(data.rng.range(3, 19)) - 10.0F;
+        direction.x = gsl::narrow_cast<float>(data.rng.range(0, 5));
+        direction.y = gsl::narrow_cast<float>(data.rng.range(3, 19)) - 10.0F;
       }
     }
   }

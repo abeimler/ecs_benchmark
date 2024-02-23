@@ -1,7 +1,7 @@
 #include "FlecsBenchmarkSuite.h"
 
 static ecs::benchmarks::flecs::FlecsBenchmarkSuite benchmark_suite({
-    .add_more_complex_system = true,
+    .add_more_complex_system = ecs::benchmarks::base::add_more_complex_system_t::UseMoreComplexSystems,
     .version = std::nullopt,
 });
 

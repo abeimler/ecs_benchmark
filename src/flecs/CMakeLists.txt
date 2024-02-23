@@ -15,12 +15,18 @@ set(INCLUDE_DIR "include") # must be relative paths
 add_library(
   ecs-benchmark-example-flecs STATIC
   # NOTE: add source files here
+  flecs/systems/DamageSystem.h
+  flecs/systems/DamageSystem.cpp
   flecs/systems/DataSystem.h
   flecs/systems/DataSystem.cpp
+  flecs/systems/HealthSystem.h
+  flecs/systems/HealthSystem.cpp
   flecs/systems/MoreComplexSystem.h
   flecs/systems/MoreComplexSystem.cpp
   flecs/systems/MovementSystem.h
   flecs/systems/MovementSystem.cpp
+  flecs/systems/SpriteSystem.h
+  flecs/systems/SpriteSystem.cpp
   flecs/entities/EntityFactory.h
   flecs/entities/EntityFactory.cpp
   flecs/entities/HeroMonsterEntityFactory.h

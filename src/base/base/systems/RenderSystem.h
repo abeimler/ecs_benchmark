@@ -1,10 +1,10 @@
 #ifndef ECS_BENCHMARKS_BASE_RENDERSYSTEM_H_
 #define ECS_BENCHMARKS_BASE_RENDERSYSTEM_H_
 
-#include "base/components/PositionComponent.h"
-#include "base/components/SpriteComponent.h"
 #include "System.h"
 #include "base/FrameBuffer.h"
+#include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 #include <functional>
 
 namespace ecs::benchmarks::base::systems {
@@ -20,8 +20,9 @@ public:
   RenderSystem(RenderSystem&&) noexcept = default;
   RenderSystem& operator=(RenderSystem&&) noexcept = default;
 
-  template<class tFrameBuffer>
-  static void renderSprite(tFrameBuffer& frameBuffer, const ecs::benchmarks::base::components::PositionComponent& position,
+  template <class tFrameBuffer>
+  static void renderSprite(tFrameBuffer& frameBuffer,
+                           const ecs::benchmarks::base::components::PositionComponent& position,
                            const ecs::benchmarks::base::components::SpriteComponent& spr) {
     frameBuffer.draw(gsl::narrow_cast<int>(position.x), gsl::narrow_cast<int>(position.y), spr.character);
   }

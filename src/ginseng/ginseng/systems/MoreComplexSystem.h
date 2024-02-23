@@ -12,16 +12,6 @@ public:
   void update(EntityManager& registry, TimeDelta dt) override;
 };
 
-class HealthSystem final : public ecs::benchmarks::base::systems::HealthSystem<::ginseng::database, float> {
-public:
-  void update(EntityManager& registry, TimeDelta dt) override;
-};
-
-class DamageSystem final : public ecs::benchmarks::base::systems::DamageSystem<::ginseng::database, float> {
-public:
-  void update(EntityManager& registry, TimeDelta dt) override;
-};
-
 } // namespace ecs::benchmarks::ginseng::systems
 
 #endif

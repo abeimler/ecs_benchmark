@@ -3,13 +3,13 @@
 
 #include "base/Application.h"
 #include "base/FrameBuffer.h"
+#include "entityx/systems/DamageSystem.h"
 #include "entityx/systems/DataSystem.h"
+#include "entityx/systems/HealthSystem.h"
 #include "entityx/systems/MoreComplexSystem.h"
 #include "entityx/systems/MovementSystem.h"
-#include "entityx/systems/DamageSystem.h"
-#include "entityx/systems/HealthSystem.h"
-#include "entityx/systems/SpriteSystem.h"
 #include "entityx/systems/RenderSystem.h"
+#include "entityx/systems/SpriteSystem.h"
 #include <entityx/entityx.h>
 
 namespace ecs::benchmarks::entityx {
@@ -18,14 +18,14 @@ class EntityXApplication final : public ::entityx::EntityX {
 public:
   using EntityManager = ::entityx::EntityManager;
   using TimeDelta = ::entityx::TimeDelta;
-  using BaseApplication = base::Application<EntityManager, TimeDelta, systems::MovementSystem, systems::DataSystem, systems::MoreComplexSystem,
-                                            systems::HealthSystem, systems::DamageSystem,
+  using BaseApplication = base::Application<EntityManager, TimeDelta, systems::MovementSystem, systems::DataSystem,
+                                            systems::MoreComplexSystem, systems::HealthSystem, systems::DamageSystem,
                                             systems::SpriteSystem, systems::RenderSystem>;
 
-  EntityXApplication() = delete;
+  EntityXApplication() : m_frameBuffer(BaseApplication::FrameBufferWidth, BaseApplication::FrameBufferHeight) {}
   explicit EntityXApplication(base::add_more_complex_system_t add_more_complex_system)
-      : m_addMoreComplexSystem(add_more_complex_system)
-      , m_frameBuffer(BaseApplication::FrameBufferWidth, BaseApplication::FrameBufferHeight) {}
+      : m_addMoreComplexSystem(add_more_complex_system),
+        m_frameBuffer(BaseApplication::FrameBufferWidth, BaseApplication::FrameBufferHeight) {}
 
   inline EntityManager& getEntities() { return this->entities; }
   inline const EntityManager& getEntities() const { return this->entities; }

@@ -9,8 +9,10 @@ namespace ecs::benchmarks::gaia_ecs::systems {
 
 class MovementSystem final : public ::gaia::ecs::System {
 public:
-  using TimeDelta = double;
+  using TimeDelta = float;
   using Entity = ::gaia::ecs::Entity;
+  using EntityManager = ::gaia::ecs::World;
+  using BaseSystem = ecs::benchmarks::base::systems::MovementSystem<EntityManager, TimeDelta>;
 
   void OnCreated() override {
     m_q = world()
@@ -20,11 +22,10 @@ public:
   }
 
   void OnUpdate() override {
-    constexpr TimeDelta dt = 1.0 / 60.0;
+    constexpr TimeDelta dt = 1.0F / 60.0F;
     m_q.each([&](ecs::benchmarks::base::components::PositionComponent& position,
                  const ecs::benchmarks::base::components::VelocityComponent& direction) {
-      position.x += direction.x * dt;
-      position.y += direction.y * dt;
+      BaseSystem::updatePosition(position, direction, dt);
     });
   }
 

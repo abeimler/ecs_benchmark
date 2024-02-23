@@ -1,10 +1,10 @@
 #ifndef ECS_BENCHMARKS_BASE_SPRITE_RENDERSYSTEM_H_
 #define ECS_BENCHMARKS_BASE_SPRITE_RENDERSYSTEM_H_
 
-#include "base/components/HeroMonsterComponents.h"
-#include "base/components/SpriteComponent.h"
 #include "System.h"
 #include "base/FrameBuffer.h"
+#include "base/components/HeroMonsterComponents.h"
+#include "base/components/SpriteComponent.h"
 
 namespace ecs::benchmarks::base::systems {
 
@@ -28,10 +28,10 @@ public:
   static void updateSprite(ecs::benchmarks::base::components::SpriteComponent& spr,
                            const ecs::benchmarks::base::components::PlayerComponent& player,
                            const ecs::benchmarks::base::components::HealthComponent& health) {
-    spr.character = [&](){
-      switch(health.status) {
+    spr.character = [&]() {
+      switch (health.status) {
         case components::StatusEffect::Alive:
-          switch(player.type) {
+          switch (player.type) {
             case components::PlayerType::Hero:
               return PlayerSprite;
             case components::PlayerType::Monster:

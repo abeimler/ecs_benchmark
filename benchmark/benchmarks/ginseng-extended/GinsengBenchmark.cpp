@@ -1,7 +1,7 @@
 #include "GinsengBenchmark.h"
 
 static ecs::benchmarks::ginseng::GinsengBenchmark benchmark_suite({
-    .add_more_complex_system = true,
+    .add_more_complex_system = ecs::benchmarks::base::add_more_complex_system_t::UseMoreComplexSystems,
     .version = std::nullopt,
 });
 

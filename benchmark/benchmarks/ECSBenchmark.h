@@ -28,16 +28,18 @@ public:
 
   ECSBenchmark() {
     benchmark::AddCustomContext("framework.name", m_name);
-    benchmark::AddCustomContext("options.add_more_complex_system",
-                                m_options.add_more_complex_system == add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
+    benchmark::AddCustomContext(
+        "options.add_more_complex_system",
+        m_options.add_more_complex_system == add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
     if (m_options.version.has_value()) {
       benchmark::AddCustomContext("framework.version", m_options.version.value());
     }
   }
   explicit ECSBenchmark(ESCBenchmarkOptions options) : m_options(std::move(options)) {
     benchmark::AddCustomContext("framework.name", m_name);
-    benchmark::AddCustomContext("options.add_more_complex_system",
-                                m_options.add_more_complex_system == add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
+    benchmark::AddCustomContext(
+        "options.add_more_complex_system",
+        m_options.add_more_complex_system == add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
     if (m_options.version.has_value()) {
       benchmark::AddCustomContext("framework.version", m_options.version.value());
     }
@@ -101,10 +103,14 @@ public:
         this->template initApplicationWithMixedComponents<EntityFactory>(app, nentities, entities);
     for (size_t i = 0, j = 0; i < entities.size(); i++) {
       auto entity = entities[i];
-      if (nentities >= 100 || i >= nentities / 8) {
-        if (nentities >= 100 || (j % 2) == 0U) {
+      if ((nentities < 100 && i == 0) || nentities >= 100 || i >= nentities / 8) {
+        if ((nentities < 100 && i == 0) || nentities >= 100 || (j % 2) == 0U) {
           using namespace ecs::benchmarks::base::components;
-          if ((i % 6) == 0U) {
+          if (i == 0) {
+            m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
+            m_hero_monster_entities_factory.initComponents(app.getEntities(), entity, PlayerType::Hero);
+            components_counter.hero_count++;
+          } else if ((i % 6) == 0U) {
             m_hero_monster_entities_factory.addComponents(app.getEntities(), entity);
             const auto type = m_hero_monster_entities_factory.initComponents(app.getEntities(), entity);
             switch (type) {

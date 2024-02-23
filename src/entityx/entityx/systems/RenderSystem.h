@@ -13,7 +13,8 @@ public:
   using EventManager = ::entityx::EventManager;
 
   RenderSystem() = delete;
-  explicit RenderSystem(base::FrameBuffer& frameBuffer) : ecs::benchmarks::base::systems::RenderSystem<::entityx::EntityManager, float>(frameBuffer) {}
+  explicit RenderSystem(base::FrameBuffer& frameBuffer)
+      : ecs::benchmarks::base::systems::RenderSystem<::entityx::EntityManager, float>(frameBuffer) {}
 
   void update(EntityManager& entities, EventManager& events, TimeDelta dt) override;
   void update(EntityManager& entities, TimeDelta dt) override;

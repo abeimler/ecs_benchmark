@@ -16,8 +16,8 @@ public:
   using TimeDelta = float;
 
   OpenECSApplication() : m_systems(m_entities) {}
-  explicit OpenECSApplication(bool add_more_complex_system)
-      : m_add_more_complex_system(add_more_complex_system), m_systems(m_entities) {}
+  explicit OpenECSApplication(base::add_more_complex_system_t add_more_complex_system)
+      : m_addMoreComplexSystem(add_more_complex_system), m_systems(m_entities) {}
   ~OpenECSApplication() = default;
   OpenECSApplication(const OpenECSApplication&) = delete;
   OpenECSApplication& operator=(const OpenECSApplication&) = delete;
@@ -31,13 +31,13 @@ public:
   void init() {
     m_systems.add<systems::MovementSystem>();
     m_systems.add<systems::DataSystem>();
-    if (m_add_more_complex_system) {
+    if (m_addMoreComplexSystem == base::add_more_complex_system_t::UseMoreComplexSystems) {
       m_systems.add<systems::MoreComplexSystem>();
     }
   }
 
   void uninit() {
-    if (m_add_more_complex_system) {
+    if (m_addMoreComplexSystem == base::add_more_complex_system_t::UseMoreComplexSystems) {
       m_systems.remove<systems::MoreComplexSystem>();
     }
     m_systems.remove<systems::DataSystem>();
@@ -47,7 +47,7 @@ public:
   void update(TimeDelta dt) { m_systems.update(dt); }
 
 private:
-  bool m_add_more_complex_system{false};
+  base::add_more_complex_system_t m_addMoreComplexSystem{base::add_more_complex_system_t::UseBasicSystems};
   EntityManager m_entities;
   SystemManager m_systems;
 };

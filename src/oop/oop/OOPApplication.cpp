@@ -4,7 +4,7 @@
 namespace ecs::benchmarks::oop {
 
 void OOPApplication::init() {
-  m_entity_factory.add_more_complex_system = m_add_more_complex_system;
+  m_entityFactory.add_more_complex_system = m_addMoreComplexSystem;
 }
 
 void OOPApplication::uninit() {

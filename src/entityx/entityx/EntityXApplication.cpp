@@ -1,9 +1,9 @@
 #include "EntityXApplication.h"
+#include "entityx/systems/DamageSystem.h"
 #include "entityx/systems/DataSystem.h"
+#include "entityx/systems/HealthSystem.h"
 #include "entityx/systems/MoreComplexSystem.h"
 #include "entityx/systems/MovementSystem.h"
-#include "entityx/systems/DamageSystem.h"
-#include "entityx/systems/HealthSystem.h"
 #include "entityx/systems/SpriteSystem.h"
 
 namespace ecs::benchmarks::entityx {

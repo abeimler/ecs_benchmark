@@ -4,6 +4,7 @@
 #include "base/components/DataComponent.h"
 #include "base/components/HeroMonsterComponents.h"
 #include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 #include "base/components/VelocityComponent.h"
 #include "base/entities/EntityFactory.h"
 #include <bit>
@@ -39,6 +40,7 @@ public:
   ecs_id_t PlayerComponent;
   ecs_id_t HealthComponent;
   ecs_id_t DamageComponent;
+  ecs_id_t SpriteComponent;
 
   [[nodiscard]] inline auto valid(ecs_id_t entity_id) { return ecs_is_ready(ecs.get(), entity_id); }
 
@@ -57,6 +59,9 @@ private:
         ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::HealthComponent), nullptr, nullptr);
     DamageComponent =
         ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::DamageComponent), nullptr, nullptr);
+
+    SpriteComponent =
+        ecs_register_component(ecs.get(), sizeof(ecs::benchmarks::base::components::SpriteComponent), nullptr, nullptr);
   }
 };
 } // namespace details

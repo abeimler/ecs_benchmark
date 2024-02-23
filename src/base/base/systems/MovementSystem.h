@@ -18,8 +18,7 @@ public:
   MovementSystem& operator=(MovementSystem&&) noexcept = default;
 
   static void updatePosition(ecs::benchmarks::base::components::PositionComponent& position,
-                             const ecs::benchmarks::base::components::VelocityComponent& direction,
-                             TimeDelta dt) {
+                             const ecs::benchmarks::base::components::VelocityComponent& direction, TimeDelta dt) {
     position.x += direction.x * dt;
     position.y += direction.y * dt;
   }

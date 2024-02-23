@@ -11,7 +11,8 @@ namespace ecs::benchmarks::base {
 
 class FrameBuffer {
 public:
-  FrameBuffer(uint32_t w, uint32_t h) : m_width{w}, m_height{h}, m_buffer(gsl::narrow_cast<size_t>(m_width) * gsl::narrow_cast<size_t>(m_height)) {}
+  FrameBuffer(uint32_t w, uint32_t h)
+      : m_width{w}, m_height{h}, m_buffer(gsl::narrow_cast<size_t>(m_width) * gsl::narrow_cast<size_t>(m_height)) {}
 
   [[nodiscard]] auto width() const noexcept { return m_width; }
   [[nodiscard]] auto height() const noexcept { return m_height; }

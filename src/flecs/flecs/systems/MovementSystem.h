@@ -10,16 +10,18 @@ namespace ecs::benchmarks::flecs::systems {
 
 class MovementSystem {
 public:
-  using TimeDelta = double;
+  using TimeDelta = float;
   using Entity = ::flecs::entity;
+  using EntityManager = ::flecs::world;
+  using BaseSystem = ecs::benchmarks::base::systems::MovementSystem<EntityManager, TimeDelta>;
 
   inline static const auto update = [](::flecs::iter& it,
                                        ecs::benchmarks::base::components::PositionComponent* position,
                                        const ecs::benchmarks::base::components::VelocityComponent* direction) {
     const auto dt = gsl::narrow_cast<TimeDelta>(it.delta_time());
+
     for (auto i : it) {
-      position[i].x += direction[i].x * dt;
-      position[i].y += direction[i].y * dt;
+      BaseSystem::updatePosition(position[i], direction[i], dt);
     }
   };
 };

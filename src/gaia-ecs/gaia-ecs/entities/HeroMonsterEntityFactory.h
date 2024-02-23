@@ -2,6 +2,8 @@
 #define ECS_BENCHMARKS_GAIA_ECS_HEROMONSTERENTITYFACTORY_H_
 
 #include "base/components/HeroMonsterComponents.h"
+#include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 #include "base/entities/HeroMonsterEntityFactory.h"
 #include <gaia.h>
 
@@ -9,8 +11,9 @@ namespace ecs::benchmarks::gaia_ecs::entities {
 
 class HeroMonsterEntityFactory final
     : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
-          ::gaia::ecs::World, ::gaia::ecs::Entity, ecs::benchmarks::base::components::PlayerComponent,
-          ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent> {
+          ::gaia::ecs::World, ::gaia::ecs::Entity, ecs::benchmarks::base::components::PositionComponent,
+          ecs::benchmarks::base::components::PlayerComponent, ecs::benchmarks::base::components::HealthComponent,
+          ecs::benchmarks::base::components::DamageComponent, ecs::benchmarks::base::components::SpriteComponent> {
 public:
   Entity createRandom(EntityManager& entities) override;
   Entity createHero(EntityManager& entities) override;
@@ -21,6 +24,13 @@ public:
   //[[nodiscard]] static inline auto getEntitiesCount(EntityManager& entities) {
   //  return entities.size();
   //}
+
+  /// @FIXME: get component as non-const
+  [[nodiscard]] inline ecs::benchmarks::base::components::PositionComponent&
+  getPositionComponent(EntityManager& entities, Entity entity) {
+    return *const_cast<ecs::benchmarks::base::components::PositionComponent*>(
+        &entities.get<ecs::benchmarks::base::components::PositionComponent>(entity));
+  }
 
   /// @FIXME: get component as non-const
   [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& entities,
@@ -41,6 +51,13 @@ public:
                                                                                               Entity entity) {
     return *const_cast<ecs::benchmarks::base::components::DamageComponent*>(
         &entities.get<ecs::benchmarks::base::components::DamageComponent>(entity));
+  }
+
+  /// @FIXME: get component as non-const
+  [[nodiscard]] inline ecs::benchmarks::base::components::SpriteComponent& getSpriteComponent(EntityManager& entities,
+                                                                                              Entity entity) {
+    return *const_cast<ecs::benchmarks::base::components::SpriteComponent*>(
+        &entities.get<ecs::benchmarks::base::components::SpriteComponent>(entity));
   }
 };
 

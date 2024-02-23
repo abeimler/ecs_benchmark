@@ -6,23 +6,10 @@
 namespace ecs::benchmarks::ginseng::systems {
 
 void MoreComplexSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
-  registry.visit([this](ecs::benchmarks::base::components::PositionComponent& position,
-                        ecs::benchmarks::base::components::VelocityComponent& direction,
-                        ecs::benchmarks::base::components::DataComponent& data) {
+  registry.visit([&](const ecs::benchmarks::base::components::PositionComponent& position,
+                     ecs::benchmarks::base::components::VelocityComponent& direction,
+                     ecs::benchmarks::base::components::DataComponent& data) {
     updateComponents(position, direction, data);
-  });
-}
-
-void HealthSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
-  registry.visit([this](ecs::benchmarks::base::components::HealthComponent& health) {
-    updateHealth(health);
-  });
-}
-
-void DamageSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
-  registry.visit([this](ecs::benchmarks::base::components::HealthComponent& health,
-                        const ecs::benchmarks::base::components::DamageComponent& damage) {
-    updateDamage(health, damage);
   });
 }
 

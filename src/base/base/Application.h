@@ -1,8 +1,8 @@
 #ifndef ECS_BENCHMARKS_BASE_APPLICATION_H_
 #define ECS_BENCHMARKS_BASE_APPLICATION_H_
 
-#include "base/systems/System.h"
 #include "FrameBuffer.h"
+#include "base/systems/System.h"
 #include <cstdint>
 #include <memory>
 
@@ -11,8 +11,7 @@ namespace ecs::benchmarks::base {
 enum class add_more_complex_system_t : bool { UseBasicSystems = false, UseMoreComplexSystems = true };
 
 template <class tEntityManager, typename tTimeDelta, class MovementSystem, class DataSystem, class MoreComplexSystem,
-          class HealthSystem, class DamageSystem,
-          class SpriteSystem, class RenderSystem>
+          class HealthSystem, class DamageSystem, class SpriteSystem, class RenderSystem>
 class Application {
 public:
   using EntityManager = tEntityManager;
@@ -20,13 +19,12 @@ public:
 
   inline static constexpr uint32_t FrameBufferWidth = 320;
   inline static constexpr uint32_t FrameBufferHeight = 240;
-  inline static constexpr size_t FrameBufferSize = gsl::narrow_cast<size_t>(FrameBufferWidth) * gsl::narrow_cast<size_t>(FrameBufferHeight);
+  inline static constexpr size_t FrameBufferSize =
+      gsl::narrow_cast<size_t>(FrameBufferWidth) * gsl::narrow_cast<size_t>(FrameBufferHeight);
 
-  Application() = default;
+  Application() : m_frameBuffer(FrameBufferWidth, FrameBufferHeight) {}
   explicit Application(add_more_complex_system_t add_more_complex_system)
-      : m_addMoreComplexSystem(add_more_complex_system)
-      , m_frameBuffer(FrameBufferWidth, FrameBufferHeight)
-  {}
+      : m_addMoreComplexSystem(add_more_complex_system), m_frameBuffer(FrameBufferWidth, FrameBufferHeight) {}
 
   virtual ~Application() = default;
   Application(const Application&) = delete;
@@ -85,9 +83,7 @@ public:
     }
   }
 
-  virtual void uninit() {
-    m_systems.clear();
-  }
+  virtual void uninit() { m_systems.clear(); }
 
   void update(TimeDelta dt) {
     for (auto& system : m_systems) {

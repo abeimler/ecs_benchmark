@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "MovableDataObject.h"
 #include "MovableObject.h"
+#include "base/Application.h"
 #include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
@@ -18,7 +19,7 @@ public:
   using EntityManager = std::vector<std::unique_ptr<GameObject>>;
   using Entity = GameObject*;
 
-  bool add_more_complex_system{false};
+  base::add_more_complex_system_t add_more_complex_system{base::add_more_complex_system_t::UseBasicSystems};
 
   Entity createEmpty(EntityManager& registry);
   void createEmptyBulk(EntityManager& registry, std::vector<Entity>& out);
