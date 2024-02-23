@@ -3,32 +3,41 @@
 
 #include <gsl/gsl-lite.hpp>
 #include <optional>
-#include <vector>
 
 namespace ecs::benchmarks::base::entities {
 
-template <class tEntityManager, typename tEntity, class tPlayerComponent, class tHealthComponent,
-          class tDamageComponent>
+template <class tEntityManager, typename tEntity, class tPositionComponent,
+          class tPlayerComponent, class tHealthComponent,
+          class tDamageComponent, class tSpriteComponent>
 class HeroMonsterEntityFactory {
 public:
   using EntityManager = tEntityManager;
   using Entity = tEntity;
+  using PositionComponent = tPositionComponent;
   using PlayerComponent = tPlayerComponent;
   using HealthComponent = tHealthComponent;
   using DamageComponent = tDamageComponent;
+  using SpriteComponent = tSpriteComponent;
+
+  inline static constexpr auto SpawAreaMaxX = 320;
+  inline static constexpr auto SpawAreaMaxY = 240;
+  inline static constexpr auto SpawAreaMargin = 100;
 
   struct PlayerArchetype {
+    PositionComponent position_comp;
     PlayerComponent player_comp;
     HealthComponent health_comp;
     DamageComponent damage_comp;
+    SpriteComponent sprite_comp;
   };
   struct MonsterArchetype {
+    PositionComponent position_comp;
     PlayerComponent player_comp;
     HealthComponent health_comp;
     DamageComponent damage_comp;
+    SpriteComponent sprite_comp;
   };
 
-  // virtual dtor and the rule of 6
   HeroMonsterEntityFactory() = default;
   virtual ~HeroMonsterEntityFactory() = default;
   HeroMonsterEntityFactory(const HeroMonsterEntityFactory&) = default;
@@ -40,9 +49,11 @@ public:
   virtual Entity createHero(EntityManager& registry) = 0;
   virtual Entity createMonster(EntityManager& registry) = 0;
 
+  virtual PositionComponent& getPositionComponent(EntityManager& registry, Entity entity) = 0;
   virtual PlayerComponent& getPlayerComponent(EntityManager& registry, Entity entity) = 0;
   virtual HealthComponent& getHealthComponent(EntityManager& registry, Entity entity) = 0;
   virtual DamageComponent& getDamageComponent(EntityManager& registry, Entity entity) = 0;
+  virtual SpriteComponent& getSpriteComponent(EntityManager& registry, Entity entity) = 0;
 
   virtual void addComponents(EntityManager& registry, Entity entity) = 0;
 
@@ -50,9 +61,11 @@ public:
   initComponents(EntityManager& registry, Entity entity,
                  std::optional<ecs::benchmarks::base::components::PlayerType> opt_player_type = std::nullopt) {
     using namespace ecs::benchmarks::base::components;
+    auto& position = getPositionComponent(registry, entity);
     auto& player = getPlayerComponent(registry, entity);
     auto& health = getHealthComponent(registry, entity);
     auto& damage = getDamageComponent(registry, entity);
+    auto& sprite = getSpriteComponent(registry, entity);
 
     player.type = opt_player_type.value_or([&player]() {
       const auto player_type_rate = player.rng.range(1, 100);
@@ -77,6 +90,11 @@ public:
         damage.atk = 0;
         break;
     }
+
+    sprite.character = '_';
+    position.x = gsl::narrow_cast<int>(player.rng.range(0, SpawAreaMaxX + SpawAreaMargin)) - SpawAreaMargin;
+    position.y = gsl::narrow_cast<int>(player.rng.range(0, SpawAreaMaxY + SpawAreaMargin)) - SpawAreaMargin;
+
     return player.type;
   }
 };

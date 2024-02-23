@@ -1,31 +1,37 @@
 #ifndef ECS_BENCHMARKS_BASE_APPLICATION_H_
 #define ECS_BENCHMARKS_BASE_APPLICATION_H_
 
-#include "systems/System.h"
+#include "base/systems/System.h"
+#include "FrameBuffer.h"
+#include <cstdint>
 #include <memory>
-#include <vector>
 
 namespace ecs::benchmarks::base {
 
+enum class add_more_complex_system_t : bool { UseBasicSystems = false, UseMoreComplexSystems = true };
+
 template <class tEntityManager, typename tTimeDelta, class MovementSystem, class DataSystem, class MoreComplexSystem,
-          class HealthSystem, class DamageSystem>
+          class HealthSystem, class DamageSystem,
+          class SpriteSystem, class RenderSystem>
 class Application {
 public:
   using EntityManager = tEntityManager;
   using TimeDelta = tTimeDelta;
 
-  Application() = default;
+  inline static constexpr uint32_t FrameBufferWidth = 320;
+  inline static constexpr uint32_t FrameBufferHeight = 240;
+  inline static constexpr size_t FrameBufferSize = gsl::narrow_cast<size_t>(FrameBufferWidth) * gsl::narrow_cast<size_t>(FrameBufferHeight);
 
-  explicit Application(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
+  Application() = default;
+  explicit Application(add_more_complex_system_t add_more_complex_system)
+      : m_addMoreComplexSystem(add_more_complex_system)
+      , m_frameBuffer(FrameBufferWidth, FrameBufferHeight)
+  {}
 
   virtual ~Application() = default;
-
   Application(const Application&) = delete;
-
   Application& operator=(const Application&) = delete;
-
   Application(Application&&) noexcept = default;
-
   Application& operator=(Application&&) noexcept = default;
 
   inline EntityManager& getEntities() noexcept { return m_entities; }
@@ -54,13 +60,24 @@ public:
     return std::make_unique<DamageSystem>();
   }
 
+  std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
+  createSpriteSystem(EntityManager& /*entities*/) {
+    return std::make_unique<SpriteSystem>();
+  }
+  std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>
+  createRenderSystem(EntityManager& /*entities*/) {
+    return std::make_unique<RenderSystem>(m_frameBuffer);
+  }
+
   virtual void init() {
     m_systems.emplace_back(createMovementSystem(m_entities));
     m_systems.emplace_back(createDataSystem(m_entities));
-    if (m_add_more_complex_system) {
+    if (m_addMoreComplexSystem == add_more_complex_system_t::UseMoreComplexSystems) {
       m_systems.emplace_back(createMoreComplexSystem(m_entities));
       m_systems.emplace_back(createHealthSystem(m_entities));
       m_systems.emplace_back(createDamageSystem(m_entities));
+      m_systems.emplace_back(createSpriteSystem(m_entities));
+      m_systems.emplace_back(createRenderSystem(m_entities));
     }
 
     for (auto& system : m_systems) {
@@ -68,7 +85,9 @@ public:
     }
   }
 
-  virtual void uninit() { m_systems.clear(); }
+  virtual void uninit() {
+    m_systems.clear();
+  }
 
   void update(TimeDelta dt) {
     for (auto& system : m_systems) {
@@ -79,10 +98,12 @@ public:
   }
 
 protected:
+  add_more_complex_system_t m_addMoreComplexSystem{add_more_complex_system_t::UseBasicSystems};
+  FrameBuffer m_frameBuffer;
   EntityManager m_entities;
   std::vector<std::unique_ptr<ecs::benchmarks::base::systems::System<EntityManager, TimeDelta>>> m_systems;
-  bool m_add_more_complex_system{false};
 };
+
 } // namespace ecs::benchmarks::base
 
 #endif

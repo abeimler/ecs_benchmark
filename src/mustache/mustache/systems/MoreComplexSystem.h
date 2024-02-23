@@ -1,7 +1,7 @@
 #ifndef ECS_BENCHMARKS_MUSTACHE_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_MUSTACHE_MORECOMPLEXSYSTEM_H_
 
-#include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/HealthSystem.h"
 #include "base/systems/MoreComplexSystem.h"
 /// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
 #include <cstdint>

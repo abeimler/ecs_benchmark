@@ -11,17 +11,11 @@ public:
 
   virtual void init(EntityManager& /*entities*/) {}
 
-  // virtual dtor and the rule of 6
   System() = default;
-
   virtual ~System() = default;
-
   System(const System&) = delete;
-
   System& operator=(const System&) = delete;
-
   System(System&&) noexcept = default;
-
   System& operator=(System&&) noexcept = default;
 
   virtual void update(EntityManager& registry, TimeDelta dt) = 0;

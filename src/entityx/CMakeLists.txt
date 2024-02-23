@@ -23,12 +23,20 @@ set(INCLUDE_DIR "include") # must be relative paths
 add_library(
   ecs-benchmark-example-entityx STATIC
   # NOTE: add source files here
+  entityx/systems/DamageSystem.h
+  entityx/systems/DamageSystem.cpp
   entityx/systems/DataSystem.h
   entityx/systems/DataSystem.cpp
+  entityx/systems/HealthSystem.h
+  entityx/systems/HealthSystem.cpp
   entityx/systems/MoreComplexSystem.h
   entityx/systems/MoreComplexSystem.cpp
   entityx/systems/MovementSystem.h
   entityx/systems/MovementSystem.cpp
+  entityx/systems/SpriteSystem.h
+  entityx/systems/SpriteSystem.cpp
+  entityx/systems/RenderSystem.h
+  entityx/systems/RenderSystem.cpp
   entityx/entities/EntityFactory.h
   entityx/entities/EntityFactory.cpp
   entityx/entities/HeroMonsterEntityFactory.h

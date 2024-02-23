@@ -63,7 +63,7 @@ public:
   EntityBenchmark() {
     benchmark::AddCustomContext("framework.name", m_name);
     benchmark::AddCustomContext("options.add_more_complex_system",
-                                m_options.add_more_complex_system ? "true" : "false");
+                                m_options.add_more_complex_system == add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
     if (m_options.version.has_value()) {
       benchmark::AddCustomContext("framework.version", m_options.version.value());
     }
@@ -72,7 +72,7 @@ public:
   explicit EntityBenchmark(ESCBenchmarkOptions options) : m_options(std::move(options)) {
     benchmark::AddCustomContext("framework.name", m_name);
     benchmark::AddCustomContext("options.add_more_complex_system",
-                                m_options.add_more_complex_system ? "true" : "false");
+                                m_options.add_more_complex_system == add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
     if (m_options.version.has_value()) {
       benchmark::AddCustomContext("framework.version", m_options.version.value());
     }

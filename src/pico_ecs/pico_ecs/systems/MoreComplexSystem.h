@@ -1,7 +1,7 @@
 #ifndef ECS_BENCHMARKS_PICO_ECS_MORECOMPLEXSYSTEM_H_
 #define ECS_BENCHMARKS_PICO_ECS_MORECOMPLEXSYSTEM_H_
 
-#include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/HealthSystem.h"
 #include "base/systems/MoreComplexSystem.h"
 #include "pico_ecs/entities/EntityFactory.h"
 #include <pico_ecs.h>

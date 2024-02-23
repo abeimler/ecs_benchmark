@@ -10,21 +10,16 @@ namespace ecs::benchmarks::base::systems {
 template <class EntityManager, typename TimeDelta>
 class MovementSystem : public System<EntityManager, TimeDelta> {
 public:
-  // virtual dtor and the rule of 6
   MovementSystem() = default;
-
   virtual ~MovementSystem() = default;
-
   MovementSystem(const MovementSystem&) = delete;
-
   MovementSystem& operator=(const MovementSystem&) = delete;
-
   MovementSystem(MovementSystem&&) noexcept = default;
-
   MovementSystem& operator=(MovementSystem&&) noexcept = default;
 
   static void updatePosition(ecs::benchmarks::base::components::PositionComponent& position,
-                             const ecs::benchmarks::base::components::VelocityComponent& direction, double dt) {
+                             const ecs::benchmarks::base::components::VelocityComponent& direction,
+                             TimeDelta dt) {
     position.x += direction.x * dt;
     position.y += direction.y * dt;
   }

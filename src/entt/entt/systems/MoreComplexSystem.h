@@ -3,7 +3,7 @@
 
 #include "entt/entt.h"
 
-#include "base/systems/HeroMonsterSystems.h"
+#include "base/systems/HealthSystem.h"
 #include "base/systems/MoreComplexSystem.h"
 
 namespace ecs::benchmarks::entt::systems {
