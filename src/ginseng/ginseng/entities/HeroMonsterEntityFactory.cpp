@@ -35,6 +35,10 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& registry, Entity ent
   registry.add_component(entity, ecs::benchmarks::base::components::PlayerComponent{});
   registry.add_component(entity, ecs::benchmarks::base::components::HealthComponent{});
   registry.add_component(entity, ecs::benchmarks::base::components::DamageComponent{});
+  registry.add_component(entity, ecs::benchmarks::base::components::SpriteComponent{});
+  if (!registry.has_component<ecs::benchmarks::base::components::PositionComponent>(entity)) {
+    registry.add_component(entity, ecs::benchmarks::base::components::PositionComponent{});
+  }
 }
 
 } // namespace ecs::benchmarks::ginseng::entities

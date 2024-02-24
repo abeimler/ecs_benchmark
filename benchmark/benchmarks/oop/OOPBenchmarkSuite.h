@@ -10,23 +10,25 @@ namespace ecs::benchmarks::oop {
 
 class OOPBenchmarkSuite final : public ecs::benchmarks::base::BaseECSBenchmark<entities::EntityFactory> {
 public:
-  using EntityManager = typename entities::EntityFactory::EntityManager;
+  using EntityManager = typename entities::EntityManager;
   using Entity = typename entities::EntityFactory::Entity;
 
   const float fakeTimeDelta{1.0F / 60.0F};
 
   OOPBenchmarkSuite() {
     benchmark::AddCustomContext("framework.name", m_name);
-    benchmark::AddCustomContext("options.add_more_complex_system",
-                                m_options.add_more_complex_system ? "true" : "false");
+    benchmark::AddCustomContext(
+        "options.add_more_complex_system",
+        m_options.add_more_complex_system == base::add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
     if (m_options.version.has_value()) {
       benchmark::AddCustomContext("framework.version", m_options.version.value());
     }
   }
   explicit OOPBenchmarkSuite(base::ESCBenchmarkOptions options) : m_options(std::move(options)) {
     benchmark::AddCustomContext("framework.name", m_name);
-    benchmark::AddCustomContext("options.add_more_complex_system",
-                                m_options.add_more_complex_system ? "true" : "false");
+    benchmark::AddCustomContext(
+        "options.add_more_complex_system",
+        m_options.add_more_complex_system == base::add_more_complex_system_t::UseMoreComplexSystems ? "true" : "false");
     if (m_options.version.has_value()) {
       benchmark::AddCustomContext("framework.version", m_options.version.value());
     }

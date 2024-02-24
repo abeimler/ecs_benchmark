@@ -33,18 +33,30 @@ add_library(
   gaia-ecs/systems/DataSystem.cpp
   gaia-ecs/systems/MoreComplexSystem.h
   gaia-ecs/systems/MoreComplexSystem.cpp
-  gaia-ecs/systems/SoAMoreComplexSystem.h
-  gaia-ecs/systems/SoAMoreComplexSystem.cpp
+  gaia-ecs/systems/soa/SoAMoreComplexSystem.h
+  gaia-ecs/systems/soa/SoAMoreComplexSystem.cpp
   gaia-ecs/systems/MovementSystem.h
   gaia-ecs/systems/MovementSystem.cpp
-  gaia-ecs/systems/SoAMovementSystem.h
-  gaia-ecs/systems/SoAMovementSystem.cpp
+  gaia-ecs/systems/soa/SoAMovementSystem.h
+  gaia-ecs/systems/soa/SoAMovementSystem.cpp
+  gaia-ecs/systems/soa/SoARenderSystem.h
+  gaia-ecs/systems/soa/SoARenderSystem.cpp
+  gaia-ecs/systems/DamageSystem.h
+  gaia-ecs/systems/DamageSystem.cpp
+  gaia-ecs/systems/HealthSystem.h
+  gaia-ecs/systems/HealthSystem.cpp
+  gaia-ecs/systems/RenderSystem.h
+  gaia-ecs/systems/RenderSystem.cpp
+  gaia-ecs/systems/SpriteSystem.h
+  gaia-ecs/systems/SpriteSystem.cpp
   gaia-ecs/entities/EntityFactory.h
   gaia-ecs/entities/EntityFactory.cpp
   gaia-ecs/entities/SoAEntityFactory.h
   gaia-ecs/entities/SoAEntityFactory.cpp
   gaia-ecs/entities/HeroMonsterEntityFactory.h
   gaia-ecs/entities/HeroMonsterEntityFactory.cpp
+  gaia-ecs/entities/SoAHeroMonsterEntityFactory.h
+  gaia-ecs/entities/SoAHeroMonsterEntityFactory.cpp
   gaia-ecs/GaiaEcsApplication.h
   gaia-ecs/GaiaEcsApplication.cpp
   gaia-ecs/SoAGaiaEcsApplication.h

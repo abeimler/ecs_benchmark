@@ -2,6 +2,7 @@
 #define ECS_BENCHMARKS_BASE_COMPONENTS_HEROMONSTERCOMPONENT_H_
 
 #include "base/random.h"
+#include <cstdint>
 
 namespace ecs::benchmarks::base::components {
 

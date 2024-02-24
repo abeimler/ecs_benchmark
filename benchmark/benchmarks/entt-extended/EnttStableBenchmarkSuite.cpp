@@ -1,7 +1,8 @@
 #include "EnttStableBenchmarkSuite.h"
 
-static ecs::benchmarks::entt::EnttStableBenchmarkSuite benchmark_suite({.add_more_complex_system = true,
-                                                                        .version = ENTT_VERSION});
+static ecs::benchmarks::entt::EnttStableBenchmarkSuite
+    benchmark_suite({.add_more_complex_system = ecs::benchmarks::base::add_more_complex_system_t::UseMoreComplexSystems,
+                     .version = ENTT_VERSION});
 
 
 ECS_COMPLEX_UPDATE_SYSTEMS_BENCHMARKS(benchmark_suite)

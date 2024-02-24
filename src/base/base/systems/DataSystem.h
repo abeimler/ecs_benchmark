@@ -14,29 +14,18 @@ template <class EntityManager, typename TimeDelta,
           class DataComponent = ecs::benchmarks::base::components::DataComponent>
 class DataSystem : public System<EntityManager, TimeDelta> {
 public:
-  // virtual dtor and the rule of 6
   DataSystem() = default;
-
   virtual ~DataSystem() = default;
-
   DataSystem(const DataSystem&) = delete;
-
   DataSystem& operator=(const DataSystem&) = delete;
-
   DataSystem(DataSystem&&) noexcept = default;
-
   DataSystem& operator=(DataSystem&&) noexcept = default;
 
   static void updateData(DataComponent& data, TimeDelta dt) {
-    data.thingy++;
+    data.thingy = (data.thingy + 1) % 1'000'000;
     data.dingy += 0.0001 * gsl::narrow_cast<double>(dt);
     data.mingy = !data.mingy;
-    /// @FIXME(pico_ecs): SIGSEGV (Segmentation fault), can't copy string ... support for components with dynamic memory
-    /// (std::string) ?
-    // data.stringy = fmt::format(FMT_STRING("{:4.2f}"), data.dingy);
-    std::string stringy = fmt::format(FMT_STRING("{:4.2f}"), data.dingy);
-    std::char_traits<char>::copy(data.stringy, stringy.data(),
-                                 std::min(stringy.length(), DataComponent::StringyMaxLength));
+    data.numgy = data.rng();
   }
 };
 

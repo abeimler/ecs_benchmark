@@ -4,8 +4,8 @@
 namespace ecs::benchmarks::base::components {
 
 struct VelocityComponent {
-  double x{1.0};
-  double y{1.0};
+  float x{1.0F};
+  float y{1.0F};
 };
 
 } // namespace ecs::benchmarks::base::components

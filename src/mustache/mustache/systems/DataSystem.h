@@ -1,9 +1,10 @@
 #ifndef ECS_BENCHMARKS_MUSTACHE_DATASYSTEM_H_
 #define ECS_BENCHMARKS_MUSTACHE_DATASYSTEM_H_
 
-#include "base/systems/DataSystem.h"
 /// @FIXME: uint32_t for found in "mustache/ecs/system.hpp"
 #include <cstdint>
+
+#include "base/systems/DataSystem.h"
 #include <mustache/ecs/ecs.hpp>
 
 namespace ecs::benchmarks::mustache::systems {

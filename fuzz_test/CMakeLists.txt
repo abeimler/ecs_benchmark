@@ -6,14 +6,6 @@ target_include_directories(ecs-benchmark-fuzz-tester PRIVATE ${CMAKE_CURRENT_SOU
 
 # @NOTE: add libs here
 set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-find_package(Bitsery CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
-target_link_libraries(${CMAKE_PROJECT_NAME}-fuzz-tester ${CMAKE_PROJECT_NAME}::core ${CMAKE_PROJECT_NAME}::bitsery
-                      ${CMAKE_PROJECT_NAME}::json)
-target_link_libraries(${CMAKE_PROJECT_NAME}-fuzz-tester Bitsery::bitsery nlohmann_json nlohmann_json::nlohmann_json spdlog::spdlog
-                      spdlog::spdlog_header_only)
 target_link_libraries(${CMAKE_PROJECT_NAME}-fuzz-tester Threads::Threads)
 
 target_link_options(${CMAKE_PROJECT_NAME}-fuzz-tester PRIVATE project_options project_warnings -coverage

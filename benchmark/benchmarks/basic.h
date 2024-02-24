@@ -1,6 +1,7 @@
 #ifndef ECS_BENCHMARKS_BASICBENCHMARK_H_
 #define ECS_BENCHMARKS_BASICBENCHMARK_H_
 
+#include "base/Application.h"
 #include <algorithm>
 #include <benchmark/benchmark.h>
 #include <optional>
@@ -21,7 +22,7 @@ struct StringLiteral {
 };
 
 struct ESCBenchmarkOptions {
-  bool add_more_complex_system{false};
+  add_more_complex_system_t add_more_complex_system{add_more_complex_system_t::UseBasicSystems};
   std::optional<std::string> version;
 };
 

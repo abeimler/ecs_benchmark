@@ -11,8 +11,9 @@ class DataSystem final : public ::entityx::System<DataSystem>,
 public:
   using EventManager = ::entityx::EventManager;
 
-  void update(EntityManager& entities, EventManager& events, TimeDelta dt) override;
+  DataSystem() = default;
 
+  void update(EntityManager& entities, EventManager& events, TimeDelta dt) override;
   void update(EntityManager& entities, TimeDelta dt) override;
 };
 

@@ -7,8 +7,8 @@
 namespace ecs::benchmarks::gaia_ecs::components {
 
 struct SoAVelocityComponent {
-  double x{1.0};
-  double y{1.0};
+  float x{1.0F};
+  float y{1.0F};
 
   static constexpr auto Layout = ::gaia::mem::DataLayout::SoA;
 };

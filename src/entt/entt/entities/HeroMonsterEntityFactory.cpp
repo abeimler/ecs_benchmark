@@ -1,5 +1,7 @@
 #include "HeroMonsterEntityFactory.h"
 #include "base/components/HeroMonsterComponents.h"
+#include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 
 namespace ecs::benchmarks::entt::entities {
 
@@ -9,6 +11,8 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createRandom(EntityMa
   registry.emplace<ecs::benchmarks::base::components::PlayerComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::HealthComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::DamageComponent>(ret);
+  registry.emplace<ecs::benchmarks::base::components::PositionComponent>(ret);
+  registry.emplace<ecs::benchmarks::base::components::SpriteComponent>(ret);
   initComponents(registry, ret);
   return ret;
 }
@@ -18,6 +22,8 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createHero(EntityMana
   registry.emplace<ecs::benchmarks::base::components::PlayerComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::HealthComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::DamageComponent>(ret);
+  registry.emplace<ecs::benchmarks::base::components::PositionComponent>(ret);
+  registry.emplace<ecs::benchmarks::base::components::SpriteComponent>(ret);
   initComponents(registry, ret, PlayerType::Hero);
   return ret;
 }
@@ -27,6 +33,8 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createMonster(EntityM
   registry.emplace<ecs::benchmarks::base::components::PlayerComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::HealthComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::DamageComponent>(ret);
+  registry.emplace<ecs::benchmarks::base::components::PositionComponent>(ret);
+  registry.emplace<ecs::benchmarks::base::components::SpriteComponent>(ret);
   initComponents(registry, ret, PlayerType::Monster);
   return ret;
 }
@@ -35,6 +43,8 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& registry, Entity ent
   registry.emplace_or_replace<ecs::benchmarks::base::components::PlayerComponent>(entity);
   registry.emplace_or_replace<ecs::benchmarks::base::components::HealthComponent>(entity);
   registry.emplace_or_replace<ecs::benchmarks::base::components::DamageComponent>(entity);
+  registry.emplace_or_replace<ecs::benchmarks::base::components::PositionComponent>(entity);
+  registry.emplace_or_replace<ecs::benchmarks::base::components::SpriteComponent>(entity);
 }
 
 } // namespace ecs::benchmarks::entt::entities

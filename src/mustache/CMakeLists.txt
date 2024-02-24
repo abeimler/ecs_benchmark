@@ -20,12 +20,20 @@ set(INCLUDE_DIR "include") # must be relative paths
 add_library(
   ecs-benchmark-example-mustache STATIC
   # NOTE: add source files here
+  mustache/systems/DamageSystem.h
+  mustache/systems/DamageSystem.cpp
   mustache/systems/DataSystem.h
   mustache/systems/DataSystem.cpp
+  mustache/systems/HealthSystem.h
+  mustache/systems/HealthSystem.cpp
   mustache/systems/MoreComplexSystem.h
   mustache/systems/MoreComplexSystem.cpp
   mustache/systems/MovementSystem.h
   mustache/systems/MovementSystem.cpp
+  mustache/systems/SpriteSystem.h
+  mustache/systems/SpriteSystem.cpp
+  mustache/systems/RenderSystem.h
+  mustache/systems/RenderSystem.cpp
   mustache/entities/EntityFactory.h
   mustache/entities/EntityFactory.cpp
   mustache/entities/HeroMonsterEntityFactory.h

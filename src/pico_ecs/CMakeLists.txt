@@ -3,12 +3,20 @@ set(INCLUDE_DIR "include") # must be relative paths
 add_library(
   ecs-benchmark-example-pico-ecs STATIC
   # NOTE: add source files here
+  pico_ecs/systems/DamageSystem.h
+  pico_ecs/systems/DamageSystem.cpp
   pico_ecs/systems/DataSystem.h
   pico_ecs/systems/DataSystem.cpp
+  pico_ecs/systems/HealthSystem.h
+  pico_ecs/systems/HealthSystem.cpp
   pico_ecs/systems/MoreComplexSystem.h
   pico_ecs/systems/MoreComplexSystem.cpp
   pico_ecs/systems/MovementSystem.h
   pico_ecs/systems/MovementSystem.cpp
+  pico_ecs/systems/RenderSystem.h
+  pico_ecs/systems/RenderSystem.cpp
+  pico_ecs/systems/SpriteSystem.h
+  pico_ecs/systems/SpriteSystem.cpp
   pico_ecs/entities/EntityFactory.h
   pico_ecs/entities/EntityFactory.cpp
   pico_ecs/entities/HeroMonsterEntityFactory.h
