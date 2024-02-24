@@ -137,7 +137,7 @@ struct EntityFactory_Fixture {
       }
 
       WHEN("get component one") {
-        const auto& comp = m_entity_factory.getComponentOne(registry, entity);
+        const auto& comp = m_entity_factory.getComponentOneConst(registry, entity);
 
         THEN("component.x is set") {
           REQUIRE(comp.x == Catch::Approx(0));
@@ -191,7 +191,7 @@ struct HeroMonsterEntityFactory_Fixture {
       }
 
       WHEN("get player component") {
-        const auto& player = m_entity_factory.getPlayerComponent(registry, entity);
+        const auto player = m_entity_factory.getPlayerComponentConst(registry, entity);
 
         THEN("got player component") {
           ((void)player);

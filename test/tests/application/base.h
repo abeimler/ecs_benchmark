@@ -35,7 +35,7 @@ struct Application_Fixture {
       }
 
       THEN("component is init") {
-        const auto& comp = m_entity_factory.getComponentOne(app.getEntities(), entity);
+        const auto& comp = m_entity_factory.getComponentOneConst(app.getEntities(), entity);
 
         AND_THEN("component.x is set") {
           REQUIRE(comp.x == Catch::Approx(0));
@@ -46,10 +46,10 @@ struct Application_Fixture {
         app.update(fakeTimeDelta);
 
         AND_WHEN("get component") {
-          const auto& comp = m_entity_factory.getComponentOne(app.getEntities(), entity);
+          const auto& comp = m_entity_factory.getComponentOneConst(app.getEntities(), entity);
 
           AND_THEN("component.x is updated") {
-            REQUIRE(comp.x > 0.0);
+            REQUIRE(comp.x > 0.0F);
           }
         }
       }

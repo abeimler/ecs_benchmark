@@ -7,8 +7,8 @@
 namespace ecs::benchmarks::gaia_ecs::components {
 
 struct SoAPositionComponent {
-  double x{0.0F};
-  double y{0.0F};
+  float x{0.0F};
+  float y{0.0F};
 
   static constexpr auto Layout = ::gaia::mem::DataLayout::SoA;
 };

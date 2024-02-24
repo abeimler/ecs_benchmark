@@ -51,6 +51,12 @@ public:
     return *std::bit_cast<ecs::benchmarks::base::components::SpriteComponent*>(
         ecs_get(registry.ecs.get(), entity_id, registry.SpriteComponent));
   }
+
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent&
+  getPlayerComponentConst(EntityManager& registry, Entity entity_id) override {
+    return *std::bit_cast<ecs::benchmarks::base::components::PlayerComponent*>(
+        ecs_get(registry.ecs.get(), entity_id, registry.PlayerComponent));
+  }
 };
 
 } // namespace ecs::benchmarks::pico_ecs::entities

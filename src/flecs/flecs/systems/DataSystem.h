@@ -16,7 +16,6 @@ public:
   using BaseSystem = ecs::benchmarks::base::systems::DataSystem<EntityManager, TimeDelta>;
 
   inline static const auto update = [](::flecs::iter& it, ecs::benchmarks::base::components::DataComponent* data) {
-    using DataComponent = ecs::benchmarks::base::components::DataComponent;
     const auto dt = gsl::narrow_cast<TimeDelta>(it.delta_time());
 
     for (auto i : it) {

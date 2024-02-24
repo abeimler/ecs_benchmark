@@ -50,6 +50,11 @@ public:
   getSpriteComponent(EntityManager& /*entities*/, Entity entity) override {
     return *entity.get_mut<ecs::benchmarks::base::components::SpriteComponent>();
   }
+
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent&
+  getPlayerComponentConst(EntityManager& /*entities*/, Entity entity) override {
+    return *entity.get<ecs::benchmarks::base::components::PlayerComponent>();
+  }
 };
 
 } // namespace ecs::benchmarks::flecs::entities

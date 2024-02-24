@@ -14,9 +14,6 @@ auto MoreComplexSystem::updateMoreComplex(ecs_t* ecs, std::span<ecs_id_t> entiti
   (void)dt;
   EntityManager& uregistry = *std::bit_cast<EntityManager*>(udata);
 
-  assert(context.registry);
-  assert(context.system);
-
   for (auto entity_id : entities) {
     auto& position = *std::bit_cast<ecs::benchmarks::base::components::PositionComponent*>(
         ecs_get(uregistry.ecs.get(), entity_id, uregistry.PositionComponent));

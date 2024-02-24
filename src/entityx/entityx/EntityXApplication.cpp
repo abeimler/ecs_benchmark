@@ -16,6 +16,7 @@ void EntityXApplication::init() {
     systems.add<systems::HealthSystem>();
     systems.add<systems::DamageSystem>();
     systems.add<systems::SpriteSystem>();
+    systems.add<systems::RenderSystem>(m_frameBuffer);
   }
   systems.configure();
 }
@@ -31,6 +32,7 @@ void EntityXApplication::update(TimeDelta dt) {
     systems.update<systems::HealthSystem>(dt);
     systems.update<systems::DamageSystem>(dt);
     systems.update<systems::SpriteSystem>(dt);
+    systems.update<systems::RenderSystem>(dt);
   }
 }
 } // namespace ecs::benchmarks::entityx

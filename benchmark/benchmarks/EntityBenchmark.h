@@ -2,8 +2,8 @@
 #define ECS_BENCHMARKS_ENTITYBENCHMARK_H_
 
 #include "BaseECSBenchmark.h"
+#include "base/Application.h"
 #include "basic.h"
-#include <algorithm>
 #include <benchmark/benchmark.h>
 #include <concepts>
 #include <optional>
@@ -50,7 +50,29 @@ concept HasGetComponentsFeature = requires(EntityFactory factory, EntityManager&
   // factory.getComponentTwoConst(entity_manager, entity);
   factory.getComponentOne(entity_manager, entity);
   factory.getComponentTwo(entity_manager, entity);
+};
+template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
+          class Entity = typename EntityFactory::Entity>
+concept HasGetConstComponentsFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+  factory.getComponentOneConst(entity_manager, entity);
+  factory.getComponentTwoConst(entity_manager, entity);
+};
+
+template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
+          class Entity = typename EntityFactory::Entity>
+concept HasGetComponentsThreeFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+  // factory.getComponentOneConst(entity_manager, entity);
+  // factory.getComponentTwoConst(entity_manager, entity);
+  factory.getComponentOne(entity_manager, entity);
+  factory.getComponentTwo(entity_manager, entity);
   factory.getOptionalComponentThree(entity_manager, entity);
+};
+template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
+          class Entity = typename EntityFactory::Entity>
+concept HasGetConstComponentsThreeFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+  factory.getComponentOneConst(entity_manager, entity);
+  factory.getComponentTwoConst(entity_manager, entity);
+  factory.getOptionalComponentThreeConst(entity_manager, entity);
 };
 
 template <StringLiteral Name, class EntityFactory, class tEntityManager = typename EntityFactory::EntityManager>
@@ -230,7 +252,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+    requires HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>
   void BM_UnpackNoComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     EntityManager registry;
@@ -239,9 +261,19 @@ public:
       entities.push_back(this->m_entities_factory.createEmpty(registry));
     }
 
+    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>;
+
     for (auto _ : state) {
       for (auto& entity : entities) {
-        benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+        if constexpr (hasOnlyGetConstComponentsFeature) {
+          auto c = this->m_entities_factory.getOptionalComponentThreeConst(registry, entity);
+          benchmark::DoNotOptimize(c);
+        } else {
+          //benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+          // to be fair
+          auto c = this->m_entities_factory.getOptionalComponentThree(registry, entity);
+          benchmark::DoNotOptimize(c);
+        }
       }
     }
     this->setCounters(state, entities,
@@ -253,7 +285,7 @@ public:
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+    requires HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
     const auto nentities = 0;
     EntityManager registry;
@@ -261,16 +293,26 @@ public:
     const ComponentsCounter components_counter =
         this->createEntitiesWithMinimalComponents(registry, nentities, entities);
 
+    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
+
     for (auto _ : state) {
       for (auto& entity : entities) {
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+        if constexpr (hasOnlyGetConstComponentsFeature) {
+          auto c = this->m_entities_factory.getComponentOneConst(registry, entity);
+          benchmark::DoNotOptimize(c);
+        } else {
+          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          // to be fair
+          auto c = this->m_entities_factory.getComponentOne(registry, entity);
+          benchmark::DoNotOptimize(c);
+        }
       }
     }
     this->setCounters(state, entities, components_counter);
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+    requires HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     EntityManager registry;
@@ -278,17 +320,26 @@ public:
     const ComponentsCounter components_counter =
         this->createEntitiesWithMinimalComponents(registry, nentities, entities);
 
+    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
 
     for (auto _ : state) {
       for (auto& entity : entities) {
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+        if constexpr (hasOnlyGetConstComponentsFeature) {
+          auto c = this->m_entities_factory.getComponentOneConst(registry, entity);
+          benchmark::DoNotOptimize(c);
+        } else {
+          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          // to be fair
+          auto c = this->m_entities_factory.getComponentOne(registry, entity);
+          benchmark::DoNotOptimize(c);
+        }
       }
     }
     this->setCounters(state, entities, components_counter);
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+    requires HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>
   void BM_UnpackTwoComponents(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     EntityManager registry;
@@ -296,28 +347,60 @@ public:
     const ComponentsCounter components_counter =
         this->createEntitiesWithMinimalComponents(registry, nentities, entities);
 
+    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
+
     for (auto _ : state) {
       for (auto& entity : entities) {
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
+        if constexpr (hasOnlyGetConstComponentsFeature) {
+          auto c1 = this->m_entities_factory.getComponentOneConst(registry, entity);
+          auto c2 = this->m_entities_factory.getComponentTwoConst(registry, entity);
+          benchmark::DoNotOptimize(c1);
+          benchmark::DoNotOptimize(c2);
+        } else {
+          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
+          // to be fair
+          auto c1 = this->m_entities_factory.getComponentOne(registry, entity);
+          auto c2 = this->m_entities_factory.getComponentTwo(registry, entity);
+          benchmark::DoNotOptimize(c1);
+          benchmark::DoNotOptimize(c2);
+        }
       }
     }
     this->setCounters(state, entities, components_counter);
   }
 
   template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory>
+    requires HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>
   void BM_UnpackThreeComponents(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     EntityManager registry;
     std::vector<Entity> entities;
     const ComponentsCounter components_counter = this->createEntitiesWithHalfComponents(registry, nentities, entities);
 
+    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>;
+
     for (auto _ : state) {
       for (auto& entity : entities) {
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
-        benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+        if constexpr (hasOnlyGetConstComponentsFeature) {
+          auto c1 = this->m_entities_factory.getComponentOneConst(registry, entity);
+          auto c2 = this->m_entities_factory.getComponentTwoConst(registry, entity);
+          auto c3 = this->m_entities_factory.getOptionalComponentThreeConst(registry, entity);
+          benchmark::DoNotOptimize(c1);
+          benchmark::DoNotOptimize(c2);
+          benchmark::DoNotOptimize(c3);
+        } else {
+          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
+          //benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+          // to be fair
+          auto c1 = this->m_entities_factory.getComponentOne(registry, entity);
+          auto c2 = this->m_entities_factory.getComponentTwo(registry, entity);
+          auto c3 = this->m_entities_factory.getOptionalComponentThree(registry, entity);
+          benchmark::DoNotOptimize(c1);
+          benchmark::DoNotOptimize(c2);
+          benchmark::DoNotOptimize(c3);
+        }
       }
     }
     this->setCounters(state, entities, components_counter);

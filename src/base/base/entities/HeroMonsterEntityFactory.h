@@ -54,17 +54,35 @@ public:
   virtual DamageComponent& getDamageComponent(EntityManager& registry, Entity entity) = 0;
   virtual SpriteComponent& getSpriteComponent(EntityManager& registry, Entity entity) = 0;
 
+  virtual const PlayerComponent& getPlayerComponentConst(EntityManager& registry, Entity entity) = 0;
+
   virtual void addComponents(EntityManager& registry, Entity entity) = 0;
 
   ecs::benchmarks::base::components::PlayerType
   initComponents(EntityManager& registry, Entity entity,
                  std::optional<ecs::benchmarks::base::components::PlayerType> opt_player_type = std::nullopt) {
-    using namespace ecs::benchmarks::base::components;
     auto& position = getPositionComponent(registry, entity);
     auto& player = getPlayerComponent(registry, entity);
     auto& health = getHealthComponent(registry, entity);
     auto& damage = getDamageComponent(registry, entity);
     auto& sprite = getSpriteComponent(registry, entity);
+
+    return setComponents(position,
+                         player,
+                         health,
+                         damage,
+                         sprite,
+                         opt_player_type);
+  }
+
+  static ecs::benchmarks::base::components::PlayerType
+  setComponents(PositionComponent& position,
+                PlayerComponent& player,
+                HealthComponent& health,
+                DamageComponent& damage,
+                SpriteComponent& sprite,
+                std::optional<ecs::benchmarks::base::components::PlayerType> opt_player_type = std::nullopt) {
+    using namespace ecs::benchmarks::base::components;
 
     player.type = opt_player_type.value_or([&player]() {
       const auto player_type_rate = player.rng.range(1, 100);
@@ -91,8 +109,8 @@ public:
     }
 
     sprite.character = '_';
-    position.x = gsl::narrow_cast<int>(player.rng.range(0, SpawAreaMaxX + SpawAreaMargin)) - SpawAreaMargin;
-    position.y = gsl::narrow_cast<int>(player.rng.range(0, SpawAreaMaxY + SpawAreaMargin)) - SpawAreaMargin;
+    position.x = gsl::narrow_cast<float>(player.rng.range(0, SpawAreaMaxX + SpawAreaMargin)) - SpawAreaMargin;
+    position.y = gsl::narrow_cast<float>(player.rng.range(0, SpawAreaMaxY + SpawAreaMargin)) - SpawAreaMargin;
 
     return player.type;
   }

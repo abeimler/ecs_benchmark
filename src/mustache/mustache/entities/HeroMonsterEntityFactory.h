@@ -61,6 +61,13 @@ public:
                 .getComponent<ecs::benchmarks::base::components::SpriteComponent, ::mustache::FunctionSafety::kUnsafe>(
                     entity);
   }
+
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent& getPlayerComponentConst(EntityManager& registry,
+                                                                                              Entity entity) override {
+    return *registry
+                .getComponent<ecs::benchmarks::base::components::PlayerComponent, ::mustache::FunctionSafety::kUnsafe>(
+                    entity);
+  }
 };
 
 } // namespace ecs::benchmarks::mustache::entities

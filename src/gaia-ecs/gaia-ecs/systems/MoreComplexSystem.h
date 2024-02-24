@@ -23,7 +23,7 @@ public:
   }
 
   void OnUpdate() override {
-    constexpr TimeDelta dt = 1.0F / 60.0F;
+    //constexpr TimeDelta dt = 1.0F / 60.0F;
     m_q.each([&](const ecs::benchmarks::base::components::PositionComponent& position,
                  ecs::benchmarks::base::components::VelocityComponent& direction,
                  ecs::benchmarks::base::components::DataComponent& data) {

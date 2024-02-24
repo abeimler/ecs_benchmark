@@ -38,24 +38,11 @@ public:
     return entities.get<ecs::benchmarks::base::components::VelocityComponent>(entity);
   }
 
-  [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
-  getComponentOne(EntityManager& entities, Entity entity) {
-    return entities.get<ecs::benchmarks::base::components::PositionComponent>(entity);
-  }
-
   /// @FIXME: get component as non-const
-  [[nodiscard]] static inline ecs::benchmarks::base::components::VelocityComponent&
-  getComponentTwo(EntityManager& entities, Entity entity) {
-    return *const_cast<ecs::benchmarks::base::components::VelocityComponent*>(
-        &entities.get<ecs::benchmarks::base::components::VelocityComponent>(entity));
-  }
-
-  /// @FIXME: get component as non-const
-  [[nodiscard]] static inline ecs::benchmarks::base::components::DataComponent*
-  getOptionalComponentThree(EntityManager& entities, Entity entity) {
+  [[nodiscard]] static inline const ecs::benchmarks::base::components::DataComponent*
+  getOptionalComponentThreeConst(EntityManager& entities, Entity entity) {
     return entities.has<ecs::benchmarks::base::components::DataComponent>(entity)
-               ? const_cast<ecs::benchmarks::base::components::DataComponent*>(
-                     &entities.get<ecs::benchmarks::base::components::DataComponent>(entity))
+               ? &entities.get<ecs::benchmarks::base::components::DataComponent>(entity)
                : nullptr;
   }
 

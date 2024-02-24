@@ -16,7 +16,7 @@ public:
   void OnCreated() override { m_q = world().query().all<ecs::benchmarks::base::components::HealthComponent&>(); }
 
   void OnUpdate() override {
-    constexpr TimeDelta dt = 1.0F / 60.0F;
+    //constexpr TimeDelta dt = 1.0F / 60.0F;
     m_q.each([&](ecs::benchmarks::base::components::HealthComponent& health) {
       BaseSystem::updateHealth(health);
     });

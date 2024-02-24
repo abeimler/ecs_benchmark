@@ -11,13 +11,19 @@
 #include "base/entities/EntityFactory.h"
 #include <memory>
 #include <vector>
+#include <unordered_map>
 
 namespace ecs::benchmarks::oop::entities {
 
+struct EntityManager {
+  std::vector<std::shared_ptr<GameObject>> game_objects;
+  std::unordered_map<GameObject::game_object_id_t, std::shared_ptr<RenderableObject>> render_objects;
+};
+
 class EntityFactory {
 public:
-  using EntityManager = std::vector<std::unique_ptr<GameObject>>;
   using Entity = GameObject*;
+  using EntityManager = EntityManager;
 
   base::add_more_complex_system_t add_more_complex_system{base::add_more_complex_system_t::UseBasicSystems};
 
