@@ -125,6 +125,7 @@ def gen_results(config, output_dir, reports):
                 entries[key][entities] = time_ms
                 entries_unit = 'ms'
                 output_image_filename = os.path.join(output_dir, "{:s}.{:s}".format(key, OUTPUT_IMG_FILENAME_EXT))
+                line_output_image_filename = os.path.join(output_dir, "Line{:s}.{:s}".format(key, OUTPUT_IMG_FILENAME_EXT))
                 if key not in entries_data:
                     entries_data[key] = []
                 entries_data[key].append(
@@ -132,7 +133,7 @@ def gen_results(config, output_dir, reports):
                      'time_min': time_min,
                      'entities': entities, 'components_one': components_one, 'components_two': components_two,
                      'components_three': components_three,
-                     'output_image_filename': output_image_filename})
+                     'output_image_filename': output_image_filename, 'line_output_image_filename': line_output_image_filename})
 
         result_plot_data = {}
         for k in entries.keys():
@@ -238,6 +239,7 @@ def gen_results(config, output_dir, reports):
                         y_us.append(None)
 
                 output_image_filename = result['entries_data'][ek][0]['output_image_filename']
+                line_output_image_filename = result['entries_data'][ek][0]['line_output_image_filename']
                 name = frameworks_info[framework]['name']
 
                 if ek not in results['_data_frame_data']:
@@ -265,13 +267,16 @@ def gen_results(config, output_dir, reports):
                     histo_entities.append(entites)
                     histo_time.append(y_us[index])
 
+                ## frame data for line graph
                 results['_data_frame_data'][ek]['df'][name] = y
                 results['_data_frame_data'][ek]['df']['entities'] = x
                 results['_data_frame_data'][ek]['output_image_filename'] = output_image_filename
+                results['_data_frame_data'][ek]['line_output_image_filename'] = line_output_image_filename
                 results['_data_frame_data'][ek]['unit'] = unit
                 results['_data_frame_data'][ek]['name'] = name
                 results['_data_frame_data'][ek]['y'].append(name)
 
+                ## frame data for histogram
                 results['_plot_data_histogram'][ek]['data']['Framework'] = results['_plot_data_histogram'][ek]['data']['Framework'] + histo_frameworks
                 results['_plot_data_histogram'][ek]['data']['Entities'] = results['_plot_data_histogram'][ek]['data']['Entities'] + histo_entities
                 results['_plot_data_histogram'][ek]['data']['Time (us)'] = results['_plot_data_histogram'][ek]['data']['Time (us)'] + histo_time
@@ -280,22 +285,24 @@ def gen_results(config, output_dir, reports):
                 results['_plot_data_histogram'][ek]['y'] = 'Time (us)'
                 results['_plot_data_histogram'][ek]['color'] = 'Framework'
                 results['_plot_data_histogram'][ek]['barmode'] = 'group'
+                results['_plot_data_histogram'][ek]['histfunc'] = 'avg'
                 results['_plot_data_histogram'][ek]['labels'] = {'Time (us)': 'Time (us)', 'Entities': 'Entities'}
 
                 # Define custom groups
                 custom_groups = {
-                    0: '0-128',
-                    128: '128-1024',
-                    1024: '1024-8192',
-                    8192: '8192-16384',
-                    16384: '16384-65536',
-                    65536: '65536-131072',
-                    131072: '131072-524288',
-                    1048576: '1M-2M',
+                    8: '[0, 64]',
+                    64: '[64, 256]',
+                    256: '[256, 1024]',
+                    1024: '[1024, 8192]',
+                    8192: '[8192, 16384]',
+                    16384: '[16k, 65k]',
+                    65536: '[65k, 131k]',
+                    131072: '[131k, 524k]',
+                    1048576: '1M',
+                    2097152: '2M',
                 }
                 # Create a new column 'EntityGroup' based on the custom groups
                 results['_plot_data_histogram'][ek]['data']['EntityGroup'] = pd.cut(results['_plot_data_histogram'][ek]['data']['Entities'], bins=list(custom_groups.keys()) + [float('inf')], labels=list(custom_groups.values()))
-
                 results['_plot_data_histogram'][ek]['data_frame'] = pd.DataFrame(results['_plot_data_histogram'][ek]['data'])
 
     return results
@@ -314,11 +321,20 @@ def gen_plots(config, results):
             fig = px.line(data['df'], x='entities', y=data['y'], labels={
                 "value": "time ({})".format(data['unit']),
                 "variable": "Frameworks",
-            }, title=title, log_y=True)
+            }, title=title, log_y=True, log_x=True)
             fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
             print("INFO: gen line plot '{:s}': {:s}".format(title, data['output_image_filename']))
         else:
-            fig = px.histogram(
+            ## line graph
+            fig_lines = px.line(data['df'], x='entities', y=data['y'], labels={
+                "value": "time ({})".format(data['unit']),
+                "variable": "Frameworks",
+            }, title=title, log_y=True, log_x=True)
+            fig_lines.write_image(file=data['line_output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+            print("INFO: gen line plot '{:s}': {:s}".format(title, data['line_output_image_filename']))
+
+            ## histogram
+            fig_histo = px.histogram(
                 results['_plot_data_histogram'][key]['data_frame'],
                 x='EntityGroup',
                 y='Time (us)',
@@ -328,13 +344,13 @@ def gen_plots(config, results):
                 log_y=True,
                 histfunc='avg',
             )
-            # Update layout
-            fig.update_layout(
+            ### Update layout
+            fig_histo.update_layout(
                 title=title,
-                xaxis_title='Entities (avg)',
+                xaxis_title='Entities (grouped)',
                 yaxis_title='Time (us)',
             )
-            fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+            fig_histo.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
             print("INFO: gen histogram plot '{:s}': {:s}".format(title, data['output_image_filename']))
 
 
@@ -359,6 +375,9 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
     small_summary_df_data = {}
     small_df_data = {}
     small_df_index = {}
+    smaller_summary_df_data = {}
+    smaller_df_data = {}
+    smaller_df_index = {}
     skip = int(config['args']['--skip']) if '--skip' in config['args'] and config['args']['--skip'] else None
     for framework, result in results.items():
         if framework == '_meta' or framework == '_data_frame_data' or framework == '_plot_data_histogram':
@@ -369,6 +388,8 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
         summary_df_index = {}
         small_summary_df_data[name] = []
         small_summary_df_index = {}
+        smaller_summary_df_data[name] = []
+        smaller_summary_df_index = {}
 
         fill_summary = False
         for ek, entries_data in result['entries_data'].items():
@@ -378,13 +399,19 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
             if ek not in df_index:
                 df_index[ek] = {}
                 small_df_index[ek] = {}
+                smaller_df_index[ek] = {}
 
             if not fill_summary and (ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate'):
                 i = 1
                 j = 0
                 for edata in entries_data:
                     if (i % 2) == 0 or i == len(entries_data):
-                        if i < 12:
+                        if edata['entities'] <= 128:
+                            if not skip or j >= skip:
+                                smaller_summary_df_index[edata['entities']] = config_data[ek]['index'].format(
+                                    human_format_round(edata['entities']))
+                            j = j + 1
+                        elif edata['entities'] <= 16384:
                             if not skip or j >= skip:
                                 small_summary_df_index[edata['entities']] = config_data[ek]['index'].format(
                                     human_format_round(edata['entities']))
@@ -402,7 +429,12 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 j = 0
                 for edata in entries_data:
                     if (i % 2) == 0 or i == len(entries_data):
-                        if i < 12:
+                        if edata['entities'] <= 128:
+                            if not skip or j >= skip:
+                                smaller_df_index[ek][edata['entities']] = config_data[ek]['index'].format(
+                                    human_format_round(edata['entities']))
+                            j = j + 1
+                        elif edata['entities'] <= 16384:
                             if not skip or j >= skip:
                                 small_df_index[ek][edata['entities']] = config_data[ek]['index'].format(
                                     human_format_round(edata['entities']))
@@ -426,6 +458,10 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 small_df_data[ek] = {}
             if name not in small_df_data[ek]:
                 small_df_data[ek][name] = []
+            if ek not in smaller_df_data:
+                smaller_df_data[ek] = {}
+            if name not in smaller_df_data[ek]:
+                smaller_df_data[ek][name] = []
 
             if not fill_summary and (ek == 'ComplexSystemsUpdate' or ek == 'SystemsUpdate'):
                 for key in summary_df_index.keys():
@@ -446,6 +482,15 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                             break
                     if not find:
                         small_summary_df_data[name].append(None)
+                for key in smaller_summary_df_index.keys():
+                    find = False
+                    for ed in entries_data:
+                        if ed['entities'] == key:
+                            smaller_summary_df_data[name].append("{:>6d}ns".format(int(ed['time_ns'])))
+                            find = True
+                            break
+                    if not find:
+                        smaller_summary_df_data[name].append(None)
                 fill_summary = True
 
             for key in df_index[ek].keys():
@@ -468,12 +513,25 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 if not find:
                     small_df_data[ek][name].append(None)
 
+            for key in smaller_df_index[ek].keys():
+                find = False
+                for ed in entries_data:
+                    if ed['entities'] == key:
+                        smaller_df_data[ek][name].append("{:>6d}ns".format(int(ed['time_ns'])))
+                        find = True
+                        break
+                if not find:
+                    smaller_df_data[ek][name].append(None)
+
             if name in df_data[ek] and len(df_data[ek][name]) == 0:
                 # print("WARN: no data for {:s} {:s}".format(ek, name))
                 del df_data[ek][name]
             if name in small_df_data[ek] and len(small_df_data[ek][name]) == 0:
                 # print("WARN: no data for {:s} {:s}".format(ek, name))
                 del small_df_data[ek][name]
+            if name in smaller_df_data[ek] and len(smaller_df_data[ek][name]) == 0:
+                # print("WARN: no data for {:s} {:s}".format(ek, name))
+                del smaller_df_data[ek][name]
 
         if name in summary_df_data and len(summary_df_data[name]) == 0:
             # print("WARN: no (summary) data for {:s}".format(name))
@@ -481,6 +539,9 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
         if name in small_summary_df_data and len(small_summary_df_data[name]) == 0:
             # print("WARN: no (summary) data for {:s}".format(name))
             del small_summary_df_data[name]
+        if name in smaller_summary_df_data and len(smaller_summary_df_data[name]) == 0:
+            # print("WARN: no (summary) data for {:s}".format(name))
+            del smaller_summary_df_data[name]
 
     summary_df = None
     if len(summary_df_index) > 0:
@@ -489,11 +550,17 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
 
     small_summary_df = None
     if len(small_summary_df_index) > 0:
-        index = summary_df_index.values()
+        index = small_summary_df_index.values()
         small_summary_df = pd.DataFrame(small_summary_df_data, index=index)
+
+    smaller_summary_df = None
+    if len(smaller_summary_df_index) > 0:
+        index = smaller_summary_df_index.values()
+        smaller_summary_df = pd.DataFrame(smaller_summary_df_data, index=index)
 
     data['summary'] = {'table': summary_df.to_markdown() if summary_df is not None else None,
                        'small_table': small_summary_df.to_markdown() if small_summary_df is not None else None,
+                       'smaller_table': smaller_summary_df.to_markdown() if smaller_summary_df is not None else None,
                        'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format('SystemsUpdate', OUTPUT_IMG_FILENAME_EXT)),
                        'figure_img_alt': 'Summary SystemsUpdate Plot'}
 
@@ -504,6 +571,10 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'key': ek, 'header': config_data[ek]['header']}
     for ek in small_df_data.keys():
+        data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
+                             'figure_img_alt': "{:s} Plot".format(ek),
+                             'key': ek, 'header': config_data[ek]['header']}
+    for ek in smaller_df_data.keys():
         data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'key': ek, 'header': config_data[ek]['header']}
@@ -522,6 +593,13 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
             small_df = pd.DataFrame(small_dfd, index=index)
         if small_df is not None:
             data['plots'][ek]['small_table'] = small_df.to_markdown()
+    for ek, smaller_dfd in smaller_df_data.items():
+        smaller_df = None
+        if len(smaller_df_index[ek]) > 0:
+            index = smaller_df_index[ek].values()
+            smaller_df = pd.DataFrame(smaller_dfd, index=index)
+        if smaller_df is not None:
+            data['plots'][ek]['smaller_table'] = smaller_df.to_markdown()
 
     for ek, dat in data['plots'].items():
         data['results'].append(data['plots'][ek])
@@ -536,6 +614,8 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
 ![{{figure_img_alt}}]({{figure_img_src}})
 
 _(lower is better)_
+
+{{smaller_table}}
 
 {{small_table}}
 
