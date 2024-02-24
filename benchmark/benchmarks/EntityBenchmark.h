@@ -69,11 +69,12 @@ concept HasGetComponentsThreeFeature = requires(EntityFactory factory, EntityMan
 };
 template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
           class Entity = typename EntityFactory::Entity>
-concept HasGetConstComponentsThreeFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
-  factory.getComponentOneConst(entity_manager, entity);
-  factory.getComponentTwoConst(entity_manager, entity);
-  factory.getOptionalComponentThreeConst(entity_manager, entity);
-};
+concept HasGetConstComponentsThreeFeature =
+    requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+      factory.getComponentOneConst(entity_manager, entity);
+      factory.getComponentTwoConst(entity_manager, entity);
+      factory.getOptionalComponentThreeConst(entity_manager, entity);
+    };
 
 template <StringLiteral Name, class EntityFactory, class tEntityManager = typename EntityFactory::EntityManager>
   requires std::default_initializable<tEntityManager>
@@ -261,7 +262,8 @@ public:
       entities.push_back(this->m_entities_factory.createEmpty(registry));
     }
 
-    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>;
+    constexpr bool hasOnlyGetConstComponentsFeature =
+        !HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>;
 
     for (auto _ : state) {
       for (auto& entity : entities) {
@@ -269,8 +271,8 @@ public:
           auto c = this->m_entities_factory.getOptionalComponentThreeConst(registry, entity);
           benchmark::DoNotOptimize(c);
         } else {
-          //benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
-          // to be fair
+          // benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+          //  to be fair
           auto c = this->m_entities_factory.getOptionalComponentThree(registry, entity);
           benchmark::DoNotOptimize(c);
         }
@@ -293,7 +295,8 @@ public:
     const ComponentsCounter components_counter =
         this->createEntitiesWithMinimalComponents(registry, nentities, entities);
 
-    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
+    constexpr bool hasOnlyGetConstComponentsFeature =
+        !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
 
     for (auto _ : state) {
       for (auto& entity : entities) {
@@ -301,8 +304,8 @@ public:
           auto c = this->m_entities_factory.getComponentOneConst(registry, entity);
           benchmark::DoNotOptimize(c);
         } else {
-          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-          // to be fair
+          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          //  to be fair
           auto c = this->m_entities_factory.getComponentOne(registry, entity);
           benchmark::DoNotOptimize(c);
         }
@@ -320,7 +323,8 @@ public:
     const ComponentsCounter components_counter =
         this->createEntitiesWithMinimalComponents(registry, nentities, entities);
 
-    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
+    constexpr bool hasOnlyGetConstComponentsFeature =
+        !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
 
     for (auto _ : state) {
       for (auto& entity : entities) {
@@ -328,8 +332,8 @@ public:
           auto c = this->m_entities_factory.getComponentOneConst(registry, entity);
           benchmark::DoNotOptimize(c);
         } else {
-          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-          // to be fair
+          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          //  to be fair
           auto c = this->m_entities_factory.getComponentOne(registry, entity);
           benchmark::DoNotOptimize(c);
         }
@@ -347,7 +351,8 @@ public:
     const ComponentsCounter components_counter =
         this->createEntitiesWithMinimalComponents(registry, nentities, entities);
 
-    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
+    constexpr bool hasOnlyGetConstComponentsFeature =
+        !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
 
     for (auto _ : state) {
       for (auto& entity : entities) {
@@ -357,9 +362,9 @@ public:
           benchmark::DoNotOptimize(c1);
           benchmark::DoNotOptimize(c2);
         } else {
-          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
-          // to be fair
+          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
+          //  to be fair
           auto c1 = this->m_entities_factory.getComponentOne(registry, entity);
           auto c2 = this->m_entities_factory.getComponentTwo(registry, entity);
           benchmark::DoNotOptimize(c1);
@@ -378,7 +383,8 @@ public:
     std::vector<Entity> entities;
     const ComponentsCounter components_counter = this->createEntitiesWithHalfComponents(registry, nentities, entities);
 
-    constexpr bool hasOnlyGetConstComponentsFeature = !HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>;
+    constexpr bool hasOnlyGetConstComponentsFeature =
+        !HasGetComponentsThreeFeature<tEntityFactory> || HasGetConstComponentsThreeFeature<tEntityFactory>;
 
     for (auto _ : state) {
       for (auto& entity : entities) {
@@ -390,10 +396,10 @@ public:
           benchmark::DoNotOptimize(c2);
           benchmark::DoNotOptimize(c3);
         } else {
-          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-          //benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
-          //benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
-          // to be fair
+          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
+          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentTwo(registry, entity));
+          // benchmark::DoNotOptimize(this->m_entities_factory.getOptionalComponentThree(registry, entity));
+          //  to be fair
           auto c1 = this->m_entities_factory.getComponentOne(registry, entity);
           auto c2 = this->m_entities_factory.getComponentTwo(registry, entity);
           auto c3 = this->m_entities_factory.getOptionalComponentThree(registry, entity);

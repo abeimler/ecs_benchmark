@@ -20,8 +20,7 @@ void OOPApplication::update(TimeDelta dt) {
   std::erase_if(m_entities.game_objects, [&](auto& entity) {
     const auto ret = entity == nullptr || entity->destroyed();
     if (ret) {
-      for (auto it = m_entities.render_objects.begin(); it != m_entities.render_objects.end();)
-      {
+      for (auto it = m_entities.render_objects.begin(); it != m_entities.render_objects.end();) {
         if (it->first == entity->id())
           it = m_entities.render_objects.erase(it);
         else

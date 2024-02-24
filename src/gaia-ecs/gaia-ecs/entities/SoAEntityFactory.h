@@ -1,9 +1,9 @@
 #ifndef ECS_BENCHMARKS_GAIA_ECS_SOAENTITYFACTORY_H_
 #define ECS_BENCHMARKS_GAIA_ECS_SOAENTITYFACTORY_H_
 
+#include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
-#include "base/components/DataComponent.h"
 #include "gaia-ecs/components/SoAPositionComponent.h"
 #include "gaia-ecs/components/SoAVelocityComponent.h"
 #include <gaia.h>
@@ -27,12 +27,12 @@ public:
   //}
 
   [[nodiscard]] static inline components::SoAPositionComponent getComponentOneConst(EntityManager& entities,
-                                                                                           Entity entity) {
+                                                                                    Entity entity) {
     return entities.get<components::SoAPositionComponent>(entity);
   }
 
   [[nodiscard]] static inline components::SoAVelocityComponent getComponentTwoConst(EntityManager& entities,
-                                                                                           Entity entity) {
+                                                                                    Entity entity) {
     return entities.get<components::SoAVelocityComponent>(entity);
   }
 

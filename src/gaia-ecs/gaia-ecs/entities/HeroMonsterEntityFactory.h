@@ -33,21 +33,23 @@ public:
     return entities.get<ecs::benchmarks::base::components::PositionComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent& getPlayerComponentConst(EntityManager& entities,
-                                                                                                         Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent&
+  getPlayerComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::PlayerComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::HealthComponent& getHealthComponentConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::HealthComponent&
+  getHealthComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::HealthComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::DamageComponent& getDamageComponentConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::DamageComponent&
+  getDamageComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::DamageComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::SpriteComponent& getSpriteComponentConst(EntityManager& entities,
-                                                                                                         Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::SpriteComponent&
+  getSpriteComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::SpriteComponent>(entity);
   }
 
@@ -62,12 +64,7 @@ public:
     auto damage = getDamageComponentConst(w, e);
     auto sprite = getSpriteComponentConst(w, e);
 
-    auto ret = BaseHeroMonsterEntityFactory::setComponents(position,
-                             player,
-                             health,
-                             damage,
-                             sprite,
-                             opt_player_type);
+    auto ret = BaseHeroMonsterEntityFactory::setComponents(position, player, health, damage, sprite, opt_player_type);
 
     w.set(e)
         .set<PositionComponent>(position)

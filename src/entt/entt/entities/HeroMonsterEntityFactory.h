@@ -54,8 +54,8 @@ public:
     return registry.get<ecs::benchmarks::base::components::SpriteComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent& getPlayerComponentConst(EntityManager& registry,
-                                                                                                         Entity entity) override {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent&
+  getPlayerComponentConst(EntityManager& registry, Entity entity) override {
     return registry.get<ecs::benchmarks::base::components::PlayerComponent>(entity);
   }
 };

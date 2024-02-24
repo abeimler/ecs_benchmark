@@ -67,19 +67,11 @@ public:
     auto& damage = getDamageComponent(registry, entity);
     auto& sprite = getSpriteComponent(registry, entity);
 
-    return setComponents(position,
-                         player,
-                         health,
-                         damage,
-                         sprite,
-                         opt_player_type);
+    return setComponents(position, player, health, damage, sprite, opt_player_type);
   }
 
   static ecs::benchmarks::base::components::PlayerType
-  setComponents(PositionComponent& position,
-                PlayerComponent& player,
-                HealthComponent& health,
-                DamageComponent& damage,
+  setComponents(PositionComponent& position, PlayerComponent& player, HealthComponent& health, DamageComponent& damage,
                 SpriteComponent& sprite,
                 std::optional<ecs::benchmarks::base::components::PlayerType> opt_player_type = std::nullopt) {
     using namespace ecs::benchmarks::base::components;

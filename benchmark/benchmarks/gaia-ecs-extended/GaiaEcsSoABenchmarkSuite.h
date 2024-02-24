@@ -4,8 +4,8 @@
 #include "ExtendedECSBenchmark.h"
 #include "base/components/DataComponent.h"
 #include "gaia-ecs/SoAGaiaEcsApplication.h"
-#include "gaia-ecs/entities/SoAHeroMonsterEntityFactory.h"
 #include "gaia-ecs/entities/SoAEntityFactory.h"
+#include "gaia-ecs/entities/SoAHeroMonsterEntityFactory.h"
 #include <utility>
 
 namespace ecs::benchmarks::gaia_ecs {

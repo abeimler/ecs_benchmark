@@ -51,8 +51,8 @@ public:
     return *entities.component<ecs::benchmarks::base::components::SpriteComponent>(entity.id());
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent& getPlayerComponentConst(EntityManager& entities,
-                                                                                                         Entity entity) override {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent&
+  getPlayerComponentConst(EntityManager& entities, Entity entity) override {
     return *entities.component<ecs::benchmarks::base::components::PlayerComponent>(entity.id());
   }
 };

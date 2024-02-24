@@ -1,10 +1,10 @@
 #ifndef ECS_BENCHMARKS_GAIA_ECS_SOAHEROMONSTERENTITYFACTORY_H_
 #define ECS_BENCHMARKS_GAIA_ECS_SOAHEROMONSTERENTITYFACTORY_H_
 
-#include "base/components/PositionComponent.h"
-#include "base/components/VelocityComponent.h"
 #include "base/components/HeroMonsterComponents.h"
+#include "base/components/PositionComponent.h"
 #include "base/components/SpriteComponent.h"
+#include "base/components/VelocityComponent.h"
 #include "base/entities/HeroMonsterEntityFactory.h"
 #include "gaia-ecs/components/SoAPositionComponent.h"
 #include "gaia-ecs/components/SoAVelocityComponent.h"
@@ -18,9 +18,9 @@ public:
   using EntityManager = ::gaia::ecs::World;
   using Entity = ::gaia::ecs::Entity;
   using BaseHeroMonsterEntityFactory = ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
-      EntityManager, Entity, components::SoAPositionComponent,
-      ecs::benchmarks::base::components::PlayerComponent, ecs::benchmarks::base::components::HealthComponent,
-      ecs::benchmarks::base::components::DamageComponent, ecs::benchmarks::base::components::SpriteComponent>;
+      EntityManager, Entity, components::SoAPositionComponent, ecs::benchmarks::base::components::PlayerComponent,
+      ecs::benchmarks::base::components::HealthComponent, ecs::benchmarks::base::components::DamageComponent,
+      ecs::benchmarks::base::components::SpriteComponent>;
 
   Entity createRandom(EntityManager& entities);
   Entity createHero(EntityManager& entities);
@@ -32,27 +32,28 @@ public:
   //  return entities.size();
   //}
 
-  [[nodiscard]] inline components::SoAPositionComponent getPositionComponentConst(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline components::SoAPositionComponent getPositionComponentConst(EntityManager& entities,
+                                                                                  Entity entity) {
     return entities.get<components::SoAPositionComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent& getPlayerComponentConst(EntityManager& entities,
-                                                                                                   Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::PlayerComponent&
+  getPlayerComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::PlayerComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::HealthComponent& getHealthComponentConst(EntityManager& entities,
-                                                                                                   Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::HealthComponent&
+  getHealthComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::HealthComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::DamageComponent& getDamageComponentConst(EntityManager& entities,
-                                                                                                   Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::DamageComponent&
+  getDamageComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::DamageComponent>(entity);
   }
 
-  [[nodiscard]] inline const ecs::benchmarks::base::components::SpriteComponent& getSpriteComponentConst(EntityManager& entities,
-                                                                                                   Entity entity) {
+  [[nodiscard]] inline const ecs::benchmarks::base::components::SpriteComponent&
+  getSpriteComponentConst(EntityManager& entities, Entity entity) {
     return entities.get<ecs::benchmarks::base::components::SpriteComponent>(entity);
   }
 
@@ -68,12 +69,7 @@ public:
     auto damage = getDamageComponentConst(w, e);
     auto sprite = getSpriteComponentConst(w, e);
 
-    auto ret = BaseHeroMonsterEntityFactory::setComponents(position,
-                                                           player,
-                                                           health,
-                                                           damage,
-                                                           sprite,
-                                                           opt_player_type);
+    auto ret = BaseHeroMonsterEntityFactory::setComponents(position, player, health, damage, sprite, opt_player_type);
 
     w.set(e)
         .set<components::SoAPositionComponent>(position)

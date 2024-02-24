@@ -13,8 +13,8 @@ public:
 
   OOPApplication() : m_frameBuffer(320, 240) {}
   explicit OOPApplication(base::add_more_complex_system_t add_more_complex_system)
-      : m_addMoreComplexSystem(add_more_complex_system)
-      , m_frameBuffer(320, 240) {}
+      : m_addMoreComplexSystem(add_more_complex_system), m_frameBuffer(320, 240) {}
+  /// @FIXME: magic numbers
   ~OOPApplication() = default;
   OOPApplication(const OOPApplication&) = delete;
   OOPApplication& operator=(const OOPApplication&) = delete;

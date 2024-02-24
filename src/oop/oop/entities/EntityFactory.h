@@ -10,8 +10,8 @@
 #include "base/components/VelocityComponent.h"
 #include "base/entities/EntityFactory.h"
 #include <memory>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
 namespace ecs::benchmarks::oop::entities {
 

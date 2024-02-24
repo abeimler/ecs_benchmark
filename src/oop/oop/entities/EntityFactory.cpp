@@ -84,7 +84,7 @@ void EntityFactory::destroyBulk(EntityManager& /*registry*/, std::vector<Entity>
 }
 
 void EntityFactory::remove(EntityManager& registry, Entity entity) {
-  for (auto it = registry.render_objects.begin(); it != registry.render_objects.end();){
+  for (auto it = registry.render_objects.begin(); it != registry.render_objects.end();) {
     if (it->first == entity->id())
       it = registry.render_objects.erase(it);
     else
@@ -101,7 +101,7 @@ void EntityFactory::removeBulk(EntityManager& registry, std::vector<Entity>& in)
       return it == ptr.get();
     });
     if (ret) {
-      for (auto it = registry.render_objects.begin(); it != registry.render_objects.end();){
+      for (auto it = registry.render_objects.begin(); it != registry.render_objects.end();) {
         if (it->first == ptr->id())
           it = registry.render_objects.erase(it);
         else
