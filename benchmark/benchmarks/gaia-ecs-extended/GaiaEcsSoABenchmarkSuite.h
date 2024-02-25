@@ -8,6 +8,10 @@
 #include "gaia-ecs/entities/SoAHeroMonsterEntityFactory.h"
 #include <utility>
 
+#define STR(arg) #arg
+#define XSTR(arg) STR(arg)
+#define GAIA_VERSION XSTR(GAIA_VERSION_MAJOR) "." XSTR(GAIA_VERSION_MINOR) "." XSTR(GAIA_VERSION_PATCH)
+
 namespace ecs::benchmarks::gaia_ecs {
 
 class GaiaEcsSoABenchmarkSuite final

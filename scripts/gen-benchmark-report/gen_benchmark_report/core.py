@@ -434,7 +434,7 @@ def gen_plots(config, results):
                 fig_lines.update_yaxes(
                     type='log',
                     tickmode='array',
-                    tickvals=[1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10],
+                    tickvals=[1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1],
                     ticktext=['1ns', '10ns', '100ns', '1µ', '10µ', '100µ', '1ms', '10ms', '100ms', '1s', '10s'],  # Corresponding tick labels
                 )
 
@@ -466,7 +466,7 @@ def gen_plots(config, results):
                 fig_histo.update_yaxes(
                     type='log',
                     tickmode='array',
-                    tickvals=[1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1],
+                    tickvals=[1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0],
                     ticktext=['1ns', '10ns', '100ns', '1µ', '10µ', '100µ', '1ms', '10ms', '100ms', '1s'],  # Corresponding tick labels
                 )
 
@@ -526,7 +526,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 i = 1
                 j = 0
                 for edata in entries_data:
-                    if (i % 2) == 0 or i == len(entries_data):
+                    if (i % 2) == 0 or i == len(entries_data) or edata['entities'] == 8 or edata['entities'] == 16 or edata['entities'] == 32 or edata['entities'] == 64:
                         if edata['entities'] <= 128:
                             if not skip or j >= skip:
                                 smaller_summary_df_index[edata['entities']] = config_data[ek]['index'].format(
@@ -549,7 +549,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 i = 1
                 j = 0
                 for edata in entries_data:
-                    if (i % 2) == 0 or i == len(entries_data):
+                    if (i % 2) == 0 or i == len(entries_data) or edata['entities'] == 8 or edata['entities'] == 16 or edata['entities'] == 32 or edata['entities'] == 64:
                         if edata['entities'] <= 128:
                             if not skip or j >= skip:
                                 smaller_df_index[ek][edata['entities']] = config_data[ek]['index'].format(
