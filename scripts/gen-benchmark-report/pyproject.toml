@@ -8,7 +8,7 @@ readme = "README.md"
 homepage = "https://github.com/abeimler/ecs_benchmark/tree/master/scripts/gen-benchmark-report"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 docopt = "^0.6.2"
 pandas = "^1.5.2"
 psutil = "^5.9.8"
@@ -19,6 +19,7 @@ black = "^22.3.0"
 plotly = "^5.19.0"
 tabulate = "^0.9.0"
 kaleido = "==0.2.1"
+numpy = "^1.26.4"
 
 [tool.poetry.scripts]
 gen-benchmark-report = "gen_benchmark_report.cli:cli"

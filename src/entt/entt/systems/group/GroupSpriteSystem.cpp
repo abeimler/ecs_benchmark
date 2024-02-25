@@ -4,7 +4,7 @@
 
 namespace ecs::benchmarks::entt::systems {
 
-void GroupSpriteSystem::update(EntityManager& registry, TimeDelta dt) {
+void GroupSpriteSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
   registry
       .group<ecs::benchmarks::base::components::SpriteComponent>(
           ::entt::get<const ecs::benchmarks::base::components::PlayerComponent,

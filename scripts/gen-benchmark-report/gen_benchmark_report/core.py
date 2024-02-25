@@ -10,6 +10,7 @@ import pystache
 import os
 import json
 import re
+import pprint
 
 
 RESULTS_MD_MUSTACHE_FILENAME = os.path.join(os.path.dirname(__file__), 'RESULTS.md.mustache')
@@ -76,6 +77,7 @@ def gen_results(config, output_dir, reports):
         for benchmark in report['benchmarks']:
             name = benchmark['name']
             time = benchmark['real_time']
+            unit = benchmark['time_unit']
             time_ns = None
             time_us = None
             time_ms = None
@@ -86,7 +88,6 @@ def gen_results(config, output_dir, reports):
             components_two = None
             components_three = None
             key = ''
-            unit = benchmark['time_unit']
             if unit == 'ns':
                 time_ns = int(time)
                 time_us = time_ns / 1000.0
@@ -149,20 +150,20 @@ def gen_results(config, output_dir, reports):
     results['_meta'] = {'ghz_per_cpu': mhz_per_cpu / 1000.0, 'mhz_per_cpu': mhz_per_cpu, 'num_cpus': num_cpus,
                         'os': platform.system(), 'ram': get_total_memory()}
 
-    x = []
+    x_entites = []
     for framework, result in results.items():
         if '_meta' != framework:
             for ek, data in result['plot_data'].items():
-                x.extend(list(data['index']))
-    x = list(dict.fromkeys(x))
-    x.sort()
+                x_entites.extend(list(data['index']))
+    x_entites = list(dict.fromkeys(x_entites))
+    x_entites.sort()
 
     units = {}
     for framework, result in results.items():
         if '_meta' != framework:
             for ek in result['entries'].keys():
                 units[ek] = 'ns'
-                for e in x:
+                for e in x_entites:
                     for ed in result['entries_data'][ek]:
                         if ed['entities'] == e:
                             if ed['time_s'] >= 60.0:
@@ -181,15 +182,15 @@ def gen_results(config, output_dir, reports):
                                     units[ek] = 'us'
                                     break
 
+    # normalize unit
+    unit = 's'
     for framework, result in results.items():
         if '_meta' != framework:
             results[framework]['plot_data']['_df'] = {}
-            results[framework]['plot_data']['_df_index'] = x
             for ek in result['entries'].keys():
-                unit = units[ek]
                 y = []
-                for e in x:
-                    find = False
+                x = []
+                for e in x_entites:
                     for ed in result['entries_data'][ek]:
                         if ed['entities'] == e:
                             if unit == 'ns':
@@ -202,41 +203,64 @@ def gen_results(config, output_dir, reports):
                                 y.append(ed['time_s'])
                             elif unit == 'min':
                                 y.append(ed['time_min'])
-                            find = True
-                    if not find:
-                        y.append(None)
+                            x.append(e)
 
                 name = frameworks_info[framework]['name']
                 data_frame = {name: y}
                 results[framework]['plot_data']['_df'][ek] = pd.DataFrame(data_frame, index=x)
+                results[framework]['plot_data']['_df_index'] = x
 
     results['_data_frame_data'] = {}
+    results['_plot_data_line'] = {}
     results['_plot_data_histogram'] = {}
     for framework, result in results.items():
-        if framework != '_meta' and framework != '_data_frame_data' and framework != '_plot_data_histogram':
+        if framework != '_meta' and framework != '_data_frame_data' and framework != '_plot_data_histogram' and framework != '_plot_data_line':
             for ek in result['entries_data'].keys():
-                unit = units[ek]
-                y = []
-                y_us = []
-                for e in x:
-                    find = False
+                y_absolut = []
+                y_us_absolut = []
+                y_per_entity = []
+                y_us_per_entity = []
+                x = []
+                for e in x_entites:
                     for ed in result['entries_data'][ek]:
                         if ed['entities'] == e:
                             if unit == 'ns':
-                                y.append(ed['time_ns'])
+                                if ed['entities'] > 0:
+                                    y_per_entity.append(ed['time_ns'] / ed['entities'])
+                                else:
+                                    y_per_entity.append(ed['time_ns'])
+                                y_absolut.append(ed['time_ns'])
                             elif unit == 'us':
-                                y.append(ed['time_us'])
+                                if ed['entities'] > 0:
+                                    y_per_entity.append(ed['time_us'] / ed['entities'])
+                                else:
+                                    y_per_entity.append(ed['time_us'])
+                                y_absolut.append(ed['time_us'])
                             elif unit == 'ms':
-                                y.append(ed['time_ms'])
+                                if ed['entities'] > 0:
+                                    y_per_entity.append(ed['time_ms'] / ed['entities'])
+                                else:
+                                    y_per_entity.append(ed['time_ms'])
+                                y_absolut.append(ed['time_ms'])
                             elif unit == 's':
-                                y.append(ed['time_s'])
+                                if ed['entities'] > 0:
+                                    y_per_entity.append(ed['time_s'] / ed['entities'])
+                                else:
+                                    y_per_entity.append(ed['time_s'])
+                                y_absolut.append(ed['time_s'])
                             elif unit == 'min':
-                                y.append(ed['time_min'])
-                            y_us.append(ed['time_us'])
-                            find = True
-                    if not find:
-                        y.append(None)
-                        y_us.append(None)
+                                if ed['entities'] > 0:
+                                    y_per_entity.append(ed['time_min'] / ed['entities'])
+                                else:
+                                    y_per_entity.append(ed['time_min'])
+                                y_absolut.append(ed['time_min'])
+                            if ed['entities'] > 0:
+                                y_us_per_entity.append(ed['time_us'] / ed['entities'])
+                            else:
+                                y_us_per_entity.append(ed['time_us'])
+                            # @Note: time / entities = cost per entity
+                            y_us_absolut.append(ed['time_us'])
+                            x.append(ed['entities'])
 
                 output_image_filename = result['entries_data'][ek][0]['output_image_filename']
                 line_output_image_filename = result['entries_data'][ek][0]['line_output_image_filename']
@@ -249,13 +273,20 @@ def gen_results(config, output_dir, reports):
                 if 'y' not in results['_data_frame_data'][ek]:
                     results['_data_frame_data'][ek]['y'] = []
 
+                if ek not in results['_plot_data_line']:
+                    results['_plot_data_line'][ek] = {}
+                if 'df' not in results['_plot_data_line'][ek]:
+                    results['_plot_data_line'][ek]['df'] = {}
+                if 'y' not in results['_plot_data_line'][ek]:
+                    results['_plot_data_line'][ek]['y'] = []
+
                 if ek not in results['_plot_data_histogram']:
                     results['_plot_data_histogram'][ek] = {}
                 if 'data' not in results['_plot_data_histogram'][ek]:
                     results['_plot_data_histogram'][ek]['data'] = {
                         'Framework': [],
                         'Entities': [],
-                        'Time (us)': [],
+                        'Time': [],
                     }
 
                 histo_frameworks = []
@@ -265,42 +296,75 @@ def gen_results(config, output_dir, reports):
                 for index, entites in enumerate(x):
                     histo_frameworks.append(name)
                     histo_entities.append(entites)
-                    histo_time.append(y_us[index])
+                    histo_time.append(y_per_entity[index])
 
                 ## frame data for line graph
-                results['_data_frame_data'][ek]['df'][name] = y
+                results['_data_frame_data'][ek]['df'][name] = y_per_entity
                 results['_data_frame_data'][ek]['df']['entities'] = x
                 results['_data_frame_data'][ek]['output_image_filename'] = output_image_filename
                 results['_data_frame_data'][ek]['line_output_image_filename'] = line_output_image_filename
                 results['_data_frame_data'][ek]['unit'] = unit
                 results['_data_frame_data'][ek]['name'] = name
                 results['_data_frame_data'][ek]['y'].append(name)
+                results['_data_frame_data'][ek]['xaxis_title'] = 'Entities'
+                results['_data_frame_data'][ek]['yaxis_title'] = 'Time cost per entity'
+                ## frame for second line graph
+                results['_plot_data_line'][ek]['df'][name] = y_absolut
+                results['_plot_data_line'][ek]['df']['entities'] = x
+                results['_plot_data_line'][ek]['output_image_filename'] = output_image_filename
+                results['_plot_data_line'][ek]['line_output_image_filename'] = line_output_image_filename
+                results['_plot_data_line'][ek]['unit'] = unit
+                results['_plot_data_line'][ek]['name'] = name
+                results['_plot_data_line'][ek]['y'].append(name)
+                results['_plot_data_line'][ek]['xaxis_title'] = 'Entities'
+                results['_plot_data_line'][ek]['yaxis_title'] = 'Time for all entities'
 
                 ## frame data for histogram
                 results['_plot_data_histogram'][ek]['data']['Framework'] = results['_plot_data_histogram'][ek]['data']['Framework'] + histo_frameworks
                 results['_plot_data_histogram'][ek]['data']['Entities'] = results['_plot_data_histogram'][ek]['data']['Entities'] + histo_entities
-                results['_plot_data_histogram'][ek]['data']['Time (us)'] = results['_plot_data_histogram'][ek]['data']['Time (us)'] + histo_time
+                results['_plot_data_histogram'][ek]['data']['Time'] = results['_plot_data_histogram'][ek]['data']['Time'] + histo_time
 
                 results['_plot_data_histogram'][ek]['x'] = 'Entities'
-                results['_plot_data_histogram'][ek]['y'] = 'Time (us)'
+                results['_plot_data_histogram'][ek]['y'] = 'Time'
                 results['_plot_data_histogram'][ek]['color'] = 'Framework'
                 results['_plot_data_histogram'][ek]['barmode'] = 'group'
                 results['_plot_data_histogram'][ek]['histfunc'] = 'avg'
-                results['_plot_data_histogram'][ek]['labels'] = {'Time (us)': 'Time (us)', 'Entities': 'Entities'}
+                results['_plot_data_histogram'][ek]['labels'] = {'Time': "Time ({})".format(unit), 'Entities': 'Entities', 'EntityGroup': 'Entities'}
+                results['_plot_data_histogram'][ek]['xaxis_title'] = 'Entities (avg)'
+                results['_plot_data_histogram'][ek]['yaxis_title'] = 'Time cost per entity'
+                results['_plot_data_histogram'][ek]['output_image_filename'] = output_image_filename
+                results['_plot_data_histogram'][ek]['unit'] = unit
 
                 # Define custom groups
-                custom_groups = {
-                    8: '[0, 64]',
-                    64: '[64, 256]',
-                    256: '[256, 1024]',
-                    1024: '[1024, 8192]',
-                    8192: '[8192, 16384]',
-                    16384: '[16k, 65k]',
-                    65536: '[65k, 131k]',
-                    131072: '[131k, 524k]',
-                    1048576: '1M',
-                    2097152: '2M',
-                }
+                if 0 in x and len(x) == 1:
+                    custom_groups = {
+                        0: 'NoEntities (baseline)',
+                    }
+                elif 0 in x:
+                    custom_groups = {
+                        0: 'NoEntities (baseline)',
+                        8: '[8, 256]',
+                        256: '[256, 1024]',
+                        1024: '[1024, 8192]',
+                        8192: '[8192, 16k]',
+                        16384: '[16k, 65k]',
+                        65536: '[65k, 131k]',
+                        131072: '[131k, 524k]',
+                        1048576: '1M',
+                        2097152: '2M',
+                    }
+                else:
+                    custom_groups = {
+                        8: '[8, 256]',
+                        256: '[256, 1024]',
+                        1024: '[1024, 8192]',
+                        8192: '[8192, 16k]',
+                        16384: '[16k, 65k]',
+                        65536: '[65k, 131k]',
+                        131072: '[131k, 524k]',
+                        1048576: '1M',
+                        2097152: '2M',
+                    }
                 # Create a new column 'EntityGroup' based on the custom groups
                 results['_plot_data_histogram'][ek]['data']['EntityGroup'] = pd.cut(results['_plot_data_histogram'][ek]['data']['Entities'], bins=list(custom_groups.keys()) + [float('inf')], labels=list(custom_groups.values()))
                 results['_plot_data_histogram'][ek]['data_frame'] = pd.DataFrame(results['_plot_data_histogram'][ek]['data'])
@@ -308,50 +372,107 @@ def gen_results(config, output_dir, reports):
     return results
 
 
+# Function to generate tick values and labels for logarithmic scale with "µs" units
+def generate_log_ticks(min_val, max_val, base=10):
+    ticks = []
+    labels = []
+
+    # Generate ticks for the range from min_val to max_val
+    current_val = min_val
+    while current_val <= max_val:
+        if current_val < 1:
+            ticks.append(current_val)
+            labels.append(f'{current_val:g}µ')
+        else:
+            ticks.append(current_val)
+            labels.append(str(int(current_val)))
+            for i in range(1, base):
+                exponent = int(np.floor(np.log10(current_val)))
+                next_val = (i * 10**exponent) / base
+                if next_val < max_val:
+                    ticks.append(next_val)
+                    if i == 1:
+                        labels.append(f'{int(next_val):g}')
+                    else:
+                        labels.append(str(int(next_val)))
+                else:
+                    break
+        current_val *= base
+
+    return ticks, labels
+
 def gen_plots(config, results):
     frameworks_info = config['frameworks']
     for key, data in results['_data_frame_data'].items():
         title = config['data'][key]['title']
         if not title:
-            print("WARN: no plot title for {:s}".format(key))
-        else:
             title = key
+            print("WARN: no plot title for {:s}".format(key))
 
         if '--plot-lines' in config['args'] and config['args']['--plot-lines']:
             fig = px.line(data['df'], x='entities', y=data['y'], labels={
-                "value": "time ({})".format(data['unit']),
+                "value": "Time ({})".format(data['unit']),
                 "variable": "Frameworks",
             }, title=title, log_y=True, log_x=True)
             fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
             print("INFO: gen line plot '{:s}': {:s}".format(title, data['output_image_filename']))
         else:
             ## line graph
-            fig_lines = px.line(data['df'], x='entities', y=data['y'], labels={
-                "value": "time ({})".format(data['unit']),
+            fig_lines = px.line(results['_plot_data_line'][key]['df'], x='entities', y=results['_plot_data_line'][key]['y'], labels={
+                "value": "Time ({})".format(results['_plot_data_line'][key]['unit']),
                 "variable": "Frameworks",
             }, title=title, log_y=True, log_x=True)
-            fig_lines.write_image(file=data['line_output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
-            print("INFO: gen line plot '{:s}': {:s}".format(title, data['line_output_image_filename']))
+
+            ### Update layout
+            fig_lines.update_layout(
+                title=title,
+                xaxis_title=results['_plot_data_line'][key]['xaxis_title'],
+                yaxis_title=results['_plot_data_line'][key]['yaxis_title'],
+            )
+            if results['_plot_data_line'][key]['unit'] == 's':
+                # Update y-axis ticks for logarithmic scale with "s" units
+                fig_lines.update_yaxes(
+                    type='log',
+                    tickmode='array',
+                    tickvals=[1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0, 1e1],
+                    ticktext=['1ns', '10ns', '100ns', '1µ', '10µ', '100µ', '1ms', '10ms', '100ms', '1s', '10s'],  # Corresponding tick labels
+                )
+
+            # Write image
+            fig_lines.write_image(file=results['_plot_data_line'][key]['line_output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+            print("INFO: gen line plot '{:s}': {:s}".format(title, results['_plot_data_line'][key]['line_output_image_filename']))
+
 
             ## histogram
             fig_histo = px.histogram(
                 results['_plot_data_histogram'][key]['data_frame'],
                 x='EntityGroup',
-                y='Time (us)',
+                y='Time',
                 color='Framework',
-                barmode='group',
-                labels={'Time (us)': 'Time (us)', 'Entities': 'Entities', 'EntityGroup': 'Entities'},
+                barmode=results['_plot_data_histogram'][key]['barmode'],
+                labels=results['_plot_data_histogram'][key]['labels'],
                 log_y=True,
-                histfunc='avg',
+                histfunc=results['_plot_data_histogram'][key]['histfunc'],
             )
+
             ### Update layout
             fig_histo.update_layout(
                 title=title,
-                xaxis_title='Entities (grouped)',
-                yaxis_title='Time (us)',
+                xaxis_title=results['_plot_data_histogram'][key]['xaxis_title'],
+                yaxis_title=results['_plot_data_histogram'][key]['yaxis_title'],
             )
-            fig_histo.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
-            print("INFO: gen histogram plot '{:s}': {:s}".format(title, data['output_image_filename']))
+            if results['_plot_data_histogram'][key]['unit'] == 's':
+                # Update y-axis ticks for logarithmic scale with "s" units
+                fig_histo.update_yaxes(
+                    type='log',
+                    tickmode='array',
+                    tickvals=[1e-9, 1e-8, 1e-7, 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0],
+                    ticktext=['1ns', '10ns', '100ns', '1µ', '10µ', '100µ', '1ms', '10ms', '100ms', '1s'],  # Corresponding tick labels
+                )
+
+            # Write image
+            fig_histo.write_image(file=results['_plot_data_histogram'][key]['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
+            print("INFO: gen histogram plot '{:s}': {:s}".format(title, results['_plot_data_histogram'][key]['output_image_filename']))
 
 
 
@@ -380,7 +501,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
     smaller_df_index = {}
     skip = int(config['args']['--skip']) if '--skip' in config['args'] and config['args']['--skip'] else None
     for framework, result in results.items():
-        if framework == '_meta' or framework == '_data_frame_data' or framework == '_plot_data_histogram':
+        if framework == '_meta' or framework == '_data_frame_data' or framework == '_plot_data_histogram' or framework == '_plot_data_line':
             continue
 
         name = frameworks_info[framework]['name']
@@ -405,7 +526,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 i = 1
                 j = 0
                 for edata in entries_data:
-                    if (i % 2) == 0 or i == len(entries_data):
+                    if (i % 2) == 0 or i == len(entries_data) or edata['entities'] == 8 or edata['entities'] == 16 or edata['entities'] == 32 or edata['entities'] == 64:
                         if edata['entities'] <= 128:
                             if not skip or j >= skip:
                                 smaller_summary_df_index[edata['entities']] = config_data[ek]['index'].format(
@@ -428,7 +549,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                 i = 1
                 j = 0
                 for edata in entries_data:
-                    if (i % 2) == 0 or i == len(entries_data):
+                    if (i % 2) == 0 or i == len(entries_data) or edata['entities'] == 8 or edata['entities'] == 16 or edata['entities'] == 32 or edata['entities'] == 64:
                         if edata['entities'] <= 128:
                             if not skip or j >= skip:
                                 smaller_df_index[ek][edata['entities']] = config_data[ek]['index'].format(
@@ -569,15 +690,21 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
     for ek in df_data.keys():
         data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
-                             'key': ek, 'header': config_data[ek]['header']}
+                             'line_figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
+                             'line_figure_img_alt': "{:s} Plot".format(ek),
+                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title']}
     for ek in small_df_data.keys():
         data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
-                             'key': ek, 'header': config_data[ek]['header']}
+                             'line_figure_img_src': os.path.join(img_dir, "Line{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
+                             'line_figure_img_alt': "{:s} Line Plot".format(ek),
+                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title']}
     for ek in smaller_df_data.keys():
         data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
-                             'key': ek, 'header': config_data[ek]['header']}
+                             'line_figure_img_src': os.path.join(img_dir, "Line{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
+                             'line_figure_img_alt': "{:s} Line Plot".format(ek),
+                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title']}
 
     for ek, dfd in df_data.items():
         df = None
@@ -613,7 +740,7 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
         result_benchmark_md_template = """
 ![{{figure_img_alt}}]({{figure_img_src}})
 
-_(lower is better)_
+_Graph shows cost per entity, tables shows total cost. lower is faster._
 
 {{smaller_table}}
 
@@ -622,15 +749,32 @@ _(lower is better)_
 {{table}}
 """
 
+        result_benchmark_md_template_alt = """
+  Cost per entity                         |  Cost of all entities
+:-------------------------------------------:|:------------------------------------------------------:
+  ![{{figure_img_alt}}]({{figure_img_src}})  |  ![{{line_figure_img_alt}}]({{line_figure_img_src}})  
+
+
+_Tables shows total cost. lower is faster._
+
+{{smaller_table}}
+
+{{small_table}}
+
+{{table}}
+"""
         result_benchmark_md_map = {}
         for benchmark in data['results']:
             title = benchmark['header']
             key = ''
+            key_alt = ''
             for data_key, config_data in config['data'].items():
                 if config_data['header'] == title:
                     key = data_key
+                    key_alt = data_key + 'Alt'
             if key != '':
                 result_benchmark_md_map[key] = pystache.render(result_benchmark_md_template, benchmark)
+                result_benchmark_md_map[key_alt] = pystache.render(result_benchmark_md_template_alt, benchmark)
 
         result_md_json_filename = os.path.join(output_dir, results_filename + ".json")
         with open(result_md_json_filename, 'w', encoding='utf-8') as file_json:
