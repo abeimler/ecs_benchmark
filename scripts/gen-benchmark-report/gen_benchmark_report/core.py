@@ -343,27 +343,23 @@ def gen_results(config, output_dir, reports):
                 elif 0 in x:
                     custom_groups = {
                         0: 'NoEntities (baseline)',
-                        8: '[8, 256]',
-                        256: '[256, 1024]',
-                        1024: '[1024, 8192]',
-                        8192: '[8192, 16k]',
-                        16384: '[16k, 65k]',
-                        65536: '[65k, 131k]',
-                        131072: '[131k, 524k]',
-                        1048576: '1M',
-                        2097152: '2M',
+                        0: '[8, 128]',
+                        128: '[256, 1024]',
+                        1024: '[2048, 8192]',
+                        8192: '[16k, 65k]',
+                        65536: '[131k, 524k]',
+                        524288: '1M',
+                        1048576: '2M',
                     }
                 else:
                     custom_groups = {
-                        8: '[8, 256]',
-                        256: '[256, 1024]',
-                        1024: '[1024, 8192]',
-                        8192: '[8192, 16k]',
-                        16384: '[16k, 65k]',
-                        65536: '[65k, 131k]',
-                        131072: '[131k, 524k]',
-                        1048576: '1M',
-                        2097152: '2M',
+                        0: '[8, 128]',
+                        128: '[256, 1024]',
+                        1024: '[2048, 8192]',
+                        8192: '[16k, 65k]',
+                        65536: '[131k, 524k]',
+                        524288: '1M',
+                        1048576: '2M',
                     }
                 # Create a new column 'EntityGroup' based on the custom groups
                 results['_plot_data_histogram'][ek]['data']['EntityGroup'] = pd.cut(results['_plot_data_histogram'][ek]['data']['Entities'], bins=list(custom_groups.keys()) + [float('inf')], labels=list(custom_groups.values()))
@@ -403,6 +399,12 @@ def generate_log_ticks(min_val, max_val, base=10):
 
 def gen_plots(config, results):
     frameworks_info = config['frameworks']
+
+    color_discrete_map = {}
+    for framework_key, framework in frameworks_info.items():
+        if 'color' in framework:
+            color_discrete_map[framework['name']] = framework['color']
+
     for key, data in results['_data_frame_data'].items():
         title = config['data'][key]['title']
         if not title:
@@ -413,7 +415,7 @@ def gen_plots(config, results):
             fig = px.line(data['df'], x='entities', y=data['y'], labels={
                 "value": "Time ({})".format(data['unit']),
                 "variable": "Frameworks",
-            }, title=title, log_y=True, log_x=True)
+            }, title=title, log_y=True, log_x=True, color_discrete_map=color_discrete_map)
             fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
             print("INFO: gen line plot '{:s}': {:s}".format(title, data['output_image_filename']))
         else:
@@ -421,7 +423,7 @@ def gen_plots(config, results):
             fig_lines = px.line(results['_plot_data_line'][key]['df'], x='entities', y=results['_plot_data_line'][key]['y'], labels={
                 "value": "Time ({})".format(results['_plot_data_line'][key]['unit']),
                 "variable": "Frameworks",
-            }, title=title, log_y=True, log_x=True)
+            }, title=title, log_y=True, log_x=True, color_discrete_map=color_discrete_map)
 
             ### Update layout
             fig_lines.update_layout(
@@ -442,7 +444,6 @@ def gen_plots(config, results):
             fig_lines.write_image(file=results['_plot_data_line'][key]['line_output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
             print("INFO: gen line plot '{:s}': {:s}".format(title, results['_plot_data_line'][key]['line_output_image_filename']))
 
-
             ## histogram
             fig_histo = px.histogram(
                 results['_plot_data_histogram'][key]['data_frame'],
@@ -453,6 +454,7 @@ def gen_plots(config, results):
                 labels=results['_plot_data_histogram'][key]['labels'],
                 log_y=True,
                 histfunc=results['_plot_data_histogram'][key]['histfunc'],
+                color_discrete_map=color_discrete_map,
             )
 
             ### Update layout
@@ -749,6 +751,7 @@ _Graph shows cost per entity, tables shows total cost. lower is faster._
 {{table}}
 """
 
+# @TODO: make table header for "Cost per entity", ... more 'dynamic'
         result_benchmark_md_template_alt = """
   Cost per entity                         |  Cost of all entities
 :-------------------------------------------:|:------------------------------------------------------:

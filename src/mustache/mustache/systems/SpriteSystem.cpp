@@ -17,7 +17,7 @@ void SpriteSystem::update(::mustache::World& world, TimeDelta /*dt*/) {
 }
 
 void SpriteSystem::onUpdate(::mustache::World& world) {
-  //constexpr float dt = 1.0F / 60.0F;
+  // constexpr float dt = 1.0F / 60.0F;
   constexpr auto run_mode = ::mustache::JobRunMode::kCurrentThread;
   world.entities().forEach(
       [&](Entity /*entity*/, ecs::benchmarks::base::components::SpriteComponent& spr,

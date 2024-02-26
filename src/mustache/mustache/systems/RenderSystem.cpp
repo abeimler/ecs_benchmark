@@ -15,7 +15,7 @@ void RenderSystem::update(::mustache::World& world, TimeDelta /*dt*/) {
 }
 
 void RenderSystem::onUpdate(::mustache::World& world) {
-  //constexpr float dt = 1.0F / 60.0F;
+  // constexpr float dt = 1.0F / 60.0F;
   constexpr auto run_mode = ::mustache::JobRunMode::kCurrentThread;
   world.entities().forEach(
       [&](Entity /*entity*/, const ecs::benchmarks::base::components::PositionComponent& position,

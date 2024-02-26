@@ -1,6 +1,6 @@
 #include "GaiaEcsEntityBenchmarkSuite.h"
 
-static ecs::benchmarks::gaia_ecs::GaiaEcsEntityBenchmarkSuite benchmark_suite ({.version = GAIA_VERSION});
+static ecs::benchmarks::gaia_ecs::GaiaEcsEntityBenchmarkSuite benchmark_suite({.version = GAIA_VERSION});
 
 ECS_ENTITY_BENCHMARKS(benchmark_suite)
 
