@@ -15,12 +15,22 @@ set(INCLUDE_DIR "include") # must be relative paths
 add_library(
   ecs-benchmark-example-ginseng STATIC
   # NOTE: add source files here
+  ginseng/systems/SpriteSystem.h
+  ginseng/systems/SpriteSystem.cpp
+  ginseng/systems/DamageSystem.h
+  ginseng/systems/DamageSystem.cpp
   ginseng/systems/DataSystem.h
   ginseng/systems/DataSystem.cpp
+  ginseng/systems/HealthSystem.h
+  ginseng/systems/HealthSystem.cpp
   ginseng/systems/MoreComplexSystem.h
   ginseng/systems/MoreComplexSystem.cpp
   ginseng/systems/MovementSystem.h
   ginseng/systems/MovementSystem.cpp
+  ginseng/systems/SpriteSystem.h
+  ginseng/systems/SpriteSystem.cpp
+  ginseng/systems/RenderSystem.h
+  ginseng/systems/RenderSystem.cpp
   ginseng/entities/EntityFactory.h
   ginseng/entities/EntityFactory.cpp
   ginseng/entities/HeroMonsterEntityFactory.h

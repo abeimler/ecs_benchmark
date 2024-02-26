@@ -1,22 +1,22 @@
 {
   "data": {
     "ComplexSystemsUpdateMixedEntities": {
-      "index": "Update {:>5s} entities with 5 Systems",
-      "title": "Update systems (5 systems, mixed components)",
+      "index": "Update {:>5s} entities with 7 Systems",
+      "title": "Update systems (7 systems, mixed components)",
       "regex": "^BM_(.*_)?ComplexSystemsUpdateMixedEntities\\/[0-9]+$",
-      "header": "Update systems (for-each entities (with mixed components) in 5 systems)"
+      "header": "Update systems (for-each entities (with mixed components) in 7 systems)"
     },
     "ComplexSystemsUpdateNoEntities": {
-      "index": "Update 0 entities with 5 systems",
-      "title": "Update Systems (5 Systems) with zero entities",
+      "index": "Update 0 entities with 7 systems",
+      "title": "Update Systems (7 Systems) with zero entities",
       "regex": "^BM_(.*_)?ComplexSystemsUpdate_NoEntities$",
-      "header": "Update systems (for-each entities in 3 systems) with zero entities"
+      "header": "Update systems (for-each entities in 7 systems) with zero entities"
     },
     "ComplexSystemsUpdate": {
-      "index": "Update {:>5s} entities with 5 systems",
-      "title": "Update Systems (5 Systems)",
+      "index": "Update {:>5s} entities with 7 systems",
+      "title": "Update Systems (7 Systems)",
       "regex": "^BM_(.*_)?ComplexSystemsUpdate\\/[0-9]+$",
-      "header": "Update systems (for-each entities in 3 systems)"
+      "header": "Update systems (for-each entities in 7 systems)"
     },
     "SystemsUpdateMixedEntities": {
       "index": "Update {:>5s} entities with 2 systems",
@@ -157,14 +157,16 @@
       "author": "@alecthomas",
       "description": "Entity Component Systems (ECS) are a form of decomposition that completely decouples entity logic and data from the entity \"objects\" themselves. The Evolve your Hierarchy article provides a solid overview of EC systems and why you should use them.",
       "version": "1.1.2 (Apr 2023)",
-      "link": "https://github.com/alecthomas/entityx"
+      "link": "https://github.com/alecthomas/entityx",
+      "color": "#669999"
     },
     "entt": {
       "name": "EnTT",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
-      "link": "https://github.com/skypjack/entt"
+      "link": "https://github.com/skypjack/entt",
+      "color": "#0033cc"
     },
     "entt (runtime)": {
       "name": "EnTT (runtime)",
@@ -172,7 +174,8 @@
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#66ccff"
     },
     "entt (group)": {
       "name": "EnTT (group)",
@@ -180,7 +183,8 @@
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#0099ff"
     },
     "entt (group, non-owning)": {
       "name": "EnTT (non-owning group)",
@@ -188,7 +192,8 @@
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#00ccff"
     },
     "entt (group, full-owning)": {
       "name": "EnTT (full-owning group)",
@@ -196,7 +201,8 @@
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#0099cc"
     },
     "entt (group, partial-owning)": {
       "name": "EnTT (partial-owning group)",
@@ -204,7 +210,8 @@
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#3366cc"
     },
     "entt (stable)": {
       "name": "EnTT (stable)",
@@ -212,49 +219,56 @@
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#336699"
     },
     "ginseng": {
       "name": "Ginseng",
       "author": "@apples",
       "description": "Ginseng is an entity-component-system (ECS) library designed for use in games.\n\nThe main advantage over similar libraries is that the component types do not need to be listed or registered. Component types are detected dynamically.\n\nAny function-like object can be used as a system. The function's parameters are used to determine the required components.",
       "version": "1.1 (Dec 2021)",
-      "link": "https://github.com/apples/ginseng"
+      "link": "https://github.com/apples/ginseng",
+      "color": "#9900ff"
     },
     "mustache": {
       "name": "mustache",
       "author": "@kirillochnev",
       "description": "A fast, modern C++ Entity Component System",
       "version": "0.2 (Feb 2024)",
-      "link": "https://github.com/kirillochnev/mustache"
+      "link": "https://github.com/kirillochnev/mustache",
+      "color": "#ff66cc"
     },
     "openecs": {
       "name": "OpenEcs",
       "author": "@Gronis",
       "description": "Open Ecs is an Entity Component System that uses metaprogramming, cache coherency, and other useful tricks to maximize performance and configurability. It is written in c++11 without further dependencies.",
       "version": "0.1.101 (Apr 2017)",
-      "link": "https://github.com/Gronis/OpenEcs"
+      "link": "https://github.com/Gronis/OpenEcs",
+      "color": "#ff6666"
     },
     "flecs": {
       "name": "Flecs",
       "author": "@SanderMertens",
       "description": "Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.",
       "version": "v3.2.11",
-      "link": "https://github.com/SanderMertens/flecs"
+      "link": "https://github.com/SanderMertens/flecs",
+      "color": "#ff3300"
     },
     "pico_ecs": {
       "name": "pico_ecs",
       "author": "@empyreanx",
       "description": "A collection of cross-platform single header libraries written in C. Pure and simple ECS.",
       "version": "2.3 (Sep 2023)",
-      "link": "https://github.com/empyreanx/pico_headers"
+      "link": "https://github.com/empyreanx/pico_headers",
+      "color": "#ff9900"
     },
     "gaia-ecs": {
       "name": "gaia-ecs",
       "author": "@richardbiely",
       "description": "Gaia-ECS is a fast and easy-to-use ECS framework.",
       "version": "v0.8.4",
-      "link": "https://github.com/richardbiely/gaia-ecs"
+      "link": "https://github.com/richardbiely/gaia-ecs",
+      "color": "#33a02c"
     },
     "gaia-ecs (SoA)": {
       "name": "gaia-ecs (SoA)",
@@ -262,12 +276,14 @@
       "description": "Gaia-ECS is a fast and easy-to-use ECS framework.",
       "version": "v0.8.4",
       "link": "https://github.com/richardbiely/gaia-ecs",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#b2df8a"
     },
     "oop": {
       "name": "OOP",
       "description": "Simple OOP Solution.",
-      "skip_candidate": true
+      "skip_candidate": true,
+      "color": "#ffff00"
     }
   }
 }

@@ -3,10 +3,13 @@
 
 #include "base/Application.h"
 
-#include "systems/DataSystem.h"
-#include "systems/MoreComplexSystem.h"
-#include "systems/SoAMoreComplexSystem.h"
-#include "systems/SoAMovementSystem.h"
+#include "gaia-ecs/systems/DamageSystem.h"
+#include "gaia-ecs/systems/DataSystem.h"
+#include "gaia-ecs/systems/HealthSystem.h"
+#include "gaia-ecs/systems/SpriteSystem.h"
+#include "gaia-ecs/systems/soa/SoAMoreComplexSystem.h"
+#include "gaia-ecs/systems/soa/SoAMovementSystem.h"
+#include "gaia-ecs/systems/soa/SoARenderSystem.h"
 #include <gaia.h>
 
 namespace ecs::benchmarks::gaia_ecs {
@@ -15,48 +18,51 @@ class SoAGaiaEcsApplication {
 public:
   using EntityManager = ::gaia::ecs::World;
   using TimeDelta = float;
+  using BaseApplication =
+      ecs::benchmarks::base::Application<EntityManager, TimeDelta, systems::SoAMovementSystem, systems::DataSystem,
+                                         systems::SoAMoreComplexSystem, systems::HealthSystem, systems::DamageSystem,
+                                         systems::SpriteSystem, systems::SoARenderSystem>;
 
-  SoAGaiaEcsApplication() : m_sm(m_world) {}
+  SoAGaiaEcsApplication()
+      : m_frameBuffer(BaseApplication::FrameBufferWidth, BaseApplication::FrameBufferHeight), m_sm(m_world) {}
 
-  explicit SoAGaiaEcsApplication(bool add_more_complex_system)
-      : m_add_more_complex_system(add_more_complex_system), m_sm(m_world) {}
+  explicit SoAGaiaEcsApplication(base::add_more_complex_system_t add_more_complex_system)
+      : m_addMoreComplexSystem(add_more_complex_system),
+        m_frameBuffer(BaseApplication::FrameBufferWidth, BaseApplication::FrameBufferHeight), m_sm(m_world) {}
 
   ~SoAGaiaEcsApplication() = default;
-
   SoAGaiaEcsApplication(const SoAGaiaEcsApplication&) = delete;
-
   SoAGaiaEcsApplication& operator=(const SoAGaiaEcsApplication&) = delete;
-
   SoAGaiaEcsApplication(SoAGaiaEcsApplication&&) = default;
-
   SoAGaiaEcsApplication& operator=(SoAGaiaEcsApplication&&) = default;
 
   [[nodiscard]] inline EntityManager& getEntities() { return m_world; }
-
   [[nodiscard]] inline const EntityManager& getEntities() const { return m_world; }
-
 
   void init() {
     m_sm.add<systems::SoAMovementSystem>();
     m_sm.add<systems::DataSystem>();
-    if (m_add_more_complex_system) {
+    if (m_addMoreComplexSystem == base::add_more_complex_system_t::UseMoreComplexSystems) {
       m_sm.add<systems::SoAMoreComplexSystem>();
       m_sm.add<systems::HealthSystem>();
       m_sm.add<systems::DamageSystem>();
+      m_sm.add<systems::SpriteSystem>();
+      auto* renderSystem = m_sm.add<systems::SoARenderSystem>();
+      renderSystem->setFrameBuffer(m_frameBuffer);
     }
   }
 
-  void uninit() {
-    /// @TODO: remove system for better clean up
-  }
+  void uninit() { m_sm.clear(); }
 
-  void update(TimeDelta dt) { m_sm.update(); }
+  void update(TimeDelta /*dt*/) { m_sm.update(); }
 
 private:
-  bool m_add_more_complex_system{false};
+  base::add_more_complex_system_t m_addMoreComplexSystem{base::add_more_complex_system_t::UseMoreComplexSystems};
+  base::FrameBuffer m_frameBuffer;
   EntityManager m_world;
   ::gaia::ecs::SystemManager m_sm;
 };
+
 } // namespace ecs::benchmarks::gaia_ecs
 
-#endif // ECS_BENCHMARKS_GAIA_ECS_SOAAPPLICATION_H_
+#endif // ECS_BENCHMARKS_GAIA_ECS_APPLICATION_H_

@@ -4,10 +4,9 @@
 #include "entt/entt.h"
 
 #include "base/components/DataComponent.h"
-#include "base/components/VelocityComponent.h"
 #include "base/entities/EntityFactory.h"
-
 #include "entt/components/StablePositionComponent.h"
+#include "entt/components/StableVelocityComponent.h"
 
 namespace ecs::benchmarks::entt::entities {
 

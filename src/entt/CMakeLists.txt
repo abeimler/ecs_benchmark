@@ -16,34 +16,55 @@ add_library(
   ecs-benchmark-example-entt STATIC
   # NOTE: add source files here
   entt/components/StablePositionComponent.h
+  entt/components/StableVelocityComponent.h
+  entt/systems/DamageSystem.h
+  entt/systems/DamageSystem.cpp
   entt/systems/DataSystem.h
   entt/systems/DataSystem.cpp
+  entt/systems/HealthSystem.h
+  entt/systems/HealthSystem.cpp
   entt/systems/MoreComplexSystem.h
   entt/systems/MoreComplexSystem.cpp
   entt/systems/MovementSystem.h
-  entt/systems/StableMovementSystem.cpp
-  entt/systems/StableMovementSystem.h
   entt/systems/MovementSystem.cpp
-  entt/systems/RuntimeDataSystem.h
-  entt/systems/RuntimeDataSystem.cpp
-  entt/systems/RuntimeMoreComplexSystem.h
-  entt/systems/RuntimeMoreComplexSystem.cpp
-  entt/systems/RuntimeMovementSystem.h
-  entt/systems/RuntimeMovementSystem.cpp
-  entt/systems/StableRuntimeMovementSystem.h
-  entt/systems/StableRuntimeMovementSystem.cpp
-  entt/systems/StableRuntimeMovementSystem.h
-  entt/systems/StableRuntimeMovementSystem.cpp
-  entt/systems/GroupMoreComplexSystem.h
-  entt/systems/GroupMoreComplexSystem.cpp
-  entt/systems/GroupMovementSystem.h
-  entt/systems/GroupMovementSystem.cpp
+  entt/systems/RenderSystem.h
+  entt/systems/RenderSystem.cpp
+  entt/systems/SpriteSystem.h
+  entt/systems/SpriteSystem.cpp
+  entt/systems/stable/StableMovementSystem.cpp
+  entt/systems/stable/StableMovementSystem.h
+  entt/systems/runtime/RuntimeDamageSystem.h
+  entt/systems/runtime/RuntimeDamageSystem.cpp
+  entt/systems/runtime/RuntimeDataSystem.h
+  entt/systems/runtime/RuntimeDataSystem.cpp
+  entt/systems/runtime/RuntimeHealthSystem.h
+  entt/systems/runtime/RuntimeHealthSystem.cpp
+  entt/systems/runtime/RuntimeMoreComplexSystem.h
+  entt/systems/runtime/RuntimeMoreComplexSystem.cpp
+  entt/systems/runtime/RuntimeMovementSystem.h
+  entt/systems/runtime/RuntimeMovementSystem.cpp
+  entt/systems/stable/StableRuntimeMovementSystem.h
+  entt/systems/stable/StableRuntimeMovementSystem.cpp
+  entt/systems/stable/StableRuntimeMovementSystem.h
+  entt/systems/stable/StableRuntimeMovementSystem.cpp
+  entt/systems/group/GroupDamageSystem.h
+  entt/systems/group/GroupDamageSystem.cpp
+  entt/systems/group/GroupHealthSystem.h
+  entt/systems/group/GroupHealthSystem.cpp
+  entt/systems/group/GroupSpriteSystem.h
+  entt/systems/group/GroupSpriteSystem.cpp
+  entt/systems/group/GroupMoreComplexSystem.h
+  entt/systems/group/GroupMoreComplexSystem.cpp
+  entt/systems/group/GroupMovementSystem.h
+  entt/systems/group/GroupMovementSystem.cpp
   entt/entities/EntityFactory.h
   entt/entities/EntityFactory.cpp
   entt/entities/HeroMonsterEntityFactory.h
   entt/entities/HeroMonsterEntityFactory.cpp
   entt/entities/StableEntityFactory.h
   entt/entities/StableEntityFactory.cpp
+  entt/entities/StableHeroMonsterEntityFactory.h
+  entt/entities/StableHeroMonsterEntityFactory.cpp
   entt/EnttApplication.h
   entt/EnttApplication.cpp
   entt/EnttGroupApplication.h

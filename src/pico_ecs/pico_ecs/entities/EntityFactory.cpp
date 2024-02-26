@@ -1,5 +1,6 @@
 #include "EntityFactory.h"
-
+#include "base/components/VelocityComponent.h"
+#include <bit>
 
 namespace ecs::benchmarks::pico_ecs::entities {
 
@@ -11,7 +12,7 @@ void VelocityComponent_constructor(ecs_t* ecs, ecs_id_t entity_id, void* ptr, vo
   (void)args;
 
   ecs::benchmarks::base::components::VelocityComponent* comp =
-      reinterpret_cast<ecs::benchmarks::base::components::VelocityComponent*>(ptr);
+      std::bit_cast<ecs::benchmarks::base::components::VelocityComponent*>(ptr);
   comp->x = 1.0F;
   comp->y = 1.0F;
 }

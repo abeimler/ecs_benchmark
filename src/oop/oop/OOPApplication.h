@@ -8,35 +8,31 @@ namespace ecs::benchmarks::oop {
 
 class OOPApplication {
 public:
-  using EntityManager = entities::EntityFactory::EntityManager;
   using TimeDelta = float;
+  using EntityManager = entities::EntityManager;
 
-  OOPApplication() = default;
-
-  explicit OOPApplication(bool add_more_complex_system) : m_add_more_complex_system(add_more_complex_system) {}
-
+  OOPApplication() : m_frameBuffer(320, 240) {}
+  explicit OOPApplication(base::add_more_complex_system_t add_more_complex_system)
+      : m_addMoreComplexSystem(add_more_complex_system), m_frameBuffer(320, 240) {}
+  /// @FIXME: magic numbers
   ~OOPApplication() = default;
-
   OOPApplication(const OOPApplication&) = delete;
-
   OOPApplication& operator=(const OOPApplication&) = delete;
-
   OOPApplication(OOPApplication&&) = default;
-
   OOPApplication& operator=(OOPApplication&&) = default;
 
   inline EntityManager& getEntities() noexcept { return m_entities; }
 
   void init();
-
   void uninit();
 
   void update(TimeDelta dt);
 
 private:
-  entities::EntityFactory m_entity_factory;
+  base::add_more_complex_system_t m_addMoreComplexSystem{base::add_more_complex_system_t::UseBasicSystems};
+  base::FrameBuffer m_frameBuffer;
+  entities::EntityFactory m_entityFactory;
   EntityManager m_entities;
-  bool m_add_more_complex_system;
 };
 
 } // namespace ecs::benchmarks::oop

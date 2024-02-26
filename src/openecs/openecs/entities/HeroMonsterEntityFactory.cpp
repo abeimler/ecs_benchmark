@@ -1,5 +1,7 @@
 #include "HeroMonsterEntityFactory.h"
 #include "base/components/HeroMonsterComponents.h"
+#include "base/components/PositionComponent.h"
+#include "base/components/SpriteComponent.h"
 
 namespace ecs::benchmarks::openecs::entities {
 
@@ -27,6 +29,10 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& /*entities*/, Entity
   entity.add<ecs::benchmarks::base::components::PlayerComponent>();
   entity.add<ecs::benchmarks::base::components::HealthComponent>();
   entity.add<ecs::benchmarks::base::components::DamageComponent>();
+  entity.add<ecs::benchmarks::base::components::SpriteComponent>();
+  if (!entity.has<ecs::benchmarks::base::components::PositionComponent>()) {
+    entity.add<ecs::benchmarks::base::components::PositionComponent>();
+  }
 }
 
 } // namespace ecs::benchmarks::openecs::entities

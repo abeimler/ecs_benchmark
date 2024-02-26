@@ -8,8 +8,8 @@ add_library(
   oop/entities/MovableObject.cpp
   oop/entities/MovableDataObject.h
   oop/entities/MovableDataObject.cpp
-  oop/entities/ComplexMovableDataObject.h
-  oop/entities/ComplexMovableDataObject.cpp
+  oop/entities/ComplexGameObject.h
+  oop/entities/ComplexGameObject.cpp
   oop/OOPApplication.h
   oop/OOPApplication.cpp)
 add_library(ecs-benchmark::example::OOP ALIAS ecs-benchmark-example-oop)

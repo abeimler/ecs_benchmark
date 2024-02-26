@@ -12,6 +12,10 @@ class DataSystem final
     : public ecs::benchmarks::base::systems::DataSystem<ecs::benchmarks::pico_ecs::entities::details::EntityManager,
                                                         ecs_dt_t> {
 public:
+  using BaseSystem =
+      ::ecs::benchmarks::base::systems::DataSystem<ecs::benchmarks::pico_ecs::entities::details::EntityManager,
+                                                   TimeDelta>;
+
   void init(EntityManager& /*registry*/) override;
   void update(EntityManager& registry, TimeDelta dt) override;
 

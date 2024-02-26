@@ -7,7 +7,7 @@
 This repository contains a collection of benchmarks for popular Entity-Component-System (ECS) frameworks.
 The benchmarks cover different aspects of ECS frameworks, such as update systems, component additions/removals, and entity creation/destruction.
 It's important to note that different ECS frameworks have different strengths and weaknesses.
-For example, some frameworks might excel in adding/removing components, while others might be better at creating/destroying entities.
+For example, some frameworks might excel in adding/removing components, while others might be better at creating/destroying entities or have query support.
 Therefore, it's crucial to choose an ECS framework based on your specific requirements.
 
 ECS (Entity-Component-System) Frameworks:
@@ -22,35 +22,32 @@ ECS (Entity-Component-System) Frameworks:
 
 ## TL;DR Results
 
-When using ECS frameworks, it's important to benchmark your specific use case and compare the results.
-Therefore, the results of these benchmarks should be used as a starting point for your own benchmarking efforts.
+Main feature of an ECS is the iterating over a lot of entities and using system to update the components.
+The results of these benchmarks should be used as a starting point for your own benchmarking efforts.
 
-
-### Update systems (for-each entities (with mixed components) in 5 systems)
+### Update systems (for-each entities (with mixed components) in 7 systems)
 
 {{{ComplexSystemsUpdateMixedEntities}}}
 
 
-While this benchmark only includes up to 5 simple components and 5 small systems,
+While this benchmark only includes up to 6 components and 7 small systems,
 it's important to note that Entity-Component-Systems can become much more complex in the wild,
 with hundreds of components and systems.
 Therefore, it's crucial to always benchmark your specific cases and systems when necessary and compare results.
 Choose an ECS framework based on its features,
 for example, EnTT offers [resource management](https://github.com/skypjack/entt/wiki/Crash-Course:-resource-management) and [event handling](https://github.com/skypjack/entt/wiki/Crash-Course:-events,-signals-and-everything-in-between),
-while flecs provides useful [add-ons](https://github.com/SanderMertens/flecs#addons),
+while flecs provides useful [add-ons](https://github.com/SanderMertens/flecs#addons) and [querying](https://github.com/SanderMertens/flecs/tree/master/examples/cpp/queries/basics),
 and EntityX includes a built-in [world/system manager](https://github.com/alecthomas/entityx#manager-tying-it-all-together=).
 
-To evaluate a framework, look at its examples and API design, and pick the one that suits your needs the best.
+To evaluate a framework, look at the examples and API design, and pick the one that suits your needs.
 
 
 ## Details
 
 ### Features
 
-All benchmarks are located in the [`benchmark/benchmarks/`](benchmark/benchmarks/) directory and are implemented with the [google/benchmark](https://github.com/google/benchmark) library.
-Each benchmark must implement the `ECSBenchmark.h` template.
-
-Each framework has its own subproject in the [`src/`](src) directory and must implement specific features (see [`src/base`](src/base)).
+All benchmarks are located in the [`benchmark/benchmarks/`](benchmark/benchmarks/) directory and write with with the [google/benchmark](https://github.com/google/benchmark) library.
+Each benchmark uses an example application for each framework (see [`src/`](src) directory), and every example application has specific base features implemented (see [`src/base`](src/base)).
 
 #### Components
 
@@ -59,6 +56,7 @@ Each framework has its own subproject in the [`src/`](src) directory and must im
 3. `DataComponent`: includes some arbitrary data.
 4. `HealthComponent`: Hero/Monster data includes HP/MaxHP and status.
 5. `DamageComponent`: Hero/Monster data includes damage.
+6. `SpriteComponent`: Hero/Monster ASCII character as sprite.
 
 #### Systems
 
@@ -67,6 +65,9 @@ Each framework has its own subproject in the [`src/`](src) directory and must im
 3. `MoreComplexSystem`: updates components with random data and arbitrary information.
 4. `HealthSystem`: update Hero/Monster health (update HP and status).
 5. `DamageSystem`: update Hero/Monster health by taking damage.
+6. `SpriteSystem`: update Hero/Monster ASCII character depending on health and type.
+7. `RenderSystem`: "render"(write) Hero/Monster character sprite into a "frame buffer"(string buffer).
+
 
 
 ## Additional Benchmarks
@@ -78,16 +79,16 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 * Entity Creation
 * Entity Destruction
 * Component Retrieval
-* Adding and Removing Components
-* Systems (for iterating through entities)
+* Adding and removing components
+* Iterating entities/quires
 
 
 {{#environment}}
 ### Environment
 
-* **OS:** {{os}}
-* **CPU:** {{cpu}}
-* **RAM:** {{ram}}
+- **OS:** {{os}}
+- **CPU:** {{cpu}}
+- **RAM:** {{ram}}
 {{/environment}}
 
 
@@ -103,7 +104,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 {{{DestroyEntities}}}
 
 
-### Get one component from Entity
+### Get one component from entity
 
 {{{UnpackOneComponent}}}
 
@@ -148,7 +149,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 
 ### Update systems (for-each entities in 2 systems)
 
-{{{SystemsUpdate}}}
+{{{SystemsUpdateAlt}}}
 
 
 **Note:**
@@ -159,7 +160,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 
 ### Update systems (for-each entities (with mixed components) in 2 systems)
 
-{{SystemsUpdateMixedEntities}}
+{{SystemsUpdateMixedEntitiesAlt}}
 
 **Note:**
 * Systems used
@@ -168,9 +169,9 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
 * Not every entity has all three components, some got removed
 
 
-### Update systems (for-each entities in 5 systems)
+### Update systems (for-each entities in 7 systems)
 
-{{{ComplexSystemsUpdate}}}
+{{{ComplexSystemsUpdateAlt}}}
 
 
 **Note:**
@@ -180,6 +181,8 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
     3. `MoreComplexSystem`
     4. `HealthSystem`
     5. `DamageSystem`
+    6. `SpriteSystem`
+    7. `RenderSystem`
 * \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
 * \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
 * \*** EnTT iterate components via [groups](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#groups=):
@@ -187,13 +190,13 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
    2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
    3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 * \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
-* \***** gaia-ecs (SoA) iterate via [SoA Layout](https://github.com/richardbiely/gaia-ecs?tab=readme-ov-file#data-layouts) using an `PositionSoA`- and `VelocitySoA`-component
+* \***** gaia-ecs (SoA) iterate via [SoA Layout](https://github.com/richardbiely/gaia-ecs?tab=readme-ov-file#data-layouts) using an `Position`- and `Velocity`-SoA-component
 
 
 
-### Update systems (for-each entities (with mixed components) in 5 systems)
+### Update systems (for-each entities (with mixed components) in 7 systems)
 
-{{{ComplexSystemsUpdateMixedEntities}}}
+{{{ComplexSystemsUpdateMixedEntitiesAlt}}}
 
 
 **Note:**
@@ -203,6 +206,8 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
     3. `MoreComplexSystem`
     4. `HealthSystem`
     5. `DamageSystem`
+    6. `SpriteSystem`
+    7. `RenderSystem`
 * Not every entity has all three components, some got removed
 * \*   EnTT iterate components via [views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#views=)
 * \**  EnTT iterate components via [runtime views](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#runtime-views=)
@@ -211,7 +216,7 @@ Benchmarks for more common features, such as "Creating entities", "Adding and re
     2. `MovementSystem`: Partial-owning group, `registry.group<PositionComponent>(entt::get<const VelocityComponent>)`
     3. `MoreComplexSystem`: Full-owning group, `registry.group<PositionComponent, VelocityComponent, DataComponent>()`
 * \**** EnTT iterate components via view and uses a [stable component](https://github.com/skypjack/entt/wiki/Crash-Course:-entity-component-system#pointer-stability=) (`StablePositionComponent`)
-* \***** gaia-ecs (SoA) iterate via [SoA Layout](https://github.com/richardbiely/gaia-ecs?tab=readme-ov-file#data-layouts) using an `PositionSoA`- und `VelocitySoA`-component
+* \***** gaia-ecs (SoA) iterate via [SoA Layout](https://github.com/richardbiely/gaia-ecs?tab=readme-ov-file#data-layouts) using an `Position`- und `Velocity`-SoA-component
 
 
 ## Contributing
@@ -240,11 +245,16 @@ Or run `task generate`
 
 You can now find the benchmark-results in [`reports/`](reports/).
 
-_You need python (>=3.8.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting), install [pipx](https://pipx.pypa.io/stable/installation/) and [poetry](https://python-poetry.org/docs/#installing-with-pipx) `pipx install poetry`._
+_You need python (>=3.8.0) and some [dependencies](scripts/gen-benchmark-report/requirements.txt) to run [gen-benchmark-report](scripts/gen-benchmark-report) (plotting), install [pipx](https://pipx.pypa.io/stable/installation/) and [poetry](https://python-poetry.org/docs/#installing-with-pipx)._
 
-Then install dependencies for the script:
+Then install the dependencies for the script:
 ```bash
 cd ./scripts/gen-benchmark-report && poetry install
+```
+
+Or run the script directly:
+```bash
+task plot:all
 ```
 
 #### Generate README

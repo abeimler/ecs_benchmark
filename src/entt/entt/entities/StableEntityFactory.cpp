@@ -1,7 +1,7 @@
 #include "StableEntityFactory.h"
 #include "base/components/DataComponent.h"
-#include "base/components/VelocityComponent.h"
 #include "entt/components/StablePositionComponent.h"
+#include "entt/components/StableVelocityComponent.h"
 
 namespace ecs::benchmarks::entt::entities {
 
@@ -15,30 +15,30 @@ void StableEntityFactory::createEmptyBulk(EntityManager& registry, std::vector<E
 
 StableEntityFactory::Entity StableEntityFactory::create(EntityManager& registry) {
   auto ret = registry.create();
-  registry.emplace<ecs::benchmarks::entt::components::StablePositionComponent>(ret);
-  registry.emplace<ecs::benchmarks::base::components::VelocityComponent>(ret);
+  registry.emplace<components::StablePositionComponent>(ret);
+  registry.emplace<components::StableVelocityComponent>(ret);
   registry.emplace<ecs::benchmarks::base::components::DataComponent>(ret);
   return ret;
 }
 
 void StableEntityFactory::createBulk(EntityManager& registry, std::vector<Entity>& out) {
   registry.create(out.begin(), out.end());
-  registry.insert<ecs::benchmarks::entt::components::StablePositionComponent>(out.begin(), out.end());
-  registry.insert<ecs::benchmarks::base::components::VelocityComponent>(out.begin(), out.end());
+  registry.insert<components::StablePositionComponent>(out.begin(), out.end());
+  registry.insert<components::StableVelocityComponent>(out.begin(), out.end());
   registry.insert<ecs::benchmarks::base::components::DataComponent>(out.begin(), out.end());
 }
 
 StableEntityFactory::Entity StableEntityFactory::createMinimal(EntityManager& registry) {
   auto ret = registry.create();
-  registry.emplace<ecs::benchmarks::entt::components::StablePositionComponent>(ret);
-  registry.emplace<ecs::benchmarks::base::components::VelocityComponent>(ret);
+  registry.emplace<components::StablePositionComponent>(ret);
+  registry.emplace<components::StableVelocityComponent>(ret);
   return ret;
 }
 
 void StableEntityFactory::createMinimalBulk(EntityManager& registry, std::vector<Entity>& out) {
   registry.create(out.begin(), out.end());
-  registry.insert<ecs::benchmarks::entt::components::StablePositionComponent>(out.begin(), out.end());
-  registry.insert<ecs::benchmarks::base::components::VelocityComponent>(out.begin(), out.end());
+  registry.insert<components::StablePositionComponent>(out.begin(), out.end());
+  registry.insert<components::StableVelocityComponent>(out.begin(), out.end());
 }
 
 StableEntityFactory::Entity StableEntityFactory::createSingle(EntityManager& registry) {
@@ -49,7 +49,7 @@ StableEntityFactory::Entity StableEntityFactory::createSingle(EntityManager& reg
 
 void StableEntityFactory::createSingleBulk(EntityManager& registry, std::vector<Entity>& out) {
   registry.create(out.begin(), out.end());
-  registry.insert<ecs::benchmarks::entt::components::StablePositionComponent>(out.begin(), out.end());
+  registry.insert<components::StablePositionComponent>(out.begin(), out.end());
 }
 
 void StableEntityFactory::destroy(EntityManager& registry, Entity entity) {
@@ -59,4 +59,5 @@ void StableEntityFactory::destroy(EntityManager& registry, Entity entity) {
 void StableEntityFactory::destroyBulk(EntityManager& registry, std::vector<Entity>& entities) {
   registry.destroy(entities.begin(), entities.end());
 }
+
 } // namespace ecs::benchmarks::entt::entities

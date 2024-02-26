@@ -2,27 +2,27 @@
 #define ECS_BENCHMARKS_SOAGAIABENCHMARK_H_
 
 #include "ExtendedECSBenchmark.h"
+#include "base/components/DataComponent.h"
 #include "gaia-ecs/SoAGaiaEcsApplication.h"
-#include "gaia-ecs/entities/HeroMonsterEntityFactory.h"
 #include "gaia-ecs/entities/SoAEntityFactory.h"
-#include "gaia-ecs/systems/DataSystem.h"
-#include "gaia-ecs/systems/MoreComplexSystem.h"
-#include "gaia-ecs/systems/SoAMoreComplexSystem.h"
-#include "gaia-ecs/systems/SoAMovementSystem.h"
+#include "gaia-ecs/entities/SoAHeroMonsterEntityFactory.h"
 #include <utility>
+
+#define STR(arg) #arg
+#define XSTR(arg) STR(arg)
+#define GAIA_VERSION XSTR(GAIA_VERSION_MAJOR) "." XSTR(GAIA_VERSION_MINOR) "." XSTR(GAIA_VERSION_PATCH)
 
 namespace ecs::benchmarks::gaia_ecs {
 
 class GaiaEcsSoABenchmarkSuite final
     : public ecs::benchmarks::base::ExtendedECSBenchmark<
-          "gaia-ecs (SoA)", SoAGaiaEcsApplication, entities::SoAEntityFactory, entities::HeroMonsterEntityFactory> {
+          "gaia-ecs (SoA)", SoAGaiaEcsApplication, entities::SoAEntityFactory, entities::SoAHeroMonsterEntityFactory> {
 public:
   GaiaEcsSoABenchmarkSuite() = default;
 
   explicit GaiaEcsSoABenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options)
       : ExtendedECSBenchmark(std::move(options)) {}
 
-  /*
   void BM_IterateSingleComponent(benchmark::State& state) {
     using ComponentOne = components::SoAPositionComponent;
 
@@ -31,8 +31,13 @@ public:
         [](auto& world) {
           return world.query().template all<ComponentOne&>();
         },
-        [&](ComponentOne& comp) {
-          dummy_each(comp);
+        [&](::gaia::ecs::Iter iter) {
+          // Position
+          auto vp = iter.view_mut<ComponentOne>();
+          auto px = vp.set<0>();
+          auto py = vp.set<1>();
+
+          GAIA_EACH(iter) dummy_each(px[i], py[i]);
         });
   }
 
@@ -45,8 +50,17 @@ public:
         [](auto& world) {
           return world.query().template all<ComponentOne&, ComponentTwo&>();
         },
-        [&](ComponentOne& comp, ComponentTwo& comp2) {
-          dummy_each(comp, comp2);
+        [&](::gaia::ecs::Iter iter) {
+          auto vp = iter.view_mut<ComponentOne>();
+          auto px = vp.set<0>();
+          auto py = vp.set<1>();
+
+          auto vv = iter.view_mut<ComponentTwo>();
+          auto vx = vv.set<0>();
+          auto vy = vv.set<1>();
+
+          GAIA_EACH(iter) dummy_each(px[i], vx[i]);
+          GAIA_EACH(iter) dummy_each(py[i], vy[i]);
         });
   }
 
@@ -60,11 +74,20 @@ public:
         [](auto& world) {
           return world.query().template all<ComponentOne&, ComponentTwo&, ComponentThree&>();
         },
-        [&](ComponentOne& comp, ComponentTwo& comp2, ComponentThree& comp3) {
-          dummy_each(comp, comp2, comp3);
+        [&](::gaia::ecs::Iter iter) {
+          auto vp = iter.view_mut<ComponentOne>();
+          auto px = vp.set<0>();
+          auto py = vp.set<1>();
+
+          auto vv = iter.view_mut<ComponentTwo>();
+          auto vx = vv.set<0>();
+          auto vy = vv.set<1>();
+
+          auto vd = iter.view_mut<ComponentThree>();
+
+          GAIA_EACH(iter) dummy_each(px[i], py[i], vx[i], vy[i], vd[i]);
         });
   }
-  */
 };
 
 } // namespace ecs::benchmarks::gaia_ecs

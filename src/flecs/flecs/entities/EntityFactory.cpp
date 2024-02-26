@@ -1,10 +1,9 @@
 #include "EntityFactory.h"
-
-#include <gsl/gsl-lite.hpp>
-
 #include "base/components/DataComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
+#include <gsl/gsl-lite.hpp>
+#include <vector>
 
 namespace ecs::benchmarks::flecs::entities {
 

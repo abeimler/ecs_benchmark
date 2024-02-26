@@ -1,7 +1,5 @@
 #include "DataSystem.h"
 #include "base/components/DataComponent.h"
-#include "base/components/PositionComponent.h"
-#include "base/components/VelocityComponent.h"
 #include <bit>
 #include <cassert>
 #include <span>
@@ -16,7 +14,7 @@ auto DataSystem::updateData(ecs_t* ecs, std::span<ecs_id_t> entities, ecs_dt_t d
   for (auto entity_id : entities) {
     auto& data = *std::bit_cast<::ecs::benchmarks::base::components::DataComponent*>(
         ecs_get(uregistry.ecs.get(), entity_id, uregistry.DataComponent));
-    ::ecs::benchmarks::base::systems::DataSystem<EntityManager, TimeDelta>::updateData(data, dt);
+    BaseSystem::updateData(data, dt);
   }
 
   return 0;

@@ -1,6 +1,7 @@
 #ifndef ECS_BENCHMARK_GAMEOBJECT_H
 #define ECS_BENCHMARK_GAMEOBJECT_H
 
+#include "base/FrameBuffer.h"
 #include <cstddef>
 
 namespace ecs::benchmarks::oop::entities {
@@ -35,6 +36,15 @@ private:
   game_object_id_t m_id{0};
   bool m_destroyed{false};
 };
+
+
+class RenderableObject {
+public:
+  virtual ~RenderableObject() = default;
+
+  virtual void render(base::FrameBuffer&) = 0;
+};
+
 } // namespace ecs::benchmarks::oop::entities
 
 #endif // ECS_BENCHMARK_GAMEOBJECT_H
