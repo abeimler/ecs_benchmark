@@ -32,26 +32,26 @@ The results of these benchmarks should be used as a starting point for your own 
 
 _Graph shows cost per entity, tables shows total cost. lower is faster._
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   | gaia-ecs   | gaia-ecs (SoA)   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|:-----------|:-----------------|
-| Update     8 entities with 7 Systems | 355ns  | 693ns            | 199ns          | 253ns           | 169ns     | 53373ns    | 2332ns  | 176ns      | 390ns      | 393ns            |
-| Update    16 entities with 7 Systems | 360ns  | 834ns            | 184ns          | 176ns           | 210ns     | 51544ns    | 2198ns  | 181ns      | 315ns      | 335ns            |
-| Update    32 entities with 7 Systems | 595ns  | 1576ns           | 286ns          | 230ns           | 383ns     | 52746ns    | 2266ns  | 323ns      | 382ns      | 389ns            |
-| Update    64 entities with 7 Systems | 1052ns | 2961ns           | 476ns          | 343ns           | 720ns     | 51403ns    | 2402ns  | 559ns      | 518ns      | 518ns            |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)         | Ginseng      | mustache   | Flecs   | pico_ecs   | gaia-ecs   | gaia-ecs (SoA) |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------------|:-------------|:-----------|:--------|:-----------|:-----------|:---------------|
+| Update     8 entities with 7 Systems | 355ns  | 693ns            | 199ns          | 253ns                 | **169ns**    | 53373ns    | 2332ns  | 176ns      | 390ns      | 393ns          |
+| Update    16 entities with 7 Systems | 360ns  | 834ns            | 184ns          | **176ns**             | 210ns        | 51544ns    | 2198ns  | 181ns      | 315ns      | 335ns          |
+| Update    32 entities with 7 Systems | 595ns  | 1576ns           | 286ns          | **230ns**             | 383ns        | 52746ns    | 2266ns  | 323ns      | 382ns      | 389ns          |
+| Update    64 entities with 7 Systems | 1052ns | 2961ns           | 476ns          | **343ns**             | 720ns        | 51403ns    | 2402ns  | 559ns      | 518ns      | 518ns          |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   | gaia-ecs   | gaia-ecs (SoA)   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|:-----------|:-----------------|
-| Update   256 entities with 7 Systems | 7us    | 21us             | 4us            | 4us             | 4us       | 52us       | 3us     | 4us        | 2us        | 2us              |
-| Update   ~1K entities with 7 Systems | 34us   | 84us             | 18us           | 21us            | 16us      | 64us       | 9us     | 18us       | 10us       | 10us             |
-| Update   ~4K entities with 7 Systems | 137us  | 347us            | 92us           | 89us            | 68us      | 86us       | 29us    | 75us       | 44us       | 46us             |
-| Update  ~16K entities with 7 Systems | 550us  | 1385us           | 391us          | 356us           | 296us     | 181us      | 124us   | 329us      | 218us      | 215us            |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs            | pico_ecs   | gaia-ecs      | gaia-ecs (SoA)     |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:-----------------|:-----------|:--------------|:-------------------|
+| Update   256 entities with 7 Systems | 7us    | 21us             | 4us            | 4us             | 4us       | 52us       | 3us              | 4us        | **2us**       | **2us**            |
+| Update   ~1K entities with 7 Systems | 34us   | 84us             | 18us           | 21us            | 16us      | 64us       | **9us**          | 18us       | 10us          | 10us               |
+| Update   ~4K entities with 7 Systems | 137us  | 347us            | 92us           | 89us            | 68us      | 86us       | **29us**         | 75us       | 44us          | 46us               |
+| Update  ~16K entities with 7 Systems | 550us  | 1385us           | 391us          | 356us           | 296us     | 181us      | **124us**        | 329us      | 218us         | 215us              |
 
-|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache   | Flecs   | pico_ecs   | gaia-ecs   | gaia-ecs (SoA)   |
-|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------|:--------|:-----------|:-----------|:-----------------|
-| Update  ~65K entities with 7 Systems | 2ms    | 5ms              | 1ms            | 1ms             | 1ms       | 0ms        | 0ms     | 1ms        | 1ms        | 1ms              |
-| Update  262K entities with 7 Systems | 10ms   | 23ms             | 8ms            | 6ms             | 6ms       | 3ms        | 3ms     | 6ms        | 7ms        | 8ms              |
-| Update   ~1M entities with 7 Systems | 40ms   | 92ms             | 36ms           | 26ms            | 27ms      | 14ms       | 19ms    | 23ms       | 32ms       | 32ms             |
-| Update   ~2M entities with 7 Systems | 82ms   | 176ms            | 88ms           | 53ms            | 55ms      | 27ms       | 37ms    | 47ms       | 65ms       | 65ms             |
+|                                      | EnTT   | EnTT (runtime)   | EnTT (group)   | EnTT (stable)   | Ginseng   | mustache               | Flecs         | pico_ecs | gaia-ecs | gaia-ecs (SoA) |
+|:-------------------------------------|:-------|:-----------------|:---------------|:----------------|:----------|:-----------------------|:--------------|:---------|:---------|:---------------|
+| Update  ~65K entities with 7 Systems | 2ms    | 5ms              | 1ms            | 1ms             | 1ms       | **0ms**                | **0ms**       | 1ms      | 1ms      | 1ms            |
+| Update  262K entities with 7 Systems | 10ms   | 23ms             | 8ms            | 6ms             | 6ms       | **3ms**                | **3ms**       | 6ms      | 7ms      | 8ms            |
+| Update   ~1M entities with 7 Systems | 40ms   | 92ms             | 36ms           | 26ms            | 27ms      | **14ms**               | 19ms          | 23ms     | 32ms     | 32ms           |
+| Update   ~2M entities with 7 Systems | 82ms   | 176ms            | 88ms           | 53ms            | 55ms      | **27ms**               | 37ms          | 47ms     | 65ms     | 65ms           |
 
 
 
