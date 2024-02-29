@@ -31,7 +31,7 @@ public:
         [](auto& world) {
           return world.query().template all<ComponentOne&>();
         },
-        [&](::gaia::ecs::Iter iter) {
+        [&](::gaia::ecs::Iter& iter) {
           // Position
           auto vp = iter.view_mut<ComponentOne>();
           auto px = vp.set<0>();
@@ -50,7 +50,7 @@ public:
         [](auto& world) {
           return world.query().template all<ComponentOne&, ComponentTwo&>();
         },
-        [&](::gaia::ecs::Iter iter) {
+        [&](::gaia::ecs::Iter& iter) {
           auto vp = iter.view_mut<ComponentOne>();
           auto px = vp.set<0>();
           auto py = vp.set<1>();
@@ -74,7 +74,7 @@ public:
         [](auto& world) {
           return world.query().template all<ComponentOne&, ComponentTwo&, ComponentThree&>();
         },
-        [&](::gaia::ecs::Iter iter) {
+        [&](::gaia::ecs::Iter& iter) {
           auto vp = iter.view_mut<ComponentOne>();
           auto px = vp.set<0>();
           auto py = vp.set<1>();

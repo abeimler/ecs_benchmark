@@ -8,7 +8,7 @@ namespace ecs::benchmarks::gaia_ecs::entities {
 SoAHeroMonsterEntityFactory::Entity SoAHeroMonsterEntityFactory::createRandom(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
   auto ret = entities.add();
-  entities.bulk(ret)
+  entities.build(ret)
       .add<components::SoAPositionComponent>()
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
@@ -20,7 +20,7 @@ SoAHeroMonsterEntityFactory::Entity SoAHeroMonsterEntityFactory::createRandom(En
 SoAHeroMonsterEntityFactory::Entity SoAHeroMonsterEntityFactory::createHero(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
   auto ret = entities.add();
-  entities.bulk(ret)
+  entities.build(ret)
       .add<components::SoAPositionComponent>()
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
@@ -32,7 +32,7 @@ SoAHeroMonsterEntityFactory::Entity SoAHeroMonsterEntityFactory::createHero(Enti
 SoAHeroMonsterEntityFactory::Entity SoAHeroMonsterEntityFactory::createMonster(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
   auto ret = entities.add();
-  entities.bulk(ret)
+  entities.build(ret)
       .add<components::SoAPositionComponent>()
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
@@ -43,7 +43,7 @@ SoAHeroMonsterEntityFactory::Entity SoAHeroMonsterEntityFactory::createMonster(E
 }
 
 void SoAHeroMonsterEntityFactory::addComponents(EntityManager& entities, Entity entity) {
-  entities.bulk(entity)
+  entities.build(entity)
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
       .add<ecs::benchmarks::base::components::DamageComponent>()

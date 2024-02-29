@@ -33,8 +33,8 @@ public:
   ~SoAGaiaEcsApplication() = default;
   SoAGaiaEcsApplication(const SoAGaiaEcsApplication&) = delete;
   SoAGaiaEcsApplication& operator=(const SoAGaiaEcsApplication&) = delete;
-  SoAGaiaEcsApplication(SoAGaiaEcsApplication&&) = default;
-  SoAGaiaEcsApplication& operator=(SoAGaiaEcsApplication&&) = default;
+  SoAGaiaEcsApplication(SoAGaiaEcsApplication&&) = delete;
+  SoAGaiaEcsApplication& operator=(SoAGaiaEcsApplication&&) = delete;
 
   [[nodiscard]] inline EntityManager& getEntities() { return m_world; }
   [[nodiscard]] inline const EntityManager& getEntities() const { return m_world; }
