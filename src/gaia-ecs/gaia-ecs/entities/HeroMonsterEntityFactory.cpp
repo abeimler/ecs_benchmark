@@ -47,7 +47,7 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& entities, Entity ent
       .add<ecs::benchmarks::base::components::HealthComponent>()
       .add<ecs::benchmarks::base::components::DamageComponent>()
       .add<ecs::benchmarks::base::components::SpriteComponent>();
-  if (!entities.has<ecs::benchmarks::base::components::PositionComponent>(entity)) {
+  if (!entities.has<ecs::benchmarks::base::components::PositionComponent>(entity)) {
     builder.add<ecs::benchmarks::base::components::PositionComponent>();
   }
   builder.commit();
