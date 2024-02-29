@@ -11,13 +11,13 @@ namespace ecs::benchmarks::gaia_ecs::entities {
 
 class HeroMonsterEntityFactory final
     : public ecs::benchmarks::base::entities::HeroMonsterEntityFactory<
-        ::gaia::ecs::World, ::gaia::ecs::Entity, ecs::benchmarks::base::components::PositionComponent,
-        ecs::benchmarks::base::components::PlayerComponent, ecs::benchmarks::base::components::HealthComponent,
-        ecs::benchmarks::base::components::DamageComponent, ecs::benchmarks::base::components::SpriteComponent> {
+          ::gaia::ecs::World, ::gaia::ecs::Entity, ecs::benchmarks::base::components::PositionComponent,
+          ecs::benchmarks::base::components::PlayerComponent, ecs::benchmarks::base::components::HealthComponent,
+          ecs::benchmarks::base::components::DamageComponent, ecs::benchmarks::base::components::SpriteComponent> {
 public:
   // using EntityManager = ::gaia::ecs::World;
   // using Entity = ::gaia::ecs::Entity;
-  
+
   Entity createRandom(EntityManager& entities) override;
   Entity createHero(EntityManager& entities) override;
   Entity createMonster(EntityManager& entities) override;
@@ -37,23 +37,23 @@ public:
     return entities.set<ecs::benchmarks::base::components::PositionComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent&
-  getPlayerComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return entities.set<ecs::benchmarks::base::components::PlayerComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::HealthComponent&
-  getHealthComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::HealthComponent& getHealthComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return entities.set<ecs::benchmarks::base::components::HealthComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent&
-  getDamageComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent& getDamageComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return entities.set<ecs::benchmarks::base::components::DamageComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::SpriteComponent&
-  getSpriteComponent(EntityManager& entities, Entity entity) override {
+  [[nodiscard]] inline ecs::benchmarks::base::components::SpriteComponent& getSpriteComponent(EntityManager& entities,
+                                                                                              Entity entity) override {
     return entities.set<ecs::benchmarks::base::components::SpriteComponent>(entity);
   }
 

@@ -42,8 +42,7 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createMonster(EntityM
 
 void HeroMonsterEntityFactory::addComponents(EntityManager& entities, Entity entity) {
   auto builder = entities.build(entity);
-  builder
-      .add<ecs::benchmarks::base::components::PlayerComponent>()
+  builder.add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
       .add<ecs::benchmarks::base::components::DamageComponent>()
       .add<ecs::benchmarks::base::components::SpriteComponent>();
@@ -51,7 +50,6 @@ void HeroMonsterEntityFactory::addComponents(EntityManager& entities, Entity ent
     builder.add<ecs::benchmarks::base::components::PositionComponent>();
   }
   builder.commit();
-
 }
 
 } // namespace ecs::benchmarks::gaia_ecs::entities

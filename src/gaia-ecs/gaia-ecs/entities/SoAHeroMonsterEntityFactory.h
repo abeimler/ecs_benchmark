@@ -34,28 +34,27 @@ public:
     return query.count();
   }
 
-  [[nodiscard]] inline components::SoAPositionComponent
-  getPositionComponent(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline components::SoAPositionComponent getPositionComponent(EntityManager& entities, Entity entity) {
     return entities.get<components::SoAPositionComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent&
-  getPlayerComponent(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline ecs::benchmarks::base::components::PlayerComponent& getPlayerComponent(EntityManager& entities,
+                                                                                              Entity entity) {
     return entities.set<ecs::benchmarks::base::components::PlayerComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::HealthComponent&
-  getHealthComponent(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline ecs::benchmarks::base::components::HealthComponent& getHealthComponent(EntityManager& entities,
+                                                                                              Entity entity) {
     return entities.set<ecs::benchmarks::base::components::HealthComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent&
-  getDamageComponent(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline ecs::benchmarks::base::components::DamageComponent& getDamageComponent(EntityManager& entities,
+                                                                                              Entity entity) {
     return entities.set<ecs::benchmarks::base::components::DamageComponent>(entity);
   }
 
-  [[nodiscard]] inline ecs::benchmarks::base::components::SpriteComponent&
-  getSpriteComponent(EntityManager& entities, Entity entity) {
+  [[nodiscard]] inline ecs::benchmarks::base::components::SpriteComponent& getSpriteComponent(EntityManager& entities,
+                                                                                              Entity entity) {
     return entities.set<ecs::benchmarks::base::components::SpriteComponent>(entity);
   }
 
