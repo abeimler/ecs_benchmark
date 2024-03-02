@@ -26,7 +26,7 @@ public:
 
   void OnUpdate() override {
     // constexpr TimeDelta dt = 1.0F / 60.0F;
-    m_q.each([&](::gaia::ecs::Iter iter) {
+    m_q.each([&](::gaia::ecs::Iter& iter) {
       // Position
       auto vp = iter.view<components::SoAPositionComponent>(); // read-only access to PositionSoA
       auto px = vp.get<0>();                                   // continuous block of "x" from PositionSoA

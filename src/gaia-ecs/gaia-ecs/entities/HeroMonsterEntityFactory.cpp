@@ -6,7 +6,7 @@ namespace ecs::benchmarks::gaia_ecs::entities {
 HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createRandom(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
   auto ret = entities.add();
-  entities.bulk(ret)
+  entities.build(ret)
       .add<ecs::benchmarks::base::components::PositionComponent>()
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
@@ -18,7 +18,7 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createRandom(EntityMa
 HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createHero(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
   auto ret = entities.add();
-  entities.bulk(ret)
+  entities.build(ret)
       .add<ecs::benchmarks::base::components::PositionComponent>()
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
@@ -30,7 +30,7 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createHero(EntityMana
 HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createMonster(EntityManager& entities) {
   using namespace ecs::benchmarks::base::components;
   auto ret = entities.add();
-  entities.bulk(ret)
+  entities.build(ret)
       .add<ecs::benchmarks::base::components::PositionComponent>()
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
@@ -41,12 +41,17 @@ HeroMonsterEntityFactory::Entity HeroMonsterEntityFactory::createMonster(EntityM
 }
 
 void HeroMonsterEntityFactory::addComponents(EntityManager& entities, Entity entity) {
-  entities.bulk(entity)
+  auto builder = entities.build(entity);
+  builder
       .add<ecs::benchmarks::base::components::PlayerComponent>()
       .add<ecs::benchmarks::base::components::HealthComponent>()
       .add<ecs::benchmarks::base::components::DamageComponent>()
-      .add<ecs::benchmarks::base::components::PositionComponent>()
       .add<ecs::benchmarks::base::components::SpriteComponent>();
+  if (!entities.has<ecs::benchmarks::base::components::PositionComponent>(entity)) {
+    builder.add<ecs::benchmarks::base::components::PositionComponent>();
+  }
+  builder.commit();
+
 }
 
 } // namespace ecs::benchmarks::gaia_ecs::entities

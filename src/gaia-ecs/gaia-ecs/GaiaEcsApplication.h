@@ -33,8 +33,8 @@ public:
   ~GaiaEcsApplication() = default;
   GaiaEcsApplication(const GaiaEcsApplication&) = delete;
   GaiaEcsApplication& operator=(const GaiaEcsApplication&) = delete;
-  GaiaEcsApplication(GaiaEcsApplication&&) = default;
-  GaiaEcsApplication& operator=(GaiaEcsApplication&&) = default;
+  GaiaEcsApplication(GaiaEcsApplication&&) = delete;
+  GaiaEcsApplication& operator=(GaiaEcsApplication&&) = delete;
 
   [[nodiscard]] inline EntityManager& getEntities() { return m_world; }
   [[nodiscard]] inline const EntityManager& getEntities() const { return m_world; }
