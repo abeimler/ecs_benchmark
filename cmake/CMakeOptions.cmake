@@ -78,4 +78,6 @@ if(LIBFUZZER_SUPPORTED
 else()
   set(DEFAULT_ENABLE_FUZZING OFF)
 endif()
-option(ENABLE_FUZZING "Enable Fuzzing Builds" ${DEFAULT_ENABLE_FUZZING})
+#option(ENABLE_FUZZING "Enable Fuzzing Builds" ${DEFAULT_ENABLE_FUZZING})
+option(ENABLE_FUZZING "Enable Fuzzing Builds" OFF)
+# TODO: add/fix fuzz tests
