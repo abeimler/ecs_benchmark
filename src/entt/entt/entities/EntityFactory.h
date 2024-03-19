@@ -4,6 +4,7 @@
 #include "entt/entt.h"
 
 #include "base/components/DataComponent.h"
+#include "base/components/EmptyComponent.h"
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
 #include "base/entities/EntityFactory.h"
@@ -77,6 +78,19 @@ public:
 
   static inline auto& addComponentOne(EntityManager& registry, Entity entity) {
     return registry.emplace<ecs::benchmarks::base::components::PositionComponent>(entity);
+  }
+  static inline auto& addComponentTwo(EntityManager& registry, Entity entity) {
+    return registry.emplace<ecs::benchmarks::base::components::VelocityComponent>(entity);
+  }
+  static inline auto& addComponentThree(EntityManager& registry, Entity entity) {
+    return registry.emplace<ecs::benchmarks::base::components::DataComponent>(entity);
+  }
+
+  static inline void addComponentEmpty(EntityManager& registry, Entity entity) {
+    return registry.emplace<ecs::benchmarks::base::components::EmptyComponent>(entity);
+  }
+  static inline void clearComponentsEmpty(EntityManager& registry) {
+    return registry.clear<ecs::benchmarks::base::components::EmptyComponent>();
   }
 };
 

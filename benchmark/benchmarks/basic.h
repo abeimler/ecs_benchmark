@@ -35,7 +35,7 @@ struct ComponentsCounter {
   size_t monster_count{0};
 };
 
-inline static constexpr auto MIN_ENTITIES_RANGE = 8L;
+inline static constexpr auto MIN_ENTITIES_RANGE = 0L;
 inline static constexpr auto MAX_ENTITIES_RANGE = 2'097'152L;
 
 void BEDefaultArguments(benchmark::internal::Benchmark* b);

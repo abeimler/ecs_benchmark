@@ -6,12 +6,6 @@
       "regex": "^BM_(.*_)?ComplexSystemsUpdateMixedEntities\\/[0-9]+$",
       "header": "Update systems (for-each entities (with mixed components) in 7 systems)"
     },
-    "ComplexSystemsUpdateNoEntities": {
-      "index": "Update 0 entities with 7 systems",
-      "title": "Update Systems (7 Systems) with zero entities",
-      "regex": "^BM_(.*_)?ComplexSystemsUpdate_NoEntities$",
-      "header": "Update systems (for-each entities in 7 systems) with zero entities"
-    },
     "ComplexSystemsUpdate": {
       "index": "Update {:>5s} entities with 7 systems",
       "title": "Update Systems (7 Systems)",
@@ -23,12 +17,6 @@
       "title": "Update systems (2 systems, mixed components)",
       "regex": "^BM_(.*_)?SystemsUpdateMixedEntities\\/[0-9]+$",
       "header": "Update systems (for-each entities (with mixed components) in 2 systems)"
-    },
-    "SystemsUpdateNoEntities": {
-      "index": "Update 0 entities with 2 systems",
-      "title": "Update systems (2 systems) with zero entities",
-      "regex": "^BM_(.*_)?SystemsUpdate_NoEntities$",
-      "header": "Update systems (for-each entities in 2 systems) with zero entities"
     },
     "SystemsUpdate": {
       "index": "Update {:>5s} entities with 2 systems",
@@ -83,12 +71,6 @@
       "title": "Get No component from Entity",
       "regex": "^BM_(.*_)?UnpackNoComponent\\/[0-9]+$",
       "header": "Get No component from Entity"
-    },
-    "UnpackOneComponentNoEntities": {
-      "index": "Unpack No entities (empty entities)",
-      "title": "Get component from No Entity",
-      "regex": "^BM_(.*_)?UnpackOneComponent_NoEntities$",
-      "header": "Get component from No Entity"
     },
     "UnpackOneComponent": {
       "index": "Unpack one component in {:>5s} entities",

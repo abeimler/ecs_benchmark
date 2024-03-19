@@ -14,6 +14,17 @@ concept HasForEach = requires(Iterable it, Func func) { it.for_each(func); };
 template <typename Iterable, typename Func>
 concept HasVisit = requires(Iterable it, Func func) { it.visit(func); };
 
+template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
+          class Entity = typename EntityFactory::Entity>
+concept HasClearComponentFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+  factory.clearComponentsEmpty(entity_manager);
+};
+template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
+          class Entity = typename EntityFactory::Entity>
+concept HasAddComponentEmptyFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+  factory.addComponentEmpty(entity_manager, entity);
+};
+
 template <StringLiteral Name, class Application, class EntityFactory, class HeroMonsterEntityFactory,
           ECSBenchmarkIncludeEntityBenchmarks include_entity_benchmarks = ECSBenchmarkIncludeEntityBenchmarks::No>
 class ExtendedECSBenchmark
@@ -397,11 +408,120 @@ protected:
   }
 
 
+    template <typename GetViewWithRegistry, typename PublishEventFunc>
+      requires std::invocable<GetViewWithRegistry&, EntityManager&> && HasClearComponentFeature<EntityFactory>
+    void BM_PublishEventViaComponentWithMixedEntitiesCustom(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry,
+                                                                            PublishEventFunc&& event_func) {
+      const auto nentities = static_cast<size_t>(state.range(0));
+      if constexpr (default_initializable_entity_manager) {
+        EntityManager registry;
+        std::vector<Entity> entities;
+        const ComponentsCounter components_counter =
+            this->template createEntitiesWithMixedComponents<EntityFactory>(registry, nentities, entities);
+
+        auto view = get_view_with_registry(registry);
+        for (auto _ : state) {
+          event_func(registry, view);
+          this->m_entities_factory.clearComponentsEmpty(registry);
+        }
+
+        this->setCounters(state, entities, components_counter);
+      } else {
+        Application app(this->m_options.add_more_complex_system);
+        EntityManager& registry = app.getEntities();
+        std::vector<Entity> entities;
+        const ComponentsCounter components_counter =
+            this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+        auto view = get_view_with_registry(registry);
+        for (auto _ : state) {
+          event_func(registry, view);
+          this->m_entities_factory.clearComponentsEmpty(registry);
+        }
+
+        this->setCounters(state, entities, components_counter);
+        //state.counters["events_count"] = static_cast<double>(entities.size());
+      }
+    }
+    template <typename GetViewWithRegistry, typename PublishEventFunc>
+      requires std::invocable<GetViewWithRegistry&, EntityManager&> && HasClearComponentFeature<EntityFactory>
+    void BM_PublishEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, PublishEventFunc&& event_func) {
+      BM_PublishEventViaComponentWithMixedEntitiesCustom(state, get_view_with_registry, [&](auto& registry, auto& view) {
+        generic_each(view, [&](auto&&... comps){ event_func(std::forward<decltype(registry)>(registry), std::forward<decltype(comps)>(comps)...); });
+      });
+    }
+    template <typename GetViewWithRegistry>
+      requires std::invocable<GetViewWithRegistry&, EntityManager&> &&  HasClearComponentFeature<EntityFactory> && HasAddComponentEmptyFeature<EntityFactory>
+    void BM_PublishEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry) {
+      BM_PublishEventViaComponentWithMixedEntitiesViews(state, get_view_with_registry, [&](auto& registry, auto entity, auto&... /*comps*/) {
+        this->m_entities_factory.addComponentEmpty(registry, entity);
+      });
+    }
+
+  template <typename GetViewWithRegistry, typename GetViewWithEvent, typename PublishEventFunc, typename UpdateFunc>
+  requires std::invocable<GetViewWithRegistry&, EntityManager&> && std::invocable<GetViewWithEvent&, EntityManager&> && HasClearComponentFeature<EntityFactory>
+  void BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesCustom(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event,
+                                                                          PublishEventFunc&& event_func, UpdateFunc&& update_func) {
+    const auto nentities = static_cast<size_t>(state.range(0));
+    if constexpr (default_initializable_entity_manager) {
+      EntityManager registry;
+      std::vector<Entity> entities;
+      const ComponentsCounter components_counter =
+          this->template createEntitiesWithMixedComponents<EntityFactory>(registry, nentities, entities);
+
+      auto view = get_view_with_registry(registry);
+      auto event_view = get_view_with_event(registry);
+      for (auto _ : state) {
+        update_func(registry, view);
+        event_func(registry, event_view);
+        this->m_entities_factory.clearComponentsEmpty(registry);
+      }
+
+      this->setCounters(state, entities, components_counter);
+    } else {
+      Application app(this->m_options.add_more_complex_system);
+      EntityManager& registry = app.getEntities();
+      std::vector<Entity> entities;
+      const ComponentsCounter components_counter =
+          this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+      auto view = get_view_with_registry(registry);
+      auto event_view = get_view_with_event(registry);
+      for (auto _ : state) {
+        update_func(registry, view);
+        event_func(registry, event_view);
+        this->m_entities_factory.clearComponentsEmpty(registry);
+      }
+
+      this->setCounters(state, entities, components_counter);
+      //state.counters["events_count"] = static_cast<double>(entities.size());
+    }
+  }
+  template <typename GetViewWithRegistry, typename GetViewWithEvent, typename PublishEventFunc, typename UpdateFunc>
+  requires std::invocable<GetViewWithRegistry&, EntityManager&> && std::invocable<GetViewWithEvent&, EntityManager&> && HasClearComponentFeature<EntityFactory>
+  void BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event, PublishEventFunc&& event_func, UpdateFunc&& update_func) {
+    BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesCustom(state, get_view_with_registry, get_view_with_event, [&](auto& registry, auto& view) {
+      generic_each(view, [&](auto&&... comps){ event_func(std::forward<decltype(registry)>(registry), std::forward<decltype(comps)>(comps)...); });
+    }, [&](auto& /*registry*/, auto& view) {
+       generic_each(view, update_func);
+     });
+  }
+  template <typename GetViewWithRegistry, typename GetViewWithEvent>
+    requires std::invocable<GetViewWithRegistry&, EntityManager&> && std::invocable<GetViewWithEvent&, EntityManager&> && HasClearComponentFeature<EntityFactory> && HasAddComponentEmptyFeature<EntityFactory>
+  void BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event) {
+    BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesViews(state, get_view_with_registry, get_view_with_event, [&](auto& registry, auto entity, auto&... /*comps*/) {
+      this->m_entities_factory.addComponentEmpty(registry, entity);
+    }, [](auto& /*entity*/, auto&... comp) {
+      dummy_each(comp...);
+    });
+  }
+
+
 public:
   template <class Comp, class... Args>
-  inline static void dummy_each(Comp& comp, Args&&... args) {
-    benchmark::DoNotOptimize(comp);
-    (benchmark::DoNotOptimize(args), ...);
+  inline static void dummy_each(Comp& comp_or_entity, Args&... comps) {
+    benchmark::DoNotOptimize(comp_or_entity);
+    (benchmark::DoNotOptimize(comps), ...);
   }
 
   template <typename Iterable, typename Func>

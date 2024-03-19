@@ -14,8 +14,8 @@ namespace ecs::benchmarks {
 
 template <class EntityFactory>
 struct EntityFactory_Fixture {
-  using EntityManager = EntityFactory::EntityManager;
-  using Entity = EntityFactory::Entity;
+  using EntityManager = typename EntityFactory::EntityManager;
+  using Entity = typename EntityFactory::Entity;
 
   EntityFactory m_entity_factory;
 
