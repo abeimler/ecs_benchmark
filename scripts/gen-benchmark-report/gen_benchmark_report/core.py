@@ -108,9 +108,11 @@ def gen_results(config, output_dir, reports):
                 time_min = time_s / 60.0
 
             key = None
+            plot_config_data = None
             for k, data in config['data'].items():
                 if re.search(data['regex'], name):
                     key = k
+                    plot_config_data = data
                     break
             if not key:
                 print("WARN: can find key for {:s}".format(name))
@@ -134,7 +136,8 @@ def gen_results(config, output_dir, reports):
                      'time_min': time_min,
                      'entities': entities, 'components_one': components_one, 'components_two': components_two,
                      'components_three': components_three,
-                     'output_image_filename': output_image_filename, 'line_output_image_filename': line_output_image_filename})
+                     'output_image_filename': output_image_filename, 'line_output_image_filename': line_output_image_filename,
+                     'plot_config_data': plot_config_data})
 
         result_plot_data = {}
         for k in entries.keys():
@@ -145,7 +148,7 @@ def gen_results(config, output_dir, reports):
         name = frameworks_info[framework]['name']
         results[framework] = {'entries': entries, 'entries_data': entries_data, 'plot_data': result_plot_data,
                               'unit': entries_unit, 'framework': framework,
-                              'label': name, 'version': version}
+                              'label': name, 'version': version, 'plot_config_data': plot_config_data}
 
     results['_meta'] = {'ghz_per_cpu': mhz_per_cpu / 1000.0, 'mhz_per_cpu': mhz_per_cpu, 'num_cpus': num_cpus,
                         'os': platform.system(), 'ram': get_total_memory()}
@@ -265,6 +268,7 @@ def gen_results(config, output_dir, reports):
                 output_image_filename = result['entries_data'][ek][0]['output_image_filename']
                 line_output_image_filename = result['entries_data'][ek][0]['line_output_image_filename']
                 name = frameworks_info[framework]['name']
+                plot_config_data = result['plot_config_data']
 
                 if ek not in results['_data_frame_data']:
                     results['_data_frame_data'][ek] = {}
@@ -306,8 +310,8 @@ def gen_results(config, output_dir, reports):
                 results['_data_frame_data'][ek]['unit'] = unit
                 results['_data_frame_data'][ek]['name'] = name
                 results['_data_frame_data'][ek]['y'].append(name)
-                results['_data_frame_data'][ek]['xaxis_title'] = 'Entities'
-                results['_data_frame_data'][ek]['yaxis_title'] = 'Time cost per entity'
+                results['_data_frame_data'][ek]['xaxis_title'] = plot_config_data['line']['xaxis_title'] if plot_config_data and 'line' in plot_config_data else 'Entities'
+                results['_data_frame_data'][ek]['yaxis_title'] = plot_config_data['line']['yaxis_title'] if plot_config_data and 'line' in plot_config_data else 'Time cost per entity'
                 ## frame for second line graph
                 results['_plot_data_line'][ek]['df'][name] = y_absolut
                 results['_plot_data_line'][ek]['df']['entities'] = x
@@ -316,8 +320,8 @@ def gen_results(config, output_dir, reports):
                 results['_plot_data_line'][ek]['unit'] = unit
                 results['_plot_data_line'][ek]['name'] = name
                 results['_plot_data_line'][ek]['y'].append(name)
-                results['_plot_data_line'][ek]['xaxis_title'] = 'Entities'
-                results['_plot_data_line'][ek]['yaxis_title'] = 'Time for all entities'
+                results['_plot_data_line'][ek]['xaxis_title'] = plot_config_data['line2']['xaxis_title'] if plot_config_data and 'line2' in plot_config_data else 'Entities'
+                results['_plot_data_line'][ek]['yaxis_title'] = plot_config_data['line2']['yaxis_title'] if plot_config_data and 'line2' in plot_config_data else 'Time for all entities'
 
                 ## frame data for histogram
                 results['_plot_data_histogram'][ek]['data']['Framework'] = results['_plot_data_histogram'][ek]['data']['Framework'] + histo_frameworks
@@ -330,8 +334,8 @@ def gen_results(config, output_dir, reports):
                 results['_plot_data_histogram'][ek]['barmode'] = 'group'
                 results['_plot_data_histogram'][ek]['histfunc'] = 'avg'
                 results['_plot_data_histogram'][ek]['labels'] = {'Time': "Time ({})".format(unit), 'Entities': 'Entities', 'EntityGroup': 'Entities'}
-                results['_plot_data_histogram'][ek]['xaxis_title'] = 'Entities (avg)'
-                results['_plot_data_histogram'][ek]['yaxis_title'] = 'Time cost per entity'
+                results['_plot_data_histogram'][ek]['xaxis_title'] = plot_config_data['histogram']['xaxis_title'] if plot_config_data and 'histogram' in plot_config_data else 'Entities (avg)'
+                results['_plot_data_histogram'][ek]['yaxis_title'] = plot_config_data['histogram']['yaxis_title'] if plot_config_data and 'histogram' in plot_config_data else 'Time cost per entity'
                 results['_plot_data_histogram'][ek]['output_image_filename'] = output_image_filename
                 results['_plot_data_histogram'][ek]['unit'] = unit
 
@@ -694,19 +698,22 @@ def gen_results_md(config, output_dir, results_filename, results, img_dir):
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'line_figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'line_figure_img_alt': "{:s} Plot".format(ek),
-                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title']}
+                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title'],
+                             'line': config_data[ek]['line'], 'line2': config_data[ek]['line2'], 'histogram': config_data[ek]['histogram']}
     for ek in small_df_data.keys():
         data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'line_figure_img_src': os.path.join(img_dir, "Line{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'line_figure_img_alt': "{:s} Line Plot".format(ek),
-                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title']}
+                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title'],
+                             'line': config_data[ek]['line'], 'line2': config_data[ek]['line2'], 'histogram': config_data[ek]['histogram']}
     for ek in smaller_df_data.keys():
         data['plots'][ek] = {'figure_img_src': os.path.join(img_dir, "{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'figure_img_alt': "{:s} Plot".format(ek),
                              'line_figure_img_src': os.path.join(img_dir, "Line{:s}.{:s}".format(ek, OUTPUT_IMG_FILENAME_EXT)),
                              'line_figure_img_alt': "{:s} Line Plot".format(ek),
-                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title']}
+                             'key': ek, 'header': config_data[ek]['header'], 'title': config_data[ek]['title'],
+                             'line': config_data[ek]['line'], 'line2': config_data[ek]['line2'], 'histogram': config_data[ek]['histogram']}
 
     for ek, dfd in df_data.items():
         df = None

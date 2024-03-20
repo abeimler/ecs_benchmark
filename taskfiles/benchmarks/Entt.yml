@@ -10,6 +10,8 @@ tasks:
     - task: default
     - task: entities
     - task: extended
+    - task: extended-event
+    - task: extended-event-comp
     - task: extended-runtime
     - task: extended-stable
     - task: extended-group
@@ -110,4 +112,18 @@ tasks:
         REPORT_NAME: entt-complex-group
         BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
         BENCHMARK_NAME: entt-extended-group
+        BENCHMARK_DIR: entt-extended
+
+  extended-event:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event
+        BENCHMARK_NAME: entt-extended-event
+        BENCHMARK_DIR: entt-extended
+
+  extended-event-comp:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event-comp
+        BENCHMARK_NAME: entt-extended-event-comp
         BENCHMARK_DIR: entt-extended

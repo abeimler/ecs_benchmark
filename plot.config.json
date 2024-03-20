@@ -4,7 +4,19 @@
       "index": "Update {:>5s} entities with 7 Systems",
       "title": "Update systems (7 systems, mixed components)",
       "regex": "^BM_(.*_)?ComplexSystemsUpdateMixedEntities\\/[0-9]+$",
-      "header": "Update systems (for-each entities (with mixed components) in 7 systems)"
+      "header": "Update systems (for-each entities (with mixed components) in 7 systems)",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "ComplexSystemsUpdate": {
       "index": "Update {:>5s} entities with 7 systems",
@@ -131,6 +143,24 @@
       "title": "Iterate over entities with three components",
       "regex": "^BM_(.*_)?IterateThreeComponents\\/[0-9]+$",
       "header": "Iterate over entities with three components"
+    },
+    "PublishAndUpdateEvents": {
+      "index": "Publish and Update {:>5s} events with three components",
+      "title": "Publish and Update events with three components",
+      "regex": "^BM_(.*_)?(EnqueueAndUpdateEventsViaDispatcher|PublishAndUpdateEventsViaComponent)WithMixedEntities\\/[0-9]+$",
+      "header": "Publish and Update events with three components",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per event"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all events"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per event"
+      }
     }
   },
   "frameworks": {
@@ -195,14 +225,23 @@
       "skip_candidate": true,
       "color": "#3366cc"
     },
-    "entt (stable)": {
-      "name": "EnTT (stable)",
+    "entt (event)": {
+      "name": "EnTT (events)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true,
-      "color": "#336699"
+      "color": "#0033cc"
+    },
+    "entt (component)": {
+      "name": "EnTT (component)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "v3.13.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true,
+      "color": "#66ccff"
     },
     "ginseng": {
       "name": "Ginseng",

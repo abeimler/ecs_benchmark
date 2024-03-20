@@ -410,7 +410,7 @@ protected:
 
     template <typename GetViewWithRegistry, typename PublishEventFunc>
       requires std::invocable<GetViewWithRegistry&, EntityManager&> && HasClearComponentFeature<EntityFactory>
-    void BM_PublishEventViaComponentWithMixedEntitiesCustom(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry,
+    void BM_PublishEventsViaComponentWithMixedEntitiesCustom(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry,
                                                                             PublishEventFunc&& event_func) {
       const auto nentities = static_cast<size_t>(state.range(0));
       if constexpr (default_initializable_entity_manager) {
@@ -445,23 +445,23 @@ protected:
     }
     template <typename GetViewWithRegistry, typename PublishEventFunc>
       requires std::invocable<GetViewWithRegistry&, EntityManager&> && HasClearComponentFeature<EntityFactory>
-    void BM_PublishEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, PublishEventFunc&& event_func) {
-      BM_PublishEventViaComponentWithMixedEntitiesCustom(state, get_view_with_registry, [&](auto& registry, auto& view) {
+    void BM_PublishEventsViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, PublishEventFunc&& event_func) {
+      BM_PublishEventsViaComponentWithMixedEntitiesCustom(state, get_view_with_registry, [&](auto& registry, auto& view) {
         generic_each(view, [&](auto&&... comps){ event_func(std::forward<decltype(registry)>(registry), std::forward<decltype(comps)>(comps)...); });
       });
     }
     template <typename GetViewWithRegistry>
       requires std::invocable<GetViewWithRegistry&, EntityManager&> &&  HasClearComponentFeature<EntityFactory> && HasAddComponentEmptyFeature<EntityFactory>
-    void BM_PublishEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry) {
-      BM_PublishEventViaComponentWithMixedEntitiesViews(state, get_view_with_registry, [&](auto& registry, auto entity, auto&... /*comps*/) {
+    void BM_PublishEventsViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry) {
+      BM_PublishEventsViaComponentWithMixedEntitiesViews(state, get_view_with_registry, [&](auto& registry, auto entity, auto&... /*comps*/) {
         this->m_entities_factory.addComponentEmpty(registry, entity);
       });
     }
 
   template <typename GetViewWithRegistry, typename GetViewWithEvent, typename PublishEventFunc, typename UpdateFunc>
   requires std::invocable<GetViewWithRegistry&, EntityManager&> && std::invocable<GetViewWithEvent&, EntityManager&> && HasClearComponentFeature<EntityFactory>
-  void BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesCustom(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event,
-                                                                          PublishEventFunc&& event_func, UpdateFunc&& update_func) {
+  void BM_PublishAndUpdateEventsViaComponentWithMixedEntitiesCustom(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event,
+                                                                    PublishEventFunc&& event_func, UpdateFunc&& update_func) {
     const auto nentities = static_cast<size_t>(state.range(0));
     if constexpr (default_initializable_entity_manager) {
       EntityManager registry;
@@ -499,8 +499,8 @@ protected:
   }
   template <typename GetViewWithRegistry, typename GetViewWithEvent, typename PublishEventFunc, typename UpdateFunc>
   requires std::invocable<GetViewWithRegistry&, EntityManager&> && std::invocable<GetViewWithEvent&, EntityManager&> && HasClearComponentFeature<EntityFactory>
-  void BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event, PublishEventFunc&& event_func, UpdateFunc&& update_func) {
-    BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesCustom(state, get_view_with_registry, get_view_with_event, [&](auto& registry, auto& view) {
+  void BM_PublishAndUpdateEventsViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event, PublishEventFunc&& event_func, UpdateFunc&& update_func) {
+    BM_PublishAndUpdateEventsViaComponentWithMixedEntitiesCustom(state, get_view_with_registry, get_view_with_event, [&](auto& registry, auto& view) {
       generic_each(view, [&](auto&&... comps){ event_func(std::forward<decltype(registry)>(registry), std::forward<decltype(comps)>(comps)...); });
     }, [&](auto& /*registry*/, auto& view) {
        generic_each(view, update_func);
@@ -508,8 +508,8 @@ protected:
   }
   template <typename GetViewWithRegistry, typename GetViewWithEvent>
     requires std::invocable<GetViewWithRegistry&, EntityManager&> && std::invocable<GetViewWithEvent&, EntityManager&> && HasClearComponentFeature<EntityFactory> && HasAddComponentEmptyFeature<EntityFactory>
-  void BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event) {
-    BM_PublishEventAndProgressEventViaComponentWithMixedEntitiesViews(state, get_view_with_registry, get_view_with_event, [&](auto& registry, auto entity, auto&... /*comps*/) {
+  void BM_PublishAndUpdateEventsViaComponentWithMixedEntitiesViews(benchmark::State& state, GetViewWithRegistry&& get_view_with_registry, GetViewWithEvent&& get_view_with_event) {
+    BM_PublishAndUpdateEventsViaComponentWithMixedEntitiesViews(state, get_view_with_registry, get_view_with_event, [&](auto& registry, auto entity, auto&... /*comps*/) {
       this->m_entities_factory.addComponentEmpty(registry, entity);
     }, [](auto& /*entity*/, auto&... comp) {
       dummy_each(comp...);

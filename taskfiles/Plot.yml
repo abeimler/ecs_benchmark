@@ -10,6 +10,7 @@ tasks:
     - task: default
     - task: entities
     - task: extended
+    - task: events
 
   default:
     - task: utils:gen-report-template
@@ -39,6 +40,14 @@ tasks:
           {{.PROJECT_DIR}}/reports/gaia-ecs-entities.json
         # TODO: add openecs
         # {{.PROJECT_DIR}}/reports/openecs-entities.json
+
+  events:
+    - task: utils:gen-report-template
+      vars:
+        OUTPUT: events.RESULTS.md
+        REPORTS: >
+          {{.PROJECT_DIR}}/reports/entt-extended-event.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-event-comp.json 
 
   extended:
     - task: utils:gen-report-template
