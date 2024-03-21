@@ -9,7 +9,7 @@ namespace ecs::benchmarks::oop {
 class OOPApplication {
 public:
   using TimeDelta = float;
-  using EntityManager = entities::EntityManager;
+  using EntityManager = entities::OOPEntityManager;
 
   OOPApplication() : m_frameBuffer(320, 240) {}
   explicit OOPApplication(base::add_more_complex_system_t add_more_complex_system)

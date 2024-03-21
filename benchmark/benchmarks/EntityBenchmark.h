@@ -405,6 +405,24 @@ public:
     this->setCounters(state, entities, components_counter);
   }
 
+  void BM_AddComponent(benchmark::State& state) {
+    const auto nentities = static_cast<size_t>(state.range(0));
+    EntityManager registry;
+    std::vector<Entity> entities;
+    const ComponentsCounter components_counter =
+        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+    for (auto _ : state) {
+      for (auto& entity : entities) {
+        state.PauseTiming();
+        this->m_entities_factory.removeComponentOne(registry, entity);
+        state.ResumeTiming();
+        this->m_entities_factory.addComponentOne(registry, entity);
+      }
+    }
+    this->setCounters(state, entities, components_counter);
+  }
+
 protected:
   inline static constexpr auto m_name{Name.value};
   const ESCBenchmarkOptions m_options;
@@ -442,6 +460,10 @@ protected:
   BENCHMARK(BM_UnpackThreeComponents)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 #define ECS_REMOVE_ENTITY_BENCHMARKS(benchmark_suite)                                 \
+  static void BM_AddComponent(benchmark::State& state) {                              \
+    benchmark_suite.BM_AddComponent(state);                                           \
+  }                                                                                   \
+  BENCHMARK(BM_AddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);       \
   static void BM_RemoveAddComponent(benchmark::State& state) {                        \
     benchmark_suite.BM_RemoveAddComponent(state);                                     \
   }                                                                                   \

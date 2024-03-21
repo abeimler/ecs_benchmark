@@ -9,9 +9,37 @@
 
 namespace ecs::benchmarks::entt {
 
-template<class Event>
+struct Event {
+  ::entt::entity entity;
+};
+
 struct DummyListener {
-  void receive(Event& event) { benchmark::DoNotOptimize(event); }
+public:
+  DummyListener(::entt::registry& registry,
+                ::entt::dispatcher& dispatcher) : m_registry(registry), m_dispatcher(dispatcher) {}
+
+  void setup() {
+    m_dispatcher.sink<Event>().connect<&DummyListener::receive>(*this);
+  }
+  void teardown() {
+    m_dispatcher.sink<Event>().disconnect<&DummyListener::receive>(*this);
+  }
+
+  void receive(Event& event) {
+    using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
+    using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
+
+    auto& comp1 = m_registry.get<ComponentOne>(event.entity);
+    auto& comp2 = m_registry.get<ComponentTwo>(event.entity);
+
+    benchmark::DoNotOptimize(comp1);
+    benchmark::DoNotOptimize(comp2);
+    //benchmark::DoNotOptimize(event);
+  }
+
+private:
+  ::entt::registry& m_registry;
+  ::entt::dispatcher& m_dispatcher;
 };
 
 class EnttEventBenchmarkSuite final
@@ -23,36 +51,9 @@ public:
   explicit EnttEventBenchmarkSuite(ecs::benchmarks::base::ESCBenchmarkOptions options)
       : ExtendedECSBenchmark(std::move(options)) {}
 
-  void BM_PublishEventsViaComponentWithMixedEntities(benchmark::State& state) {
-    using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
-    using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-    using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
-
-    BM_PublishEventsViaComponentWithMixedEntitiesViews(
-        state,
-        [](auto& registry) {
-          return registry.template view<ComponentOne, ComponentTwo>();
-        });
-  }
-  void BM_PublishAndUpdateEventsViaComponentWithMixedEntities(benchmark::State& state) {
-    using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
-    using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-    using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
-
-    BM_PublishAndUpdateEventsViaComponentWithMixedEntitiesViews(
-        state,
-        [](auto& registry) {
-          return registry.template view<ComponentOne, ComponentTwo>();
-        },
-        [](auto& registry) {
-          return registry.template view<ComponentOne, ComponentTwo, EventComponent>();
-        });
-  }
-
   void BM_EnqueueAndUpdateEventsViaDispatcherWithMixedEntities(benchmark::State& state) {
     using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
     using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-    using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
 
     const auto nentities = static_cast<size_t>(state.range(0));
     EnttApplication::Application app(this->m_options.add_more_complex_system);
@@ -62,50 +63,53 @@ public:
         this->template createEntitiesWithMixedComponents<entities::EntityFactory>(registry, nentities, entities);
 
     ::entt::dispatcher dispatcher{};
-    DummyListener<EventComponent> listener;
-    dispatcher.sink<EventComponent>().connect<&DummyListener<EventComponent>::receive>(listener);
+    DummyListener listener (registry, dispatcher);
+
+    listener.setup();
 
     auto view = registry.template view<ComponentOne, ComponentTwo>();
     for (auto _ : state) {
-      view.each([&](auto /*entity*/, auto& comp1, auto& comp2) {
-        dummy_each(comp1, comp2);
-        dispatcher.enqueue<EventComponent>({});
+      view.each([&](auto entity, auto& /*comp1*/, auto& /*comp2*/) {
+        //dummy_each(comp1, comp2);
+        dispatcher.enqueue<Event>({.entity = entity});
       });
-      dispatcher.update<EventComponent>();
+      dispatcher.update<Event>();
       //dispatcher.update();
     }
 
-    dispatcher.sink<EventComponent>().disconnect<&DummyListener<EventComponent>::receive>(listener);
+    listener.teardown();
 
     this->setCounters(state, entities, components_counter);
     //state.counters["events_count"] = static_cast<double>(entities.size());
   }
+
   void BM_EnqueueEventsViaDispatcherWithMixedEntities(benchmark::State& state) {
     using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
     using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-    using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
+    //using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
 
     const auto nentities = static_cast<size_t>(state.range(0));
     EnttApplication::Application app(this->m_options.add_more_complex_system);
-    EntityManager& registry = app.getEntities();
+    ::entt::registry& registry = app.getEntities();
     std::vector<Entity> entities;
     const base::ComponentsCounter components_counter =
         this->template createEntitiesWithMixedComponents<entities::EntityFactory>(registry, nentities, entities);
 
     ::entt::dispatcher dispatcher{};
-    DummyListener<EventComponent> listener;
-    dispatcher.sink<EventComponent>().connect<&DummyListener<EventComponent>::receive>(listener);
+    DummyListener listener (registry, dispatcher);
+
+    listener.setup();
 
     auto view = registry.template view<ComponentOne, ComponentTwo>();
     for (auto _ : state) {
-      view.each([&](auto /*entity*/, auto& comp1, auto& comp2) {
-        dummy_each(comp1, comp2);
-        dispatcher.enqueue<EventComponent>({});
+      view.each([&](auto entity, auto& /*comp1*/, auto& /*comp2*/) {
+        //dummy_each(comp1, comp2);
+        dispatcher.enqueue<Event>({.entity = entity});
       });
     }
     //dispatcher.update();
 
-    dispatcher.sink<EventComponent>().disconnect<&DummyListener<EventComponent>::receive>(listener);
+    listener.teardown();
 
     this->setCounters(state, entities, components_counter);
     //state.counters["events_count"] = static_cast<double>(entities.size());
@@ -114,7 +118,7 @@ public:
   void BM_UpdateEventsViaDispatcherWithMixedEntities(benchmark::State& state) {
     using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
     using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-    using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
+    //using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
 
     const auto nentities = static_cast<size_t>(state.range(0));
     EnttApplication::Application app(this->m_options.add_more_complex_system);
@@ -124,22 +128,23 @@ public:
         this->template createEntitiesWithMixedComponents<entities::EntityFactory>(registry, nentities, entities);
 
     ::entt::dispatcher dispatcher{};
-    DummyListener<EventComponent> listener;
-    dispatcher.sink<EventComponent>().connect<&DummyListener<EventComponent>::receive>(listener);
+    DummyListener listener (registry, dispatcher);
+
+    listener.setup();
 
     auto view = registry.template view<ComponentOne, ComponentTwo>();
-    view.each([&](auto /*entity*/, auto& comp1, auto& comp2) {
-      dummy_each(comp1, comp2);
-      dispatcher.enqueue<EventComponent>({});
+    view.each([&](auto entity, auto& /*comp1*/, auto& /*comp2*/) {
+      //dummy_each(comp1, comp2);
+      dispatcher.enqueue<Event>({.entity = entity});
     });
     state.counters["events_count"] = static_cast<double>(dispatcher.size());
 
     for (auto _ : state) {
-      dispatcher.update<EventComponent>();
+      dispatcher.update<Event>();
       //dispatcher.update();
     }
 
-    dispatcher.sink<EventComponent>().disconnect<&DummyListener<EventComponent>::receive>(listener);
+    listener.teardown();
 
     this->setCounters(state, entities, components_counter);
     //state.counters["events_count"] = static_cast<double>(entities.size());

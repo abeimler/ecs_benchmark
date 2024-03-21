@@ -10,7 +10,7 @@ namespace ecs::benchmarks::oop {
 
 class OOPBenchmarkSuite final : public ecs::benchmarks::base::BaseECSBenchmark<entities::EntityFactory> {
 public:
-  using EntityManager = typename entities::EntityManager;
+  using EntityManager = typename entities::OOPEntityManager;
   using Entity = typename entities::EntityFactory::Entity;
 
   const float fakeTimeDelta{1.0F / 60.0F};

@@ -11,6 +11,7 @@ import os
 import json
 import re
 import pprint
+import numpy as np
 
 
 RESULTS_MD_MUSTACHE_FILENAME = os.path.join(os.path.dirname(__file__), 'RESULTS.md.mustache')
@@ -368,6 +369,7 @@ def gen_results(config, output_dir, reports):
                 # Create a new column 'EntityGroup' based on the custom groups
                 results['_plot_data_histogram'][ek]['data']['EntityGroup'] = pd.cut(results['_plot_data_histogram'][ek]['data']['Entities'], bins=list(custom_groups.keys()) + [float('inf')], labels=list(custom_groups.values()))
                 results['_plot_data_histogram'][ek]['data_frame'] = pd.DataFrame(results['_plot_data_histogram'][ek]['data'])
+                results['_plot_data_histogram'][ek]['df'] = results['_plot_data_histogram'][ek]['data_frame']
 
     return results
 
@@ -409,6 +411,14 @@ def gen_plots(config, results):
         if 'color' in framework:
             color_discrete_map[framework['name']] = framework['color']
 
+    frame_data_sizes = []
+    for key, data in results['_data_frame_data'].items():
+        for df_key, df_data in results['_data_frame_data'][key]['df'].items():
+            frame_data_sizes.append(len(results['_data_frame_data'][key]['df']['entities']))
+        for df_key, df_data in results['_plot_data_line'][key]['df'].items():
+            frame_data_sizes.append(len(results['_plot_data_line'][key]['df']['entities']))
+    frame_data_size = min(frame_data_sizes)
+
     for key, data in results['_data_frame_data'].items():
         title = config['data'][key]['title']
         if not title:
@@ -423,6 +433,11 @@ def gen_plots(config, results):
             fig.write_image(file=data['output_image_filename'], format=None, width=GEN_PLOT_IMAGE_WIDTH, height=GEN_PLOT_IMAGE_HEIGHT)
             print("INFO: gen line plot '{:s}': {:s}".format(title, data['output_image_filename']))
         else:
+            for df_key, df_data in results['_data_frame_data'][key]['df'].items():
+                results['_data_frame_data'][key]['df'][df_key] = results['_data_frame_data'][key]['df'][df_key][:frame_data_size]
+            for df_key, df_data in results['_plot_data_line'][key]['df'].items():
+                results['_plot_data_line'][key]['df'][df_key] = results['_plot_data_line'][key]['df'][df_key][:frame_data_size]
+
             ## line graph
             fig_lines = px.line(results['_plot_data_line'][key]['df'], x='entities', y=results['_plot_data_line'][key]['y'], labels={
                 "value": "Time ({})".format(results['_plot_data_line'][key]['unit']),

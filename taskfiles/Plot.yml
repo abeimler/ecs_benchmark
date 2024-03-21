@@ -48,6 +48,9 @@ tasks:
         REPORTS: >
           {{.PROJECT_DIR}}/reports/entt-extended-event.json 
           {{.PROJECT_DIR}}/reports/entt-extended-event-comp.json 
+          {{.PROJECT_DIR}}/reports/entt-extended-event-emit.json 
+          {{.PROJECT_DIR}}/reports/flecs-extended-event-emit.json 
+          #{{.PROJECT_DIR}}/reports/flecs-extended-event.json 
 
   extended:
     - task: utils:gen-report-template

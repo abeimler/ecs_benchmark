@@ -37,8 +37,11 @@ struct ComponentsCounter {
 
 inline static constexpr auto MIN_ENTITIES_RANGE = 0L;
 inline static constexpr auto MAX_ENTITIES_RANGE = 2'097'152L;
+inline static constexpr auto SMALL_MAX_ENTITIES_RANGE = 32'768L;
 
 void BEDefaultArguments(benchmark::internal::Benchmark* b);
+void BESmallArguments(benchmark::internal::Benchmark* b);
+
 } // namespace ecs::benchmarks::base
 
 #endif // ECS_BENCHMARKS_BASICBENCHMARK_H_

@@ -120,6 +120,12 @@
       "regex": "^BM_(.*_)?RemoveAddComponent\\/[0-9]+$",
       "header": "Remove and add component"
     },
+    "AddComponent": {
+      "index": "Add a Component in {:>5s} entities",
+      "title": "Add component from Entity",
+      "regex": "^BM_(.*_)?AddComponent\\/[0-9]+$",
+      "header": "Add component"
+    },
     "IterateSingleComponent": {
       "index": "Iterate over {:>5s} entities with one component",
       "title": "Iterate over entities with one component",
@@ -147,7 +153,7 @@
     "PublishAndUpdateEvents": {
       "index": "Publish and Update {:>5s} events with three components",
       "title": "Publish and Update events with three components",
-      "regex": "^BM_(.*_)?(EnqueueAndUpdateEventsViaDispatcher|PublishAndUpdateEventsViaComponent)WithMixedEntities\\/[0-9]+$",
+      "regex": "^BM_(.*_)?(EnqueueAndUpdateEvents.+|PublishAndUpdateEvents.+|EmitAndUpdateEvents.+|TriggerAndUpdateEvents.+)WithMixedEntities\\/[0-9]+$",
       "header": "Publish and Update events with three components",
       "line": {
         "xaxis_title": "Entities",
@@ -243,6 +249,15 @@
       "skip_candidate": true,
       "color": "#66ccff"
     },
+    "entt (emit)": {
+      "name": "EnTT (trigger)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "v3.13.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true,
+      "color": "#0099ff"
+    },
     "ginseng": {
       "name": "Ginseng",
       "author": "@apples",
@@ -274,6 +289,14 @@
       "version": "v3.2.11",
       "link": "https://github.com/SanderMertens/flecs",
       "color": "#ff3300"
+    },
+    "flecs (emit)": {
+      "name": "Flecs (emit)",
+      "author": "@SanderMertens",
+      "description": "Flecs is a fast and lightweight Entity Component System that lets you build games and simulations with millions of entities.",
+      "version": "v3.2.11",
+      "link": "https://github.com/SanderMertens/flecs",
+      "color": "#ff6c47"
     },
     "pico_ecs": {
       "name": "pico_ecs",

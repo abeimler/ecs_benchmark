@@ -522,6 +522,7 @@ public:
   inline static void dummy_each(Comp& comp_or_entity, Args&... comps) {
     benchmark::DoNotOptimize(comp_or_entity);
     (benchmark::DoNotOptimize(comps), ...);
+    //assert(comp_or_entity);
   }
 
   template <typename Iterable, typename Func>

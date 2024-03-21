@@ -15,7 +15,7 @@
 
 namespace ecs::benchmarks::oop::entities {
 
-struct EntityManager {
+struct OOPEntityManager {
   std::vector<std::shared_ptr<GameObject>> game_objects;
   std::unordered_map<GameObject::game_object_id_t, std::shared_ptr<RenderableObject>> render_objects;
 };
@@ -23,7 +23,7 @@ struct EntityManager {
 class EntityFactory {
 public:
   using Entity = GameObject*;
-  using EntityManager = EntityManager;
+  using EntityManager = OOPEntityManager;
 
   base::add_more_complex_system_t add_more_complex_system{base::add_more_complex_system_t::UseBasicSystems};
 

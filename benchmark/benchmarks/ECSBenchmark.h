@@ -377,6 +377,27 @@ public:
     this->setCounters(state, entities, components_counter);
   }
 
+  template <class tEntityFactory = EntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes)
+  void BM_AddComponent(benchmark::State& state) {
+    const auto nentities = static_cast<size_t>(state.range(0));
+    Application app(m_options.add_more_complex_system);
+    EntityManager& registry = app.getEntities();
+    std::vector<Entity> entities;
+    const ComponentsCounter components_counter =
+        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+    for (auto _ : state) {
+      for (auto& entity : entities) {
+        state.PauseTiming();
+        this->m_entities_factory.removeComponentOne(registry, entity);
+        state.ResumeTiming();
+        this->m_entities_factory.addComponentOne(registry, entity);
+      }
+    }
+    this->setCounters(state, entities, components_counter);
+  }
+
 protected:
   ComponentsCounter initApplicationWithoutEntities(Application& app) {
     app.init();

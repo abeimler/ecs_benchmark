@@ -21,7 +21,7 @@ public:
   void BM_PublishEventsViaComponentWithMixedEntities(benchmark::State& state) {
     using ComponentOne = ecs::benchmarks::base::components::PositionComponent;
     using ComponentTwo = ecs::benchmarks::base::components::VelocityComponent;
-    using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
+    //using EventComponent = ecs::benchmarks::base::components::EmptyComponent;
 
     BM_PublishEventsViaComponentWithMixedEntitiesViews(
         state,

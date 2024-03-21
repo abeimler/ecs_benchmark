@@ -40,3 +40,8 @@ tasks:
     - task: oop:complex
     - task: pico-ecs:complex
     - task: gaia-ecs:complex
+
+
+  events:
+    - task: entt:events
+    - task: flecs:events
