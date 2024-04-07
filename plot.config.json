@@ -250,13 +250,22 @@
       "color": "#66ccff"
     },
     "entt (emit)": {
-      "name": "EnTT (trigger)",
+      "name": "EnTT (emit)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
       "version": "v3.13.1",
       "link": "https://github.com/skypjack/entt",
       "skip_candidate": true,
       "color": "#0099ff"
+    },
+    "entt (emit, stable)": {
+      "name": "EnTT (emit, stable)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "v3.13.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true,
+      "color": "#3994d1"
     },
     "ginseng": {
       "name": "Ginseng",
@@ -272,6 +281,15 @@
       "description": "A fast, modern C++ Entity Component System",
       "version": "0.2 (Feb 2024)",
       "link": "https://github.com/kirillochnev/mustache",
+      "color": "#ff66cc"
+    },
+    "mustache (event)": {
+      "name": "mustache",
+      "author": "@kirillochnev",
+      "description": "A fast, modern C++ Entity Component System",
+      "version": "0.2 (Feb 2024)",
+      "link": "https://github.com/kirillochnev/mustache",
+      "skip_candidate": true,
       "color": "#ff66cc"
     },
     "openecs": {

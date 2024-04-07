@@ -24,6 +24,7 @@ tasks:
     - task: extended-event
     - task: extended-event-comp
     - task: extended-event-emit
+    - task: extended-event-emit-stable
 
   default:
     - task: utils:run-benchmark-template
@@ -139,4 +140,11 @@ tasks:
       vars:
         REPORT_NAME: entt-event-emit
         BENCHMARK_NAME: entt-extended-event-emit
+        BENCHMARK_DIR: entt-extended
+
+  extended-event-emit-stable:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event-emit-stable
+        BENCHMARK_NAME: entt-extended-event-emit-stable
         BENCHMARK_DIR: entt-extended
