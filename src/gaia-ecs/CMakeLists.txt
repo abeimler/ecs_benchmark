@@ -3,7 +3,7 @@ cpmaddpackage(
   NAME
   gaia
   VERSION
-  0.8.5
+  0.8.6
   GITHUB_REPOSITORY
   richardbiely/gaia-ecs
   OPTIONS
