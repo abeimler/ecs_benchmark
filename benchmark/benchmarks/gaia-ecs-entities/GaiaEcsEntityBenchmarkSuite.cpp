@@ -4,6 +4,8 @@ static ecs::benchmarks::gaia_ecs::GaiaEcsEntityBenchmarkSuite benchmark_suite({.
 
 ECS_ENTITY_BENCHMARKS(benchmark_suite)
 
+/// @FIXME: crashes
+/*
 static void BM_CreateEntitiesInBulk(benchmark::State& state) {
   benchmark_suite.BM_CreateEntitiesInBulk(state);
 }
@@ -13,3 +15,4 @@ static void BM_CreateEmptyEntitiesInBulk(benchmark::State& state) {
   benchmark_suite.BM_CreateEmptyEntitiesInBulk(state);
 }
 BENCHMARK(BM_CreateEmptyEntitiesInBulk)->Apply(ecs::benchmarks::base::BEDefaultArguments);
+*/

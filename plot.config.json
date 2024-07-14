@@ -22,133 +22,397 @@
       "index": "Update {:>5s} entities with 7 systems",
       "title": "Update Systems (7 Systems)",
       "regex": "^BM_(.*_)?ComplexSystemsUpdate\\/[0-9]+$",
-      "header": "Update systems (for-each entities in 7 systems)"
+      "header": "Update systems (for-each entities in 7 systems)",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "SystemsUpdateMixedEntities": {
       "index": "Update {:>5s} entities with 2 systems",
       "title": "Update systems (2 systems, mixed components)",
       "regex": "^BM_(.*_)?SystemsUpdateMixedEntities\\/[0-9]+$",
-      "header": "Update systems (for-each entities (with mixed components) in 2 systems)"
+      "header": "Update systems (for-each entities (with mixed components) in 2 systems)",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "SystemsUpdate": {
       "index": "Update {:>5s} entities with 2 systems",
       "title": "Update systems (2 systems)",
       "regex": "^BM_(.*_)?SystemsUpdate\\/[0-9]+$",
-      "header": "Update systems (for-each entities in 2 systems)"
+      "header": "Update systems (for-each entities in 2 systems)",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "CreateEntitiesInBulk": {
       "index": "Create {:>5s} entities with two components at once",
       "title": "Create entities at once",
       "regex": "^BM_(.*_)?CreateEntitiesInBulk\\/[0-9]+$",
-      "header": "Create entities at once"
+      "header": "Create entities at once",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "CreateEntities": {
       "index": "Create {:>5s} entities with two Components",
       "title": "Create entities",
       "regex": "^BM_(.*_)?CreateEntities\\/[0-9]+$",
-      "header": "Create entities"
+      "header": "Create entities",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "CreateEmptyEntitiesInBulk": {
       "index": "Create {:>5s} (empty) entities at once",
       "title": "Create (empty) entities at once",
       "regex": "^BM_(.*_)?CreateEmptyEntitiesInBulk\\/[0-9]+$",
-      "header": "Create empty entities at once"
+      "header": "Create empty entities at once",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "CreateNoEntities": {
       "index": "Create No entities",
       "title": "Create No entities",
       "regex": "^BM_(.*_)?CreateNoEntities$",
-      "header": "Create No entities"
+      "header": "Create No entities",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "CreateEmptyEntities": {
       "index": "Create {:>5s} (empty) entities",
       "title": "Create (empty) entities",
       "regex": "^BM_(.*_)?CreateEmptyEntities\\/",
-      "header": "Create empty entities"
+      "header": "Create empty entities",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "DestroyEntitiesInBulk": {
       "index": "Destroy {:>5s} entities with two components at once",
       "title": "Destroy entities at once",
       "regex": "^BM_(.*_)?DestroyEntitiesInBulk\\/",
-      "header": "Destroy entities at once"
+      "header": "Destroy entities at once",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "DestroyEntities": {
       "index": "Destroy {:>5s} entities with two components",
       "title": "Destroy entities",
       "regex": "^BM_(.*_)?DestroyEntities\\/[0-9]+$",
-      "header": "Destroy entities"
+      "header": "Destroy entities",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "UnpackNoComponent": {
       "index": "Get No component in {:>5s} entities",
       "title": "Get No component from Entity",
       "regex": "^BM_(.*_)?UnpackNoComponent\\/[0-9]+$",
-      "header": "Get No component from Entity"
+      "header": "Get No component from Entity",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "UnpackOneComponent": {
       "index": "Unpack one component in {:>5s} entities",
       "title": "Get one component from Entity",
       "regex": "^BM_(.*_)?UnpackOneComponent\\/[0-9]+$",
-      "header": "Get one (non-const) component from Entity"
+      "header": "Get one (non-const) component from Entity",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "UnpackTwoComponentsFromMixedEntities": {
       "index": "Unpack two components in {:>5s} entities",
       "title": "Get two components from entity",
       "regex": "^BM_(.*_)?UnpackTwoComponentsFromMixedEntities\\/[0-9]+$",
-      "header": "Get two components from entity"
+      "header": "Get two components from entity",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "UnpackTwoComponents": {
       "index": "Unpack two components in {:>5s} entities",
       "title": "Get two components from entity",
       "regex": "^BM_(.*_)?UnpackTwoComponents\\/[0-9]+$",
-      "header": "Get two components from entity"
+      "header": "Get two components from entity",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "UnpackThreeComponentsFromMixedEntities": {
       "index": "Unpack three components in {:>5s} entities",
       "title": "Get three components from Entity",
       "regex": "^BM_(.*_)?UnpackThreeComponentsFromMixedEntities\\/[0-9]+$",
-      "header": "Get three components from entity"
+      "header": "Get three components from entity",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "UnpackThreeComponents": {
       "index": "Unpack three components in {:>5s} entities",
       "title": "Get three components from Entity",
       "regex": "^BM_(.*_)?UnpackThreeComponents\\/[0-9]+$",
-      "header": "Get three components from entity"
+      "header": "Get three components from entity",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "RemoveAddComponent": {
       "index": "Remove and Add a Component in {:>5s} entities",
       "title": "Remove and add component from Entity",
       "regex": "^BM_(.*_)?RemoveAddComponent\\/[0-9]+$",
-      "header": "Remove and add component"
+      "header": "Remove and add component",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "AddComponent": {
       "index": "Add a Component in {:>5s} entities",
       "title": "Add component from Entity",
       "regex": "^BM_(.*_)?AddComponent\\/[0-9]+$",
-      "header": "Add component"
+      "header": "Add component",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "IterateSingleComponent": {
       "index": "Iterate over {:>5s} entities with one component",
       "title": "Iterate over entities with one component",
       "regex": "^BM_(.*_)?IterateSingleComponent\\/[0-9]+$",
-      "header": "Iterate over entities with one component"
+      "header": "Iterate over entities with one component",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "IterateTwoComponents": {
       "index": "Iterate over {:>5s} entities with two components",
       "title": "Iterate over entities with two components",
       "regex": "^BM_(.*_)?IterateTwoComponents\\/[0-9]+$",
-      "header": "Iterate over entities with two components"
+      "header": "Iterate over entities with two components",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "IterateThreeComponentsWithMixedEntities": {
       "index": "Iterate over {:>5s} entities with three components",
       "title": "Iterate over entities with three components",
       "regex": "^BM_(.*_)?IterateThreeComponentsWithMixedEntities\\/[0-9]+$",
-      "header": "Iterate over entities with three components"
+      "header": "Iterate over entities with three components",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "IterateThreeComponents": {
       "index": "Iterate over {:>5s} entities with three components",
       "title": "Iterate over entities with three components",
       "regex": "^BM_(.*_)?IterateThreeComponents\\/[0-9]+$",
-      "header": "Iterate over entities with three components"
+      "header": "Iterate over entities with three components",
+      "line": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time cost per entity"
+      },
+      "line2": {
+        "xaxis_title": "Entities",
+        "yaxis_title": "Time for all entities"
+      },
+      "histogram": {
+        "xaxis_title": "Entities (avg)",
+        "yaxis_title": "Time cost per entity"
+      }
     },
     "PublishAndUpdateEvents": {
       "index": "Publish and Update {:>5s} events with three components",
@@ -259,6 +523,15 @@
       "color": "#0099ff"
     },
     "entt (emit, stable)": {
+      "name": "EnTT (emit, stable)",
+      "author": "@skypjack",
+      "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",
+      "version": "v3.13.1",
+      "link": "https://github.com/skypjack/entt",
+      "skip_candidate": true,
+      "color": "#3994d1"
+    },
+    "entt (stable)": {
       "name": "EnTT (emit, stable)",
       "author": "@skypjack",
       "description": "EnTT is a header-only, tiny and easy to use library for game programming and much more written in modern C++.",

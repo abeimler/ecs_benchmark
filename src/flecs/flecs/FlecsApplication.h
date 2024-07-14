@@ -40,8 +40,8 @@ public:
     m_world
         .system<ecs::benchmarks::base::components::PositionComponent,
                 const ecs::benchmarks::base::components::VelocityComponent>()
-        .iter(systems::MovementSystem::update);
-    m_world.system<ecs::benchmarks::base::components::DataComponent>().iter(systems::DataSystem::update);
+        .run(systems::MovementSystem::update);
+    m_world.system<ecs::benchmarks::base::components::DataComponent>().run(systems::DataSystem::update);
     if (m_addMoreComplexSystem == base::add_more_complex_system_t::UseMoreComplexSystems) {
       m_world
           .system<const ecs::benchmarks::base::components::PositionComponent,

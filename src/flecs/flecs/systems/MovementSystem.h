@@ -15,13 +15,15 @@ public:
   using EntityManager = ::flecs::world;
   using BaseSystem = ecs::benchmarks::base::systems::MovementSystem<EntityManager, TimeDelta>;
 
-  inline static const auto update = [](::flecs::iter& it,
-                                       ecs::benchmarks::base::components::PositionComponent* position,
-                                       const ecs::benchmarks::base::components::VelocityComponent* direction) {
+  inline static const auto update = [](::flecs::iter& it) {
     const auto dt = gsl::narrow_cast<TimeDelta>(it.delta_time());
 
-    for (auto i : it) {
-      BaseSystem::updatePosition(position[i], direction[i], dt);
+    while (it.next()) {
+      auto position = it.field<ecs::benchmarks::base::components::PositionComponent>(0);
+      const auto direction = it.field<const ecs::benchmarks::base::components::VelocityComponent>(1);
+      for (auto i : it) {
+        BaseSystem::updatePosition(position[i], direction[i], dt);
+      }
     }
   };
 };
