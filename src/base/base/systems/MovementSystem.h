@@ -19,8 +19,8 @@ public:
 
   static void updatePosition(ecs::benchmarks::base::components::PositionComponent& position,
                              const ecs::benchmarks::base::components::VelocityComponent& direction, TimeDelta dt) {
-    position.x += direction.x * dt;
-    position.y += direction.y * dt;
+    position.x += direction.x * static_cast<float>(dt);
+    position.y += direction.y * static_cast<float>(dt);
   }
 };
 

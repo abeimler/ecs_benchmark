@@ -10,9 +10,72 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended PRIVATE ecs-benchmark-example-entt)
+
+
+set(INCLUDE_DIR "include") # must be relative paths
+# NOTE: rename project in "ecs-benchmark-myecs"
+add_executable(
+        ecs-benchmark-entt-extended-event
+        # NOTE: add new benchmarks here
+        EnttEventBenchmarkSuite.cpp EnttEventBenchmarkSuite.h)
+target_include_directories(
+        ecs-benchmark-entt-extended-event
+        PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
+        "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
+target_link_libraries(ecs-benchmark-entt-extended-event PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-entt-extended-event PRIVATE ecs-benchmark)
+# @NOTE: add libs for example here
+target_link_libraries(ecs-benchmark-entt-extended-event PRIVATE ecs-benchmark-example-entt)
+
+
+set(INCLUDE_DIR "include") # must be relative paths
+# NOTE: rename project in "ecs-benchmark-myecs"
+add_executable(
+        ecs-benchmark-entt-extended-event-emit
+        # NOTE: add new benchmarks here
+        EnttEventEmitBenchmarkSuite.cpp EnttEventEmitBenchmarkSuite.h)
+target_include_directories(
+        ecs-benchmark-entt-extended-event-emit
+        PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
+        "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
+target_link_libraries(ecs-benchmark-entt-extended-event-emit PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-entt-extended-event-emit PRIVATE ecs-benchmark)
+# @NOTE: add libs for example here
+target_link_libraries(ecs-benchmark-entt-extended-event-emit PRIVATE ecs-benchmark-example-entt)
+
+set(INCLUDE_DIR "include") # must be relative paths
+# NOTE: rename project in "ecs-benchmark-myecs"
+add_executable(
+        ecs-benchmark-entt-extended-event-emit-stable
+        # NOTE: add new benchmarks here
+        EnttStableEventEmitBenchmarkSuite.cpp EnttStableEventEmitBenchmarkSuite.h)
+target_include_directories(
+        ecs-benchmark-entt-extended-event-emit-stable
+        PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
+        "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
+target_link_libraries(ecs-benchmark-entt-extended-event-emit-stable PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-entt-extended-event-emit-stable PRIVATE ecs-benchmark)
+# @NOTE: add libs for example here
+target_link_libraries(ecs-benchmark-entt-extended-event-emit-stable PRIVATE ecs-benchmark-example-entt)
+
+set(INCLUDE_DIR "include") # must be relative paths
+# NOTE: rename project in "ecs-benchmark-myecs"
+add_executable(
+        ecs-benchmark-entt-extended-event-comp
+        # NOTE: add new benchmarks here
+        EnttEventComponentBenchmarkSuite.cpp EnttEventComponentBenchmarkSuite.h)
+target_include_directories(
+        ecs-benchmark-entt-extended-event-comp
+        PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/${INCLUDE_DIR}>"
+        "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
+target_link_libraries(ecs-benchmark-entt-extended-event-comp PRIVATE project_warnings project_options)
+target_link_libraries(ecs-benchmark-entt-extended-event-comp PRIVATE ecs-benchmark)
+# @NOTE: add libs for example here
+target_link_libraries(ecs-benchmark-entt-extended-event-comp PRIVATE ecs-benchmark-example-entt)
+
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-myecs"
@@ -26,9 +89,9 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended-stable PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended-stable PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended-stable PRIVATE ecs-benchmark-example-entt)
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-myecs"
@@ -42,9 +105,9 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended-runtime PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended-runtime PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended-runtime PRIVATE ecs-benchmark-example-entt)
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-myecs"
@@ -58,9 +121,9 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended-group PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended-group PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended-group PRIVATE ecs-benchmark-example-entt)
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-myecs"
@@ -74,9 +137,9 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended-non-owning-group PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended-non-owning-group PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended-non-owning-group PRIVATE ecs-benchmark-example-entt)
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-myecs"
@@ -90,9 +153,9 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended-full-owning-group PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended-full-owning-group PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended-full-owning-group PRIVATE ecs-benchmark-example-entt)
+
 
 set(INCLUDE_DIR "include") # must be relative paths
 # NOTE: rename project in "ecs-benchmark-myecs"
@@ -106,6 +169,5 @@ target_include_directories(
           "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/${INCLUDE_DIR}>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${INCLUDE_DIR}>")
 target_link_libraries(ecs-benchmark-entt-extended-partial-owning-group PRIVATE project_warnings project_options)
 target_link_libraries(ecs-benchmark-entt-extended-partial-owning-group PRIVATE ecs-benchmark)
-
 # @NOTE: add libs for example here
 target_link_libraries(ecs-benchmark-entt-extended-partial-owning-group PRIVATE ecs-benchmark-example-entt)

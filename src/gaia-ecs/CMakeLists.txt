@@ -3,12 +3,9 @@ cpmaddpackage(
   NAME
   gaia
   VERSION
-  0.8.5
+  0.8.6
   GITHUB_REPOSITORY
   richardbiely/gaia-ecs
-  # TODO: set current version, use main for build fixes
-  GIT_TAG
-  main
   OPTIONS
   "GAIA_BUILD_UNITTEST OFF"
   "GAIA_BUILD_BENCHMARK OFF"

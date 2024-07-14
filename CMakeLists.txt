@@ -18,7 +18,7 @@ cpmaddpackage(
   GITHUB_REPOSITORY
   aminya/project_options
   VERSION
-  0.34.0
+  0.35.1
   # GIT_TAG           main
   DOWNLOAD_ONLY)
 if(project_options_ADDED)

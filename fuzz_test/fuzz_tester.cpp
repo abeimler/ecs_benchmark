@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iterator>
 #include <utility>
+#include <cstdint>
 
 [[nodiscard]] auto sum_values(const uint8_t* Data, size_t Size) {
   constexpr auto scale = 1000;

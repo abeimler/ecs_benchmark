@@ -10,12 +10,21 @@ tasks:
     - task: default
     - task: entities
     - task: extended
+    - task: extended-event
+    - task: extended-event-comp
+    - task: extended-event-emit
     - task: extended-runtime
     - task: extended-stable
     - task: extended-group
     - task: extended-non-owning-group
     - task: extended-full-owning-group
     - task: extended-partial-owning-group
+
+  events:
+    - task: extended-event
+    - task: extended-event-comp
+    - task: extended-event-emit
+    - task: extended-event-emit-stable
 
   default:
     - task: utils:run-benchmark-template
@@ -110,4 +119,32 @@ tasks:
         REPORT_NAME: entt-complex-group
         BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
         BENCHMARK_NAME: entt-extended-group
+        BENCHMARK_DIR: entt-extended
+
+  extended-event:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event
+        BENCHMARK_NAME: entt-extended-event
+        BENCHMARK_DIR: entt-extended
+
+  extended-event-comp:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event-comp
+        BENCHMARK_NAME: entt-extended-event-comp
+        BENCHMARK_DIR: entt-extended
+
+  extended-event-emit:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event-emit
+        BENCHMARK_NAME: entt-extended-event-emit
+        BENCHMARK_DIR: entt-extended
+
+  extended-event-emit-stable:
+    - task: utils:run-benchmark-template
+      vars:
+        REPORT_NAME: entt-event-emit-stable
+        BENCHMARK_NAME: entt-extended-event-emit-stable
         BENCHMARK_DIR: entt-extended

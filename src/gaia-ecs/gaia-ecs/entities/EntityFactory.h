@@ -5,7 +5,6 @@
 #include "base/components/PositionComponent.h"
 #include "base/components/VelocityComponent.h"
 #include <gaia.h>
-#include <optional>
 
 namespace ecs::benchmarks::gaia_ecs::entities {
 
@@ -15,18 +14,25 @@ public:
   using Entity = ::gaia::ecs::Entity;
 
   static Entity createEmpty(EntityManager& entities);
+  static void createEmptyBulk(EntityManager& entities, size_t nentities);
 
   static Entity createSingle(EntityManager& entities);
+  static void createSingleBulk(EntityManager& entities, size_t nentities);
 
   static Entity create(EntityManager& entities);
+  static void createBulk(EntityManager& entities, size_t nentities);
 
   static Entity createMinimal(EntityManager& entities);
+  static void createMinimalBulk(EntityManager& entities, size_t nentities);
 
   static void destroy(EntityManager& entities, Entity entity);
+  static void destroyBulk(EntityManager& entities, std::vector<Entity>& entities_vec);
 
-  //[[nodiscard]] static inline auto getEntitiesCount(EntityManager& entities) {
-  //  return entities.size();
-  //}
+  template <class C>
+  [[nodiscard]] static inline auto getComponentCount(EntityManager& entities) {
+    auto query = entities.query().all<C>();
+    return query.count();
+  }
 
   [[nodiscard]] static inline const ecs::benchmarks::base::components::PositionComponent&
   getComponentOneConst(EntityManager& entities, Entity entity) {

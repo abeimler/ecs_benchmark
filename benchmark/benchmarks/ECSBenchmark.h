@@ -53,20 +53,6 @@ public:
   [[nodiscard]] inline const char* name() const noexcept { return m_name; }
   [[nodiscard]] inline auto framework_version() const { return m_options.version; }
 
-
-  void BM_SystemsUpdate_NoEntities(benchmark::State& state) {
-    // const auto nentities = 0;
-    std::vector<Entity> entities;
-    Application app(m_options.add_more_complex_system);
-    const ComponentsCounter components_counter = this->initApplicationWithoutEntities(app);
-    for (auto _ : state) {
-      app.update(fakeTimeDelta);
-    }
-    this->setCounters(state, entities, components_counter);
-    afterBenchmark(app);
-    uninitApplication(app);
-  }
-
   void BM_SystemsUpdate(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     std::vector<Entity> entities;
@@ -298,25 +284,6 @@ public:
   template <class tEntityFactory = EntityFactory>
     requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
              HasGetComponentsFeature<tEntityFactory>)
-  void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
-    const auto nentities = 0;
-    Application app(m_options.add_more_complex_system);
-    EntityManager& registry = app.getEntities();
-    std::vector<Entity> entities;
-    const ComponentsCounter components_counter =
-        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
-
-    for (auto _ : state) {
-      for (auto& entity : entities) {
-        benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-      }
-    }
-    this->setCounters(state, entities, components_counter);
-  }
-
-  template <class tEntityFactory = EntityFactory>
-    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes &&
-             HasGetComponentsFeature<tEntityFactory>)
   void BM_UnpackOneComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     Application app(m_options.add_more_complex_system);
@@ -410,6 +377,27 @@ public:
     this->setCounters(state, entities, components_counter);
   }
 
+  template <class tEntityFactory = EntityFactory>
+    requires(include_entity_benchmarks == ECSBenchmarkIncludeEntityBenchmarks::Yes)
+  void BM_AddComponent(benchmark::State& state) {
+    const auto nentities = static_cast<size_t>(state.range(0));
+    Application app(m_options.add_more_complex_system);
+    EntityManager& registry = app.getEntities();
+    std::vector<Entity> entities;
+    const ComponentsCounter components_counter =
+        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+    for (auto _ : state) {
+      for (auto& entity : entities) {
+        state.PauseTiming();
+        this->m_entities_factory.removeComponentOne(registry, entity);
+        state.ResumeTiming();
+        this->m_entities_factory.addComponentOne(registry, entity);
+      }
+    }
+    this->setCounters(state, entities, components_counter);
+  }
+
 protected:
   ComponentsCounter initApplicationWithoutEntities(Application& app) {
     app.init();
@@ -490,10 +478,6 @@ protected:
 } // namespace ecs::benchmarks::base
 
 #define ECS_UPDATE_SYSTEMS_BENCHMARKS(benchmark_suite)                           \
-  static void BM_SystemsUpdate_NoEntities(benchmark::State& state) {             \
-    benchmark_suite.BM_SystemsUpdate_NoEntities(state);                          \
-  }                                                                              \
-  BENCHMARK(BM_SystemsUpdate_NoEntities);                                        \
   static void BM_SystemsUpdate(benchmark::State& state) {                        \
     benchmark_suite.BM_SystemsUpdate(state);                                     \
   }                                                                              \
@@ -505,10 +489,6 @@ protected:
 
 
 #define ECS_COMPLEX_UPDATE_SYSTEMS_BENCHMARKS(benchmark_suite)                          \
-  static void BM_ComplexSystemsUpdate_NoEntities(benchmark::State& state) {             \
-    benchmark_suite.BM_SystemsUpdate_NoEntities(state);                                 \
-  }                                                                                     \
-  BENCHMARK(BM_ComplexSystemsUpdate_NoEntities);                                        \
   static void BM_ComplexSystemsUpdate(benchmark::State& state) {                        \
     benchmark_suite.BM_SystemsUpdate(state);                                            \
   }                                                                                     \

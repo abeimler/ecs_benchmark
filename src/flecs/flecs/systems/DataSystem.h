@@ -15,11 +15,14 @@ public:
   using EntityManager = ::flecs::world;
   using BaseSystem = ecs::benchmarks::base::systems::DataSystem<EntityManager, TimeDelta>;
 
-  inline static const auto update = [](::flecs::iter& it, ecs::benchmarks::base::components::DataComponent* data) {
+  inline static const auto update = [](::flecs::iter& it) {
     const auto dt = gsl::narrow_cast<TimeDelta>(it.delta_time());
 
-    for (auto i : it) {
-      BaseSystem::updateData(data[i], dt);
+    while (it.next()) {
+      auto data = it.field<ecs::benchmarks::base::components::DataComponent>(0);
+      for (auto i : it) {
+        BaseSystem::updateData(data[i], dt);
+      }
     }
   };
 };

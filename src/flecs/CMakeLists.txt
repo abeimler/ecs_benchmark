@@ -3,7 +3,7 @@ cpmaddpackage(
   NAME
   flecs
   VERSION
-  3.2.11
+  4.0.0
   GITHUB_REPOSITORY
   SanderMertens/flecs
   OPTIONS

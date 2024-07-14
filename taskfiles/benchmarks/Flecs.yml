@@ -10,6 +10,12 @@ tasks:
     - task: default
     - task: entities
     - task: extended
+    #- task: extended-event      # @FIXME: AddressSanitizer:DEADLYSIGNAL
+    - task: extended-event-emit
+
+  events:
+    #- task: extended-event      # @FIXME: AddressSanitizer:DEADLYSIGNAL
+    - task: extended-event-emit
 
   default:
     - task: utils:run-benchmark-template
@@ -39,3 +45,17 @@ tasks:
         BENCHMARK_ARGS: "--benchmark_filter=\"Complex\""
         BENCHMARK_NAME: flecs-extended
         BENCHMARK_DIR: flecs-extended
+
+  extended-event:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: flecs-extended-event
+        BENCHMARK_DIR: flecs-extended
+        REPORT_NAME: flecs-extended-event
+
+  extended-event-emit:
+    - task: utils:run-benchmark-template
+      vars:
+        BENCHMARK_NAME: flecs-extended-event-emit
+        BENCHMARK_DIR: flecs-extended
+        REPORT_NAME: flecs-extended-event-emit

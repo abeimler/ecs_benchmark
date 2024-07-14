@@ -4,7 +4,7 @@
 
 namespace ecs::benchmarks::ginseng::systems {
 
-void RenderSystem::update(EntityManager& registry, TimeDelta dt) {
+void RenderSystem::update(EntityManager& registry, TimeDelta /*dt*/) {
   registry.visit([&](const ecs::benchmarks::base::components::PositionComponent& position,
                      const ecs::benchmarks::base::components::SpriteComponent& spr) {
     renderSprite(position, spr);

@@ -75,6 +75,11 @@ concept HasGetConstComponentsThreeFeature =
       factory.getComponentTwoConst(entity_manager, entity);
       factory.getOptionalComponentThreeConst(entity_manager, entity);
     };
+template <class EntityFactory, class EntityManager = typename EntityFactory::EntityManager,
+          class Entity = typename EntityFactory::Entity>
+concept HasAddComponentThreeFeature = requires(EntityFactory factory, EntityManager& entity_manager, Entity entity) {
+  factory.addComponentEmpty(entity_manager, entity);
+};
 
 template <StringLiteral Name, class EntityFactory, class tEntityManager = typename EntityFactory::EntityManager>
   requires std::default_initializable<tEntityManager>
@@ -288,34 +293,6 @@ public:
 
   template <class tEntityFactory = EntityFactory>
     requires HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>
-  void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {
-    const auto nentities = 0;
-    EntityManager registry;
-    std::vector<Entity> entities;
-    const ComponentsCounter components_counter =
-        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
-
-    constexpr bool hasOnlyGetConstComponentsFeature =
-        !HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>;
-
-    for (auto _ : state) {
-      for (auto& entity : entities) {
-        if constexpr (hasOnlyGetConstComponentsFeature) {
-          auto c = this->m_entities_factory.getComponentOneConst(registry, entity);
-          benchmark::DoNotOptimize(c);
-        } else {
-          // benchmark::DoNotOptimize(this->m_entities_factory.getComponentOne(registry, entity));
-          //  to be fair
-          auto c = this->m_entities_factory.getComponentOne(registry, entity);
-          benchmark::DoNotOptimize(c);
-        }
-      }
-    }
-    this->setCounters(state, entities, components_counter);
-  }
-
-  template <class tEntityFactory = EntityFactory>
-    requires HasGetComponentsFeature<tEntityFactory> || HasGetConstComponentsFeature<tEntityFactory>
   void BM_UnpackOneComponent(benchmark::State& state) {
     const auto nentities = static_cast<size_t>(state.range(0));
     EntityManager registry;
@@ -428,6 +405,24 @@ public:
     this->setCounters(state, entities, components_counter);
   }
 
+  void BM_AddComponent(benchmark::State& state) {
+    const auto nentities = static_cast<size_t>(state.range(0));
+    EntityManager registry;
+    std::vector<Entity> entities;
+    const ComponentsCounter components_counter =
+        this->createEntitiesWithMinimalComponents(registry, nentities, entities);
+
+    for (auto _ : state) {
+      for (auto& entity : entities) {
+        state.PauseTiming();
+        this->m_entities_factory.removeComponentOne(registry, entity);
+        state.ResumeTiming();
+        this->m_entities_factory.addComponentOne(registry, entity);
+      }
+    }
+    this->setCounters(state, entities, components_counter);
+  }
+
 protected:
   inline static constexpr auto m_name{Name.value};
   const ESCBenchmarkOptions m_options;
@@ -455,10 +450,6 @@ protected:
     benchmark_suite.BM_UnpackOneComponent(state);                                      \
   }                                                                                    \
   BENCHMARK(BM_UnpackOneComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);  \
-  static void BM_UnpackOneComponent_NoEntities(benchmark::State& state) {              \
-    benchmark_suite.BM_UnpackOneComponent_NoEntities(state);                           \
-  }                                                                                    \
-  BENCHMARK(BM_UnpackOneComponent_NoEntities);                                         \
   static void BM_UnpackTwoComponents(benchmark::State& state) {                        \
     benchmark_suite.BM_UnpackTwoComponents(state);                                     \
   }                                                                                    \
@@ -469,6 +460,10 @@ protected:
   BENCHMARK(BM_UnpackThreeComponents)->Apply(ecs::benchmarks::base::BEDefaultArguments);
 
 #define ECS_REMOVE_ENTITY_BENCHMARKS(benchmark_suite)                                 \
+  static void BM_AddComponent(benchmark::State& state) {                              \
+    benchmark_suite.BM_AddComponent(state);                                           \
+  }                                                                                   \
+  BENCHMARK(BM_AddComponent)->Apply(ecs::benchmarks::base::BEDefaultArguments);       \
   static void BM_RemoveAddComponent(benchmark::State& state) {                        \
     benchmark_suite.BM_RemoveAddComponent(state);                                     \
   }                                                                                   \

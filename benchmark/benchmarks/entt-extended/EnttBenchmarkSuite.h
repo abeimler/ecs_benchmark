@@ -9,6 +9,11 @@
 
 namespace ecs::benchmarks::entt {
 
+template<class Event>
+struct DummyListener {
+  void receive(Event& event) { benchmark::DoNotOptimize(event); }
+};
+
 class EnttBenchmarkSuite final
     : public ecs::benchmarks::base::ExtendedECSBenchmark<"entt", EnttApplication, entities::EntityFactory,
                                                          entities::HeroMonsterEntityFactory> {
